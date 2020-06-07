@@ -46,6 +46,10 @@ dependencies {
 	}
 }
 
+coveralls {
+	sourceDirs.add("src/main/kotlin")
+}
+
 tasks.withType<JacocoReport> {
 	reports {
 		xml.setEnabled(true)
