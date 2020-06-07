@@ -2,9 +2,20 @@ language: java
 sudo: required
 jdk:
   - oraclejdk13
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
 before_install:
   - chmod +x gradlew
   - chmod +x gradle/wrapper/gradle-wrapper.jar
+
 script:
   - ./gradlew test build
 
@@ -13,3 +24,4 @@ after_success:
   - curl -Ls -o codacy-coverage-reporter "$(curl -Ls https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r '.assets | map({name, browser_download_url} | select(.name | contains("codacy-coverage-reporter-linux"))) | .[0].browser_download_url')"
   - chmod +x codacy-coverage-reporter
   - ./codacy-coverage-reporter report -l Kotlin -r build/reports/jacoco/test/jacocoTestReport.xml
+  - bash <(curl -s https://codecov.io/bash)
