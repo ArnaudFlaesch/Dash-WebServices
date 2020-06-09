@@ -1,28 +1,31 @@
 package com.dash.entity
 
+import com.vladmihalcea.hibernate.type.array.IntArrayType
+import com.vladmihalcea.hibernate.type.array.StringArrayType
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType
+import com.vladmihalcea.hibernate.type.json.JsonStringType
 import org.hibernate.annotations.Type
 import org.hibernate.annotations.TypeDef
 import org.hibernate.annotations.TypeDefs
 import org.json.JSONObject
+import java.io.Serializable
 import javax.persistence.*
-import kotlin.jvm.Transient
 
-@TypeDefs(
-        TypeDef(name = "jsonb", typeClass = JSONObject::class)
-)
 @Entity
-@Table(name = "widget")
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType::class)
 data class Widget(
         @Id
-        val id: Number,
+        val id: Int,
 
-        val type: Number,
+        val type: Int,
 
         @Type(type = "jsonb")
-        @Transient
-        val data: JSONObject?
+        @Column(columnDefinition = "jsonb")
+        val data: Any,
 
-        //@ManyToOne(optional=false)
-        //@JoinColumn(name="tabId", referencedColumnName="id")
-        //val tab: Tab
-)
+        val widgetOrder: Int?,
+
+        @ManyToOne(optional = true)
+        @JoinColumn(name = "tabId", referencedColumnName = "id")
+        val tab: Tab?
+) : Serializable
