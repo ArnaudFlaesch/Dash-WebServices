@@ -29,8 +29,8 @@ class TabController {
         return tabRepository.save(tab)
     }
 
-    @PostMapping("/deleteTab")
-    fun deleteWidget(@RequestBody id: Int) {
+    @DeleteMapping("/deleteTab")
+    fun deleteWidget(@RequestParam(value = "id") id: Int) {
         val tab = tabRepository.getOne(id)
         return tabRepository.delete(tab)
     }

@@ -30,8 +30,8 @@ class WidgetController {
         return widgetRepository.save(oldWidget)
     }
 
-    @PostMapping("/deleteWidget")
-    fun deleteWidget(@RequestBody id: Int) {
+    @DeleteMapping("/deleteWidget")
+    fun deleteWidget(@RequestParam(value = "id") id: Int) {
         val widget = widgetRepository.getOne(id)
         return widgetRepository.delete(widget)
     }
