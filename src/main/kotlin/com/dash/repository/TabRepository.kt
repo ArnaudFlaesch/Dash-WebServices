@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface TabRepository : JpaRepository<Tab, Long> {
+interface TabRepository : JpaRepository<Tab, Int> {
     fun findByOrderByTabOrderAsc(): List<Tab>
 }

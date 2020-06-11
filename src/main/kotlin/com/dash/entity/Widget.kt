@@ -12,15 +12,15 @@ data class Widget(
         @Id
         val id: Int,
 
-        val type: Int,
+        var type: Int,
 
         @Type(type = "json")
         @Column(columnDefinition = "json")
-        val data: Any?,
+        var data: Any?,
 
-        val widgetOrder: Int?,
+        var widgetOrder: Int?,
 
         @ManyToOne(optional = true)
         @JoinColumn(name = "tabId", referencedColumnName = "id")
-        val tab: Tab?
+        var tab: Tab?
 ) : Serializable
