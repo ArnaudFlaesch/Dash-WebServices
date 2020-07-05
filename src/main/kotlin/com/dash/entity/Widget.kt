@@ -10,6 +10,7 @@ import javax.persistence.*
 @TypeDef(name = "json", typeClass = JsonBinaryType::class)
 data class Widget(
         @Id
+        @GeneratedValue
         val id: Int,
 
         var type: Int,

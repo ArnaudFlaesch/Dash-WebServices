@@ -32,9 +32,6 @@ repositories {
     maven {
         url = uri("https://jitpack.io")
     }
-    maven {
-        url = uri("http://repo.typesafe.com/typesafe/releases/com/typesafe/netty/netty-http-pipelining/")
-    }
 }
 
 dependencies {
