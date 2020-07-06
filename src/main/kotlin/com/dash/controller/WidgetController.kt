@@ -20,6 +20,7 @@ class WidgetController {
 
     @PostMapping("/addWidget")
     fun addWidget(@RequestBody widget: Widget): Widget {
+        widget.widgetOrder = 0
         return widgetRepository.save(widget)
     }
 

@@ -11,7 +11,7 @@ data class Tab(
         @GeneratedValue(strategy = GenerationType.AUTO)
         val id: Int,
 
-        val label: String,
+        val label: String?,
 
-        val tabOrder: Int
+        val tabOrder: Int?
 )
