@@ -9,9 +9,7 @@ import javax.persistence.*
 @Entity
 @TypeDef(name = "json", typeClass = JsonBinaryType::class)
 data class Widget(
-        @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-		
+        @Id		
 		@SequenceGenerator(name="widget-seq-gen", sequenceName="WIDGET_SEQ", initialValue=205, allocationSize=12)
 		@GeneratedValue(strategy= GenerationType.IDENTITY, generator="widget-seq-gen")
 		@Column(name="id",unique=true,nullable=false)
