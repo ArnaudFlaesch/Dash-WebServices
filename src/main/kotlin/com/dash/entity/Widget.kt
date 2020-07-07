@@ -10,7 +10,7 @@ import javax.persistence.*
 @TypeDef(name = "json", typeClass = JsonBinaryType::class)
 data class Widget(
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @GeneratedValue(strategy = GenerationType.AUTO)
         val id: Int,
 
         var type: Int,
@@ -21,7 +21,7 @@ data class Widget(
 
         var widgetOrder: Int?,
 
-        @ManyToOne(optional = true)
-        @JoinColumn(name = "tabId", referencedColumnName = "id")
+        @ManyToOne(optional = false)
+        @JoinColumn(name = "tabId")
         var tab: Tab?
 ) : Serializable
