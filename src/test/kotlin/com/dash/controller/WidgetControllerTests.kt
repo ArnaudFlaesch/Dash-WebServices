@@ -39,11 +39,10 @@ class WidgetControllerTests(@Autowired val widgetRepository: WidgetRepository) {
 
     @Test
     fun insertWidgetToDatabase() {
-
         val tab = Tab(1)
         val widget = Widget(type = 2, tab= tab)
 
-        given().contentType(ContentType.JSON)
+        val updated = given().contentType(ContentType.JSON)
                 .port(port)
                 .body(widget).
                 `when`().
@@ -51,10 +50,7 @@ class WidgetControllerTests(@Autowired val widgetRepository: WidgetRepository) {
                 post("/widget/addWidget/").
                 then().
                 log().all().
-                statusCode(200).
-                log().all()
-                .body("size", equalTo(1))
-                .and()
+                statusCode(200)
 
         given().
         port(port)
