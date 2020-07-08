@@ -25,5 +25,5 @@ data class Widget(
 
         @ManyToOne(optional = false)
         @JoinColumn(name = "tabId")
-        var tab: Tab
+        var tab: Tab?
 ) : Serializable

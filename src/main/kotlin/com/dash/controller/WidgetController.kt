@@ -20,7 +20,7 @@ class WidgetController {
 
     @PostMapping("/addWidget")
     fun addWidget(@RequestBody widget: Widget): Widget {
-        widget.widgetOrder = widgetRepository.getNumberOfWidgetsByTab(widget.tab.id) + 1
+        widget.widgetOrder = widgetRepository.getNumberOfWidgetsByTab(widget.tab?.id) + 1
         return widgetRepository.save(widget)
     }
 
