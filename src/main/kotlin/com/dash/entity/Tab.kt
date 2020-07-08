@@ -5,7 +5,7 @@ import javax.persistence.*
 @Entity
 data class Tab(
         @Id
-        @SequenceGenerator(name="tab-seq-gen", sequenceName="TAB_SEQ", initialValue=205, allocationSize=12)
+        @SequenceGenerator(name="tab-seq-gen", sequenceName="TAB_SEQ", initialValue=1, allocationSize=1)
 		@GeneratedValue(strategy= GenerationType.IDENTITY, generator="tab-seq-gen")
 		@Column(name="id",unique=true,nullable=false)
         var id: Int? = null,
