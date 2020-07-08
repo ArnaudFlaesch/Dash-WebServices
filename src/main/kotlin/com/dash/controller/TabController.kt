@@ -21,6 +21,7 @@ class TabController {
 
     @PostMapping("/addTab")
     fun addWidget(@RequestBody tab: Tab): Tab {
+        tab.tabOrder = tabRepository.getNumberOfTabs() + 1
         return tabRepository.save(tab)
     }
 
