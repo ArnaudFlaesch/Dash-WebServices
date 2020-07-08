@@ -13,17 +13,17 @@ data class Widget(
 		@SequenceGenerator(name="widget-seq-gen", sequenceName="WIDGET_SEQ", initialValue=205, allocationSize=12)
 		@GeneratedValue(strategy= GenerationType.IDENTITY, generator="widget-seq-gen")
 		@Column(name="id",unique=true,nullable=false)
-        val id: Int,
+        val id: Int = 0,
 
-        var type: Int,
+        var type: Int? = null,
 
         @Type(type = "json")
         @Column(columnDefinition = "json")
-        var data: Any?,
+        var data: Any? = null,
 
-        var widgetOrder: Int?,
+        var widgetOrder: Int? = 0,
 
         @ManyToOne(optional = false)
         @JoinColumn(name = "tabId")
-        var tab: Tab?
+        var tab: Tab
 ) : Serializable

@@ -41,7 +41,6 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.json:json:20200518")
     implementation("org.postgresql:postgresql:42.2.13")
     implementation("com.vladmihalcea:hibernate-types-52:2.9.11")
 
