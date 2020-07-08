@@ -23,7 +23,7 @@ data class Widget(
 
         var widgetOrder: Int? = 0,
 
-        @ManyToOne(optional = false)
+        @ManyToOne(optional = true)
         @JoinColumn(name = "tabId")
         var tab: Tab?
 ) : Serializable

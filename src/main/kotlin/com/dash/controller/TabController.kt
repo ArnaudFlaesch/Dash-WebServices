@@ -20,18 +20,18 @@ class TabController {
     }
 
     @PostMapping("/addTab")
-    fun addWidget(@RequestBody tab: Tab): Tab {
+    fun addTab(@RequestBody tab: Tab): Tab {
         tab.tabOrder = tabRepository.getNumberOfTabs() + 1
         return tabRepository.save(tab)
     }
 
     @PostMapping("/updateTab")
-    fun updateWidget(@RequestBody tab: Tab): Tab {
+    fun updateTab(@RequestBody tab: Tab): Tab {
         return tabRepository.save(tab)
     }
 
     @DeleteMapping("/deleteTab")
-    fun deleteWidget(@RequestParam(value = "id") id: Int) {
+    fun deleteTab(@RequestParam(value = "id") id: Int) {
         val tab = tabRepository.getOne(id)
         return tabRepository.delete(tab)
     }
