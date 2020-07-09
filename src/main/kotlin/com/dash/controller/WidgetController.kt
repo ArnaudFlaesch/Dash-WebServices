@@ -1,7 +1,7 @@
 package com.dash.controller
 
 import com.dash.entity.Widget
-import com.dash.repository.WidgetRepository
+import com.dash.service.WidgetService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
@@ -11,29 +11,25 @@ import org.springframework.web.bind.annotation.*
 class WidgetController {
 
     @Autowired
-    private lateinit var widgetRepository: WidgetRepository
+    private lateinit var widgetService: WidgetService
 
     @GetMapping("/")
     fun getWidgets(@RequestParam(value = "tabId") tabId: Int): List<Widget> {
-        return (widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId))
+        return widgetService.findByTabIdOrderByWidgetOrderAsc(tabId)
     }
 
     @PostMapping("/addWidget")
     fun addWidget(@RequestBody widget: Widget): Widget {
-        widget.widgetOrder = widgetRepository.getNumberOfWidgetsByTab(widget.tab?.id) + 1
-        return widgetRepository.save(widget)
+        return widgetService.addWidget(widget)
     }
 
     @PostMapping("/updateWidgetData")
     fun updateWidgetData(@RequestBody widget: Widget): Widget {
-        val oldWidget = widgetRepository.getOne(widget.id)
-        oldWidget.data = widget.data
-        return widgetRepository.save(oldWidget)
+        return widgetService.updateWidget(widget)
     }
 
     @DeleteMapping("/deleteWidget")
     fun deleteWidget(@RequestParam(value = "id") id: Int) {
-        val widget = widgetRepository.getOne(id)
-        return widgetRepository.delete(widget)
+        return widgetService.deleteWidget(id)
     }
 }
