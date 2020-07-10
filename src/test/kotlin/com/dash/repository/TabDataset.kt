@@ -11,7 +11,7 @@ import org.springframework.test.context.jdbc.SqlGroup
 @Retention(AnnotationRetention.RUNTIME)
 
 @SqlGroup(
-        Sql(statements = ["INSERT INTO tab (id, label, tab_order) VALUES ('1', 'News', 1)"], executionPhase = BEFORE_TEST_METHOD),
+        Sql(statements = ["INSERT INTO tab (id, label, tab_order) VALUES ('10', 'News', 1)"], executionPhase = BEFORE_TEST_METHOD),
         Sql(statements = ["DELETE FROM widget; DELETE FROM tab;"], executionPhase = AFTER_TEST_METHOD)
 )
 

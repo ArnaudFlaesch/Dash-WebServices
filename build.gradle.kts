@@ -84,11 +84,11 @@ tasks.withType<JacocoReport> {
 
 tasks.withType<BootRun> {
     environment("spring.profiles.active", "test")
-    environment("spring.config.location", "src/main/kotlin/com/dash/resources/application.properties")
+    environment("spring.config.location", "src/main/resources/application.properties")
 }
 
 tasks.withType<Test> {
-    environment("spring.config.location", "src/test/kotlin/com/dash/resources/application-test.properties")
+    environment("spring.config.location", "src/test/resources/application-test.properties")
     useJUnitPlatform()
 }
 

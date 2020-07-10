@@ -2,7 +2,6 @@ package com.dash.repository
 
 import com.dash.entity.Tab
 import com.dash.entity.Widget
-
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -13,20 +12,20 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest
 @TabDataset
 @ExtendWith(SpringExtension::class)
-class WidgetRepositoryTests() {
+class WidgetRepositoryTests {
 
     @Autowired
     private lateinit var widgetRepository: WidgetRepository
 
     @Test
     fun `basic entity checks`() {
-        val w1 = Widget(1,2, null, 1, Tab(1, null, null))
-        val w2 = Widget(2,3, null, 2, Tab(1, null, null))
+        val w1 = Widget(1,2, null, 1, Tab(10, null, null))
+        val w2 = Widget(2,3, null, 2, Tab(10, null, null))
         widgetRepository.save(w1)
         widgetRepository.save(w2)
 
-        assertThat(widgetRepository.findByTabIdOrderByWidgetOrderAsc(1)).hasSize(2)
-        val listWidgets = widgetRepository.findByTabIdOrderByWidgetOrderAsc(1)
+        val listWidgets = widgetRepository.findByTabIdOrderByWidgetOrderAsc(10)
+        assertThat(listWidgets).hasSize(2)
         assertThat(listWidgets[0].widgetOrder).isEqualTo(1)
         assertThat(listWidgets[0].type).isEqualTo(2)
 

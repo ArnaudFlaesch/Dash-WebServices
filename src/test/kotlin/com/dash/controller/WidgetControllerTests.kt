@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TabDataset
 @ExtendWith(SpringExtension::class)
@@ -39,8 +38,8 @@ class WidgetControllerTests(@Autowired val widgetRepository: WidgetRepository) {
 
     @Test
     fun insertWidgetToDatabase() {
-        val tab = Tab(1)
-        val widget = Widget(type = 2, tab= tab)
+        val tab = Tab(10)
+        val widget = Widget(id = 3, type = 2, tab= tab)
 
         val updated = given().contentType(ContentType.JSON)
                 .port(port)
@@ -54,7 +53,7 @@ class WidgetControllerTests(@Autowired val widgetRepository: WidgetRepository) {
 
         given().
         port(port)
-                .param("tabId", 1).
+                .param("tabId", 10).
                 `when`().
                 get("/widget/").
                 then().
