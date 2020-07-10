@@ -17,7 +17,7 @@ before_install:
   - chmod +x gradle/wrapper/gradle-wrapper.jar
 
 script:
-  - ./gradlew test build
+  - ./gradlew clean build test
 
 after_success:
   - ./gradlew jacocoTestReport coveralls

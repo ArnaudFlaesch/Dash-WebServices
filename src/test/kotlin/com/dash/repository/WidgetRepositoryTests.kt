@@ -29,7 +29,6 @@ class WidgetRepositoryTests {
         assertThat(listWidgets[0].widgetOrder).isEqualTo(1)
         assertThat(listWidgets[0].type).isEqualTo(2)
 
-        assertThat(widgetRepository.findByTabIdOrderByWidgetOrderAsc(1)).hasSize(2)
         assertThat(listWidgets[1].widgetOrder).isEqualTo(2)
         assertThat(listWidgets[1].type).isEqualTo(3)
     }
