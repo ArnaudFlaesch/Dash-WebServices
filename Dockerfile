@@ -1,5 +1,5 @@
 FROM openjdk:13-jdk-alpine
 EXPOSE 8080
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+COPY ./build/libs/dash-webservices-*.jar /app/dash-webservices.jar
+WORKDIR /app
+CMD ["java", "-jar", "dash-webservices.jar"]
