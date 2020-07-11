@@ -18,7 +18,7 @@ import javax.persistence.SequenceGenerator
 data class Widget(
         @Id		
 		@SequenceGenerator(name="widget-seq-gen", sequenceName="WIDGET_SEQ", initialValue=1, allocationSize=1)
-		@GeneratedValue(strategy= GenerationType.IDENTITY, generator="widget-seq-gen")
+		@GeneratedValue(strategy= GenerationType.SEQUENCE, generator="widget-seq-gen")
 		@Column(name="id",unique=true,nullable=false)
         val id: Int = 0,
 
