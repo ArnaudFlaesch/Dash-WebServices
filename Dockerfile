@@ -1,6 +1,4 @@
-FROM gradle:6.3.0-jdk13
+FROM openjdk:13-jdk-alpine
 EXPOSE 8080
-COPY . /src
-WORKDIR /src
-RUN gradle build -x test --no-daemon
-CMD ["java", "-jar", "build/libs/dash-webservices-0.0.1.jar"]
+ADD ./build/libs/dash-webservices-*.jar dash-webservices.jar
+CMD ["java", "-jar", "dash-webservices.jar"]
