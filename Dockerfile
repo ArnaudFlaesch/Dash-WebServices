@@ -1,5 +1,5 @@
-FROM openjdk:13-jdk-alpine
+FROM gradle:6.3.0-jdk13
 EXPOSE 8080
-RUN ./gradlew clean build
+RUN gradle clean build
 ADD ./build/libs/dash-webservices-*.jar dash-webservices.jar
 CMD ["java", "-jar", "dash-webservices.jar"]
