@@ -43,11 +43,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.postgresql:postgresql:42.2.13")
     implementation("com.vladmihalcea:hibernate-types-52:2.9.11")
+    implementation("com.h2database:h2")
 
     testImplementation("io.rest-assured:rest-assured:4.2.0")
     testImplementation("io.rest-assured:json-path:4.2.0")
     testImplementation("io.rest-assured:xml-path:4.2.0")
-    testImplementation("com.h2database:h2")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
@@ -77,17 +77,17 @@ tasks.withType<Detekt> {
 
 tasks.withType<JacocoReport> {
     reports {
-        xml.setEnabled(true)
-        html.setEnabled(true)
+        xml.isEnabled = true
+        html.isEnabled = true
     }
 }
 
 tasks.withType<BootRun> {
-    environment("spring.profiles.active", "test")
-    environment("spring.config.location", "src/main/resources/application.properties")
+    systemProperties(System.getProperties().mapKeys { it.key as String })
 }
 
 tasks.withType<Test> {
+    environment("spring.profiles.active", "test")
     environment("spring.config.location", "src/test/resources/application-test.properties")
     useJUnitPlatform()
 }
