@@ -26,10 +26,10 @@ class WidgetControllerTests(@Autowired val widgetRepository: WidgetRepository) {
     @LocalServerPort
     private val port: Int = 0
 
-
-
     @Test
     fun kotlin_rest_assured_example() {
+        defaultParser = Parser.JSON;
+
         given().port(port)
                 .param("tabId", 1).`when`().get("/widget/")
                 .then().log().all()
@@ -40,8 +40,6 @@ class WidgetControllerTests(@Autowired val widgetRepository: WidgetRepository) {
 
     @Test
     fun insertWidgetToDatabase() {
-        defaultParser = Parser.JSON;
-
         val tab = Tab(10)
         val widget = Widget(type = 2, tab = tab)
 

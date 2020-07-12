@@ -6,6 +6,7 @@ import com.dash.repository.TabRepository
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import io.restassured.parsing.Parser
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.hasItem
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -27,6 +28,8 @@ class TabControllerTests(@Autowired val tabRepository: TabRepository) {
 
     @Test
     fun kotlin_rest_assured_example() {
+        RestAssured.defaultParser = Parser.JSON;
+
         given().port(port)
                 .`when`()
                 .get("/tab/")
