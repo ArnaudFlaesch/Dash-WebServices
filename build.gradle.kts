@@ -41,6 +41,11 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    implementation("com.fasterxml.jackson.module:jackson-module-jaxb-annotations")
+    implementation("org.liquibase:liquibase-core")
+
+    implementation("org.apache.logging.log4j:log4j-api")
     implementation("org.postgresql:postgresql:42.2.13")
     implementation("com.vladmihalcea:hibernate-types-52:2.9.11")
     implementation("com.h2database:h2")

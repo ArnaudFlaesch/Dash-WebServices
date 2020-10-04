@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: aflaesch
+      comment: comment
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            path: /db/changelog/schema_init.sql
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true

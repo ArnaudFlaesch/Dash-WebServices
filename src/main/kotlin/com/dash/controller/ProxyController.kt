@@ -1,5 +1,6 @@
 package com.dash.controller
 
+import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -11,16 +12,23 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 @RestController
-@CrossOrigin( origins = ["*"])
+@CrossOrigin(origins = ["*"])
 @RequestMapping("/proxy")
 class ProxyController {
-    
+
+    private val logger = LoggerFactory.getLogger(this::class.java.name)
+
     @GetMapping("/")
-    fun getUrlFromProxy(@RequestParam(value = "url") url: String): Any {
+    fun getUrlFromProxy(@RequestParam(value = "url") url: String): Any? {
         val client = HttpClient.newHttpClient()
-        val request = HttpRequest.newBuilder()
-                .uri(URI.create(url.replace(" ", "%20")).normalize())
-                .build()
-        return(client.send (request, HttpResponse.BodyHandlers.ofString()).body())
+        return try {
+            val request = HttpRequest.newBuilder()
+                    .uri(URI.create(url.replace(" ", "%20")).normalize())
+                    .build()
+            client.send(request, HttpResponse.BodyHandlers.ofString()).body()
+        } catch (error: Exception) {
+            logger.info(error.message+ " " + url)
+            (error.message)
+        }
     }
 }

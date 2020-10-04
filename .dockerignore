@@ -1,0 +1,10 @@
+.git
+.idea
+.gradle
+.settings
+.classpath
+.project
+.settings
+bin
+out
+test-report
