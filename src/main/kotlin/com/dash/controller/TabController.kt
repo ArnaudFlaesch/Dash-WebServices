@@ -2,6 +2,7 @@ package com.dash.controller
 
 import com.dash.entity.Tab
 import com.dash.repository.TabRepository
+import com.dash.service.TabService
 import com.dash.service.WidgetService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -22,6 +23,9 @@ class TabController {
     private lateinit var tabRepository: TabRepository
 
     @Autowired
+    private lateinit var tabService: TabService
+
+    @Autowired
     private lateinit var widgetService: WidgetService
 
     @GetMapping("/")
@@ -38,6 +42,11 @@ class TabController {
     @PostMapping("/updateTab")
     fun updateTab(@RequestBody tab: Tab): Tab {
         return tabRepository.save(tab)
+    }
+
+    @PostMapping("/updateTabs")
+    fun updateTabs(@RequestBody tabs: List<Tab>): List<Tab> {
+        return tabService.saveTabs(tabs)
     }
 
     @DeleteMapping("/deleteTab")

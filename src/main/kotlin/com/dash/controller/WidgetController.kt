@@ -35,6 +35,11 @@ class WidgetController {
         return widgetService.updateWidget(widget)
     }
 
+    @PostMapping("/updateWidgets")
+    fun updateWidgets(@RequestBody widgets: List<Widget>): List<Widget> {
+        return widgetService.updateWidgetsOrder(widgets)
+    }
+
     @DeleteMapping("/deleteWidget")
     fun deleteWidget(@RequestParam(value = "id") id: Int) {
         return widgetService.deleteWidget(id)
