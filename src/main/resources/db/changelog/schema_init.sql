@@ -8,7 +8,7 @@ CREATE SEQUENCE IF NOT EXISTS public.tab_id_seq
     NO MAXVALUE
     CACHE 1;
 
-CREATE TABLE public.tab (
+CREATE TABLE IF NOT EXISTS public.tab (
     id integer NOT NULL DEFAULT nextval('public.tab_id_seq'::regclass),
     label character varying,
     tab_order integer
@@ -22,7 +22,7 @@ CREATE SEQUENCE IF NOT EXISTS public.widget_id_seq
     NO MAXVALUE
     CACHE 1;
 
-CREATE TABLE public.widget (
+CREATE TABLE IF NOT EXISTS public.widget (
     id integer NOT NULL DEFAULT nextval('public.widget_id_seq'::regclass),
     type integer,
     data jsonb,
