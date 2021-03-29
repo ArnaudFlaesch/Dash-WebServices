@@ -5,9 +5,9 @@ import org.springframework.boot.runApplication
 import org.springframework.web.bind.annotation.CrossOrigin
 
 @SpringBootApplication
-@CrossOrigin( origins = ["*"])
+@CrossOrigin(origins = ["*"])
 class DashWebServicesApplication
 
 fun main(args: Array<String>) {
-	runApplication<DashWebServicesApplication>(*args)
+    runApplication<DashWebServicesApplication>(*args)
 }
