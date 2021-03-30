@@ -7,7 +7,7 @@ val ktlintVersion = "0.40.0"
 val ktlint by configurations.creating
 
 plugins {
-    val kotlinVersion = "1.4.21"
+    val kotlinVersion = "1.4.32"
     jacoco
     id("org.springframework.boot") version "2.3.0.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
