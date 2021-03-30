@@ -76,17 +76,15 @@ class TabControllerTests(@Autowired val tabRepository: TabRepository) {
         assertNotNull(updatedTab.id)
         assertEquals(updatedTab.label, insertedTab.label)
 
-        val updatedTabs: List<*> = given().port(port)
+        val updatedTabs: List<Tab> = given().port(port)
             .contentType(ContentType.JSON)
             .`when`()
-            .body(updatedTab)
+            .body(listOf(updatedTab))
             .post("/tab/updateTabs/")
             .then().log().all()
             .statusCode(200)
-            .extract().`as`(List::class.java)
-
-        assertEquals(updatedTab.label, (updatedTabs[0] as Tab).label)
-
+            .extract().jsonPath().getList("tabs", Tab::class.java)
+        
         given().port(port)
             .contentType(ContentType.JSON)
             .`when`()
