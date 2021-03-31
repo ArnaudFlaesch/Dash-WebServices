@@ -16,21 +16,21 @@ import javax.persistence.SequenceGenerator
 @Entity
 @TypeDef(name = "json", typeClass = JsonBinaryType::class)
 data class Widget(
-        @Id
-        @SequenceGenerator(name = "widget-seq-gen", sequenceName = "widget_id_seq", initialValue = 1, allocationSize = 1)
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "widget-seq-gen")
-        @Column(name = "id", unique = true, nullable = false)
-        val id: Int = 0,
+    @Id
+    @SequenceGenerator(name = "widget-seq-gen", sequenceName = "widget_id_seq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "widget-seq-gen")
+    @Column(name = "id", unique = true, nullable = false)
+    val id: Int = 0,
 
-        var type: Int? = null,
+    var type: Int? = null,
 
-        @Type(type = "json")
-        @Column(columnDefinition = "json")
-        var data: Any? = null,
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
+    var data: Any? = null,
 
-        var widgetOrder: Int? = 0,
+    var widgetOrder: Int? = 0,
 
-        @ManyToOne(optional = true)
-        @JoinColumn(name = "tabId")
-        var tab: Tab?
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "tabId")
+    var tab: Tab?
 ) : Serializable

@@ -6,6 +6,6 @@ import java.sql.Types
 
 internal class DashDatabaseDialect : H2Dialect() {
     init {
-        registerHibernateType(Types.OTHER, JsonBinaryType::class.java.name);
+        registerHibernateType(Types.OTHER, JsonBinaryType::class.java.name)
     }
 }
