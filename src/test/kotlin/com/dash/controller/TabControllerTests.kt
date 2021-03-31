@@ -84,7 +84,7 @@ class TabControllerTests(@Autowired val tabRepository: TabRepository) {
             .then().log().all()
             .statusCode(200)
             .extract().jsonPath().getList("tabs", Tab::class.java)
-        
+
         given().port(port)
             .contentType(ContentType.JSON)
             .`when`()
