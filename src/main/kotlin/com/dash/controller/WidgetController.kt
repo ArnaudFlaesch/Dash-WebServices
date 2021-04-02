@@ -35,8 +35,8 @@ class WidgetController {
         return widgetService.updateWidget(widget)
     }
 
-    @PostMapping("/updateWidgets")
-    fun updateWidgets(@RequestBody widgets: List<Widget>): List<Widget> {
+    @PostMapping("/updateWidgetsOrder")
+    fun updateWidgetsOrder(@RequestBody widgets: List<Widget>): List<Widget> {
         return widgetService.updateWidgetsOrder(widgets)
     }
 

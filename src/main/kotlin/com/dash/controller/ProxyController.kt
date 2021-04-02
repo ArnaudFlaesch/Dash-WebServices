@@ -27,8 +27,8 @@ class ProxyController {
                 .build()
             client.send(request, HttpResponse.BodyHandlers.ofString()).body()
         } catch (error: Exception) {
-            logger.info(error.message + " " + url)
-            (error.message)
+            logger.error(error.message + " " + url)
+            throw Error("Mauvaise URL $url")
         }
     }
 }

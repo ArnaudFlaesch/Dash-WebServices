@@ -3,7 +3,7 @@ package com.dash.controller
 import com.dash.entity.Tab
 import com.dash.repository.TabDataset
 import com.dash.repository.TabRepository
-import io.restassured.RestAssured
+import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import io.restassured.parsing.Parser
@@ -26,8 +26,8 @@ class TabControllerTests(@Autowired val tabRepository: TabRepository) {
     private val port: Int = 0
 
     @Test
-    fun kotlin_rest_assured_example() {
-        RestAssured.defaultParser = Parser.JSON
+    fun testGetAllTabs() {
+        defaultParser = Parser.JSON
 
         given().port(port)
             .`when`()
@@ -39,7 +39,9 @@ class TabControllerTests(@Autowired val tabRepository: TabRepository) {
     }
 
     @Test
-    fun addUpdateDeleteTab() {
+    fun testAddUpdateDeleteTab() {
+        defaultParser = Parser.JSON
+
         val newTab = Tab(null, "LabelTest")
 
         val insertedTab: Tab = given().port(port)
@@ -84,6 +86,8 @@ class TabControllerTests(@Autowired val tabRepository: TabRepository) {
             .then().log().all()
             .statusCode(200)
             .extract().jsonPath().getList("tabs", Tab::class.java)
+
+        assertEquals(1, updatedTabs.size)
 
         given().port(port)
             .contentType(ContentType.JSON)

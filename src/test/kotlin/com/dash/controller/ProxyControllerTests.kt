@@ -29,4 +29,17 @@ class ProxyControllerTests {
             .log().all()
             .body("$", not(equals(null)))
     }
+
+    @Test
+    fun testGetUrlError() {
+        RestAssured.defaultParser = Parser.XML
+
+        RestAssured.given().port(port)
+            .param("url", "http://testwrongurl")
+            .`when`()
+            .get("/proxy/")
+            .then().log().all()
+            .statusCode(500)
+            .log().all()
+    }
 }
