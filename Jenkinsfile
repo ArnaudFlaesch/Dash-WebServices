@@ -1,12 +1,12 @@
 pipeline {
 	agent {
-		docker { image 'gradle:jdk11' }
+		docker { image 'gradle:6.8.3-jdk15' }
 	}
 
   stages {
     stage('Build') {
       steps {
-        sh '''gradle clean build -x test'''
+        sh 'gradle clean build -x test'
       }
     }
 
