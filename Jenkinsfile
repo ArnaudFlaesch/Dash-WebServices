@@ -16,6 +16,7 @@ pipeline {
         sh ' gradle test '
       }
     }
+	}
 
 
 
