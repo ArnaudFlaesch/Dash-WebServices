@@ -39,7 +39,7 @@ class TabControllerTests(@Autowired val tabRepository: TabRepository) {
     }
 
     @Test
-    fun addUpdateDeleteTab() {
+    fun testAddUpdateDeleteTab() {
         val newTab = Tab(null, "LabelTest")
 
         val insertedTab: Tab = given().port(port)
