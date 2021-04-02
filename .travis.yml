@@ -20,7 +20,7 @@ before_install:
   - chmod +x gradle/wrapper/gradle-wrapper.jar
 
 before_script:
-  - gradle ktlintCheck
+  - ./gradlew ktlintCheck
 
 script:
   - ./gradlew clean build test

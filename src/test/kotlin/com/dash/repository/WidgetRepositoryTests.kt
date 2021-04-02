@@ -18,7 +18,7 @@ class WidgetRepositoryTests {
     private lateinit var widgetRepository: WidgetRepository
 
     @Test
-    fun `basic entity checks`() {
+    fun testInsertWidgets() {
         val w1 = Widget(1, 2, null, 1, Tab(10, null, null))
         val w2 = Widget(2, 3, null, 2, Tab(10, null, null))
         widgetRepository.save(w1)

@@ -7,6 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest
 class DashWebServicesApplicationTests {
 
     @Test
-    fun contextLoads() {
+    fun testMainApplication() {
     }
 }
