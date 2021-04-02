@@ -2,7 +2,6 @@ package com.dash.controller
 
 import io.restassured.RestAssured
 import io.restassured.parsing.Parser
-import org.hamcrest.Matchers.contains
 import org.hamcrest.Matchers.not
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
