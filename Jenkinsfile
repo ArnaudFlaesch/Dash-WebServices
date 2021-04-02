@@ -1,6 +1,6 @@
 pipeline {
 	agent {
-		docker { image 'openjdk:13-jdk' }
+		docker { image 'gradle:jdk11' }
 	}
 
   stages {
