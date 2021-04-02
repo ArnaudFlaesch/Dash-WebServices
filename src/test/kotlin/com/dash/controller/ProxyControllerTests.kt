@@ -2,6 +2,7 @@ package com.dash.controller
 
 import io.restassured.RestAssured
 import io.restassured.parsing.Parser
+import org.hamcrest.Matchers.contains
 import org.hamcrest.Matchers.not
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -28,5 +29,18 @@ class ProxyControllerTests {
             .statusCode(200)
             .log().all()
             .body("$", not(equals(null)))
+    }
+
+    @Test
+    fun testGetUrlError() {
+        RestAssured.defaultParser = Parser.XML
+
+        RestAssured.given().port(port)
+            .param("url", "http://testwrongurl")
+            .`when`()
+            .get("/proxy/")
+            .then().log().all()
+            .statusCode(500)
+            .log().all()
     }
 }

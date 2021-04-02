@@ -39,6 +39,6 @@ class WidgetService {
     }
 
     fun deleteWidgetsByTabId(id: Int) {
-        widgetRepository.deleteWidgetsByTabId(id)
+        return widgetRepository.deleteWidgetsByTabId(id)
     }
 }
