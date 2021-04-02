@@ -40,6 +40,8 @@ class TabControllerTests(@Autowired val tabRepository: TabRepository) {
 
     @Test
     fun testAddUpdateDeleteTab() {
+        defaultParser = Parser.JSON
+
         val newTab = Tab(null, "LabelTest")
 
         val insertedTab: Tab = given().port(port)
@@ -84,6 +86,8 @@ class TabControllerTests(@Autowired val tabRepository: TabRepository) {
             .then().log().all()
             .statusCode(200)
             .extract().jsonPath().getList("tabs", Tab::class.java)
+
+        assertEquals(1, updatedTabs.size)
 
         given().port(port)
             .contentType(ContentType.JSON)
