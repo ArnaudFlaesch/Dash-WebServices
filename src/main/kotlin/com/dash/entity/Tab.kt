@@ -10,9 +10,8 @@ import javax.persistence.SequenceGenerator
 @Entity
 data class Tab(
     @Id
-    @SequenceGenerator(name = "tab-seq-gen", sequenceName = "tab_id_seq", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tab-seq-gen")
-    @Column(name = "id", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "serial")
     var id: Int? = null,
 
     var label: String? = null,

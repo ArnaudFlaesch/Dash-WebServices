@@ -16,7 +16,7 @@ data class WidgetType(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
-    val id: Int,
+    val id: Int = 0,
 
     @Column(name = "description")
     val description: String,

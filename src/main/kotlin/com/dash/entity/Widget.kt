@@ -22,9 +22,8 @@ import javax.persistence.SequenceGenerator
 )
 data class Widget(
     @Id
-    @SequenceGenerator(name = "widget-seq-gen", sequenceName = "widget_id_seq", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "widget-seq-gen")
-    @Column(name = "id", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "serial")
     val id: Int = 0,
 
     var type: Int? = null,
