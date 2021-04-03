@@ -20,7 +20,7 @@ before_install:
   - chmod +x gradle/wrapper/gradle-wrapper.jar
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
   - docker pull postgres:13.2-alpine
-  - docker run -d -p 5432:5432  postgres:13.2-alpine
+  - docker run -d -p 5432:5432 postgres:13.2-alpine -e POSTGRES_PASSWORD=postgres
 
 before_script:
   - ./gradlew ktlintCheck
