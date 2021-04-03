@@ -48,7 +48,7 @@ dependencies {
 
     implementation("org.apache.logging.log4j:log4j-api")
     implementation("org.postgresql:postgresql:42.2.13")
-    implementation("com.vladmihalcea:hibernate-types-52:2.9.11")
+    implementation("com.vladmihalcea:hibernate-types-52:2.10.4")
     implementation("com.h2database:h2")
 
     testImplementation("io.rest-assured:rest-assured:4.2.0")
