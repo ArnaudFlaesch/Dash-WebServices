@@ -24,6 +24,7 @@ before_install:
 
 before_script:
   - ./gradlew ktlintCheck
+  - psql -c 'create database dash;' -U postgres
 
 script:
   - ./gradlew clean build test
