@@ -1,6 +1,8 @@
-language: java
 os: linux
 dist: xenial
+
+language: java
+
 jdk:
   - oraclejdk15
 
@@ -19,13 +21,12 @@ cache:
 before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker pull postgres:13.2-alpine
-  - docker run -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres postgres:13.2-alpine
+  - docker run -p 5432:5432 -e POSTGRES_PASSWORD=postgres -v ./database/init.sql:/docker-entrypoint-initdb.d/init.sql postgres:13.2-alpine
   - chmod +x gradlew
   - chmod +x gradle/wrapper/gradle-wrapper.jar
 
 before_script:
   - ./gradlew ktlintCheck
-  - psql -p 5432 -c 'create database dash_test;' -U postgres
 
 script:
   - ./gradlew clean build test -Dspring.profiles.active=test -Dspring.config.location=src/test/resources/application-test.properties
