@@ -9,7 +9,7 @@ CREATE SEQUENCE IF NOT EXISTS public.tab_id_seq
     CACHE 1;
 
 CREATE TABLE IF NOT EXISTS public.tab (
-    id SERIAL PRIMARY KEY NOT NULL,
+    id integer NOT NULL DEFAULT nextval('public.tab_id_seq'::regclass),
     label character varying,
     tab_order integer
 );
@@ -23,7 +23,7 @@ CREATE SEQUENCE IF NOT EXISTS public.widget_id_seq
     CACHE 1;
 
 CREATE TABLE IF NOT EXISTS public.widget (
-    id SERIAL PRIMARY KEY NOT NULL,
+    id integer NOT NULL DEFAULT nextval('public.widget_id_seq'::regclass),
     type integer,
     data jsonb,
     widget_order integer,
