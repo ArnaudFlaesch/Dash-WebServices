@@ -47,7 +47,7 @@ dependencies {
     implementation("org.liquibase:liquibase-core")
 
     implementation("org.apache.logging.log4j:log4j-api")
-    implementation("org.postgresql:postgresql:42.2.13")
+    implementation("org.postgresql:postgresql:42.2.19")
     implementation("com.vladmihalcea:hibernate-types-52:2.10.4")
     implementation("com.h2database:h2")
 
