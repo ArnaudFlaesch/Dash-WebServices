@@ -1,5 +1,6 @@
 language: java
-sudo: required
+os: linux
+dist: xenial
 jdk:
   - oraclejdk15
 
@@ -16,6 +17,8 @@ addons:
 env:
   global:
     - PGPORT=5433
+  jobs:
+    - DB_PORT=5433 DB_USERNAME=postgres
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
