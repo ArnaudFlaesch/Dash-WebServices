@@ -32,3 +32,5 @@ out/
 .vscode/
 .codacy-coverage/
 data.sql
+snyk-report.html
+snyk-report.json
