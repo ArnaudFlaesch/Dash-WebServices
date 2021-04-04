@@ -2,7 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: 1
       author: aflaesch
-      comment: comment
+      comment: Init schema
       changes:
         - sqlFile:
             dbms: postgresql

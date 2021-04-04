@@ -1,8 +1,10 @@
 package com.dash.entity
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType
+import com.vladmihalcea.hibernate.type.json.JsonStringType
 import org.hibernate.annotations.Type
 import org.hibernate.annotations.TypeDef
+import org.hibernate.annotations.TypeDefs
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -14,7 +16,10 @@ import javax.persistence.ManyToOne
 import javax.persistence.SequenceGenerator
 
 @Entity
-@TypeDef(name = "json", typeClass = JsonBinaryType::class)
+@TypeDefs(
+    TypeDef(name = "json", typeClass = JsonStringType::class),
+    TypeDef(name = "jsonb", typeClass = JsonBinaryType::class)
+)
 data class Widget(
     @Id
     @SequenceGenerator(name = "widget-seq-gen", sequenceName = "widget_id_seq", initialValue = 1, allocationSize = 1)
@@ -24,7 +29,7 @@ data class Widget(
 
     var type: Int? = null,
 
-    @Type(type = "json")
+    @Type(type = "jsonb")
     @Column(columnDefinition = "json")
     var data: Any? = null,
 

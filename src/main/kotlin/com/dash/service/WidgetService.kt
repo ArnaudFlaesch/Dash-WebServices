@@ -11,7 +11,8 @@ class WidgetService {
     private lateinit var widgetRepository: WidgetRepository
 
     fun addWidget(widget: Widget): Widget {
-        widgetRepository.getNumberOfWidgetsByTab(widget.tab?.id!!) + 1
+        val widgetOrder = widgetRepository.getNumberOfWidgetsByTab(widget.tab?.id!!) + 1
+        widget.widgetOrder = widgetOrder
         return widgetRepository.save(widget)
     }
 
@@ -34,8 +35,7 @@ class WidgetService {
     }
 
     fun deleteWidget(id: Int) {
-        val widget = widgetRepository.getOne(id)
-        return widgetRepository.delete(widget)
+        widgetRepository.deleteById(id)
     }
 
     fun deleteWidgetsByTabId(id: Int) {
