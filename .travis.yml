@@ -1,24 +1,13 @@
-language: java
 os: linux
 dist: xenial
+
+language: java
+
 jdk:
   - oraclejdk15
 
 services:
   - docker
-  - postgresql
-
-addons:
-  postgresql: 13
-  apt:
-    update: true
-    packages:
-      - postgresql-13
-env:
-  global:
-    - PGPORT=5433
-  jobs:
-    - DB_PORT=5433 DB_USERNAME=postgres
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -30,20 +19,13 @@ cache:
     - $HOME/.gradle/wrapper/
 
 before_install:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker pull postgres:13.2-alpine
+  - docker run -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash_test postgres:13.2-alpine
   - chmod +x gradlew
   - chmod +x gradle/wrapper/gradle-wrapper.jar
-  - >-
-    sudo sed -i
-    -e '/local.*peer/s/postgres/all/'
-    -e 's/peer\|md5/trust/g'
-    /etc/postgresql/13/main/pg_hba.conf
-    # Restart the PostgreSQL service:
-  - sudo service postgresql@13-main restart
 
 before_script:
-  # Use trust instead of peer authentication:
-  - psql -p 5433 -c 'create database dash_test;' -U postgres
-  - psql -p 5433 -c "ALTER USER postgres WITH PASSWORD 'postgres';" -U postgres
   - ./gradlew ktlintCheck
 
 script:

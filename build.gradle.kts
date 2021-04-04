@@ -51,7 +51,7 @@ dependencies {
     implementation("com.vladmihalcea:hibernate-types-52:2.10.4")
     implementation("com.h2database:h2")
 
-    testImplementation("io.rest-assured:rest-assured:4.3.3")
+    testImplementation("io.rest-assured:rest-assured:4.2.0")
     testImplementation("io.rest-assured:json-path:4.2.0")
     testImplementation("io.rest-assured:xml-path:4.2.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
