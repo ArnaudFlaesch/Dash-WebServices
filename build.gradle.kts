@@ -11,7 +11,7 @@ plugins {
     jacoco
     id("org.springframework.boot") version "2.3.0.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
-    id("com.github.kt3k.coveralls") version "2.10.1"
+    id("com.github.kt3k.coveralls") version "2.11.0"
     id("io.github.ddimtirov.codacy") version "0.1.0"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
