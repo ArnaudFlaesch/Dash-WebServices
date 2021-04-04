@@ -25,7 +25,7 @@ before_script:
   - psql -c 'create database dash;' -U postgres
 
 script:
-  - ./gradlew clean build test
+  - ./gradlew clean build test -Dspring.profiles.active=test -Dspring.config.location=src/test/resources/application-test.properties
 
 after_success:
   - ./gradlew jacocoTestReport coveralls
