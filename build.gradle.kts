@@ -53,7 +53,7 @@ dependencies {
 
     testImplementation("io.rest-assured:rest-assured:4.2.0")
     testImplementation("io.rest-assured:json-path:4.2.0")
-    testImplementation("io.rest-assured:xml-path:4.2.0")
+    testImplementation("io.rest-assured:xml-path:4.3.3")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
