@@ -7,11 +7,11 @@ services:
   - docker
 
 addons:
-  postgresql: "13.1"
+  postgresql: '11'
   apt:
     packages:
-      - postgresql-13
-      - postgresql-client-13
+      - postgresql-11
+      - postgresql-client-11
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
