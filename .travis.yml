@@ -21,9 +21,10 @@ before_install:
   - chmod +x gradle/wrapper/gradle-wrapper.jar
 
 before_script:
-  - ./gradlew ktlintCheck
-  - psql -c 'create database dash;' -U postgres
+  - psql -c 'create database dash_test;' -U postgres
   - psql -c "ALTER USER postgres WITH PASSWORD 'postgres';" -U postgres
+  - ./gradlew ktlintCheck
+
 
 script:
   - ./gradlew clean build test -Dspring.profiles.active=test -Dspring.config.location=src/test/resources/application-test.properties
