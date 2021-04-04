@@ -21,7 +21,7 @@ cache:
 before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker pull postgres:13.2-alpine
-  - docker run -p 5432:5432 -e POSTGRES_PASSWORD=postgres -v /database/init.sql:/docker-entrypoint-initdb.d/init.sql postgres:13.2-alpine
+  - docker run -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash_test postgres:13.2-alpine
   - chmod +x gradlew
   - chmod +x gradle/wrapper/gradle-wrapper.jar
 
