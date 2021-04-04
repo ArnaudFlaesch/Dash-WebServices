@@ -5,17 +5,17 @@ jdk:
 
 services:
   - docker
+  - postgresql
 
 addons:
-  postgresql: '11'
+  postgresql: 13
   apt:
+    update: true
     packages:
-      - postgresql-11
-      - postgresql-client-11
+      - postgresql-13
 env:
   global:
-    - PGPORT=5432
-    - PGUSER=travis
+    - PGPORT=5433
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -31,10 +31,10 @@ before_install:
   - chmod +x gradle/wrapper/gradle-wrapper.jar
 
 before_script:
-  - psql -c 'create database dash_test;' -U postgres
-  - psql -c "ALTER USER postgres WITH PASSWORD 'postgres';" -U postgres
+  # Use trust instead of peer authentication:
+  - psql -p 5433 -c 'create database dash_test;' -U postgres
+  - psql -p 5433 -c "ALTER USER postgres WITH PASSWORD 'postgres';" -U postgres
   - ./gradlew ktlintCheck
-
 
 script:
   - ./gradlew clean build test -Dspring.profiles.active=test -Dspring.config.location=src/test/resources/application-test.properties
