@@ -7,6 +7,13 @@ services:
   - docker
   - postgresql
 
+addons:
+  postgresql: "13.1"
+  apt:
+    packages:
+      - postgresql-13
+      - postgresql-client-13
+
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
