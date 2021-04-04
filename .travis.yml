@@ -12,6 +12,10 @@ addons:
     packages:
       - postgresql-11
       - postgresql-client-11
+env:
+  global:
+    - PGPORT=5432
+    - PGUSER=travis
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
