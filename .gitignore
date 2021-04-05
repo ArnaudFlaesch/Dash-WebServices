@@ -30,6 +30,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
 .codacy-coverage/
 data.sql
 snyk-report.html
