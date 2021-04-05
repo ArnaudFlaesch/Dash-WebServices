@@ -1,34 +1,41 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
-val springBootVersion = "2.3.0.RELEASE"
+val kotlinVersion = "1.4.32"
+val springBootVersion = "2.4.4"
+val jacksonModuleKotlinVersion = "2.11.4"
+val log4jVersion = "2.13.3"
+val liquibaseVersion = "3.10.3"
+val postgresqlVersion = "42.2.19"
+val restAssuredVersion = "4.2.0"
+val junitVersion = "5.7.1"
+val hibernateTypesVersion = "2.10.4"
 val ktlintVersion = "0.41.0"
 
 val ktlint by configurations.creating
 
 plugins {
     val kotlinVersion = "1.4.32"
+    val springBootVersion = "2.4.4"
+    val springDependencyManagementVersion = "1.0.11.RELEASE"
+    val coverallsPluginVersion = "2.11.0"
+    val codacyPluginVersion = "0.1.0"
+
     jacoco
-    id("org.springframework.boot") version "2.4.4"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("com.github.kt3k.coveralls") version "2.11.0"
-    id("io.github.ddimtirov.codacy") version "0.1.0"
+    id("org.springframework.boot") version springBootVersion
+    id("io.spring.dependency-management") version springDependencyManagementVersion
+    id("com.github.kt3k.coveralls") version coverallsPluginVersion
+    id("io.github.ddimtirov.codacy") version codacyPluginVersion
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion
 }
 group = "com.dash"
-version = "0.0.1"
+version = "0.2.0"
 java.sourceCompatibility = JavaVersion.VERSION_15
 
 repositories {
-    jcenter {
-        content {
-            // just allow to include kotlinx projects
-            // detekt needs 'kotlinx-html' for the html report
-            includeGroup("org.jetbrains.kotlinx")
-        }
-    }
+    jcenter()
     mavenCentral()
     maven {
         url = uri("https://jitpack.io")
@@ -36,27 +43,26 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.springframework.boot:spring-boot-starter:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonModuleKotlinVersion")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 
-    implementation("com.fasterxml.jackson.module:jackson-module-jaxb-annotations")
-    implementation("org.liquibase:liquibase-core")
+    implementation("com.fasterxml.jackson.module:jackson-module-jaxb-annotations:$jacksonModuleKotlinVersion")
+    implementation("org.liquibase:liquibase-core:$liquibaseVersion")
 
-    implementation("org.apache.logging.log4j:log4j-api")
-    implementation("org.postgresql:postgresql:42.2.19")
-    implementation("com.vladmihalcea:hibernate-types-52:2.10.4")
-    implementation("com.h2database:h2")
+    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    implementation("org.postgresql:postgresql:$postgresqlVersion")
+    implementation("com.vladmihalcea:hibernate-types-52:$hibernateTypesVersion")
 
-    testImplementation("io.rest-assured:rest-assured:4.2.0")
-    testImplementation("io.rest-assured:json-path:4.2.0")
-    testImplementation("io.rest-assured:xml-path:4.2.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+    testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
+    testImplementation("io.rest-assured:json-path:$restAssuredVersion")
+    testImplementation("io.rest-assured:xml-path:$restAssuredVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
 
@@ -87,7 +93,7 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "13"
+        jvmTarget = "15"
     }
 }
 
