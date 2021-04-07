@@ -18,7 +18,7 @@ plugins {
     val kotlinVersion = "1.4.32"
     val springBootVersion = "2.4.4"
     val springDependencyManagementVersion = "1.0.11.RELEASE"
-    val coverallsPluginVersion = "2.11.0"
+    val coverallsPluginVersion = "2.12.0"
     val codacyPluginVersion = "0.1.0"
 
     jacoco
