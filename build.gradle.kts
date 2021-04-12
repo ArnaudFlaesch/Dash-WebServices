@@ -12,7 +12,7 @@ val junitVersion = "5.7.1"
 val hibernateTypesVersion = "2.10.4"
 val ktlintVersion = "0.41.0"
 
-val ktlint by configurations.creating
+val ktlint: Configuration by configurations.creating
 
 plugins {
     val kotlinVersion = "1.4.32"
@@ -35,7 +35,6 @@ version = "0.2.0"
 java.sourceCompatibility = JavaVersion.VERSION_15
 
 repositories {
-    jcenter()
     mavenCentral()
     maven {
         url = uri("https://jitpack.io")
