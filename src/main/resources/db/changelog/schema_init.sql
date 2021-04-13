@@ -30,3 +30,22 @@ CREATE TABLE IF NOT EXISTS public.widget (
     tab_id integer
 );
 
+CREATE SEQUENCE IF NOT EXISTS public.widget_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE TABLE widget_type (
+    id INT PRIMARY KEY NOT NULL DEFAULT nextval('public.widget_type_id_seq'::regclass),
+    description CHAR(50),
+    config jsonb
+);
+
+INSERT INTO widget_type (description, config) VALUES ('WEATHER', '["weather_api_key", "city"]');
+INSERT INTO widget_type (description, config) VALUES ('RSS', '["url"]');
+INSERT INTO widget_type (description, config) VALUES ('CALENDAR', '[{"calendars": "list"}]');
+INSERT INTO widget_type (description, config) VALUES ('STRAVA', '["clientId", "clientSecret"]');
+

@@ -2,7 +2,6 @@ package com.dash.controller
 
 import com.dash.entity.Tab
 import com.dash.repository.TabDataset
-import com.dash.repository.TabRepository
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -20,7 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TabDataset
 @ExtendWith(SpringExtension::class)
-class TabControllerTests(@Autowired val tabRepository: TabRepository) {
+class TabControllerTests {
 
     @LocalServerPort
     private val port: Int = 0

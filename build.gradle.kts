@@ -13,7 +13,7 @@ val junitVersion = "5.7.1"
 val hibernateTypesVersion = "2.10.4"
 val ktlintVersion = "0.41.0"
 
-val ktlint by configurations.creating
+val ktlint: Configuration by configurations.creating
 
 plugins {
     val kotlinVersion = "1.4.32"
@@ -36,7 +36,6 @@ version = "0.2.0"
 java.sourceCompatibility = JavaVersion.VERSION_15
 
 repositories {
-    jcenter()
     mavenCentral()
     maven {
         url = uri("https://jitpack.io")
@@ -74,11 +73,12 @@ coveralls {
     sourceDirs.add("src/main/kotlin")
 }
 
-tasks.withType<JacocoReport> {
+tasks.jacocoTestReport {
     reports {
         xml.isEnabled = true
         html.isEnabled = true
     }
+    dependsOn(tasks.test) // tests are required to run before generating the report
 }
 
 tasks.withType<BootRun> {
@@ -89,6 +89,10 @@ tasks.withType<Test> {
     environment("spring.profiles.active", "test")
     environment("spring.config.location", "src/test/resources/application-test.properties")
     useJUnitPlatform()
+    configure<JacocoTaskExtension> {
+        excludes = listOf("com/dash/DashWebServicesApplication.kt")
+    }
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
 }
 
 tasks.withType<KotlinCompile> {
