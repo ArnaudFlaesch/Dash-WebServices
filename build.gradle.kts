@@ -73,11 +73,12 @@ coveralls {
     sourceDirs.add("src/main/kotlin")
 }
 
-tasks.withType<JacocoReport> {
+tasks.jacocoTestReport {
     reports {
         xml.isEnabled = true
         html.isEnabled = true
     }
+    dependsOn(tasks.test) // tests are required to run before generating the report
 }
 
 tasks.withType<BootRun> {
@@ -88,6 +89,10 @@ tasks.withType<Test> {
     environment("spring.profiles.active", "test")
     environment("spring.config.location", "src/test/resources/application-test.properties")
     useJUnitPlatform()
+    configure<JacocoTaskExtension> {
+        excludes = listOf("com.dash.DashWebServicesApplication.kt")
+    }
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
 }
 
 tasks.withType<KotlinCompile> {

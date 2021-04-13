@@ -19,7 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TabDataset
 @ExtendWith(SpringExtension::class)
-class WidgetControllerTests() {
+class WidgetControllerTests {
 
     @LocalServerPort
     private val port: Int = 0
