@@ -90,7 +90,7 @@ tasks.withType<Test> {
     environment("spring.config.location", "src/test/resources/application-test.properties")
     useJUnitPlatform()
     configure<JacocoTaskExtension> {
-        excludes = listOf("com.dash.DashWebServicesApplication.kt")
+        excludes = listOf("com/dash/DashWebServicesApplication.kt")
     }
     finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
 }
