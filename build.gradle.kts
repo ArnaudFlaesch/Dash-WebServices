@@ -16,7 +16,7 @@ val ktlintVersion = "0.41.0"
 val ktlint: Configuration by configurations.creating
 
 plugins {
-    val kotlinVersion = "1.4.32"
+    val kotlinVersion = "1.5.0"
     val springBootVersion = "2.4.4"
     val springDependencyManagementVersion = "1.0.11.RELEASE"
     val coverallsPluginVersion = "2.12.0"
@@ -33,7 +33,7 @@ plugins {
 }
 group = "com.dash"
 version = "0.2.0"
-java.sourceCompatibility = JavaVersion.VERSION_15
+java.sourceCompatibility = JavaVersion.VERSION_16
 
 repositories {
     mavenCentral()
@@ -98,7 +98,7 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "15"
+        jvmTarget = "16"
     }
 }
 
