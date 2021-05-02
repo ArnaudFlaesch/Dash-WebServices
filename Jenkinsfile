@@ -13,21 +13,15 @@ pipeline {
                 docker { image 'gradle:7.0.0-jdk16' }
             }
             stages {
-                stage('Build') {
-                    steps {
-                        sh 'gradle clean build -x test'
-                    }
-                }
-
                 stage('Lint') {
                     steps {
                         sh 'gradle ktlintCheck'
                     }
                 }
 
-                stage('Test jUnit') {
+                stage('Build and test') {
                     steps {
-                        sh ' gradle test --build-cache'
+                        sh 'gradle clean build test --build-cache'
                     }
                 }
             }
