@@ -4,7 +4,7 @@ pipeline {
         stage('Pull and start database') {
             steps {
                 sh 'docker pull postgres:13.2-alpine'
-                sh 'docker run postgres:13.2-alpine -d -e POSTGRES_DATABASE=postgres -e POSTGRES_PASSWORD=postgres'
+                sh 'docker run -d postgres:13.2-alpine -e POSTGRES_DATABASE=postgres -e POSTGRES_PASSWORD=postgres'
             }
         }
 
