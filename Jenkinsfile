@@ -27,7 +27,7 @@ pipeline {
 
                 stage('Test jUnit') {
                     steps {
-                        sh ' gradle test '
+                        sh ' gradle test --build-cache'
                     }
                 }
             }
