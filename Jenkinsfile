@@ -21,7 +21,7 @@ pipeline {
 
                 stage('Build and test') {
                     steps {
-                        sh 'gradle clean build test --build-cache'
+                        sh 'gradle clean build test -Dspring.profiles.active=test -Dspring.config.location=src/test/resources/application-test.properties --build-cache'
                     }
                 }
             }
