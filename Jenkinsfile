@@ -8,30 +8,31 @@ pipeline {
             }
         }
 
-	stage('Tests') {
-	    agent {
-    		docker { image 'gradle:7.0.0-jdk16' }
-    	}
-    	stages {
-            stage('Build') {
-                steps {
-                    sh 'gradle clean build -x test'
-                }
+        stage('Tests') {
+            agent {
+                docker { image 'gradle:7.0.0-jdk16' }
             }
-
-            stage('Lint') {
-                steps {
-                    sh 'gradle ktlintCheck'
+            stages {
+                stage('Build') {
+                    steps {
+                        sh 'gradle clean build -x test'
+                    }
                 }
-            }
 
-            stage('Test jUnit') {
-                steps {
-                    sh ' gradle test '
+                stage('Lint') {
+                    steps {
+                        sh 'gradle ktlintCheck'
+                    }
+                }
+
+                stage('Test jUnit') {
+                    steps {
+                        sh ' gradle test '
+                    }
                 }
             }
         }
-	}
+    }
 
     post {
         always {
