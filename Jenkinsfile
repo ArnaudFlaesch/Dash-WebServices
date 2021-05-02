@@ -4,11 +4,11 @@ pipeline {
         stage('Pull and start database') {
             steps {
                 sh 'docker pull postgres:13.2-alpine'
-                sh 'docker run postgres:13.2-alpine -e POSTGRES_DATABASE=postgres -e POSTGRES_PASSWORD=postgres -d'
+                sh 'docker run postgres:13.2-alpine -d -e POSTGRES_DATABASE=postgres -e POSTGRES_PASSWORD=postgres'
             }
         }
 
-        stage('Tests') {
+        stage('Backend tests') {
             agent {
                 docker { image 'gradle:7.0.0-jdk16' }
             }
