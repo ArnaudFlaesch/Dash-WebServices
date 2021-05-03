@@ -92,7 +92,6 @@ tasks.withType<Test> {
     configure<JacocoTaskExtension> {
         excludes = listOf("com/dash/DashWebServicesApplication.kt")
     }
-    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
 }
 
 tasks.withType<KotlinCompile> {
