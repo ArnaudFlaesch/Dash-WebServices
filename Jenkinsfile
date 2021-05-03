@@ -38,7 +38,7 @@ pipeline {
               allowMissing : false,
               reportName: 'HTML Report'
           ])
-          sh 'docker stop database-test'
+          sh 'docker rm database-test'
           junit 'build/test-results/**/*.xml'
         }
     }
