@@ -78,7 +78,6 @@ tasks.jacocoTestReport {
         xml.isEnabled = true
         html.isEnabled = true
     }
-    dependsOn(tasks.test) // tests are required to run before generating the report
 }
 
 tasks.withType<BootRun> {
