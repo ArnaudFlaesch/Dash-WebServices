@@ -30,7 +30,14 @@ pipeline {
 
     post {
         always {
-          publishHTML([reportDir: 'build/reports/tests/test', reportFiles: 'index.html', alwaysLinkToLastBuild: true, reportName: 'HTML Report'])
+          publishHTML([
+              reportDir: 'build/reports/tests/test',
+              reportFiles: 'index.html',
+              alwaysLinkToLastBuild: true,
+              keepAll: false,
+              allowMissing : false,
+              reportName: 'HTML Report'
+          ])
           sh 'docker stop database-test'
           junit 'build/test-results/**/*.xml'
         }
