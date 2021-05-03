@@ -4,7 +4,7 @@ pipeline {
         stage('Pull and start database') {
             steps {
                 sh 'docker pull postgres:13.2-alpine'
-                sh 'docker run -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash_test postgres:13.2-alpine'
+                sh 'docker run -p 5432:5432 --name database -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash_test postgres:13.2-alpine'
             }
         }
 
@@ -31,6 +31,7 @@ pipeline {
     post {
         always {
           junit 'build/test-results/**/*.xml'
+          sh 'docker stop database'
         }
     }
 
