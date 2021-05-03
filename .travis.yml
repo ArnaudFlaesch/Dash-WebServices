@@ -21,7 +21,7 @@ before_script:
   - ./gradlew ktlintCheck
 
 script:
-  - ./gradlew clean build -Dspring.profiles.active=test -Dspring.config.location=src/test/resources/application-test.properties
+  - ./gradlew clean build test -Dspring.profiles.active=test -Dspring.config.location=src/test/resources/application-test.properties
 
 after_success:
   - ./gradlew jacocoTestReport --debug coveralls
