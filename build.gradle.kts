@@ -8,6 +8,7 @@ val jacksonModuleJaxbVersion = "2.12.2"
 val log4jVersion = "2.14.1"
 val liquibaseVersion = "4.3.5"
 val postgresqlVersion = "42.2.20"
+
 val restAssuredVersion = "4.2.0"
 val junitVersion = "5.7.1"
 val hibernateTypesVersion = "2.10.4"
@@ -16,7 +17,7 @@ val ktlintVersion = "0.41.0"
 val ktlint: Configuration by configurations.creating
 
 plugins {
-    val kotlinVersion = "1.4.32"
+    val kotlinVersion = "1.5.0"
     val springBootVersion = "2.4.4"
     val springDependencyManagementVersion = "1.0.11.RELEASE"
     val coverallsPluginVersion = "2.12.0"
@@ -33,12 +34,16 @@ plugins {
 }
 group = "com.dash"
 version = "0.2.0"
-java.sourceCompatibility = JavaVersion.VERSION_15
+java.sourceCompatibility = JavaVersion.VERSION_16
 
 repositories {
     mavenCentral()
     maven {
         url = uri("https://jitpack.io")
+    }
+    maven {
+        // @TODO Enlever cette URL aui pointe sur les snapshots de jacoco
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
     }
 }
 
@@ -73,12 +78,15 @@ coveralls {
     sourceDirs.add("src/main/kotlin")
 }
 
+jacoco {
+    toolVersion = "0.8.7-SNAPSHOT"
+}
+
 tasks.jacocoTestReport {
     reports {
         xml.isEnabled = true
         html.isEnabled = true
     }
-    dependsOn(tasks.test) // tests are required to run before generating the report
 }
 
 tasks.withType<BootRun> {
@@ -98,7 +106,7 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "15"
+        jvmTarget = "16"
     }
 }
 

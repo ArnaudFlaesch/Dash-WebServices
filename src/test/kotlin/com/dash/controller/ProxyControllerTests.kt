@@ -35,7 +35,7 @@ class ProxyControllerTests {
         RestAssured.defaultParser = Parser.XML
 
         RestAssured.given().port(port)
-            .param("url", "http://testwrongurl")
+            .param("url", "http://testwrongurl.com")
             .`when`()
             .get("/proxy/")
             .then().log().all()
