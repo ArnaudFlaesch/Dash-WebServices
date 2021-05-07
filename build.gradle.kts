@@ -4,7 +4,7 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 val kotlinVersion = "1.5.0"
 val springBootVersion = "2.4.5"
 val jacksonModuleKotlinVersion = "2.12.3"
-val jacksonModuleJaxbVersion = "2.12.2"
+val jacksonModuleJaxbVersion = "2.12.3"
 val log4jVersion = "2.14.1"
 val liquibaseVersion = "4.3.5"
 val postgresqlVersion = "42.2.20"
