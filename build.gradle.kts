@@ -41,10 +41,6 @@ repositories {
     maven {
         url = uri("https://jitpack.io")
     }
-    maven {
-        // @TODO Enlever cette URL aui pointe sur les snapshots de jacoco
-        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
-    }
 }
 
 dependencies {
@@ -79,7 +75,7 @@ coveralls {
 }
 
 jacoco {
-    toolVersion = "0.8.7-SNAPSHOT"
+    toolVersion = "0.8.7"
 }
 
 tasks.jacocoTestReport {
