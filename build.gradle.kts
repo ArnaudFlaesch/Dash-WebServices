@@ -11,7 +11,7 @@ val postgresqlVersion = "42.2.20"
 
 val restAssuredVersion = "4.2.0"
 val junitVersion = "5.7.1"
-val hibernateTypesVersion = "2.11.0"
+val hibernateTypesVersion = "2.11.1"
 val ktlintVersion = "0.41.0"
 
 val ktlint: Configuration by configurations.creating
