@@ -53,7 +53,6 @@ jobs:
           bash <(curl -s https://codecov.io/bash)
 
       - name: Build Docker image
-        if: github.ref == 'refs/heads/develop'
         run: docker build -t dashwebservices .
 
       - name: Push to Docker Hub
