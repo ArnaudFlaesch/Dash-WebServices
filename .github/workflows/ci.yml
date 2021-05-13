@@ -56,7 +56,6 @@ jobs:
         run: docker build -t dashwebservices .
 
       - name: Push to Docker Hub
-        if: github.ref == 'refs/heads/develop'
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_LOGIN }}
