@@ -49,9 +49,13 @@ jobs:
 
       - name: Report coverage
         run: |
-          ./gradlew coveralls
           bash <(curl -Ls https://coverage.codacy.com/get.sh) report -l Kotlin -r build/reports/jacoco/test/jacocoTestReport.xml --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
           bash <(curl -s https://codecov.io/bash)
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker image
         if: github.ref == 'refs/heads/develop'
