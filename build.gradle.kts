@@ -1,31 +1,30 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
-val kotlinVersion = "1.4.32"
-val springBootVersion = "2.4.4"
+val kotlinVersion = "1.5.0"
+val springBootVersion = "2.4.5"
 val jacksonModuleKotlinVersion = "2.12.3"
 val jacksonModuleJaxbVersion = "2.12.2"
 val log4jVersion = "2.14.1"
-val liquibaseVersion = "4.3.3"
-val postgresqlVersion = "42.2.19"
+val liquibaseVersion = "4.3.5"
+val postgresqlVersion = "42.2.20"
+
 val restAssuredVersion = "4.2.0"
-val junitVersion = "5.7.1"
-val hibernateTypesVersion = "2.10.4"
+val junitVersion = "5.7.2"
+val hibernateTypesVersion = "2.11.1"
 val ktlintVersion = "0.41.0"
 
 val ktlint: Configuration by configurations.creating
 
 plugins {
-    val kotlinVersion = "1.4.32"
+    val kotlinVersion = "1.5.0"
     val springBootVersion = "2.4.4"
     val springDependencyManagementVersion = "1.0.11.RELEASE"
-    val coverallsPluginVersion = "2.12.0"
     val codacyPluginVersion = "0.1.0"
 
     jacoco
     id("org.springframework.boot") version springBootVersion
     id("io.spring.dependency-management") version springDependencyManagementVersion
-    id("com.github.kt3k.coveralls") version coverallsPluginVersion
     id("io.github.ddimtirov.codacy") version codacyPluginVersion
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
@@ -33,7 +32,7 @@ plugins {
 }
 group = "com.dash"
 version = "0.2.0"
-java.sourceCompatibility = JavaVersion.VERSION_15
+java.sourceCompatibility = JavaVersion.VERSION_16
 
 repositories {
     mavenCentral()
@@ -69,8 +68,8 @@ dependencies {
     ktlint("com.pinterest:ktlint:${ktlintVersion}")
 }
 
-coveralls {
-    sourceDirs.add("src/main/kotlin")
+jacoco {
+    toolVersion = "0.8.7"
 }
 
 tasks.jacocoTestReport {
@@ -78,7 +77,6 @@ tasks.jacocoTestReport {
         xml.isEnabled = true
         html.isEnabled = true
     }
-    dependsOn(tasks.test) // tests are required to run before generating the report
 }
 
 tasks.withType<BootRun> {
@@ -98,7 +96,7 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "15"
+        jvmTarget = "16"
     }
 }
 
