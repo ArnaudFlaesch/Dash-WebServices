@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
 val kotlinVersion = "1.5.0"
-val springBootVersion = "2.4.5"
+val springBootVersion = "2.4.6"
 val jacksonModuleKotlinVersion = "2.12.3"
 val jacksonModuleJaxbVersion = "2.12.2"
 val log4jVersion = "2.14.1"
