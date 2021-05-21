@@ -72,6 +72,15 @@ jacoco {
     toolVersion = "0.8.7"
 }
 
+configurations.all {
+    resolutionStrategy.eachDependency {
+        if (this.requested.group == "org.codehaus.groovy") {
+            this.useVersion("3.0.2")
+            this.because("needed by rest-assured>=4.3")
+        }
+    }
+}
+
 tasks.jacocoTestReport {
     reports {
         xml.isEnabled = true
