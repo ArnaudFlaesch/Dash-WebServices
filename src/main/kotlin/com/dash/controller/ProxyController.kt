@@ -23,11 +23,13 @@ class ProxyController {
         val client = HttpClient.newHttpClient()
         return try {
             val request = HttpRequest.newBuilder()
-                .uri(URI.create(url
-                    .replace(" ", "%20")
-                    .replace("#", "%23")
-                    .replace("@", "%40")
-                ).normalize())
+                .uri(
+                    URI.create(
+                        url.replace(" ", "%20")
+                            .replace("#", "%23")
+                            .replace("@", "%40")
+                    ).normalize()
+                )
                 .build()
             client.send(request, HttpResponse.BodyHandlers.ofString()).body()
         } catch (error: Exception) {
