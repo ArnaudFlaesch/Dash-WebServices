@@ -5,7 +5,6 @@ import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
-import org.hamcrest.CoreMatchers
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.not
 import org.junit.jupiter.api.BeforeAll
@@ -60,7 +59,7 @@ class ProxyControllerTests {
 
     @Test
     fun testEndpointNotAuthenticated() {
-        val error = given().port(port)
+        given().port(port)
             .param("url", "http://testwrongurl.com")
             .`when`()
             .get("/proxy/")
