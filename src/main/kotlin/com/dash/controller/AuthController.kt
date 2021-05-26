@@ -1,6 +1,5 @@
 package com.dash.controller
 
-import com.dash.entity.User
 import com.dash.repository.RoleRepository
 import com.dash.repository.UserRepository
 import com.dash.security.JwtUtils

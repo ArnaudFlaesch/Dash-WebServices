@@ -3,7 +3,6 @@ package com.dash.entity
 import com.dash.enums.RoleEnum
 import javax.persistence.*
 
-
 @Entity
 @Table(name = "roles")
 class Role {

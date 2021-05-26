@@ -3,7 +3,6 @@ package com.dash.controller
 import com.dash.entity.Tab
 import com.dash.repository.TabDataset
 import com.dash.utils.IntegrationTestsUtils
-import io.restassured.RestAssured
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType

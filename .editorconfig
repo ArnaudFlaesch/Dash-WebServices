@@ -13,10 +13,10 @@ trim_trailing_whitespace = false
 indent_size = 4
 max_line_length = 160
 
-[*.{yaml,yml}]
-indent_size = 2
-
 # Comma-separated list of rules to disable (Since 0.34.0)
 # Note that rules in any ruleset other than the standard ruleset will need to be prefixed
 # by the ruleset identifier.
 disabled_rules = no-wildcard-imports, experimental:annotation
+
+[*.{yaml,yml}]
+indent_size = 2
