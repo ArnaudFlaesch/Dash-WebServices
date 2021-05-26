@@ -3,6 +3,7 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 
 val kotlinVersion = "1.5.10"
 val springBootVersion = "2.5.0"
+val jwtVersion = "0.9.1"
 val jacksonModuleKotlinVersion = "2.12.3"
 val jacksonModuleJaxbVersion = "2.12.2"
 val log4jVersion = "2.14.1"
@@ -17,7 +18,7 @@ val ktlintVersion = "0.41.0"
 val ktlint: Configuration by configurations.creating
 
 plugins {
-    val kotlinVersion = "1.5.0"
+    val kotlinVersion = "1.5.10"
     val springBootVersion = "2.4.4"
     val springDependencyManagementVersion = "1.0.11.RELEASE"
     val codacyPluginVersion = "0.1.0"
@@ -45,11 +46,15 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    implementation ("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
+
+    implementation ("io.jsonwebtoken:jjwt:$jwtVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonModuleKotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 
     implementation("com.fasterxml.jackson.module:jackson-module-jaxb-annotations:$jacksonModuleJaxbVersion")
+    implementation ("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation("org.liquibase:liquibase-core:$liquibaseVersion")
 
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")

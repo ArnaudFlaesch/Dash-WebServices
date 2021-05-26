@@ -7,7 +7,19 @@ databaseChangeLog:
         - sqlFile:
             dbms: postgresql
             encoding: utf8
-            path: /db/changelog/schema_init.sql
+            path: /db/changelog/0.2/schema_init.sql
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 2
+      author: aflaesch
+      comment: Init roles
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            path: /db/changelog/0.3/init_roles.sql
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
