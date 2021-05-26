@@ -8,7 +8,6 @@ import com.dash.security.UserDetailsImpl
 import com.dash.security.payload.LoginRequest
 import com.dash.security.response.JwtResponse
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
@@ -43,18 +42,20 @@ class AuthController {
         val authentication = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(loginRequest.username, loginRequest.password)
         )
+
         SecurityContextHolder.getContext().authentication = authentication
         val jwt = jwtUtils.generateJwtToken(authentication)
         val userDetails = authentication.principal as UserDetailsImpl
         val roles = userDetails.authorities.stream()
             .map { item: GrantedAuthority -> item.authority }
             .collect(Collectors.toList())
+
         return JwtResponse(
-                jwt,
-                userDetails.id,
-                userDetails.username,
-                userDetails.email,
-                roles
+            jwt,
+            userDetails.id,
+            userDetails.username,
+            userDetails.email,
+            roles
         )
     }
 }
