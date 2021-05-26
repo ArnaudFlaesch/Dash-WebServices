@@ -5,6 +5,8 @@ import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
+import org.hamcrest.CoreMatchers
+import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.not
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -54,5 +56,16 @@ class ProxyControllerTests {
             .then().log().all()
             .statusCode(500)
             .log().all()
+    }
+
+    @Test
+    fun testEndpointNotAuthenticated() {
+        val error = given().port(port)
+            .param("url", "http://testwrongurl.com")
+            .`when`()
+            .get("/proxy/")
+            .then().log().all()
+            .statusCode(401)
+            .log().all().body("message", equalTo(""))
     }
 }
