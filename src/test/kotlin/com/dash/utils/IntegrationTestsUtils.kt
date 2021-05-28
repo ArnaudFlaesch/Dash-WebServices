@@ -14,7 +14,7 @@ class IntegrationTestsUtils {
                 .port(port)
                 .contentType("application/json")
                 .`when`()
-                .body(LoginRequest("admintest", "TEST_PASSWORD"))
+                .body(LoginRequest("admintest", "adminpassword"))
                 .post("/auth/login/")
                 .then().log().all()
                 .statusCode(200)
