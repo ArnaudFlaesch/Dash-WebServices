@@ -60,7 +60,7 @@ jobs:
 
       - name: Docker build and push TEST
         if: ${GITHUB_REF#refs/*/} != 'develop'
-        id: docker_build
+        id: docker_build_test
         uses: docker/build-push-action@v2
         with:
           push: true
@@ -69,7 +69,7 @@ jobs:
 
       - name: Docker build and push DEV
         if: ${GITHUB_REF#refs/*/} == 'develop'
-        id: docker_build
+        id: docker_build_dev
         uses: docker/build-push-action@v2
         with:
           push: true
