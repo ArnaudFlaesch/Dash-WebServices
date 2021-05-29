@@ -1,7 +1,5 @@
 package com.dash.repository
 
-import com.dash.entity.Tab
-import com.dash.entity.Widget
 import com.dash.enums.RoleEnum
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals

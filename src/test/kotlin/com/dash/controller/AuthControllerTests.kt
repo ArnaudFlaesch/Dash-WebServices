@@ -8,7 +8,6 @@ import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
