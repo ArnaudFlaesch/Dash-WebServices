@@ -27,7 +27,7 @@ databaseChangeLog:
       id: 3
       author: aflaesch
       comment: Dataset for tests
-      context: test, testdocker
+      context: test
       changes:
         - sqlFile:
             dbms: postgresql
@@ -41,7 +41,7 @@ databaseChangeLog:
       id: 4
       author: aflaesch
       comment: Dataset for dev and prod
-      context: dev, prod
+      context: dev,prod
       changes:
         - sqlFile:
             dbms: postgresql
