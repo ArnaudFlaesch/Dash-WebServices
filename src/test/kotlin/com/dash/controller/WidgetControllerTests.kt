@@ -31,6 +31,8 @@ class WidgetControllerTests {
 
     private var jwtToken: String? = null
 
+    private val WIDGET_ENDPOINT = "/widget/"
+
     @BeforeAll
     fun testUp() {
         defaultParser = Parser.JSON
@@ -41,7 +43,7 @@ class WidgetControllerTests {
     fun testGetAllWidgetsByTabId() {
         given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
-            .param("tabId", 1).`when`().get("/widget/")
+            .param("tabId", 1).`when`().get("$WIDGET_ENDPOINT")
             .then().log().all()
             .statusCode(200)
             .log().all()
@@ -57,7 +59,7 @@ class WidgetControllerTests {
             .contentType(ContentType.JSON)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .port(port)
-            .body(widget).`when`().post("/widget/addWidget/")
+            .body(widget).`when`().post("${WIDGET_ENDPOINT}addWidget/")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(Widget::class.java)
@@ -68,7 +70,7 @@ class WidgetControllerTests {
         given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .param("tabId", 10)
-            .`when`().get("/widget/").then().log().all()
+            .`when`().get(WIDGET_ENDPOINT).then().log().all()
             .statusCode(200).log().all()
             .body("size", equalTo(1))
 
@@ -78,7 +80,7 @@ class WidgetControllerTests {
             .header(Header("Authorization", "Bearer $jwtToken"))
             .contentType(ContentType.JSON)
             .port(port)
-            .body(insertedWidget).`when`().post("/widget/updateWidgetData/")
+            .body(insertedWidget).`when`().post("${WIDGET_ENDPOINT}updateWidgetData/")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(Widget::class.java)
@@ -89,7 +91,7 @@ class WidgetControllerTests {
             .header(Header("Authorization", "Bearer $jwtToken"))
             .contentType(ContentType.JSON)
             .port(port)
-            .param("id", updatedWidget.id).`when`().delete("/widget/deleteWidget/")
+            .param("id", updatedWidget.id).`when`().delete("${WIDGET_ENDPOINT}deleteWidget/")
             .then().log().all()
             .statusCode(200)
 
@@ -97,7 +99,7 @@ class WidgetControllerTests {
             .header(Header("Authorization", "Bearer $jwtToken"))
             .port(port)
             .param("tabId", 10)
-            .`when`().get("/widget/").then().log().all()
+            .`when`().get(WIDGET_ENDPOINT).then().log().all()
             .statusCode(200).log().all()
             .body("size", equalTo(0))
     }
@@ -112,7 +114,7 @@ class WidgetControllerTests {
             .header(Header("Authorization", "Bearer $jwtToken"))
             .contentType(ContentType.JSON)
             .port(port)
-            .body(firstWidget).`when`().post("/widget/addWidget/")
+            .body(firstWidget).`when`().post("${WIDGET_ENDPOINT}addWidget/")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(Widget::class.java)
@@ -121,7 +123,7 @@ class WidgetControllerTests {
             .header(Header("Authorization", "Bearer $jwtToken"))
             .contentType(ContentType.JSON)
             .port(port)
-            .body(secondWidget).`when`().post("/widget/addWidget/")
+            .body(secondWidget).`when`().post("${WIDGET_ENDPOINT}addWidget/")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(Widget::class.java)
@@ -139,7 +141,7 @@ class WidgetControllerTests {
             .header(Header("Authorization", "Bearer $jwtToken"))
             .contentType(ContentType.JSON)
             .port(port)
-            .body(listOf(firstInsertedWidget, secondInsertedWidget)).`when`().post("/widget/updateWidgetsOrder/")
+            .body(listOf(firstInsertedWidget, secondInsertedWidget)).`when`().post("${WIDGET_ENDPOINT}updateWidgetsOrder/")
             .then().log().all()
             .statusCode(200)
             .extract().jsonPath().getList("", Widget::class.java)

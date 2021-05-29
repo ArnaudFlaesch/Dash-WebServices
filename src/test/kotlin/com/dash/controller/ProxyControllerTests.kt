@@ -25,6 +25,8 @@ class ProxyControllerTests {
 
     private var jwtToken: String? = null
 
+    private val PROXY_ENDPOINT = "/proxy/"
+
     @BeforeAll
     fun testUp() {
         RestAssured.defaultParser = Parser.JSON
@@ -38,7 +40,7 @@ class ProxyControllerTests {
             .param("url", "http://thelastpictureshow.over-blog.com/rss")
             .header(Header("Authorization", "Bearer $jwtToken"))
             .`when`()
-            .get("/proxy/")
+            .get(PROXY_ENDPOINT)
             .then().log().all()
             .statusCode(200)
             .log().all()
@@ -51,7 +53,7 @@ class ProxyControllerTests {
             .param("url", "http://testwrongurl.com")
             .header(Header("Authorization", "Bearer $jwtToken"))
             .`when`()
-            .get("/proxy/")
+            .get(PROXY_ENDPOINT)
             .then().log().all()
             .statusCode(500)
             .log().all()
@@ -62,7 +64,7 @@ class ProxyControllerTests {
         given().port(port)
             .param("url", "http://testwrongurl.com")
             .`when`()
-            .get("/proxy/")
+            .get(PROXY_ENDPOINT)
             .then().log().all()
             .statusCode(401)
             .log().all().body("message", equalTo(""))
