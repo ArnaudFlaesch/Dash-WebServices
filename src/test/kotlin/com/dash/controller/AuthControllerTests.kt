@@ -1,11 +1,14 @@
 package com.dash.controller
 
-import com.dash.utils.IntegrationTestsUtils
+import com.dash.enums.RoleEnum
+import com.dash.repository.TabDataset
+import com.dash.security.payload.LoginRequest
+import com.dash.security.response.JwtResponse
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
-import io.restassured.http.Header
 import io.restassured.parsing.Parser
-import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.Matchers
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -15,31 +18,32 @@ import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TabDataset
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class WidgetTypeControllerTests {
+class AuthControllerTests {
 
     @LocalServerPort
     private val port: Int = 0
 
-    private var jwtToken: String? = null
-
     @BeforeAll
     fun testUp() {
         defaultParser = Parser.JSON
-        jwtToken = IntegrationTestsUtils.authenticateAdmin(port).accessToken
     }
 
     @Test
-    fun testGetAllWidgetTypes() {
-
-        given().port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+    fun testGetAdmin() {
+        val jwtResponse = given()
+            .port(port)
+            .contentType("application/json")
             .`when`()
-            .get("/widgetTypes/")
+            .body(LoginRequest("admintest", "adminpassword"))
+            .post("/auth/login/")
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .body("size", equalTo(4))
+            .body("$", Matchers.not(equals(null)))
+            .extract().`as`(JwtResponse::class.java)
+        assertEquals(RoleEnum.ROLE_ADMIN.toString(), jwtResponse.roles[0])
     }
 }
