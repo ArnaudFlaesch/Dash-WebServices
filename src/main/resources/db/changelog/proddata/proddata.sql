@@ -1,0 +1,1 @@
+INSERT INTO users(username, password, email, role_id) VALUES('aflaesch', '$2a$10$DzYNkYSoNkDh2/zy3NDJSOWRNi70FQAFdiHxAZHzNlhR6XYcvCGDC', 'arnaud.flaesch93@gmail.com', 2);

@@ -21,6 +21,3 @@ CREATE TABLE IF NOT EXISTS users (
 
 INSERT INTO roles(id, name) VALUES(1, 'ROLE_USER');
 INSERT INTO roles(id, name) VALUES(2, 'ROLE_ADMIN');
-
-INSERT INTO users(username, password, email, role_id) VALUES('aflaesch', '$2a$10$DzYNkYSoNkDh2/zy3NDJSOWRNi70FQAFdiHxAZHzNlhR6XYcvCGDC', 'arnaud.flaesch93@gmail.com', 2);
-

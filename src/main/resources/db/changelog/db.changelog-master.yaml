@@ -27,12 +27,26 @@ databaseChangeLog:
       id: 3
       author: aflaesch
       comment: Dataset for tests
-      context: test
+      context: test, testdocker
       changes:
         - sqlFile:
             dbms: postgresql
             encoding: utf8
             path: /db/changelog/testdata/dataset.sql
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 4
+      author: aflaesch
+      comment: Dataset for dev and prod
+      context: dev, prod
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            path: /db/changelog/proddata/proddata.sql
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
