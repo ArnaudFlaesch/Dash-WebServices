@@ -57,10 +57,10 @@ class UserDetailsImpl(
         return true
     }
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) return true
-        if (o == null || javaClass != o.javaClass) return false
-        val user = o as UserDetailsImpl
+    override fun equals(otherUser: Any?): Boolean {
+        if (this === otherUser) return true
+        if (otherUser == null || javaClass != otherUser.javaClass) return false
+        val user = otherUser as UserDetailsImpl
         return id == user.id
     }
 }
