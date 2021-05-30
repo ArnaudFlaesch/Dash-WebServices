@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class JsonExporter {
-    fun export(entities: List<Any?>?): String {
+    fun export(entities: Any): String {
         val gson = Gson()
         return gson.toJson(entities)
     }

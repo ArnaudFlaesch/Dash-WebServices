@@ -4,6 +4,7 @@ import com.dash.entity.Widget
 import com.dash.repository.WidgetRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import javax.persistence.EntityNotFoundException
 
 @Service
 class WidgetService {
@@ -21,16 +22,24 @@ class WidgetService {
     }
 
     fun updateWidget(widget: Widget): Widget {
-        val oldWidget = widgetRepository.getOne(widget.id)
-        oldWidget.data = widget.data
-        return widgetRepository.save(oldWidget)
+        val oldWidget = widget.id?.let { widgetRepository.getOne(it) }
+        return if (oldWidget != null) {
+            oldWidget.data = widget.data
+            widgetRepository.save(oldWidget)
+        } else {
+            throw EntityNotFoundException()
+        }
     }
 
     fun updateWidgetsOrder(widgets: List<Widget>): List<Widget> {
         return widgets.map { widget ->
-            val oldWidget = widgetRepository.getOne(widget.id)
-            oldWidget.widgetOrder = widget.widgetOrder
-            widgetRepository.save(oldWidget)
+            val oldWidget = widget.id?.let { widgetRepository.getOne(it) }
+            return@map if (oldWidget != null) {
+                oldWidget.widgetOrder = widget.widgetOrder
+                widgetRepository.save(oldWidget)
+            } else {
+                throw EntityNotFoundException()
+            }
         }
     }
 

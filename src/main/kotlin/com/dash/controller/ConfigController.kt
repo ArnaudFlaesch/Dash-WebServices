@@ -1,18 +1,20 @@
 package com.dash.controller
 
+import com.dash.entity.ImportData
 import com.dash.entity.Tab
 import com.dash.service.JsonExporter
 import com.dash.service.TabService
 import com.dash.service.WidgetService
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.gson.Gson
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.json.GsonJsonParser
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @CrossOrigin(origins = ["*"])
@@ -34,7 +36,7 @@ class ConfigController {
     fun downloadJsonFile(): ResponseEntity<ByteArray?>? {
         val widgets: List<Any> = widgetService.getAllWidgets()
         val tabs: List<Tab> = tabService.getTabs()
-        val customerJsonString: String = jsonExporter.export(widgets.plus(tabs))
+        val customerJsonString: String = jsonExporter.export(mapOf("widgets" to widgets, "tabs" to tabs))
         val customerJsonBytes = customerJsonString.toByteArray()
         return ResponseEntity
             .ok()
@@ -42,5 +44,25 @@ class ConfigController {
             .contentType(MediaType.APPLICATION_JSON)
             .contentLength(customerJsonBytes.size.toLong())
             .body(customerJsonBytes)
+    }
+
+    @PostMapping("/import")
+    fun importConfig(@RequestParam("file") file: MultipartFile): Boolean {
+        logger.info("Import commencé")
+        val importData = ObjectMapper().readValue(file.bytes, ImportData::class.java)
+        importData.tabs?.forEach { tab ->
+            val widgets = importData.widgets?.filter { widget ->  widget.tab?.id == tab.id}
+            tab.id = null
+            val insertedTab = tabService.addTab(tab)
+            if (widgets != null) {
+                widgets.forEach { widget ->
+                    widget.tab?.id = insertedTab.id
+                    widget.id = null
+                    widgetService.addWidget(widget)
+                }
+            }
+        }
+        logger.info("Import terminé")
+        return true
     }
 }
