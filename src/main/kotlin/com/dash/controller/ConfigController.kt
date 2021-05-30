@@ -6,10 +6,8 @@ import com.dash.service.JsonExporter
 import com.dash.service.TabService
 import com.dash.service.WidgetService
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.gson.Gson
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.json.GsonJsonParser
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -51,7 +49,7 @@ class ConfigController {
         logger.info("Import commencé")
         val importData = ObjectMapper().readValue(file.bytes, ImportData::class.java)
         importData.tabs?.forEach { tab ->
-            val widgets = importData.widgets?.filter { widget ->  widget.tab?.id == tab.id}
+            val widgets = importData.widgets?.filter { widget -> widget.tab?.id == tab.id }
             tab.id = null
             val insertedTab = tabService.addTab(tab)
             if (widgets != null) {
