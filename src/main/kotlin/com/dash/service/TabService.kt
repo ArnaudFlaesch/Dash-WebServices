@@ -14,7 +14,7 @@ class TabService {
     @Autowired
     private lateinit var widgetService: WidgetService
 
-    fun getTabs():List<Tab> {
+    fun getTabs(): List<Tab> {
         return tabRepository.findByOrderByTabOrderAsc()
     }
 

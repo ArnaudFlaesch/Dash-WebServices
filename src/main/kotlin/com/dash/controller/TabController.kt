@@ -1,9 +1,7 @@
 package com.dash.controller
 
 import com.dash.entity.Tab
-import com.dash.repository.TabRepository
 import com.dash.service.TabService
-import com.dash.service.WidgetService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
