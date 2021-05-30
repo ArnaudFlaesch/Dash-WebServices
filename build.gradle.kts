@@ -4,11 +4,14 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 val kotlinVersion = "1.5.10"
 val springBootVersion = "2.5.0"
 val jwtVersion = "0.9.1"
+
 val jacksonModuleKotlinVersion = "2.12.3"
 val jacksonModuleJaxbVersion = "2.12.2"
 val log4jVersion = "2.14.1"
+
 val liquibaseVersion = "4.3.5"
 val postgresqlVersion = "42.2.20"
+val gsonVersion = "2.8.6"
 
 val restAssuredVersion = "4.4.0"
 val junitVersion = "5.7.2"
@@ -60,6 +63,7 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
     implementation("com.vladmihalcea:hibernate-types-52:$hibernateTypesVersion")
+    implementation("com.google.code.gson:gson:$gsonVersion")
 
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("io.rest-assured:json-path:$restAssuredVersion")

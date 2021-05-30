@@ -13,28 +13,21 @@ import org.springframework.web.bind.annotation.*
 class TabController {
 
     @Autowired
-    private lateinit var tabRepository: TabRepository
-
-    @Autowired
     private lateinit var tabService: TabService
-
-    @Autowired
-    private lateinit var widgetService: WidgetService
 
     @GetMapping("/")
     fun getTabs(): List<Tab> {
-        return (tabRepository.findByOrderByTabOrderAsc())
+        return (tabService.getTabs())
     }
 
     @PostMapping("/addTab")
     fun addTab(@RequestBody tab: Tab): Tab {
-        tab.tabOrder = tabRepository.getNumberOfTabs() + 1
-        return tabRepository.save(tab)
+        return tabService.addTab(tab)
     }
 
     @PostMapping("/updateTab")
     fun updateTab(@RequestBody tab: Tab): Tab {
-        return tabRepository.save(tab)
+        return tabService.updateTab(tab)
     }
 
     @PostMapping("/updateTabs")
@@ -44,8 +37,6 @@ class TabController {
 
     @DeleteMapping("/deleteTab")
     fun deleteTab(@RequestParam(value = "id") id: Int) {
-        widgetService.deleteWidgetsByTabId(id)
-        val tab = tabRepository.getOne(id)
-        return tabRepository.delete(tab)
+        return tabService.deleteTab(id)
     }
 }

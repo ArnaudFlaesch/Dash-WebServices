@@ -10,6 +10,10 @@ class WidgetService {
     @Autowired
     private lateinit var widgetRepository: WidgetRepository
 
+    fun getAllWidgets(): List<Widget> {
+        return widgetRepository.findAll()
+    }
+
     fun addWidget(widget: Widget): Widget {
         val widgetOrder = widgetRepository.getNumberOfWidgetsByTab(widget.tab?.id!!) + 1
         widget.widgetOrder = widgetOrder
