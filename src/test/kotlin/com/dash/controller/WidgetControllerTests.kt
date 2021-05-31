@@ -3,14 +3,18 @@ package com.dash.controller
 import com.dash.entity.Tab
 import com.dash.entity.Widget
 import com.dash.repository.TabDataset
+import com.dash.utils.IntegrationTestsUtils
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
@@ -19,17 +23,27 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TabDataset
 @ExtendWith(SpringExtension::class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class WidgetControllerTests {
 
     @LocalServerPort
     private val port: Int = 0
 
+    private var jwtToken: String? = null
+
+    private val WIDGET_ENDPOINT = "/widget/"
+
+    @BeforeAll
+    fun testUp() {
+        defaultParser = Parser.JSON
+        jwtToken = IntegrationTestsUtils.authenticateAdmin(port).accessToken
+    }
+
     @Test
     fun testGetAllWidgetsByTabId() {
-        defaultParser = Parser.JSON
-
         given().port(port)
-            .param("tabId", 1).`when`().get("/widget/")
+            .header(Header("Authorization", "Bearer $jwtToken"))
+            .param("tabId", 1).`when`().get("$WIDGET_ENDPOINT")
             .then().log().all()
             .statusCode(200)
             .log().all()
@@ -41,9 +55,11 @@ class WidgetControllerTests {
         val tab = Tab(10)
         val widget = Widget(type = 2, tab = tab)
 
-        val insertedWidget: Widget = given().contentType(ContentType.JSON)
+        val insertedWidget: Widget = given()
+            .contentType(ContentType.JSON)
+            .header(Header("Authorization", "Bearer $jwtToken"))
             .port(port)
-            .body(widget).`when`().post("/widget/addWidget/")
+            .body(widget).`when`().post("${WIDGET_ENDPOINT}addWidget/")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(Widget::class.java)
@@ -52,31 +68,38 @@ class WidgetControllerTests {
         assertEquals(insertedWidget.type, widget.type)
 
         given().port(port)
+            .header(Header("Authorization", "Bearer $jwtToken"))
             .param("tabId", 10)
-            .`when`().get("/widget/").then().log().all()
+            .`when`().get(WIDGET_ENDPOINT).then().log().all()
             .statusCode(200).log().all()
             .body("size", equalTo(1))
 
         insertedWidget.widgetOrder = 0
 
-        val updatedWidget: Widget = given().contentType(ContentType.JSON)
+        val updatedWidget: Widget = given()
+            .header(Header("Authorization", "Bearer $jwtToken"))
+            .contentType(ContentType.JSON)
             .port(port)
-            .body(insertedWidget).`when`().post("/widget/updateWidgetData/")
+            .body(insertedWidget).`when`().post("${WIDGET_ENDPOINT}updateWidgetData/")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(Widget::class.java)
 
         assertEquals(insertedWidget.data, updatedWidget.data)
 
-        given().contentType(ContentType.JSON)
+        given()
+            .header(Header("Authorization", "Bearer $jwtToken"))
+            .contentType(ContentType.JSON)
             .port(port)
-            .param("id", updatedWidget.id).`when`().delete("/widget/deleteWidget/")
+            .param("id", updatedWidget.id).`when`().delete("${WIDGET_ENDPOINT}deleteWidget/")
             .then().log().all()
             .statusCode(200)
 
-        given().port(port)
+        given()
+            .header(Header("Authorization", "Bearer $jwtToken"))
+            .port(port)
             .param("tabId", 10)
-            .`when`().get("/widget/").then().log().all()
+            .`when`().get(WIDGET_ENDPOINT).then().log().all()
             .statusCode(200).log().all()
             .body("size", equalTo(0))
     }
@@ -87,16 +110,20 @@ class WidgetControllerTests {
         val firstWidget = Widget(type = 2, tab = tab)
         val secondWidget = Widget(type = 3, tab = tab)
 
-        val firstInsertedWidget: Widget = given().contentType(ContentType.JSON)
+        val firstInsertedWidget: Widget = given()
+            .header(Header("Authorization", "Bearer $jwtToken"))
+            .contentType(ContentType.JSON)
             .port(port)
-            .body(firstWidget).`when`().post("/widget/addWidget/")
+            .body(firstWidget).`when`().post("${WIDGET_ENDPOINT}addWidget/")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(Widget::class.java)
 
-        val secondInsertedWidget: Widget = given().contentType(ContentType.JSON)
+        val secondInsertedWidget: Widget = given()
+            .header(Header("Authorization", "Bearer $jwtToken"))
+            .contentType(ContentType.JSON)
             .port(port)
-            .body(secondWidget).`when`().post("/widget/addWidget/")
+            .body(secondWidget).`when`().post("${WIDGET_ENDPOINT}addWidget/")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(Widget::class.java)
@@ -110,9 +137,11 @@ class WidgetControllerTests {
         firstInsertedWidget.widgetOrder = 2
         secondInsertedWidget.widgetOrder = 3
 
-        val updatedWidgets: List<Widget> = given().contentType(ContentType.JSON)
+        val updatedWidgets: List<Widget> = given()
+            .header(Header("Authorization", "Bearer $jwtToken"))
+            .contentType(ContentType.JSON)
             .port(port)
-            .body(listOf(firstInsertedWidget, secondInsertedWidget)).`when`().post("/widget/updateWidgetsOrder/")
+            .body(listOf(firstInsertedWidget, secondInsertedWidget)).`when`().post("${WIDGET_ENDPOINT}updateWidgetsOrder/")
             .then().log().all()
             .statusCode(200)
             .extract().jsonPath().getList("", Widget::class.java)
