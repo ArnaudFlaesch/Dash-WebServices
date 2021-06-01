@@ -3,7 +3,6 @@ package com.dash.controller
 import com.dash.entity.ImportData
 import com.dash.repository.TabDataset
 import com.dash.repository.WidgetDataset
-import com.dash.security.response.JwtResponse
 import com.dash.utils.IntegrationTestsUtils
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
@@ -21,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.core.io.ClassPathResource
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.io.File
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TabDataset

@@ -14,7 +14,7 @@ class TabService {
     @Autowired
     private lateinit var widgetService: WidgetService
 
-    fun getTabs(): List<Tab> =      tabRepository.findByOrderByTabOrderAsc()
+    fun getTabs(): List<Tab> = tabRepository.findByOrderByTabOrderAsc()
 
     fun addTab(tabToAdd: Tab): Tab {
         tabToAdd.tabOrder = tabRepository.getNumberOfTabs() + 1
