@@ -1,7 +1,6 @@
 package com.dash.controller
 
 import com.dash.enums.RoleEnum
-import com.dash.repository.TabDataset
 import com.dash.security.payload.LoginRequest
 import com.dash.security.response.JwtResponse
 import io.restassured.RestAssured.defaultParser
@@ -18,7 +17,6 @@ import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TabDataset
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AuthControllerTests {
