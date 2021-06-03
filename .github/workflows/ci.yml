@@ -59,7 +59,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Docker build and push TEST
-        if: github.ref != 'refs/heads/develop'
+        if: github.ref != 'refs/heads/develop' && !contains(github.ref, 'renovate/')
         run : |
           docker build -t dashwebservices .
           docker tag dashwebservices arnaudf93/dashwebservices:${GITHUB_REF#refs/*/}
