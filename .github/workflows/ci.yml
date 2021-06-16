@@ -58,7 +58,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-<<<<<<< HEAD
       - name: Docker build and push TEST
         if: github.ref != 'refs/heads/develop' && !contains(github.ref, 'renovate/')
         run : |
@@ -73,13 +72,3 @@ jobs:
           docker build -t dashwebservices .
           docker tag dashwebservices arnaudf93/dashwebservices:latest
           docker push arnaudf93/dashwebservices:latest
-=======
-      - name: Docker build and push
-        if: github.ref == 'refs/heads/develop'
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          context: .
-          tags: arnaudf93/dashwebservices:latest
->>>>>>> master

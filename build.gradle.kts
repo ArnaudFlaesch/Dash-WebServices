@@ -1,19 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
-<<<<<<< HEAD
 val kotlinVersion = "1.5.10"
 val springBootVersion = "2.5.1"
 val jwtVersion = "0.9.1"
 
-=======
-val kotlinVersion = "1.5.0"
-val springBootVersion = "2.4.5"
->>>>>>> master
 val jacksonModuleKotlinVersion = "2.12.3"
 val jacksonModuleJaxbVersion = "2.12.3"
 val log4jVersion = "2.14.1"
-<<<<<<< HEAD
 
 val liquibaseVersion = "4.4.0"
 val postgresqlVersion = "42.2.21"
@@ -22,24 +16,12 @@ val gsonVersion = "2.8.7"
 val restAssuredVersion = "4.4.0"
 val junitVersion = "5.7.2"
 val hibernateTypesVersion = "2.12.0"
-=======
-val liquibaseVersion = "4.3.5"
-val postgresqlVersion = "42.2.20"
-
-val restAssuredVersion = "4.2.0"
-val junitVersion = "5.7.2"
-val hibernateTypesVersion = "2.11.1"
->>>>>>> master
 val ktlintVersion = "0.41.0"
 
 val ktlint: Configuration by configurations.creating
 
 plugins {
-<<<<<<< HEAD
     val kotlinVersion = "1.5.10"
-=======
-    val kotlinVersion = "1.5.0"
->>>>>>> master
     val springBootVersion = "2.4.4"
     val springDependencyManagementVersion = "1.0.11.RELEASE"
     val codacyPluginVersion = "0.1.0"
@@ -97,7 +79,6 @@ dependencies {
 
 jacoco {
     toolVersion = "0.8.7"
-<<<<<<< HEAD
 }
 
 configurations.all {
@@ -107,8 +88,6 @@ configurations.all {
             this.because("needed by rest-assured>=4.3")
         }
     }
-=======
->>>>>>> master
 }
 
 tasks.jacocoTestReport {

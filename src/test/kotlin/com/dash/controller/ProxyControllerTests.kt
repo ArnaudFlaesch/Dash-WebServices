@@ -49,16 +49,9 @@ class ProxyControllerTests {
 
     @Test
     fun testGetUrlError() {
-<<<<<<< HEAD
         given().port(port)
             .param("url", "http://testwrongurl.com")
             .header(Header("Authorization", "Bearer $jwtToken"))
-=======
-        RestAssured.defaultParser = Parser.XML
-
-        RestAssured.given().port(port)
-            .param("url", "http://testwrongurl.com")
->>>>>>> master
             .`when`()
             .get(PROXY_ENDPOINT)
             .then().log().all()
