@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
-val kotlinVersion = "1.5.10"
+val kotlinVersion = "1.5.20"
 val springBootVersion = "2.5.2"
 val jwtVersion = "0.9.1"
 
