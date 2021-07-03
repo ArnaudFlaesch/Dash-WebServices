@@ -51,7 +51,7 @@ class TabControllerTests {
 
     @Test
     fun testAddUpdateDeleteTab() {
-        val newTab = Tab(null, "LabelTest")
+        val newTab = Tab(0, "LabelTest")
 
         val insertedTab: Tab = given().port(port)
             .contentType(ContentType.JSON)

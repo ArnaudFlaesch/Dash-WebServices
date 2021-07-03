@@ -19,8 +19,8 @@ class WidgetRepositoryTests {
 
     @Test
     fun testInsertWidgets() {
-        val w1 = Widget(1, 2, null, 1, Tab(10, null, null))
-        val w2 = Widget(2, 3, null, 2, Tab(10, null, null))
+        val w1 = Widget(1, 2, "{}", 1, Tab(10, null, null))
+        val w2 = Widget(2, 3, "{}", 2, Tab(10, null, null))
         widgetRepository.save(w1)
         widgetRepository.save(w2)
 

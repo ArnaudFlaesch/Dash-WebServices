@@ -53,7 +53,7 @@ class WidgetControllerTests {
     @Test
     fun insertWidgetToDatabase() {
         val tab = Tab(10)
-        val widget = Widget(type = 2, tab = tab)
+        val widget = Widget(id = 0, type = 2, tab = tab, data = "{}")
 
         val insertedWidget: Widget = given()
             .contentType(ContentType.JSON)
@@ -107,8 +107,8 @@ class WidgetControllerTests {
     @Test
     fun testUpdateWidgetsOrder() {
         val tab = Tab(10)
-        val firstWidget = Widget(type = 2, tab = tab)
-        val secondWidget = Widget(type = 3, tab = tab)
+        val firstWidget = Widget(id = 0, type = 2, data = "{}", tab = tab)
+        val secondWidget = Widget(id = 0, type = 3, data = "{}", tab = tab)
 
         val firstInsertedWidget: Widget = given()
             .header(Header("Authorization", "Bearer $jwtToken"))
