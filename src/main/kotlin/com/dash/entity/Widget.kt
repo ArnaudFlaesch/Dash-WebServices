@@ -5,7 +5,6 @@ import com.vladmihalcea.hibernate.type.json.JsonStringType
 import org.hibernate.annotations.Type
 import org.hibernate.annotations.TypeDef
 import org.hibernate.annotations.TypeDefs
-import org.springframework.lang.NonNull
 import java.io.Serializable
 import javax.persistence.*
 
