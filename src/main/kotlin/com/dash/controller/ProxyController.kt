@@ -1,10 +1,7 @@
 package com.dash.controller
 
-import com.dash.exceptions.ConnectionErrorException
-import com.dash.exceptions.WrongUrlException
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
-import java.io.IOException
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -20,23 +17,16 @@ class ProxyController {
     @GetMapping("/")
     fun getUrlFromProxy(@RequestParam(value = "url") url: String): Any? {
         val client = HttpClient.newHttpClient()
-        return try {
-            val request = HttpRequest.newBuilder()
-                .uri(
-                    URI.create(
-                        url.replace(" ", "%20")
-                            .replace("#", "%23")
-                            .replace("@", "%40")
-                    ).normalize()
-                )
-                .build()
-            client.send(request, HttpResponse.BodyHandlers.ofString()).body()
-        } catch (error: IOException) {
-            logger.error(error.message + " " + url)
-            throw WrongUrlException("Mauvaise URL $url")
-        } catch (error: InterruptedException) {
-            logger.error(error.message + " " + url)
-            throw ConnectionErrorException("Problème lors de l'envoi de la requête.")
-        }
+
+        val request = HttpRequest.newBuilder()
+            .uri(
+                URI.create(
+                    url.replace(" ", "%20")
+                        .replace("#", "%23")
+                        .replace("@", "%40")
+                ).normalize()
+            )
+            .build()
+        return client.send(request, HttpResponse.BodyHandlers.ofString()).body()
     }
 }
