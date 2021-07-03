@@ -24,7 +24,7 @@ data class Widget(
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "json")
-    val data: Any? = "",
+    val data: Any? = "{}",
 
     var widgetOrder: Int? = 0,
 
@@ -33,6 +33,6 @@ data class Widget(
     var tab: Tab?
 ) : Serializable {
     companion object {
-        private const val serialVersionUID: Long = 123
+        private const val serialVersionUID: Long = 1
     }
 }
