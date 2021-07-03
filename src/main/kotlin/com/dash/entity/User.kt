@@ -6,9 +6,13 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
 @Entity
-@Table(name = "users",
-    uniqueConstraints = [UniqueConstraint(columnNames = ["username"]),
-    UniqueConstraint(columnNames = ["email"])])
+@Table(
+    name = "users",
+    uniqueConstraints = [
+        UniqueConstraint(columnNames = ["username"]),
+        UniqueConstraint(columnNames = ["email"])
+    ]
+)
 class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

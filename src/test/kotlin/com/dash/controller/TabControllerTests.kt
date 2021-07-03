@@ -117,7 +117,6 @@ class TabControllerTests {
             .get("/tab/")
             .then().log().all()
             .statusCode(200)
-            .log().all()
             .body("size", equalTo(1))
     }
 }

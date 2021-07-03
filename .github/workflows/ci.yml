@@ -42,7 +42,9 @@ jobs:
         run: chmod +x gradlew
 
       - name: Lint
-        run: ./gradlew ktlintCheck
+        run: |
+          ./gradlew detekt
+          ./gradlew ktlintCheck
 
       - name: Build with Gradle
         run: ./gradlew clean build -Dspring.profiles.active=test -Dspring.config.location=src/test/resources/application-test.properties
