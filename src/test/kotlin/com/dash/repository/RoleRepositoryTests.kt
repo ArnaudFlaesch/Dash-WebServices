@@ -19,6 +19,8 @@ class RoleRepositoryTests {
     fun testGetAllRoles() {
         val rolesFromDatabase = roleRepository.findAll()
         assertEquals(2, rolesFromDatabase.size)
+        assertEquals(1, rolesFromDatabase[0].id)
+        assertEquals(2, rolesFromDatabase[1].id)
         assertEquals(RoleEnum.ROLE_USER, rolesFromDatabase[0].name)
         assertEquals(RoleEnum.ROLE_ADMIN, rolesFromDatabase[1].name)
     }

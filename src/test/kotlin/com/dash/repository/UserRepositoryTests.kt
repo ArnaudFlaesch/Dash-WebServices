@@ -2,8 +2,7 @@ package com.dash.repository
 
 import com.dash.enums.RoleEnum
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,9 +30,16 @@ class UserRepositoryTests {
         if (user.isEmpty) {
             fail()
         } else {
+            assertNotNull(user.get().id)
             assertEquals("usertest", user.get().username)
             assertEquals(RoleEnum.ROLE_USER, user.get().role.name)
             assertEquals("user@email.com", user.get().email)
         }
+    }
+
+    @Test
+    fun testGetUserByUsernameWrongUsername() {
+        val user = userRepository.findByUsername("usertestFail")
+        assertTrue(user.isEmpty)
     }
 }

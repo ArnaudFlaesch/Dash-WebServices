@@ -44,4 +44,18 @@ class AuthControllerTests {
             .extract().`as`(JwtResponse::class.java)
         assertEquals(RoleEnum.ROLE_ADMIN.toString(), jwtResponse.roles[0])
     }
+
+    @Test
+    fun testGetUserWrongUsername() {
+        given()
+            .port(port)
+            .contentType("application/json")
+            .`when`()
+            .body(LoginRequest("wrongUsername", "wrongPassword"))
+            .post("/auth/login/")
+            .then().log().all()
+            .statusCode(401)
+            .log().all()
+            .body("$", Matchers.notNullValue())
+    }
 }

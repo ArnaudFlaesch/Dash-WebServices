@@ -13,7 +13,10 @@ import javax.validation.constraints.Size
         UniqueConstraint(columnNames = ["email"])
     ]
 )
-class User(
+data class User(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long,
     @NotBlank
     @Size(max = 20) var username: String?,
     @NotBlank
@@ -23,8 +26,5 @@ class User(
     @Size(max = 120) var password: String?,
     @ManyToOne
     @JoinColumn(name = "roleId")
-    val role: Role,
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long
+    val role: Role
 )
