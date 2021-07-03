@@ -14,27 +14,18 @@ class WidgetController {
     private lateinit var widgetService: WidgetService
 
     @GetMapping("/")
-    fun getWidgets(@RequestParam(value = "tabId") tabId: Int): List<Widget> {
-        return widgetService.findByTabIdOrderByWidgetOrderAsc(tabId)
-    }
+    fun getWidgets(@RequestParam(value = "tabId") tabId: Int): List<Widget> =
+        widgetService.findByTabIdOrderByWidgetOrderAsc(tabId)
 
     @PostMapping("/addWidget")
-    fun addWidget(@RequestBody widget: Widget): Widget {
-        return widgetService.addWidget(widget)
-    }
+    fun addWidget(@RequestBody widget: Widget): Widget = widgetService.addWidget(widget)
 
     @PostMapping("/updateWidgetData")
-    fun updateWidgetData(@RequestBody widget: Widget): Widget {
-        return widgetService.updateWidget(widget)
-    }
+    fun updateWidgetData(@RequestBody widget: Widget): Widget = widgetService.updateWidget(widget)
 
     @PostMapping("/updateWidgetsOrder")
-    fun updateWidgetsOrder(@RequestBody widgets: List<Widget>): List<Widget> {
-        return widgetService.updateWidgetsOrder(widgets)
-    }
+    fun updateWidgetsOrder(@RequestBody widgets: List<Widget>): List<Widget> = widgetService.updateWidgetsOrder(widgets)
 
     @DeleteMapping("/deleteWidget")
-    fun deleteWidget(@RequestParam(value = "id") id: Int) {
-        return widgetService.deleteWidget(id)
-    }
+    fun deleteWidget(@RequestParam(value = "id") id: Int) = widgetService.deleteWidget(id)
 }

@@ -1,7 +1,10 @@
 package com.dash.controller
 
+import com.dash.exceptions.ConnectionErrorException
+import com.dash.exceptions.WrongUrlException
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
+import java.io.IOException
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -28,9 +31,12 @@ class ProxyController {
                 )
                 .build()
             client.send(request, HttpResponse.BodyHandlers.ofString()).body()
-        } catch (error: Exception) {
+        } catch (error: IOException) {
             logger.error(error.message + " " + url)
-            throw Error("Mauvaise URL $url")
+            throw WrongUrlException("Mauvaise URL $url")
+        } catch (error: InterruptedException) {
+            logger.error(error.message + " " + url)
+            throw ConnectionErrorException("Problème lors de l'envoi de la requête.")
         }
     }
 }

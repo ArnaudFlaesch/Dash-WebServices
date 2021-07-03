@@ -31,4 +31,8 @@ data class Widget(
     @ManyToOne(optional = true)
     @JoinColumn(name = "tabId")
     var tab: Tab?
-) : Serializable
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+}

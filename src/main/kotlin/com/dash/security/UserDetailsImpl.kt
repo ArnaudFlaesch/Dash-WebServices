@@ -17,7 +17,7 @@ class UserDetailsImpl(
     companion object {
         private const val serialVersionUID = 1L
         fun build(user: User): UserDetailsImpl {
-            val authorities: List<GrantedAuthority> = listOf(SimpleGrantedAuthority(user.role?.getName()?.name))
+            val authorities: List<GrantedAuthority> = listOf(SimpleGrantedAuthority(user.role?.name?.name))
 
             return UserDetailsImpl(
                 user.id,
@@ -57,10 +57,19 @@ class UserDetailsImpl(
         return true
     }
 
-    override fun equals(otherUser: Any?): Boolean {
-        if (this === otherUser) return true
-        if (otherUser == null || javaClass != otherUser.javaClass) return false
-        val user = otherUser as UserDetailsImpl
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val user = other as UserDetailsImpl
         return id == user.id
+    }
+
+    override fun hashCode(): Int {
+        var result = id?.hashCode() ?: 0
+        result = 31 * result + (username?.hashCode() ?: 0)
+        result = 31 * result + (email?.hashCode() ?: 0)
+        result = 31 * result + (password?.hashCode() ?: 0)
+        result = 31 * result + authorities.hashCode()
+        return result
     }
 }

@@ -40,7 +40,7 @@ class AuthControllerTests {
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .body("$", Matchers.not(equals(null)))
+            .body("$", Matchers.notNullValue())
             .extract().`as`(JwtResponse::class.java)
         assertEquals(RoleEnum.ROLE_ADMIN.toString(), jwtResponse.roles[0])
     }

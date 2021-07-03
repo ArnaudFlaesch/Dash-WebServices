@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
+import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 
 val kotlinVersion = "1.5.20"
 val springBootVersion = "2.5.2"
@@ -16,6 +18,8 @@ val gsonVersion = "2.8.7"
 val restAssuredVersion = "4.4.0"
 val junitVersion = "5.7.2"
 val hibernateTypesVersion = "2.12.0"
+
+val detektVersion = "1.17.1"
 val ktlintVersion = "0.41.0"
 
 val ktlint: Configuration by configurations.creating
@@ -25,18 +29,21 @@ plugins {
     val springBootVersion = "2.4.4"
     val springDependencyManagementVersion = "1.0.11.RELEASE"
     val codacyPluginVersion = "0.1.0"
+    val detektVersion = "1.17.1"
 
     jacoco
     id("org.springframework.boot") version springBootVersion
     id("io.spring.dependency-management") version springDependencyManagementVersion
     id("io.github.ddimtirov.codacy") version codacyPluginVersion
+    id("io.gitlab.arturbosch.detekt") version detektVersion
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion
 }
+
 group = "com.dash"
 version = "0.2.0"
-java.sourceCompatibility = JavaVersion.VERSION_16
+java.sourceCompatibility = JavaVersion.VERSION_15
 
 repositories {
     mavenCentral()
@@ -65,6 +72,8 @@ dependencies {
     implementation("com.vladmihalcea:hibernate-types-52:$hibernateTypesVersion")
     implementation("com.google.code.gson:gson:$gsonVersion")
 
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
+
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("io.rest-assured:json-path:$restAssuredVersion")
     testImplementation("io.rest-assured:xml-path:$restAssuredVersion")
@@ -75,10 +84,6 @@ dependencies {
     }
 
     ktlint("com.pinterest:ktlint:${ktlintVersion}")
-}
-
-jacoco {
-    toolVersion = "0.8.7"
 }
 
 configurations.all {
@@ -92,8 +97,8 @@ configurations.all {
 
 tasks.jacocoTestReport {
     reports {
-        xml.isEnabled = true
-        html.isEnabled = true
+        xml.required.set(true)
+        html.required.set(true)
     }
 }
 
@@ -111,29 +116,47 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "16"
+        jvmTarget = "15"
     }
 }
 
-val outputDir = "${project.buildDir}/reports/ktlint/"
+tasks.withType<Detekt>().configureEach {
+    jvmTarget = "15"
+}
+
+detekt {
+    buildUponDefaultConfig = true // preconfigure defaults
+    allRules = false // activate all available (even unstable) rules.
+    config = files(file("$projectDir/detekt.yml"))
+    autoCorrect = true
+
+    reports {
+        html.enabled = true // observe findings in your browser with structure and code snippets
+        xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
+        txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
+        sarif.enabled = true // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
+    }
+}
+
+val ktLintOutputDir = "${project.buildDir}/reports/ktlint/"
 val inputFiles = project.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
 
 val ktlintCheck by tasks.creating(JavaExec::class) {
     inputs.files(inputFiles)
-    outputs.dir(outputDir)
+    outputs.dir(ktLintOutputDir)
 
     description = "Check Kotlin code style."
     classpath = ktlint
-    main = "com.pinterest.ktlint.Main"
+    mainClass.set("com.pinterest.ktlint.Main")
     args = listOf("src/**/*.kt")
 }
 
 val ktlintFormat by tasks.creating(JavaExec::class) {
     inputs.files(inputFiles)
-    outputs.dir(outputDir)
+    outputs.dir(ktLintOutputDir)
 
     description = "Fix Kotlin code style deviations."
     classpath = ktlint
-    main = "com.pinterest.ktlint.Main"
+    mainClass.set("com.pinterest.ktlint.Main")
     args = listOf("-F", "src/**/*.kt")
 }

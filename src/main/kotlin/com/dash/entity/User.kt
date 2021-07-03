@@ -6,7 +6,9 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
 @Entity
-@Table(name = "users", uniqueConstraints = [UniqueConstraint(columnNames = ["username"]), UniqueConstraint(columnNames = ["email"])])
+@Table(name = "users",
+    uniqueConstraints = [UniqueConstraint(columnNames = ["username"]),
+    UniqueConstraint(columnNames = ["email"])])
 class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +31,6 @@ class User {
     @JoinColumn(name = "roleId")
     var role: Role? = null
 
-    constructor() {}
     constructor(username: String?, email: String?, password: String?) {
         this.username = username
         this.email = email
