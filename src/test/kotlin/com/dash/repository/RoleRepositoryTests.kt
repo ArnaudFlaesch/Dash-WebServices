@@ -22,5 +22,4 @@ class RoleRepositoryTests {
         assertEquals(RoleEnum.ROLE_USER, rolesFromDatabase[0].name)
         assertEquals(RoleEnum.ROLE_ADMIN, rolesFromDatabase[1].name)
     }
-
 }
