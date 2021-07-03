@@ -13,31 +13,20 @@ import javax.validation.constraints.Size
         UniqueConstraint(columnNames = ["email"])
     ]
 )
-class User {
+class User(
+    @NotBlank
+    @Size(max = 20) var username: String?,
+    @NotBlank
+    @Size(max = 50)
+    @Email var email: String?,
+    @NotBlank
+    @Size(max = 120) var password: String?
+) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
-    @NotBlank
-    @Size(max = 20)
-    var username: String? = null
-
-    @NotBlank
-    @Size(max = 50)
-    @Email
-    var email: String? = null
-
-    @NotBlank
-    @Size(max = 120)
-    var password: String? = null
-
     @ManyToOne
     @JoinColumn(name = "roleId")
     var role: Role? = null
-
-    constructor(username: String?, email: String?, password: String?) {
-        this.username = username
-        this.email = email
-        this.password = password
-    }
 }

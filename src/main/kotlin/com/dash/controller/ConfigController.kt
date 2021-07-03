@@ -50,12 +50,9 @@ class ConfigController {
         val importData = ObjectMapper().readValue(file.bytes, ImportData::class.java)
         importData.tabs.forEach { tab ->
             val widgets = importData.widgets.filter { widget -> widget.tab?.id == tab.id }
-            tab.id = null
-            val insertedTab = tabService.addTab(tab)
+            val insertedTab = tabService.addTab(tab.copy(id = 0))
             widgets.forEach { widget ->
-                widget.tab?.id = insertedTab.id
-                widget.id = null
-                widgetService.addWidget(widget)
+                widgetService.addWidget(widget.copy(id = 0, tab = insertedTab))
             }
         }
         logger.info("Import terminé")

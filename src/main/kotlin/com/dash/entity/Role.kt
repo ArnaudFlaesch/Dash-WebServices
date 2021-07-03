@@ -8,7 +8,7 @@ import javax.persistence.*
 data class Role(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int? = null,
+    val id: Int,
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
