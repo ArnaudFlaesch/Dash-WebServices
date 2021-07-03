@@ -17,7 +17,7 @@ class UserDetailsImpl(
     companion object {
         private const val serialVersionUID = 1L
         fun build(user: User): UserDetailsImpl {
-            val authorities: List<GrantedAuthority> = listOf(SimpleGrantedAuthority(user.role?.name?.name))
+            val authorities: List<GrantedAuthority> = listOf(SimpleGrantedAuthority(user.role.name.name))
 
             return UserDetailsImpl(
                 user.id,

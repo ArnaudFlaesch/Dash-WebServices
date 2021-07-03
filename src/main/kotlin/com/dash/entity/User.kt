@@ -20,13 +20,11 @@ class User(
     @Size(max = 50)
     @Email var email: String?,
     @NotBlank
-    @Size(max = 120) var password: String?
-) {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null
-
+    @Size(max = 120) var password: String?,
     @ManyToOne
     @JoinColumn(name = "roleId")
-    var role: Role? = null
-}
+    val role: Role,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long
+)

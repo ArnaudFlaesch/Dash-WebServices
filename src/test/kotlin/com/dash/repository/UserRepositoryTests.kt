@@ -22,8 +22,8 @@ class UserRepositoryTests {
     fun testGetUsers() {
         val listUsers = userRepository.findAll()
         assertThat(listUsers).hasSize(2)
-        assertThat(listUsers[0].role?.name).isEqualTo(RoleEnum.ROLE_USER)
-        assertThat(listUsers[1].role?.name).isEqualTo(RoleEnum.ROLE_ADMIN)
+        assertThat(listUsers[0].role.name).isEqualTo(RoleEnum.ROLE_USER)
+        assertThat(listUsers[1].role.name).isEqualTo(RoleEnum.ROLE_ADMIN)
     }
 
     @Test
@@ -33,7 +33,7 @@ class UserRepositoryTests {
             fail()
         } else {
             assertEquals("usertest", user.get().username)
-            assertEquals(RoleEnum.ROLE_USER, user.get().role?.name ?: fail())
+            assertEquals(RoleEnum.ROLE_USER, user.get().role.name)
             assertEquals("user@email.com", user.get().email)
         }
     }
