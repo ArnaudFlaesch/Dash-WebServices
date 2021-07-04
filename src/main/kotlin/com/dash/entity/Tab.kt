@@ -10,7 +10,7 @@ data class Tab(
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
 
-    var label: String? = null,
+    val label: String = "",
 
-    var tabOrder: Int? = 0
+    val tabOrder: Int
 )

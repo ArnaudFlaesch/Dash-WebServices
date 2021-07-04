@@ -52,8 +52,8 @@ class WidgetControllerTests {
 
     @Test
     fun insertWidgetToDatabase() {
-        val tab = Tab(10)
-        val widget = Widget(id = 0, type = 2, tab = tab, data = "{}")
+        val tab = Tab(10, "", 1)
+        val widget = Widget(0, 2, "{}", 1, tab)
 
         val insertedWidget: Widget = given()
             .contentType(ContentType.JSON)
@@ -74,13 +74,11 @@ class WidgetControllerTests {
             .statusCode(200).log().all()
             .body("size", equalTo(1))
 
-        insertedWidget.widgetOrder = 0
-
         val updatedWidget: Widget = given()
             .header(Header("Authorization", "Bearer $jwtToken"))
             .contentType(ContentType.JSON)
             .port(port)
-            .body(insertedWidget).`when`().post("${WIDGET_ENDPOINT}updateWidgetData/")
+            .body(insertedWidget.copy(widgetOrder = 0)).`when`().post("${WIDGET_ENDPOINT}updateWidgetData/")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(Widget::class.java)
@@ -106,9 +104,9 @@ class WidgetControllerTests {
 
     @Test
     fun testUpdateWidgetsOrder() {
-        val tab = Tab(10)
-        val firstWidget = Widget(id = 0, type = 2, data = "{}", tab = tab)
-        val secondWidget = Widget(id = 0, type = 3, data = "{}", tab = tab)
+        val tab = Tab(10, "", 1)
+        val firstWidget = Widget(0, 2, "{}", 1, tab = tab)
+        val secondWidget = Widget(0, 3, "{}", 2, tab = tab)
 
         val firstInsertedWidget: Widget = given()
             .header(Header("Authorization", "Bearer $jwtToken"))
@@ -134,14 +132,12 @@ class WidgetControllerTests {
         assertNotNull(secondInsertedWidget.id)
         assertEquals(secondInsertedWidget.type, secondWidget.type)
 
-        firstInsertedWidget.widgetOrder = 2
-        secondInsertedWidget.widgetOrder = 3
-
         val updatedWidgets: List<Widget> = given()
             .header(Header("Authorization", "Bearer $jwtToken"))
             .contentType(ContentType.JSON)
             .port(port)
-            .body(listOf(firstInsertedWidget, secondInsertedWidget)).`when`().post("${WIDGET_ENDPOINT}updateWidgetsOrder/")
+            .body(listOf(firstInsertedWidget.copy(widgetOrder = 2), secondInsertedWidget.copy(widgetOrder = 3)))
+            .`when`().post("${WIDGET_ENDPOINT}updateWidgetsOrder/")
             .then().log().all()
             .statusCode(200)
             .extract().jsonPath().getList("", Widget::class.java)

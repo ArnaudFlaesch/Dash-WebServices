@@ -10,14 +10,11 @@ class WidgetService {
     @Autowired
     private lateinit var widgetRepository: WidgetRepository
 
-    fun getAllWidgets(): List<Widget> {
-        return widgetRepository.findAll()
-    }
+    fun getAllWidgets(): List<Widget> = widgetRepository.findAll()
 
     fun addWidget(widget: Widget): Widget {
-        val widgetOrder = widgetRepository.getNumberOfWidgetsByTab(widget.tab?.id!!) + 1
-        widget.widgetOrder = widgetOrder
-        return widgetRepository.save(widget)
+        val widgetOrder = widgetRepository.getNumberOfWidgetsByTab(widget.tab.id) + 1
+        return widgetRepository.save(widget.copy(widgetOrder = widgetOrder))
     }
 
     fun updateWidget(widget: Widget): Widget {
@@ -32,15 +29,9 @@ class WidgetService {
         }
     }
 
-    fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<Widget> {
-        return (widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId))
-    }
+    fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<Widget> = (widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId))
 
-    fun deleteWidget(id: Int) {
-        widgetRepository.deleteById(id)
-    }
+    fun deleteWidget(id: Int) = widgetRepository.deleteById(id)
 
-    fun deleteWidgetsByTabId(id: Int) {
-        return widgetRepository.deleteWidgetsByTabId(id)
-    }
+    fun deleteWidgetsByTabId(id: Int) = widgetRepository.deleteWidgetsByTabId(id)
 }

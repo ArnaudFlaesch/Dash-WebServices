@@ -20,17 +20,17 @@ data class Widget(
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
 
-    var type: Int? = null,
+    val type: Int,
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "json")
     val data: Any? = "{}",
 
-    var widgetOrder: Int? = 0,
+    val widgetOrder: Int,
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "tabId")
-    var tab: Tab?
+    val tab: Tab
 ) : Serializable {
     companion object {
         private const val serialVersionUID: Long = 1

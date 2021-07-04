@@ -51,7 +51,7 @@ class TabControllerTests {
 
     @Test
     fun testAddUpdateDeleteTab() {
-        val newTab = Tab(0, "LabelTest")
+        val newTab = Tab(0, "LabelTest", 1)
 
         val insertedTab: Tab = given().port(port)
             .contentType(ContentType.JSON)
@@ -75,20 +75,20 @@ class TabControllerTests {
             .log().all()
             .body("size", equalTo(2))
 
-        insertedTab.label = "Updated label"
+        val updatedLabel = "Updated label"
 
         val updatedTab: Tab = given().port(port)
             .contentType(ContentType.JSON)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .`when`()
-            .body(insertedTab)
+            .body(insertedTab.copy(label = updatedLabel))
             .post("/tab/updateTab/")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(Tab::class.java)
 
         assertNotNull(updatedTab.id)
-        assertEquals(updatedTab.label, insertedTab.label)
+        assertEquals(updatedLabel, updatedTab.label)
 
         val updatedTabs: List<Tab> = given().port(port)
             .contentType(ContentType.JSON)
