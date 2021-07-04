@@ -18,12 +18,12 @@ data class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
     @NotBlank
-    @Size(max = 20) var username: String?,
+    @Size(max = 20) val username: String,
     @NotBlank
     @Size(max = 50)
-    @Email var email: String?,
+    @Email val email: String,
     @NotBlank
-    @Size(max = 120) var password: String?,
+    @Size(max = 120) val password: String,
     @ManyToOne
     @JoinColumn(name = "roleId")
     val role: Role
