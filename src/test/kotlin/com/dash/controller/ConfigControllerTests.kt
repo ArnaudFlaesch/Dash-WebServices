@@ -51,7 +51,7 @@ class ConfigControllerTests {
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .body("$", Matchers.not(equals(null)))
+            .body("$", Matchers.notNullValue())
             .extract().`as`(ImportData::class.java)
         assertEquals(2, exportData.tabs.size)
         assertEquals(1, exportData.widgets.size)

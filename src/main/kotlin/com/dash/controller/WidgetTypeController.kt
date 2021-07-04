@@ -17,7 +17,5 @@ class WidgetTypeController {
     private lateinit var widgetTypeService: WidgetTypeService
 
     @GetMapping("/")
-    fun getWidgets(): List<WidgetType> {
-        return widgetTypeService.getAllWidgetTypes()
-    }
+    fun getWidgets(): List<WidgetType> = widgetTypeService.getAllWidgetTypes()
 }

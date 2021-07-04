@@ -48,16 +48,11 @@ class ConfigController {
     fun importConfig(@RequestParam("file") file: MultipartFile): Boolean {
         logger.info("Import commencé")
         val importData = ObjectMapper().readValue(file.bytes, ImportData::class.java)
-        importData.tabs?.forEach { tab ->
-            val widgets = importData.widgets?.filter { widget -> widget.tab?.id == tab.id }
-            tab.id = null
-            val insertedTab = tabService.addTab(tab)
-            if (widgets != null) {
-                widgets.forEach { widget ->
-                    widget.tab?.id = insertedTab.id
-                    widget.id = null
-                    widgetService.addWidget(widget)
-                }
+        importData.tabs.forEach { tab ->
+            val widgets = importData.widgets.filter { widget -> widget.tab.id == tab.id }
+            val insertedTab = tabService.addTab(tab.copy(id = 0))
+            widgets.forEach { widget ->
+                widgetService.addWidget(widget.copy(id = 0, tab = insertedTab))
             }
         }
         logger.info("Import terminé")

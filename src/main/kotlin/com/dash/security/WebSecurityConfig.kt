@@ -27,9 +27,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     private lateinit var unauthorizedHandler: AuthEntryPointJwt
 
     @Bean
-    fun authenticationJwtTokenFilter(): AuthTokenFilter {
-        return AuthTokenFilter()
-    }
+    fun authenticationJwtTokenFilter(): AuthTokenFilter = AuthTokenFilter()
 
     @Throws(Exception::class)
     public override fun configure(authenticationManagerBuilder: AuthenticationManagerBuilder) {
@@ -38,14 +36,10 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Bean
     @Throws(Exception::class)
-    override fun authenticationManagerBean(): AuthenticationManager {
-        return super.authenticationManagerBean()
-    }
+    override fun authenticationManagerBean(): AuthenticationManager = super.authenticationManagerBean()
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder {
-        return BCryptPasswordEncoder()
-    }
+    fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {

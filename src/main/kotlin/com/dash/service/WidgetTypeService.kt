@@ -10,7 +10,5 @@ class WidgetTypeService {
     @Autowired
     private lateinit var widgetTypeRepository: WidgetTypeRepository
 
-    fun getAllWidgetTypes(): List<WidgetType> {
-        return widgetTypeRepository.findAll()
-    }
+    fun getAllWidgetTypes(): List<WidgetType> = widgetTypeRepository.findAll()
 }
