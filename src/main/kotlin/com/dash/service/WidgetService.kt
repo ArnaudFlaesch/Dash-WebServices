@@ -17,9 +17,9 @@ class WidgetService {
         return widgetRepository.save(widget.copy(widgetOrder = widgetOrder))
     }
 
-    fun updateWidget(widget: Widget): Widget {
-        val oldWidget = widgetRepository.getOne(widget.id)
-        return widgetRepository.save(oldWidget.copy(data = widget.data))
+    fun updateWidget(widgetId: Int, data: Any): Widget {
+        val oldWidget = widgetRepository.getOne(widgetId)
+        return widgetRepository.save(oldWidget.copy(data = data))
     }
 
     fun updateWidgetsOrder(widgets: List<Widget>): List<Widget> {

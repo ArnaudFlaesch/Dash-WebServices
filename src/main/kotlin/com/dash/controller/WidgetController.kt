@@ -20,8 +20,8 @@ class WidgetController {
     @PostMapping("/addWidget")
     fun addWidget(@RequestBody widget: Widget): Widget = widgetService.addWidget(widget)
 
-    @PostMapping("/updateWidgetData")
-    fun updateWidgetData(@RequestBody widget: Widget): Widget = widgetService.updateWidget(widget)
+    @PatchMapping("/updateWidgetData/{id}")
+    fun updateWidgetData(@PathVariable("id") widgetId: Int, @RequestBody data: Any): Widget = widgetService.updateWidget(widgetId, data)
 
     @PostMapping("/updateWidgetsOrder")
     fun updateWidgetsOrder(@RequestBody widgets: List<Widget>): List<Widget> = widgetService.updateWidgetsOrder(widgets)
