@@ -1,5 +1,6 @@
 package com.dash.controller
 
+import com.dash.controller.requests.UpdateWidgetDataPayload
 import com.dash.entity.Widget
 import com.dash.service.WidgetService
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,7 +22,8 @@ class WidgetController {
     fun addWidget(@RequestBody widget: Widget): Widget = widgetService.addWidget(widget)
 
     @PatchMapping("/updateWidgetData/{id}")
-    fun updateWidgetData(@PathVariable("id") widgetId: Int, @RequestBody data: Any): Widget = widgetService.updateWidget(widgetId, data)
+    fun updateWidgetData(@PathVariable("id") widgetId: Int, @RequestBody updateWidgetDataPayload: UpdateWidgetDataPayload): Widget =
+        widgetService.updateWidget(widgetId, updateWidgetDataPayload)
 
     @PostMapping("/updateWidgetsOrder")
     fun updateWidgetsOrder(@RequestBody widgets: List<Widget>): List<Widget> = widgetService.updateWidgetsOrder(widgets)

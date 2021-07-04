@@ -1,5 +1,6 @@
 package com.dash.service
 
+import com.dash.controller.requests.UpdateWidgetDataPayload
 import com.dash.entity.Widget
 import com.dash.repository.WidgetRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,9 +18,9 @@ class WidgetService {
         return widgetRepository.save(widget.copy(widgetOrder = widgetOrder))
     }
 
-    fun updateWidget(widgetId: Int, data: Any): Widget {
+    fun updateWidget(widgetId: Int, updateWidgetDataPayload: UpdateWidgetDataPayload): Widget {
         val oldWidget = widgetRepository.getOne(widgetId)
-        return widgetRepository.save(oldWidget.copy(data = data))
+        return widgetRepository.save(oldWidget.copy(data = updateWidgetDataPayload.data))
     }
 
     fun updateWidgetsOrder(widgets: List<Widget>): List<Widget> {
