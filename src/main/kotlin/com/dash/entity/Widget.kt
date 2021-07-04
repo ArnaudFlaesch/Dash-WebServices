@@ -24,7 +24,7 @@ data class Widget(
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "json")
-    val data: Any = "{}",
+    val data: Any? = "{}",
 
     val widgetOrder: Int,
 
