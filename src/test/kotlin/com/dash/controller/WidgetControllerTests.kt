@@ -78,7 +78,7 @@ class WidgetControllerTests {
             .header(Header("Authorization", "Bearer $jwtToken"))
             .contentType(ContentType.JSON)
             .port(port)
-            .body(insertedWidget.copy(widgetOrder = 0)).`when`().post("${WIDGET_ENDPOINT}updateWidgetData/")
+            .body(insertedWidget.copy(widgetOrder = 0)).`when`().patch("${WIDGET_ENDPOINT}updateWidgetData/${insertedWidget.id}")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(Widget::class.java)
