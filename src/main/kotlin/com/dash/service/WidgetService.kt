@@ -15,7 +15,11 @@ class WidgetService {
 
     fun addWidget(widget: Widget): Widget {
         val widgetOrder = widgetRepository.getNumberOfWidgetsByTab(widget.tab.id) + 1
-        return widgetRepository.save(widget.copy(widgetOrder = widgetOrder))
+        return saveWidget(widget.copy(widgetOrder = widgetOrder))
+    }
+
+    fun saveWidget(widget: Widget): Widget {
+        return widgetRepository.save(widget)
     }
 
     fun updateWidget(widgetId: Int, updateWidgetDataPayload: UpdateWidgetDataPayload): Widget {
