@@ -1,7 +1,6 @@
 package com.dash.repository
 
 import com.dash.entity.User
-import com.dash.enums.RoleEnum
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -24,8 +23,8 @@ class UserRepositoryTests {
     fun testGetUsers() {
         val listUsers = userRepository.findAll()
         assertThat(listUsers).hasSize(2)
-        assertThat(listUsers[0].role.name).isEqualTo(RoleEnum.ROLE_USER)
-        assertThat(listUsers[1].role.name).isEqualTo(RoleEnum.ROLE_ADMIN)
+        assertThat(listUsers[0].role.name).isEqualTo("ROLE_USER")
+        assertThat(listUsers[1].role.name).isEqualTo("ROLE_ADMIN")
     }
 
     @Test
@@ -48,7 +47,7 @@ class UserRepositoryTests {
         } else {
             assertNotNull(user.get().id)
             assertEquals("usertest", user.get().username)
-            assertEquals(RoleEnum.ROLE_USER, user.get().role.name)
+            assertEquals("ROLE_USER", user.get().role.name)
             assertEquals("user@email.com", user.get().email)
         }
     }

@@ -1,6 +1,5 @@
 package com.dash.controller
 
-import com.dash.enums.RoleEnum
 import com.dash.security.payload.LoginRequest
 import com.dash.security.response.JwtResponse
 import io.restassured.RestAssured.defaultParser
@@ -42,7 +41,7 @@ class AuthControllerTests {
             .log().all()
             .body("$", Matchers.notNullValue())
             .extract().`as`(JwtResponse::class.java)
-        assertEquals(RoleEnum.ROLE_ADMIN.toString(), jwtResponse.roles[0])
+        assertEquals("ROLE_ADMIN", jwtResponse.roles[0])
     }
 
     @Test

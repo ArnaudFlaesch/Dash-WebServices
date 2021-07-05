@@ -1,6 +1,6 @@
 package com.dash.repository
 
-import com.dash.enums.RoleEnum
+import com.dash.entity.Role
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -21,7 +21,18 @@ class RoleRepositoryTests {
         assertEquals(2, rolesFromDatabase.size)
         assertEquals(1, rolesFromDatabase[0].id)
         assertEquals(2, rolesFromDatabase[1].id)
-        assertEquals(RoleEnum.ROLE_USER, rolesFromDatabase[0].name)
-        assertEquals(RoleEnum.ROLE_ADMIN, rolesFromDatabase[1].name)
+        assertEquals("ROLE_USER", rolesFromDatabase[0].name)
+        assertEquals("ROLE_ADMIN", rolesFromDatabase[1].name)
+    }
+
+    @Test
+    fun testAddRole() {
+        val newRole = Role(0, "ROLE_MODERATOR")
+        val insertedRole = roleRepository.save(newRole)
+
+        val rolesFromDatabase = roleRepository.findAll()
+        assertEquals(3, rolesFromDatabase.size)
+
+        roleRepository.delete(insertedRole)
     }
 }

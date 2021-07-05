@@ -1,6 +1,5 @@
 package com.dash.entity
 
-import com.dash.enums.RoleEnum
 import javax.persistence.*
 
 @Entity
@@ -10,7 +9,6 @@ data class Role(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int,
 
-    @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    val name: RoleEnum
+    val name: String
 )
