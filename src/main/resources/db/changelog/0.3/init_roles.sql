@@ -1,5 +1,13 @@
+CREATE SEQUENCE IF NOT EXISTS public.role_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
 CREATE TABLE IF NOT EXISTS roles (
-    id integer NOT NULL,
+    id integer NOT NULL DEFAULT nextval('public.role_id_seq'::regclass),
     name character varying
 );
 
@@ -19,5 +27,5 @@ CREATE TABLE IF NOT EXISTS users (
     role_id integer
 );
 
-INSERT INTO roles(id, name) VALUES(1, 'ROLE_USER');
-INSERT INTO roles(id, name) VALUES(2, 'ROLE_ADMIN');
+INSERT INTO roles(name) VALUES('ROLE_USER');
+INSERT INTO roles(name) VALUES('ROLE_ADMIN');

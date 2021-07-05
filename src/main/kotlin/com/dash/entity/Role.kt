@@ -1,7 +1,7 @@
 package com.dash.entity
 
-import com.dash.enums.RoleEnum
 import javax.persistence.*
+import javax.validation.constraints.NotBlank
 
 @Entity
 @Table(name = "roles")
@@ -10,7 +10,7 @@ data class Role(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int,
 
-    @Enumerated(EnumType.STRING)
+    @NotBlank
     @Column(length = 20)
-    val name: RoleEnum
+    val name: String
 )
