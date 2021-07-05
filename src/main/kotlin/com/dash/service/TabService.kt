@@ -11,7 +11,20 @@ class TabService {
     @Autowired
     private lateinit var tabRepository: TabRepository
 
-    fun saveTabs(tabs: List<Tab>): List<Tab> {
-        return tabs.map { tab -> tabRepository.save(tab) }
+    @Autowired
+    private lateinit var widgetService: WidgetService
+
+    fun getTabs(): List<Tab> = tabRepository.findByOrderByTabOrderAsc()
+
+    fun addTab(tabToAdd: Tab): Tab = tabRepository.save(tabToAdd.copy(tabOrder = tabRepository.getNumberOfTabs() + 1))
+
+    fun saveTabs(tabs: List<Tab>): List<Tab> = tabs.map { tab -> tabRepository.save(tab) }
+
+    fun updateTab(tab: Tab): Tab = tabRepository.save(tab)
+
+    fun deleteTab(id: Int) {
+        widgetService.deleteWidgetsByTabId(id)
+        val tab = tabRepository.getOne(id)
+        return tabRepository.delete(tab)
     }
 }

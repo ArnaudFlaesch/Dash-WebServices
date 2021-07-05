@@ -21,7 +21,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Set up JDK 16
+      - name: Set up JDK 15
         uses: actions/setup-java@v2
         with:
           java-version: "16"
@@ -42,7 +42,9 @@ jobs:
         run: chmod +x gradlew
 
       - name: Lint
-        run: ./gradlew ktlintCheck
+        run: |
+          ./gradlew detekt
+          ./gradlew ktlintCheck
 
       - name: Build with Gradle
         run: ./gradlew clean build -Dspring.profiles.active=test -Dspring.config.location=src/test/resources/application-test.properties
@@ -58,11 +60,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Docker build and push
+      - name: Docker build and push TEST
+        if: github.ref != 'refs/heads/develop' && !contains(github.ref, 'renovate/')
+        run : |
+          docker build -t dashwebservices .
+          docker tag dashwebservices arnaudf93/dashwebservices:${GITHUB_REF#refs/*/}
+          docker push arnaudf93/dashwebservices:${GITHUB_REF#refs/*/}
+
+
+      - name: Docker build and push DEV
         if: github.ref == 'refs/heads/develop'
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          context: .
-          tags: arnaudf93/dashwebservices:latest
+        run : |
+          docker build -t dashwebservices .
+          docker tag dashwebservices arnaudf93/dashwebservices:latest
+          docker push arnaudf93/dashwebservices:latest

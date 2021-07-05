@@ -1,5 +1,6 @@
 package com.dash.service
 
+import com.dash.controller.requests.UpdateWidgetDataPayload
 import com.dash.entity.Widget
 import com.dash.repository.WidgetRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,35 +11,34 @@ class WidgetService {
     @Autowired
     private lateinit var widgetRepository: WidgetRepository
 
+    fun getAllWidgets(): List<Widget> = widgetRepository.findAll()
+
     fun addWidget(widget: Widget): Widget {
-        val widgetOrder = widgetRepository.getNumberOfWidgetsByTab(widget.tab?.id!!) + 1
-        widget.widgetOrder = widgetOrder
+        val widgetOrder = widgetRepository.getNumberOfWidgetsByTab(widget.tab.id) + 1
+        return saveWidget(widget.copy(widgetOrder = widgetOrder))
+    }
+
+    fun saveWidget(widget: Widget): Widget {
         return widgetRepository.save(widget)
     }
 
-    fun updateWidget(widget: Widget): Widget {
-        val oldWidget = widgetRepository.getOne(widget.id)
-        oldWidget.data = widget.data
-        return widgetRepository.save(oldWidget)
+    fun updateWidget(widgetId: Int, updateWidgetDataPayload: UpdateWidgetDataPayload): Widget {
+        val oldWidget = widgetRepository.getOne(widgetId)
+        return widgetRepository.save(oldWidget.copy(data = updateWidgetDataPayload.data))
     }
 
     fun updateWidgetsOrder(widgets: List<Widget>): List<Widget> {
-        return widgets.map { widget ->
-            val oldWidget = widgetRepository.getOne(widget.id)
-            oldWidget.widgetOrder = widget.widgetOrder
-            widgetRepository.save(oldWidget)
-        }
+        return widgetRepository.saveAll(
+            widgets.map { widget ->
+                val oldWidget = widgetRepository.getOne(widget.id)
+                return@map oldWidget.copy(widgetOrder = widget.widgetOrder)
+            }
+        )
     }
 
-    fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<Widget> {
-        return (widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId))
-    }
+    fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<Widget> = (widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId))
 
-    fun deleteWidget(id: Int) {
-        widgetRepository.deleteById(id)
-    }
+    fun deleteWidget(id: Int) = widgetRepository.deleteById(id)
 
-    fun deleteWidgetsByTabId(id: Int) {
-        return widgetRepository.deleteWidgetsByTabId(id)
-    }
+    fun deleteWidgetsByTabId(id: Int) = widgetRepository.deleteWidgetsByTabId(id)
 }

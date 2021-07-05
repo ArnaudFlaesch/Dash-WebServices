@@ -1,4 +1,4 @@
-FROM openjdk:16-jdk-alpine
+FROM openjdk:17-jdk-alpine
 EXPOSE 8080
 
 ADD ./build/libs/dash-webservices-*.jar dash-webservices.jar

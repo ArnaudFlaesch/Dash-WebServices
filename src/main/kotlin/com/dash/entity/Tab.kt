@@ -1,11 +1,6 @@
 package com.dash.entity
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.SequenceGenerator
+import javax.persistence.*
 
 @Entity
 data class Tab(
@@ -13,9 +8,9 @@ data class Tab(
     @SequenceGenerator(name = "tab-seq-gen", sequenceName = "tab_id_seq", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tab-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
-    var id: Int? = null,
+    val id: Int,
 
-    var label: String? = null,
+    val label: String = "",
 
-    var tabOrder: Int? = 0
+    val tabOrder: Int
 )
