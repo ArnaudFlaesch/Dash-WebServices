@@ -21,9 +21,7 @@ class JwtUtils {
             .compact()
     }
 
-    fun getUserNameFromJwtToken(token: String): String {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).body.subject
-    }
+    fun getUserNameFromJwtToken(token: String): String = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).body.subject
 
     fun validateJwtToken(authToken: String?): Boolean {
         try {

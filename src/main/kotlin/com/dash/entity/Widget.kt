@@ -18,17 +18,21 @@ data class Widget(
     @SequenceGenerator(name = "widget-seq-gen", sequenceName = "widget_id_seq", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "widget-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
-    var id: Int? = 0,
+    val id: Int,
 
-    var type: Int? = null,
+    val type: Int,
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "json")
-    var data: Any? = null,
+    val data: Any? = "{}",
 
-    var widgetOrder: Int? = 0,
+    val widgetOrder: Int,
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "tabId")
-    var tab: Tab?
-) : Serializable
+    val tab: Tab
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 1
+    }
+}

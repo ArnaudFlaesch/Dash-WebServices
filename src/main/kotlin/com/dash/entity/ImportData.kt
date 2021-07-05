@@ -1,7 +1,7 @@
 package com.dash.entity
 
 data class ImportData(
-    var widgets: List<Widget> = listOf(),
+    val widgets: List<Widget> = listOf(),
 
-    var tabs: List<Tab> = listOf()
+    val tabs: List<Tab> = listOf()
 )

@@ -2,8 +2,7 @@ package com.dash.repository
 
 import com.dash.enums.RoleEnum
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest
-@TabDataset
 @ExtendWith(SpringExtension::class)
 class UserRepositoryTests {
 
@@ -22,8 +20,8 @@ class UserRepositoryTests {
     fun testGetUsers() {
         val listUsers = userRepository.findAll()
         assertThat(listUsers).hasSize(2)
-        assertThat(listUsers[0].role?.getName()).isEqualTo(RoleEnum.ROLE_USER)
-        assertThat(listUsers[1].role?.getName()).isEqualTo(RoleEnum.ROLE_ADMIN)
+        assertThat(listUsers[0].role.name).isEqualTo(RoleEnum.ROLE_USER)
+        assertThat(listUsers[1].role.name).isEqualTo(RoleEnum.ROLE_ADMIN)
     }
 
     @Test
@@ -32,9 +30,16 @@ class UserRepositoryTests {
         if (user.isEmpty) {
             fail()
         } else {
+            assertNotNull(user.get().id)
             assertEquals("usertest", user.get().username)
-            assertEquals(RoleEnum.ROLE_USER, user.get().role?.getName() ?: fail())
+            assertEquals(RoleEnum.ROLE_USER, user.get().role.name)
             assertEquals("user@email.com", user.get().email)
         }
+    }
+
+    @Test
+    fun testGetUserByUsernameWrongUsername() {
+        val user = userRepository.findByUsername("usertestFail")
+        assertTrue(user.isEmpty)
     }
 }

@@ -16,10 +16,7 @@ class TabService {
 
     fun getTabs(): List<Tab> = tabRepository.findByOrderByTabOrderAsc()
 
-    fun addTab(tabToAdd: Tab): Tab {
-        tabToAdd.tabOrder = tabRepository.getNumberOfTabs() + 1
-        return tabRepository.save(tabToAdd)
-    }
+    fun addTab(tabToAdd: Tab): Tab = tabRepository.save(tabToAdd.copy(tabOrder = tabRepository.getNumberOfTabs() + 1))
 
     fun saveTabs(tabs: List<Tab>): List<Tab> = tabs.map { tab -> tabRepository.save(tab) }
 

@@ -17,7 +17,11 @@ class AuthEntryPointJwt : AuthenticationEntryPoint {
     }
 
     @Throws(IOException::class, ServletException::class)
-    override fun commence(request: HttpServletRequest, response: HttpServletResponse, authException: AuthenticationException) {
+    override fun commence(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        authException: AuthenticationException
+    ) {
         logger.error("Unauthorized error: {}", authException.message)
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized")
     }

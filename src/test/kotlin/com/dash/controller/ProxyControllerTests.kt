@@ -5,8 +5,7 @@ import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
-import org.hamcrest.Matchers.equalTo
-import org.hamcrest.Matchers.not
+import org.hamcrest.Matchers.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -44,7 +43,7 @@ class ProxyControllerTests {
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .body("$", not(equals(null)))
+            .body("$", notNullValue())
     }
 
     @Test

@@ -5,7 +5,7 @@ import com.dash.security.response.JwtResponse
 import io.restassured.RestAssured.given
 import org.hamcrest.Matchers
 
-class IntegrationTestsUtils {
+class IntegrationTestsUtils private constructor() {
 
     companion object {
         @JvmStatic
@@ -19,7 +19,7 @@ class IntegrationTestsUtils {
                 .then().log().all()
                 .statusCode(200)
                 .log().all()
-                .body("$", Matchers.not(equals(null)))
+                .body("$", Matchers.notNullValue())
                 .extract().`as`(JwtResponse::class.java)
         }
     }
