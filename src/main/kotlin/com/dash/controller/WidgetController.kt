@@ -21,9 +21,9 @@ class WidgetController {
     @PostMapping("/addWidget")
     fun addWidget(@RequestBody widget: Widget): Widget = widgetService.addWidget(widget)
 
-    @PatchMapping("/updateWidgetData/{id}")
+    @PatchMapping("/updateWidgetData/{widgetId}")
     fun updateWidgetData(
-        @PathVariable("id") widgetId: Int,
+        @PathVariable("widgetId") widgetId: Int,
         @RequestBody updateWidgetDataPayload: UpdateWidgetDataPayload
     ): Widget =
         widgetService.updateWidget(widgetId, updateWidgetDataPayload)

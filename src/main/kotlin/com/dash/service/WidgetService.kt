@@ -15,7 +15,11 @@ class WidgetService {
 
     fun addWidget(widget: Widget): Widget {
         val widgetOrder = widgetRepository.getNumberOfWidgetsByTab(widget.tab.id) + 1
-        return widgetRepository.save(widget.copy(widgetOrder = widgetOrder))
+        return saveWidget(widget.copy(widgetOrder = widgetOrder))
+    }
+
+    fun saveWidget(widget: Widget): Widget {
+        return widgetRepository.save(widget)
     }
 
     fun updateWidget(widgetId: Int, updateWidgetDataPayload: UpdateWidgetDataPayload): Widget {
@@ -24,10 +28,12 @@ class WidgetService {
     }
 
     fun updateWidgetsOrder(widgets: List<Widget>): List<Widget> {
-        return widgets.map { widget ->
-            val oldWidget = widgetRepository.getOne(widget.id)
-            return@map widgetRepository.save(oldWidget.copy(widgetOrder = widget.widgetOrder))
-        }
+        return widgetRepository.saveAll(
+            widgets.map { widget ->
+                val oldWidget = widgetRepository.getOne(widget.id)
+                return@map oldWidget.copy(widgetOrder = widget.widgetOrder)
+            }
+        )
     }
 
     fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<Widget> = (widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId))

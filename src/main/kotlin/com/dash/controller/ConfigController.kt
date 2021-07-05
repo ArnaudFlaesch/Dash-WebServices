@@ -52,7 +52,7 @@ class ConfigController {
             val widgets = importData.widgets.filter { widget -> widget.tab.id == tab.id }
             val insertedTab = tabService.addTab(tab.copy(id = 0))
             widgets.forEach { widget ->
-                widgetService.addWidget(widget.copy(id = 0, tab = insertedTab))
+                widgetService.saveWidget(widget.copy(id = 0, tab = insertedTab))
             }
         }
         logger.info("Import terminé")
