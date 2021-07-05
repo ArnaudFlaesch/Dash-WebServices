@@ -16,7 +16,7 @@ import javax.validation.constraints.Size
 data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Int,
     @NotBlank
     @Size(max = 20) val username: String,
     @NotBlank
