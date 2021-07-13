@@ -3,7 +3,7 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 
-val kotlinVersion = "1.5.20"
+val kotlinVersion = "1.5.21"
 val springBootVersion = "2.5.2"
 val jwtVersion = "0.9.1"
 
