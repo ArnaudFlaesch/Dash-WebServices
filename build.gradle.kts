@@ -16,7 +16,7 @@ val postgresqlVersion = "42.2.23"
 val gsonVersion = "2.8.8"
 
 val restAssuredVersion = "4.4.0"
-val junitVersion = "5.7.2"
+val junitVersion = "5.8.0"
 val hibernateTypesVersion = "2.12.1"
 
 val detektVersion = "1.18.0"
@@ -43,7 +43,7 @@ plugins {
 
 group = "com.dash"
 version = "0.2.0"
-java.sourceCompatibility = JavaVersion.VERSION_15
+java.sourceCompatibility = JavaVersion.VERSION_16
 
 repositories {
     mavenCentral()
@@ -77,8 +77,8 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("io.rest-assured:json-path:$restAssuredVersion")
     testImplementation("io.rest-assured:xml-path:$restAssuredVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    testImplementation(platform("org.junit:junit-bom:$junitVersion"))
+    testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
@@ -116,12 +116,12 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "15"
+        jvmTarget = "16"
     }
 }
 
 tasks.withType<Detekt>().configureEach {
-    jvmTarget = "15"
+    jvmTarget = "16"
 }
 
 detekt {
