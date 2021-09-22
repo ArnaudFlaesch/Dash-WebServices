@@ -16,7 +16,7 @@ val postgresqlVersion = "42.2.23"
 val gsonVersion = "2.8.8"
 
 val restAssuredVersion = "4.4.0"
-val junitVersion = "5.8.0"
+val junitVersion = "5.8.1"
 val hibernateTypesVersion = "2.12.1"
 
 val detektVersion = "1.18.0"
