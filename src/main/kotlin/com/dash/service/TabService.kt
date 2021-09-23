@@ -24,7 +24,7 @@ class TabService {
 
     fun deleteTab(id: Int) {
         widgetService.deleteWidgetsByTabId(id)
-        val tab = tabRepository.getOne(id)
+        val tab = tabRepository.getById(id)
         return tabRepository.delete(tab)
     }
 }

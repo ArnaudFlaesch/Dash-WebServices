@@ -120,6 +120,10 @@ tasks.withType<KotlinCompile> {
     }
 }
 
+tasks.getByName<Jar>("jar") {
+    enabled = false
+}
+
 tasks.withType<Detekt>().configureEach {
     jvmTarget = "16"
 }
