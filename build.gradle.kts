@@ -7,7 +7,7 @@ val kotlinVersion = "1.5.30"
 val springBootVersion = "2.5.4"
 val jwtVersion = "0.9.1"
 
-val jacksonModuleKotlinVersion = "2.12.5"
+val jacksonModuleKotlinVersion = "2.13.0"
 val jacksonModuleJaxbVersion = "2.12.5"
 val log4jVersion = "2.14.1"
 
