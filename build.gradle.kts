@@ -8,7 +8,7 @@ val springBootVersion = "2.5.4"
 val jwtVersion = "0.9.1"
 
 val jacksonModuleKotlinVersion = "2.13.0"
-val jacksonModuleJaxbVersion = "2.12.5"
+val jacksonModuleJaxbVersion = "2.13.0"
 val log4jVersion = "2.14.1"
 
 val liquibaseVersion = "4.5.0"
@@ -63,7 +63,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 
-    implementation("com.fasterxml.jackson.module:jackson-module-jaxb-annotations:$jacksonModuleJaxbVersion")
+    implementation("com.fasterxml.jackson.module:jackson-modules-base:$jacksonModuleJaxbVersion")
     implementation ("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation("org.liquibase:liquibase-core:$liquibaseVersion")
 
