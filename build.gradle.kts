@@ -3,33 +3,33 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 
-val kotlinVersion = "1.5.20"
-val springBootVersion = "2.5.2"
+val kotlinVersion = "1.5.30"
+val springBootVersion = "2.5.4"
 val jwtVersion = "0.9.1"
 
-val jacksonModuleKotlinVersion = "2.12.3"
-val jacksonModuleJaxbVersion = "2.12.3"
+val jacksonModuleKotlinVersion = "2.13.0"
+val jacksonModuleJaxbVersion = "2.12.5"
 val log4jVersion = "2.14.1"
 
-val liquibaseVersion = "4.4.0"
-val postgresqlVersion = "42.2.22"
-val gsonVersion = "2.8.7"
+val liquibaseVersion = "4.5.0"
+val postgresqlVersion = "42.2.24"
+val gsonVersion = "2.8.8"
 
 val restAssuredVersion = "4.4.0"
-val junitVersion = "5.7.2"
-val hibernateTypesVersion = "2.12.0"
+val junitVersion = "5.8.1"
+val hibernateTypesVersion = "2.12.1"
 
-val detektVersion = "1.17.1"
-val ktlintVersion = "0.41.0"
+val detektVersion = "1.18.0"
+val ktlintVersion = "0.42.1"
 
 val ktlint: Configuration by configurations.creating
 
 plugins {
-    val kotlinVersion = "1.5.10"
-    val springBootVersion = "2.4.4"
+    val kotlinVersion = "1.5.31"
+    val springBootVersion = "2.5.5"
     val springDependencyManagementVersion = "1.0.11.RELEASE"
     val codacyPluginVersion = "0.1.0"
-    val detektVersion = "1.17.1"
+    val detektVersion = "1.18.1"
 
     jacoco
     id("org.springframework.boot") version springBootVersion
@@ -43,7 +43,7 @@ plugins {
 
 group = "com.dash"
 version = "0.2.0"
-java.sourceCompatibility = JavaVersion.VERSION_15
+java.sourceCompatibility = JavaVersion.VERSION_16
 
 repositories {
     mavenCentral()
@@ -77,8 +77,8 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("io.rest-assured:json-path:$restAssuredVersion")
     testImplementation("io.rest-assured:xml-path:$restAssuredVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    testImplementation(platform("org.junit:junit-bom:$junitVersion"))
+    testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
@@ -116,12 +116,16 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "15"
+        jvmTarget = "16"
     }
 }
 
+tasks.getByName<Jar>("jar") {
+    enabled = false
+}
+
 tasks.withType<Detekt>().configureEach {
-    jvmTarget = "15"
+    jvmTarget = "16"
 }
 
 detekt {
