@@ -52,7 +52,7 @@ jobs:
       - name: Report coverage
         run: |
           bash <(curl -Ls https://coverage.codacy.com/get.sh) report -l Kotlin -r build/reports/jacoco/test/jacocoTestReport.xml --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
-          bash curl -Os https://uploader.codecov.io/latest/linux/codecov
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
           ./codecov -t ${{ secrets.CODECOV_TOKEN }}
 
