@@ -20,7 +20,7 @@ val junitVersion = "5.8.1"
 val hibernateTypesVersion = "2.14.0"
 
 val detektVersion = "1.18.0"
-val ktlintVersion = "0.42.1"
+val ktlintVersion = "0.43.0"
 
 val ktlint: Configuration by configurations.creating
 
