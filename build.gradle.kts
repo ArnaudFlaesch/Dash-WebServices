@@ -29,7 +29,7 @@ plugins {
     val springBootVersion = "2.5.6"
     val springDependencyManagementVersion = "1.0.11.RELEASE"
     val codacyPluginVersion = "0.1.0"
-    val detektVersion = "1.18.1"
+    val detektVersion = "1.19.0"
 
     jacoco
     id("org.springframework.boot") version springBootVersion
