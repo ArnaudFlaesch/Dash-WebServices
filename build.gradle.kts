@@ -9,7 +9,7 @@ val jwtVersion = "0.9.1"
 
 val jacksonModuleKotlinVersion = "2.13.0"
 val jacksonModuleJaxbVersion = "2.13.1"
-val log4jVersion = "2.16.0"
+val log4jVersion = "2.17.0"
 
 val liquibaseVersion = "4.6.2"
 val postgresqlVersion = "42.3.1"
