@@ -11,7 +11,7 @@ val jacksonModuleKotlinVersion = "2.13.1"
 val jacksonModuleJaxbVersion = "2.13.1"
 val log4jVersion = "2.17.1"
 
-val liquibaseVersion = "4.7.0"
+val liquibaseVersion = "4.7.1"
 val postgresqlVersion = "42.3.1"
 val gsonVersion = "2.8.9"
 
