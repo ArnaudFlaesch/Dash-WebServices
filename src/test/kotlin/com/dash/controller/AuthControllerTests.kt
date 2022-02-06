@@ -55,6 +55,6 @@ class AuthControllerTests {
             .then().log().all()
             .statusCode(401)
             .log().all()
-            .body("$", Matchers.notNullValue())
+            .body("error", Matchers.equalTo("Unauthorized"))
     }
 }
