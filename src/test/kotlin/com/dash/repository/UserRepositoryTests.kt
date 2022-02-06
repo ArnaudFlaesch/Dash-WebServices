@@ -29,7 +29,7 @@ class UserRepositoryTests {
 
     @Test
     fun testAddUser() {
-        val roleUser = roleRepository.getOne(1)
+        val roleUser = roleRepository.getById(1)
         val newUser = User(id = 0, email = "test@email.com", username = "testusername", password = "testpassword", role = roleUser)
 
         val insertedUser = userRepository.save(newUser)

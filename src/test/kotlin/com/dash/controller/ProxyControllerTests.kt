@@ -66,6 +66,7 @@ class ProxyControllerTests {
             .get(PROXY_ENDPOINT)
             .then().log().all()
             .statusCode(401)
-            .log().all().body("error", equalTo("Unauthorized"))
+            .log().all()
+            .body("error", equalTo("Unauthorized"))
     }
 }
