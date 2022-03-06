@@ -27,13 +27,13 @@ class WeatherWidgetController {
 
     @GetMapping("/weather")
     fun getWeatherData(@RequestParam(value = "city") city: String): Any? {
-        val url = "{$WEATHER_API}{$WEATHER_ENDPOINT}{$API_OPTIONS}{$OPENWEATHERMAP_KEY}&q=${city}"
+        val url = "$WEATHER_API$WEATHER_ENDPOINT$API_OPTIONS$OPENWEATHERMAP_KEY&q=$city"
         return proxyService.getDataFromProxy(url)
     }
 
     @GetMapping("/forecast")
     fun getForecastData(@RequestParam(value = "city") city: String): Any? {
-        val url = "${WEATHER_API}{$FORECAST_ENDPOINT}{$API_OPTIONS}{$OPENWEATHERMAP_KEY}&q=${city}"
+        val url = "$WEATHER_API$FORECAST_ENDPOINT$API_OPTIONS$OPENWEATHERMAP_KEY&q=$city"
         return proxyService.getDataFromProxy(url)
     }
 }
