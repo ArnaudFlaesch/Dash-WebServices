@@ -24,7 +24,7 @@ class ProxyControllerTests {
 
     private var jwtToken: String? = null
 
-    private val PROXY_ENDPOINT = "/proxy/"
+    private val PROXY_ENDPOINT = "/rssWidget/"
 
     @BeforeAll
     fun testUp() {
