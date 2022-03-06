@@ -9,15 +9,14 @@ import org.springframework.web.server.ServerErrorException
 import java.io.IOException
 import java.net.URI
 
-
-class ErrorHandler: ResponseErrorHandler {
+class ErrorHandler : ResponseErrorHandler {
     @Throws(IOException::class)
-    override fun handleError(url: URI, method: HttpMethod, response: ClientHttpResponse)  {
+    override fun handleError(url: URI, method: HttpMethod, response: ClientHttpResponse) {
         super.handleError(url, method, response)
     }
 
     @Throws(IOException::class)
-    override fun hasError(response: ClientHttpResponse): Boolean  {
+    override fun hasError(response: ClientHttpResponse): Boolean {
         return (response.statusCode.is4xxClientError || response.statusCode.is5xxServerError)
     }
 
@@ -25,7 +24,7 @@ class ErrorHandler: ResponseErrorHandler {
         when (response.statusCode) {
             HttpStatus.BAD_REQUEST -> throw BadRequestException()
             HttpStatus.NOT_FOUND -> throw NotFoundException()
-            HttpStatus.INTERNAL_SERVER_ERROR -> throw ServerErrorException("Erreur", Error())
+            HttpStatus.INTERNAL_SERVER_ERROR -> throw ServerErrorException("Erreur", Error("error23"))
         }
     }
 
@@ -34,5 +33,4 @@ class ErrorHandler: ResponseErrorHandler {
 
     @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Not found")
     class NotFoundException : Exception()
-
 }

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
-
 @RestController
 @CrossOrigin(origins = ["*"])
 @RequestMapping("/rssWidget")
@@ -19,5 +18,4 @@ class RssWidgetController {
     fun getRssFeed(@RequestParam(value = "url") url: String): Any? {
         return ObjectMapper().writeValueAsString(XmlMapper().readValue(proxyService.getDataFromProxy(url), Any::class.java))
     }
-
 }

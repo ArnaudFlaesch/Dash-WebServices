@@ -15,13 +15,15 @@ class StravaWidgetController {
     @Autowired
     private lateinit var proxyService: ProxyService
 
-    @Value("\${dash.app.STRAVA_CLIENT_ID}")
-    private val STRAVA_CLIENT_ID: String? = null
+    companion object {
+        @Value("\${dash.app.STRAVA_CLIENT_ID}")
+        private val STRAVA_CLIENT_ID: String? = null
 
-    @Value("\${dash.app.STRAVA_CLIENT_SECRET}")
-    private val STRAVA_CLIENT_SECRET: String? = null
+        @Value("\${dash.app.STRAVA_CLIENT_SECRET}")
+        private val STRAVA_CLIENT_SECRET: String? = null
 
-    private val STRAVA_TOKEN_URL = "https://www.strava.com/oauth/token"
+        private const val STRAVA_TOKEN_URL = "https://www.strava.com/oauth/token"
+    }
 
     @PostMapping("/getToken")
     fun getToken(@RequestBody getStravaTokenPayload: GetStravaTokenPayload): String? {
@@ -36,5 +38,4 @@ class StravaWidgetController {
             "&refresh_token=${getStravaRefreshTokenPayload.refreshToken}&grant_type=refresh_token"
         return proxyService.postDataFromProxy(url, mapOf<String, Any>())
     }
-
 }
