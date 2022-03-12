@@ -24,6 +24,7 @@ class ErrorHandler : ResponseErrorHandler {
             HttpStatus.BAD_REQUEST -> throw BadRequestException()
             HttpStatus.NOT_FOUND -> throw NotFoundException()
             HttpStatus.INTERNAL_SERVER_ERROR -> throw InternalServerErrorException()
+            else  -> throw Exception()
         }
     }
 
