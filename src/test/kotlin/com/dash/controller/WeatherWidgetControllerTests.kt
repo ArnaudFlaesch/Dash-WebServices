@@ -1,6 +1,8 @@
 package com.dash.controller
 
 import com.dash.utils.IntegrationTestsUtils
+import com.dash.utils.TestEndpointsArguments.testForeignApiCodes
+import com.dash.utils.TestEndpointsArguments.testTokenArguments
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.Header
@@ -12,7 +14,6 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -42,7 +43,7 @@ class WeatherWidgetControllerTests {
     @Autowired
     private lateinit var restTemplate: RestTemplate
 
-    private var jwtToken: String? = null
+    private lateinit var jwtToken: String
 
     private val weatherApiUrlMatcher = "https://api.openweathermap.org/data/2.5/.*"
     private val weatherWidgetEndpoint = "/weatherWidget"
@@ -79,13 +80,6 @@ class WeatherWidgetControllerTests {
         mockServer.verify()
     }
 
-    fun testGetTokenArguments(): Stream<Arguments> {
-        return Stream.of(
-            arguments(jwtToken, 200, ExpectedCount.once()),
-            arguments("WRONG_TOKEN", 401, ExpectedCount.never())
-        )
-    }
-
     @ParameterizedTest
     @MethodSource("testForecastDataArguments")
     fun testForecastData(weatherApiStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
@@ -106,11 +100,6 @@ class WeatherWidgetControllerTests {
         mockServer.verify()
     }
 
-    fun testForecastDataArguments(): Stream<Arguments> =
-        Stream.of(
-            arguments(HttpStatus.OK, HttpStatus.OK.value()),
-            arguments(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value()),
-            arguments(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value()),
-            arguments(HttpStatus.INTERNAL_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR.value())
-        )
+    fun testGetTokenArguments(): Stream<Arguments> = testTokenArguments(jwtToken)
+    fun testForecastDataArguments(): Stream<Arguments> = testForeignApiCodes()
 }
