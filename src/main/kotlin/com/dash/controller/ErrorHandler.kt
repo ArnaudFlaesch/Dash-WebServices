@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.client.ClientHttpResponse
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.client.ResponseErrorHandler
-import org.springframework.web.server.ServerErrorException
 import java.io.IOException
 import java.net.URI
 
@@ -24,13 +23,16 @@ class ErrorHandler : ResponseErrorHandler {
         when (response.statusCode) {
             HttpStatus.BAD_REQUEST -> throw BadRequestException()
             HttpStatus.NOT_FOUND -> throw NotFoundException()
-            HttpStatus.INTERNAL_SERVER_ERROR -> throw ServerErrorException("Erreur", Error("error23"))
+            HttpStatus.INTERNAL_SERVER_ERROR -> throw InternalServerErrorException()
         }
     }
 
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "bad requessst")
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Bad request")
     class BadRequestException : Exception()
 
     @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Not found")
     class NotFoundException : Exception()
+
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Internal server error")
+    class InternalServerErrorException : Exception()
 }

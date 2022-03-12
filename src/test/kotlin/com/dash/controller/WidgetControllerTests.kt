@@ -43,7 +43,8 @@ class WidgetControllerTests {
     fun testGetAllWidgetsByTabId() {
         given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
-            .param("tabId", 1).`when`().get("$WIDGET_ENDPOINT")
+            .param("tabId", 1)
+            .`when`().get("$WIDGET_ENDPOINT")
             .then().log().all()
             .statusCode(200)
             .log().all()

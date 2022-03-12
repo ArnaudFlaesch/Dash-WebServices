@@ -13,25 +13,23 @@ class WeatherWidgetController {
     @Autowired
     private lateinit var proxyService: ProxyService
 
-    companion object {
-        @Value("\${dash.app.OPENWEATHERMAP_KEY}")
-        private val OPENWEATHERMAP_KEY: String? = null
+    @Value("\${dash.app.OPENWEATHERMAP_KEY}")
+    private lateinit var openWeatherMapKey: String
 
-        const val WEATHER_API = "https://api.openweathermap.org/data/2.5/"
-        const val WEATHER_ENDPOINT = "weather"
-        const val FORECAST_ENDPOINT = "forecast"
-        const val API_OPTIONS = "?units=metric&lang=fr&appid="
-    }
+    val weatherApi = "https://api.openweathermap.org/data/2.5/"
+    val weatherEndpoint = "weather"
+    val forecastEndpoint = "forecast"
+    val apiOptions = "?units=metric&lang=fr&appid="
 
     @GetMapping("/weather")
     fun getWeatherData(@RequestParam(value = "city") city: String): Any? {
-        val url = "$WEATHER_API$WEATHER_ENDPOINT$API_OPTIONS$OPENWEATHERMAP_KEY&q=$city"
+        val url = "$weatherApi$weatherEndpoint$apiOptions$openWeatherMapKey&q=$city"
         return proxyService.getDataFromProxy(url)
     }
 
     @GetMapping("/forecast")
     fun getForecastData(@RequestParam(value = "city") city: String): Any? {
-        val url = "$WEATHER_API$FORECAST_ENDPOINT$API_OPTIONS$OPENWEATHERMAP_KEY&q=$city"
+        val url = "$weatherApi$forecastEndpoint$apiOptions$openWeatherMapKey&q=$city"
         return proxyService.getDataFromProxy(url)
     }
 }

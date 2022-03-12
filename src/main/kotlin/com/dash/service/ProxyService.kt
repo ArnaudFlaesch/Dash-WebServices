@@ -1,30 +1,21 @@
 package com.dash.service
 
-import com.dash.controller.ErrorHandler
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
-import java.net.URI
-import java.net.http.HttpClient
-import java.net.http.HttpRequest
-import java.net.http.HttpResponse
+
 
 @Service
 class ProxyService {
 
-    fun getDataFromProxy(url: String): String {
-        val client = HttpClient.newHttpClient()
-
-        val request = HttpRequest.newBuilder()
-            .uri(URI.create(url))
-            .build()
-        return client.send(request, HttpResponse.BodyHandlers.ofString()).body()
-    }
+    @Autowired
+    private lateinit var restTemplate: RestTemplate
 
     @Throws(RestClientException::class)
-    fun postDataFromProxy(url: String, data: Any): String? {
-        val restTemplate = RestTemplate()
-        restTemplate.errorHandler = ErrorHandler()
-        return restTemplate.postForObject(url, data, String::class.java)
-    }
+    fun getDataFromProxy(url: String): String? = restTemplate.getForObject(url, String::class.java)
+
+    @Throws(RestClientException::class)
+    fun postDataFromProxy(url: String, data: Any): String? = restTemplate.postForObject(url, data, String::class.java)
+
 }

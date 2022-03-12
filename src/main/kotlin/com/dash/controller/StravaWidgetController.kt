@@ -15,26 +15,24 @@ class StravaWidgetController {
     @Autowired
     private lateinit var proxyService: ProxyService
 
-    companion object {
-        @Value("\${dash.app.STRAVA_CLIENT_ID}")
-        private val STRAVA_CLIENT_ID: String? = null
+    @Value("\${dash.app.STRAVA_CLIENT_ID}")
+    private lateinit var stravaClientId: String
 
-        @Value("\${dash.app.STRAVA_CLIENT_SECRET}")
-        private val STRAVA_CLIENT_SECRET: String? = null
+    @Value("\${dash.app.STRAVA_CLIENT_SECRET}")
+    private lateinit var stravaClientSecret: String
 
-        private const val STRAVA_TOKEN_URL = "https://www.strava.com/oauth/token"
-    }
+    private val stravaTokenUrl = "https://www.strava.com/oauth/token"
 
     @PostMapping("/getToken")
     fun getToken(@RequestBody getStravaTokenPayload: GetStravaTokenPayload): String? {
-        val url = "$STRAVA_TOKEN_URL?client_id=$STRAVA_CLIENT_ID&client_secret=$STRAVA_CLIENT_SECRET" +
+        val url = "$stravaTokenUrl?client_id=$stravaClientId&client_secret=$stravaClientSecret" +
             "&code=${getStravaTokenPayload.apiCode}&grant_type=authorization_code"
         return proxyService.postDataFromProxy(url, mapOf<String, Any>())
     }
 
     @PostMapping("/getRefreshToken")
     fun getRefreshToken(@RequestBody getStravaRefreshTokenPayload: GetStravaRefreshTokenPayload): String? {
-        val url = "$STRAVA_TOKEN_URL?client_id=$STRAVA_CLIENT_ID&client_secret=$STRAVA_CLIENT_SECRET" +
+        val url = "$stravaTokenUrl?client_id=$stravaClientId&client_secret=$stravaClientSecret" +
             "&refresh_token=${getStravaRefreshTokenPayload.refreshToken}&grant_type=refresh_token"
         return proxyService.postDataFromProxy(url, mapOf<String, Any>())
     }
