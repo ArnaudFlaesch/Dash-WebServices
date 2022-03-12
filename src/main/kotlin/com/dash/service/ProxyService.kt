@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 
-
 @Service
 class ProxyService {
 
@@ -17,5 +16,4 @@ class ProxyService {
 
     @Throws(RestClientException::class)
     fun postDataFromProxy(url: String, data: Any): String? = restTemplate.postForObject(url, data, String::class.java)
-
 }
