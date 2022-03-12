@@ -1,11 +1,8 @@
 package com.dash.controller
 
-import com.dash.controller.requests.GetStravaRefreshTokenPayload
-import com.dash.controller.requests.GetStravaTokenPayload
 import com.dash.utils.IntegrationTestsUtils
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
-import io.restassured.http.ContentType
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers.matchesPattern
@@ -35,7 +32,7 @@ import java.util.stream.Stream
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class StravaWidgetControllerTests {
+class WeatherWidgetControllerTests {
 
     @LocalServerPort
     private val port: Int = 0
@@ -47,8 +44,8 @@ class StravaWidgetControllerTests {
 
     private var jwtToken: String? = null
 
-    private val stravaApiUrlMatcher = "https://www.strava.com/.*"
-    private val stravaWidgetEndpoint = "/stravaWidget"
+    private val weatherApiUrlMatcher = "https://api.openweathermap.org/data/2.5/.*"
+    private val weatherWidgetEndpoint = "/weatherWidget"
 
     @BeforeAll
     fun setup() {
@@ -64,20 +61,17 @@ class StravaWidgetControllerTests {
 
     @ParameterizedTest
     @MethodSource("testGetTokenArguments")
-    fun testGetToken(token: String, statusCode: Int, expectedNumberOfApiRequests: ExpectedCount) {
-        mockServer.expect(expectedNumberOfApiRequests, requestTo(matchesPattern(stravaApiUrlMatcher)))
-            .andExpect(method(HttpMethod.POST))
+    fun testGetWeatherData(token: String, statusCode: Int, expectedNumberOfApiRequests: ExpectedCount) {
+        mockServer.expect(expectedNumberOfApiRequests, requestTo(matchesPattern(weatherApiUrlMatcher)))
+            .andExpect(method(HttpMethod.GET))
             .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON))
-
-        val getStravaTokenPayload = GetStravaTokenPayload("api_code")
 
         given()
             .port(port)
-            .contentType(ContentType.JSON)
             .header(Header("Authorization", "Bearer $token"))
+            .param("city", "Paris")
             .`when`()
-            .body(getStravaTokenPayload)
-            .post("$stravaWidgetEndpoint/getToken")
+            .get("$weatherWidgetEndpoint/weather")
             .then().log().all()
             .statusCode(statusCode)
             .log().all()
@@ -93,21 +87,18 @@ class StravaWidgetControllerTests {
     }
 
     @ParameterizedTest
-    @MethodSource("testGetRefreshTokenArguments")
-    fun testGetRefreshToken(stravaApiStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
-        mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(stravaApiUrlMatcher)))
-            .andExpect(method(HttpMethod.POST))
-            .andRespond(withStatus(stravaApiStatusCodeResponse).contentType(MediaType.APPLICATION_JSON))
-
-        val getStravaRefreshTokenPayload = GetStravaRefreshTokenPayload("refresh_token")
+    @MethodSource("testForecastDataArguments")
+    fun testForecastData(weatherApiStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
+        mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(weatherApiUrlMatcher)))
+            .andExpect(method(HttpMethod.GET))
+            .andRespond(withStatus(weatherApiStatusCodeResponse).contentType(MediaType.APPLICATION_JSON))
 
         given()
             .port(port)
-            .contentType(ContentType.JSON)
             .header(Header("Authorization", "Bearer $jwtToken"))
+            .param("city", "Paris")
             .`when`()
-            .body(getStravaRefreshTokenPayload)
-            .post("$stravaWidgetEndpoint/getRefreshToken")
+            .get("$weatherWidgetEndpoint/forecast")
             .then().log().all()
             .statusCode(expectedStatusCode)
             .log().all()
@@ -115,7 +106,7 @@ class StravaWidgetControllerTests {
         mockServer.verify()
     }
 
-    fun testGetRefreshTokenArguments(): Stream<Arguments> =
+    fun testForecastDataArguments(): Stream<Arguments> =
         Stream.of(
             arguments(HttpStatus.OK, HttpStatus.OK.value()),
             arguments(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value()),
