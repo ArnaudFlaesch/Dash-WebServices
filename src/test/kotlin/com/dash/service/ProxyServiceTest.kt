@@ -55,8 +55,10 @@ class ProxyServiceTest {
         val response = "response"
         mockServer.expect(ExpectedCount.once(), MockRestRequestMatchers.requestTo(URI(url)))
             .andExpect(MockRestRequestMatchers.method(HttpMethod.GET))
-            .andRespond(MockRestResponseCreators.withStatus(HttpStatus.OK)
-                .contentType(MediaType.APPLICATION_JSON).body(response))
+            .andRespond(
+                MockRestResponseCreators.withStatus(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON).body(response)
+            )
         val actualResponse = proxyService.getDataFromProxy(url)
         assertEquals(response, actualResponse)
         mockServer.verify()
@@ -68,8 +70,10 @@ class ProxyServiceTest {
         val url = "http://url.com"
         mockServer.expect(ExpectedCount.once(), MockRestRequestMatchers.requestTo(URI(url)))
             .andExpect(MockRestRequestMatchers.method(HttpMethod.GET))
-            .andRespond(MockRestResponseCreators.withStatus(statusCode)
-                .contentType(MediaType.APPLICATION_JSON))
+            .andRespond(
+                MockRestResponseCreators.withStatus(statusCode)
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
         assertThrows(exceptionClass) {
             proxyService.getDataFromProxy(url)
         }
@@ -82,8 +86,10 @@ class ProxyServiceTest {
         val url = "http://url.com"
         mockServer.expect(ExpectedCount.once(), MockRestRequestMatchers.requestTo(URI(url)))
             .andExpect(MockRestRequestMatchers.method(HttpMethod.POST))
-            .andRespond(MockRestResponseCreators.withStatus(statusCode)
-                .contentType(MediaType.APPLICATION_JSON))
+            .andRespond(
+                MockRestResponseCreators.withStatus(statusCode)
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
         assertThrows(exceptionClass) {
             proxyService.postDataFromProxy(url, "")
         }
