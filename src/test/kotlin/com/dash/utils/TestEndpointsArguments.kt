@@ -20,6 +20,7 @@ object TestEndpointsArguments {
             arguments(HttpStatus.OK, HttpStatus.OK.value()),
             arguments(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value()),
             arguments(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value()),
+            arguments(HttpStatus.FORBIDDEN, HttpStatus.INTERNAL_SERVER_ERROR.value()),
             arguments(HttpStatus.INTERNAL_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR.value())
         )
 }

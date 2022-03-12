@@ -14,5 +14,5 @@ class RssWidgetController {
 
     @GetMapping("/")
     fun getRssFeed(@RequestParam(value = "url") url: String): String =
-        rssWidgetService.getUrlData(url)
+        rssWidgetService.getJsonFeedFromUrl(url)
 }

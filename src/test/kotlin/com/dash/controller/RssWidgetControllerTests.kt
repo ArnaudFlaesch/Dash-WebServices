@@ -1,6 +1,7 @@
 package com.dash.controller
 
 import com.dash.utils.IntegrationTestsUtils
+import com.dash.utils.TestEndpointsArguments
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.Header
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.provider.Arguments
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
@@ -25,6 +27,7 @@ import org.springframework.test.web.client.match.MockRestRequestMatchers.request
 import org.springframework.test.web.client.response.MockRestResponseCreators.withStatus
 import org.springframework.web.client.RestTemplate
 import java.net.URI
+import java.util.stream.Stream
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
@@ -39,7 +42,7 @@ class RssWidgetControllerTests {
     @Autowired
     private lateinit var restTemplate: RestTemplate
 
-    private var jwtToken: String? = null
+    private lateinit var jwtToken: String
 
     private val rssWidgetEndpoint = "/rssWidget/"
 
@@ -122,4 +125,7 @@ class RssWidgetControllerTests {
             .log().all()
             .body("error", equalTo("Unauthorized"))
     }
+
+    fun testGetTokenArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
+    fun testGetRefreshTokenArguments(): Stream<Arguments> = TestEndpointsArguments.testForeignApiCodes()
 }

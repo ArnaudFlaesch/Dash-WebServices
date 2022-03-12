@@ -1,6 +1,6 @@
 package com.dash.service
 
-import com.dash.utils.XmlParserUtils.parseXmlData
+import com.dash.utils.XmlParserUtils.parseXmlDataToJsonString
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -10,6 +10,6 @@ class RssWidgetService {
     @Autowired
     private lateinit var proxyService: ProxyService
 
-    fun getUrlData(url: String): String =
-        parseXmlData(proxyService.getDataFromProxy(url) ?: "")
+    fun getJsonFeedFromUrl(url: String): String =
+        parseXmlDataToJsonString(proxyService.getDataFromProxy(url) ?: "")
 }
