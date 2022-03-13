@@ -6,9 +6,12 @@ import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
+import org.hamcrest.Matchers
 import org.hamcrest.Matchers.matchesPattern
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
@@ -60,63 +63,89 @@ class SteamWidgetControllerTests {
         mockServer.reset()
     }
 
-    @Test
-    fun testGetPlayerSummary() {
-        mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
-            .andExpect(method(HttpMethod.GET))
-            .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body("test"))
+    @Nested
+    @DisplayName("Get player summary tests")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class GetPlayerSummaryTests {
+        @Test
+        fun testGetPlayerSummary() {
+            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body("test"))
 
-        given()
-            .port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
-            .`when`()
-            .get("$steamWidgetEndpoint/playerData")
-            .then().log().all()
-            .statusCode(200)
-            .log().all()
+            given()
+                .port(port)
+                .header(Header("Authorization", "Bearer $jwtToken"))
+                .`when`()
+                .get("$steamWidgetEndpoint/playerData")
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
 
-        mockServer.verify()
+            mockServer.verify()
+        }
     }
 
-    @ParameterizedTest
-    @MethodSource("testGetOwnedGamesArguments")
-    fun testGetOwnedGames(steamApiStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
-        mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
-            .andExpect(method(HttpMethod.GET))
-            .andRespond(withStatus(steamApiStatusCodeResponse).contentType(MediaType.APPLICATION_JSON))
+    @Nested
+    @DisplayName("Get owned games tests")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class GetOwnedGamesTests {
 
-        given()
-            .port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
-            .`when`()
-            .get("$steamWidgetEndpoint/ownedGames")
-            .then().log().all()
-            .statusCode(expectedStatusCode)
-            .log().all()
+        @ParameterizedTest
+        @MethodSource("testGetOwnedGamesArguments")
+        fun testGetOwnedGames(steamApiStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
+            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(steamApiStatusCodeResponse).contentType(MediaType.APPLICATION_JSON))
 
-        mockServer.verify()
+            given()
+                .port(port)
+                .header(Header("Authorization", "Bearer $jwtToken"))
+                .`when`()
+                .get("$steamWidgetEndpoint/ownedGames")
+                .then().log().all()
+                .statusCode(expectedStatusCode)
+                .log().all()
+
+            mockServer.verify()
+        }
+
+        fun testGetOwnedGamesArguments(): Stream<Arguments> = TestEndpointsArguments.testForeignApiCodes()
     }
 
-    @ParameterizedTest
-    @MethodSource("testGetAchievementListArguments")
-    fun testGetAchievementList(token: String, statusCode: Int, expectedNumberOfApiRequests: ExpectedCount) {
-        mockServer.expect(expectedNumberOfApiRequests, requestTo(matchesPattern(steamApiUrlMatcher)))
-            .andExpect(method(HttpMethod.GET))
-            .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body("test"))
+    @Nested
+    @DisplayName("Get achievement list tests")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class GetAchievementListTests {
+        @ParameterizedTest
+        @MethodSource("testGetAchievementListArguments")
+        fun testGetAchievementList(
+            token: String,
+            statusCode: Int,
+            expectedNumberOfApiRequests: ExpectedCount,
+            expectedResponse: String
+        ) {
+            mockServer.expect(expectedNumberOfApiRequests, requestTo(matchesPattern(steamApiUrlMatcher)))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(
+                    withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON).body(expectedResponse)
+                )
 
-        given()
-            .port(port)
-            .header(Header("Authorization", "Bearer $token"))
-            .param("appId", 1337)
-            .`when`()
-            .get("$steamWidgetEndpoint/achievementList")
-            .then().log().all()
-            .statusCode(statusCode)
-            .log().all()
+            given()
+                .port(port)
+                .header(Header("Authorization", "Bearer $token"))
+                .param("appId", 1337)
+                .`when`()
+                .get("$steamWidgetEndpoint/achievementList")
+                .then().log().all()
+                .statusCode(statusCode)
+                .log().all()
+                .body("$", Matchers.notNullValue())
 
-        mockServer.verify()
+            mockServer.verify()
+        }
+
+        fun testGetAchievementListArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
     }
-
-    fun testGetAchievementListArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
-    fun testGetOwnedGamesArguments(): Stream<Arguments> = TestEndpointsArguments.testForeignApiCodes()
 }

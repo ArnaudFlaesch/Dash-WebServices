@@ -25,19 +25,19 @@ class SteamWidgetController {
     val getAchievementsUrl = "/ISteamUserStats/GetPlayerAchievements/v0001"
 
     @GetMapping("/playerData")
-    fun getPlayerData(): Any? {
+    fun getPlayerData(): String? {
         val getPlayerDataUrl = "$steamApiUrl$getPlayerSummariesUrl?key=$steamApiKey&steamids=$steamUserId"
         return proxyService.getDataFromProxy(getPlayerDataUrl)
     }
 
     @GetMapping("/ownedGames")
-    fun getOwnedGames(): Any? {
+    fun getOwnedGames(): String? {
         val getOwnedGamesUrl = "$steamApiUrl$getOwnedGamesUrl?key=$steamApiKey&steamid=$steamUserId&format=json&include_appinfo=true"
         return proxyService.getDataFromProxy(getOwnedGamesUrl)
     }
 
     @GetMapping("/achievementList")
-    fun getAchievementList(@RequestParam(value = "appId") appId: String): Any? {
+    fun getAchievementList(@RequestParam(value = "appId") appId: String): String? {
         val getAchievementsUrl = "$steamApiUrl$getAchievementsUrl/?appid=$appId&key=$steamApiKey&steamid=$steamUserId"
         return proxyService.getDataFromProxy(getAchievementsUrl)
     }

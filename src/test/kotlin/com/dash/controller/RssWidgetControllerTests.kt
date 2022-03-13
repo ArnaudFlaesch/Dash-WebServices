@@ -1,18 +1,23 @@
 package com.dash.controller
 
+import com.dash.utils.Constants.UNAUTHORIZED_ERROR
 import com.dash.utils.IntegrationTestsUtils
 import com.dash.utils.TestEndpointsArguments
+import com.google.gson.Gson
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
-import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.*
+import org.json.JSONObject
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
@@ -64,8 +69,7 @@ class RssWidgetControllerTests {
 
         val mockedResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:media=\"http://search.yahoo.com/mrss/\">\n" +
-            "    <channel>\n" +
-            "            </channel>\n" +
+            "    <channel></channel>\n" +
             "</rss>"
 
         mockServer.expect(
@@ -81,18 +85,48 @@ class RssWidgetControllerTests {
         given()
             .port(port)
             .param("url", url)
+            .contentType("application/json")
             .header(Header("Authorization", "Bearer $jwtToken"))
             .`when`()
             .get(rssWidgetEndpoint)
             .then().log().all()
             .statusCode(200)
+            .body(equalTo(Gson().toJson(mapOf("version" to "2.0", "channel" to ""))))
             .log().all()
 
         mockServer.verify()
     }
 
     @Test
-    fun testGetUrlError() {
+    fun testGetUrlNullResponse() {
+        val url = "http://thelastpictureshow.over-blog.com/rss"
+
+        mockServer.expect(
+            ExpectedCount.once(), requestTo(URI(url))
+        )
+            .andExpect(method(HttpMethod.GET))
+            .andRespond(
+                withStatus(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_XML)
+            )
+
+        given()
+            .port(port)
+            .param("url", url)
+            .header(Header("Authorization", "Bearer $jwtToken"))
+            .`when`()
+            .get(rssWidgetEndpoint)
+            .then().log().all()
+            .statusCode(200)
+            .body(equalTo(""))
+            .log().all()
+
+        mockServer.verify()
+    }
+
+    @ParameterizedTest
+    @MethodSource("testGetUrlErrorCodes")
+    fun testGetUrlErrorCodes(urlStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
         val url = "http://testwrongurl.com"
 
         mockServer.expect(
@@ -100,8 +134,8 @@ class RssWidgetControllerTests {
         )
             .andExpect(method(HttpMethod.GET))
             .andRespond(
-                withStatus(HttpStatus.NOT_FOUND)
-                    .contentType(MediaType.APPLICATION_XML)
+                withStatus(urlStatusCodeResponse)
+                    .contentType(MediaType.APPLICATION_JSON)
             )
 
         given().port(port)
@@ -110,7 +144,7 @@ class RssWidgetControllerTests {
             .`when`()
             .get(rssWidgetEndpoint)
             .then().log().all()
-            .statusCode(404)
+            .statusCode(expectedStatusCode)
             .log().all()
     }
 
@@ -123,9 +157,8 @@ class RssWidgetControllerTests {
             .then().log().all()
             .statusCode(401)
             .log().all()
-            .body("error", equalTo("Unauthorized"))
+            .body("error", equalTo(UNAUTHORIZED_ERROR))
     }
 
-    fun testGetTokenArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
-    fun testGetRefreshTokenArguments(): Stream<Arguments> = TestEndpointsArguments.testForeignApiCodes()
+    fun testGetUrlErrorCodes(): Stream<Arguments> = TestEndpointsArguments.testForeignApiCodes()
 }

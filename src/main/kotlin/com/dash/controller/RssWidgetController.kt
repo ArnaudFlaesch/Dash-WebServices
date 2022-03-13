@@ -2,11 +2,12 @@ package com.dash.controller
 
 import com.dash.service.RssWidgetService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @CrossOrigin(origins = ["*"])
-@RequestMapping("/rssWidget")
+@RequestMapping("/rssWidget", produces = [ MediaType.APPLICATION_JSON_VALUE ])
 class RssWidgetController {
 
     @Autowired

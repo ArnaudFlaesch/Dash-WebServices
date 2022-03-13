@@ -10,6 +10,12 @@ class RssWidgetService {
     @Autowired
     private lateinit var proxyService: ProxyService
 
-    fun getJsonFeedFromUrl(url: String): String =
-        parseXmlDataToJsonString(proxyService.getDataFromProxy(url) ?: "")
+    fun getJsonFeedFromUrl(url: String): String {
+        val feedData = proxyService.getDataFromProxy(url)
+        return if (feedData != null) {
+            parseXmlDataToJsonString(feedData)
+        } else {
+            ""
+        }
+    }
 }

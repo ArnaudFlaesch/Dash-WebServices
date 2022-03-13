@@ -5,6 +5,6 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper
 
 object XmlParserUtils {
     fun parseXmlDataToJsonString(xml: String): String = ObjectMapper().writeValueAsString(
-        XmlMapper().readValue(xml, String::class.java)
+        XmlMapper().readValue(xml, Any::class.java)
     )
 }
