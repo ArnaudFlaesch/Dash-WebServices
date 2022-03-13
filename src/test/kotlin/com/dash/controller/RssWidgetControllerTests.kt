@@ -9,7 +9,6 @@ import io.restassured.RestAssured.given
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers.*
-import org.json.JSONObject
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
