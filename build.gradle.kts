@@ -5,6 +5,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 val kotlinVersion = "1.5.30"
 val springBootVersion = "2.5.4"
 val jwtVersion = "0.9.1"
+val ical4jVersion = "1.0.2"
 
 val jacksonModuleKotlinVersion = "2.13.1"
 val jacksonModuleJaxbVersion = "2.13.2"
@@ -59,6 +60,7 @@ dependencies {
     implementation ("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
 
     implementation ("io.jsonwebtoken:jjwt:$jwtVersion")
+    implementation("org.mnode.ical4j:ical4j:$ical4jVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonModuleKotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
