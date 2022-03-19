@@ -18,9 +18,13 @@ class CalendarWidgetService {
 
     fun getIcalDataFromUrl(url: String): String {
         val calendarData = proxyService.getDataFromProxy(url)
-        val stream: InputStream = calendarData!!.byteInputStream(StandardCharsets.ISO_8859_1)
-        val reader: Reader = InputStreamReader(stream, StandardCharsets.ISO_8859_1)
-        val calendar: Calendar = CalendarBuilder().build(reader)
-        return ObjectMapper().writeValueAsString(calendar)
+        return if (calendarData != null) {
+            val stream = calendarData.byteInputStream(StandardCharsets.ISO_8859_1)
+            val reader: Reader = InputStreamReader(stream, StandardCharsets.ISO_8859_1)
+            val calendar: Calendar = CalendarBuilder().build(reader)
+            ObjectMapper().writeValueAsString(calendar)
+        } else {
+            ""
+        }
     }
 }

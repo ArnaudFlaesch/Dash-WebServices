@@ -1,15 +1,16 @@
 package com.dash.controller
 
+import com.dash.controller.requests.CalendarUrlPayload
 import com.dash.utils.Constants.UNAUTHORIZED_ERROR
 import com.dash.utils.IntegrationTestsUtils
 import com.dash.utils.TestEndpointsArguments
-import com.google.gson.Gson
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -37,7 +38,7 @@ import java.util.stream.Stream
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class RssWidgetControllerTests {
+class CalendarWidgetControllerTests {
 
     @LocalServerPort
     private val port: Int = 0
@@ -49,7 +50,7 @@ class RssWidgetControllerTests {
 
     private lateinit var jwtToken: String
 
-    private val rssWidgetEndpoint = "/rssWidget/"
+    private val calendarWidgetEndpoint = "/calendarWidget/"
 
     @BeforeAll
     fun setup() {
@@ -64,58 +65,122 @@ class RssWidgetControllerTests {
     }
 
     @Test
-    fun testGetUrl() {
-        val url = "http://thelastpictureshow.over-blog.com/rss"
+    fun testGetCalendarData() {
+        val calendarUrl = "https://calendar.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics"
 
-        val mockedResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-            "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:media=\"http://search.yahoo.com/mrss/\">\n" +
-            "    <channel></channel>\n" +
-            "</rss>"
+        val mockedResponse = "BEGIN:VCALENDAR\n" +
+            "PRODID:-//Google Inc//Google Calendar 70.9054//EN\n" +
+            "VERSION:2.0\n" +
+            "CALSCALE:GREGORIAN\n" +
+            "METHOD:PUBLISH\n" +
+            "X-WR-CALNAME:Jours fériés en France\n" +
+            "X-WR-TIMEZONE:UTC\n" +
+            "X-WR-CALDESC:Jours fériés et fêtes légales en France\n" +
+            "BEGIN:VEVENT\n" +
+            "DTSTART;VALUE=DATE:20221101\n" +
+            "DTEND;VALUE=DATE:20221102\n" +
+            "DTSTAMP:20220319T185542Z\n" +
+            "UID:20221101_2c3kflc4jarsvbht100d2j89fg@google.com\n" +
+            "CLASS:PUBLIC\n" +
+            "CREATED:20210826T084241Z\n" +
+            "DESCRIPTION:Jour férié\n" +
+            "LAST-MODIFIED:20210826T084241Z\n" +
+            "SEQUENCE:0\n" +
+            "STATUS:CONFIRMED\n" +
+            "SUMMARY:La Toussaint\n" +
+            "TRANSP:TRANSPARENT\n" +
+            "END:VEVENT\n" +
+            "BEGIN:VEVENT\n" +
+            "DTSTART;VALUE=DATE:20210523\n" +
+            "DTEND;VALUE=DATE:20210524\n" +
+            "DTSTAMP:20220319T185542Z\n" +
+            "UID:20210523_a09of6mjan8vo7va1up7e8rqds@google.com\n" +
+            "CLASS:PUBLIC\n" +
+            "CREATED:20210826T084239Z\n" +
+            "DESCRIPTION:Journée d''observance\n" +
+            "LAST-MODIFIED:20210826T084239Z\n" +
+            "SEQUENCE:0\n" +
+            "STATUS:CONFIRMED\n" +
+            "SUMMARY:Pentecôte\n" +
+            "TRANSP:TRANSPARENT\n" +
+            "END:VEVENT\n" +
+            "BEGIN:VEVENT\n" +
+            "DTSTART;VALUE=DATE:20221225\n" +
+            "DTEND;VALUE=DATE:20221226\n" +
+            "DTSTAMP:20220319T185542Z\n" +
+            "UID:20221225_5de512b1og8l97mmk19iatvbhk@google.com\n" +
+            "CLASS:PUBLIC\n" +
+            "CREATED:20210826T084239Z\n" +
+            "DESCRIPTION:Jour férié\n" +
+            "LAST-MODIFIED:20210826T084239Z\n" +
+            "SEQUENCE:0\n" +
+            "STATUS:CONFIRMED\n" +
+            "SUMMARY:Noël\n" +
+            "TRANSP:TRANSPARENT\n" +
+            "END:VEVENT\n" +
+            "BEGIN:VEVENT\n" +
+            "DTSTART;VALUE=DATE:20210508\n" +
+            "DTEND;VALUE=DATE:20210509\n" +
+            "DTSTAMP:20220319T185542Z\n" +
+            "UID:20210508_8bk7t632v4ejuo8qn09oo47hlo@google.com\n" +
+            "CLASS:PUBLIC\n" +
+            "CREATED:20210826T084233Z\n" +
+            "DESCRIPTION:Jour férié\n" +
+            "LAST-MODIFIED:20210826T084233Z\n" +
+            "SEQUENCE:0\n" +
+            "STATUS:CONFIRMED\n" +
+            "SUMMARY:Fête de la Victoire 1945\n" +
+            "TRANSP:TRANSPARENT\n" +
+            "END:VEVENT\n" +
+            "END:VCALENDAR\n"
 
         mockServer.expect(
-            ExpectedCount.once(), requestTo(URI(url))
+            ExpectedCount.once(), requestTo(URI(calendarUrl))
         )
             .andExpect(method(HttpMethod.GET))
             .andRespond(
                 withStatus(HttpStatus.OK)
-                    .contentType(MediaType.APPLICATION_XML)
                     .body(mockedResponse)
             )
 
-        given()
+        val getCalendarDataResponse = given()
             .port(port)
-            .param("url", url)
             .contentType(ContentType.JSON)
+            .accept(MediaType.APPLICATION_JSON_VALUE)
+            .body(CalendarUrlPayload(calendarUrl))
             .header(Header("Authorization", "Bearer $jwtToken"))
             .`when`()
-            .get(rssWidgetEndpoint)
+            .post(calendarWidgetEndpoint)
             .then().log().all()
             .statusCode(200)
-            .body(equalTo(Gson().toJson(mapOf("version" to "2.0", "channel" to ""))))
             .log().all()
+            .extract()
+            .jsonPath()
+
+        assertEquals(7, getCalendarDataResponse.getList<Any>("properties").size)
 
         mockServer.verify()
     }
 
     @Test
-    fun testGetUrlNullResponse() {
-        val url = "http://thelastpictureshow.over-blog.com/rss"
+    fun testGetCalendarDataNullResponse() {
+        val calendarUrl = "http://wrong_calendar_url.com"
 
         mockServer.expect(
-            ExpectedCount.once(), requestTo(URI(url))
+            ExpectedCount.once(), requestTo(URI(calendarUrl))
         )
             .andExpect(method(HttpMethod.GET))
             .andRespond(
                 withStatus(HttpStatus.OK)
-                    .contentType(MediaType.APPLICATION_XML)
             )
 
         given()
             .port(port)
-            .param("url", url)
+            .contentType(ContentType.JSON)
+            .body(CalendarUrlPayload(calendarUrl))
             .header(Header("Authorization", "Bearer $jwtToken"))
             .`when`()
-            .get(rssWidgetEndpoint)
+            .post(calendarWidgetEndpoint)
             .then().log().all()
             .statusCode(200)
             .body(equalTo(""))
@@ -135,14 +200,14 @@ class RssWidgetControllerTests {
             .andExpect(method(HttpMethod.GET))
             .andRespond(
                 withStatus(urlStatusCodeResponse)
-                    .contentType(MediaType.APPLICATION_JSON)
             )
 
         given().port(port)
-            .param("url", url)
             .header(Header("Authorization", "Bearer $jwtToken"))
+            .contentType(ContentType.JSON)
+            .body(CalendarUrlPayload(url))
             .`when`()
-            .get(rssWidgetEndpoint)
+            .post(calendarWidgetEndpoint)
             .then().log().all()
             .statusCode(expectedStatusCode)
             .log().all()
@@ -151,9 +216,8 @@ class RssWidgetControllerTests {
     @Test
     fun testEndpointNotAuthenticated() {
         given().port(port)
-            .param("url", "http://testwrongurl.com")
             .`when`()
-            .get(rssWidgetEndpoint)
+            .post(calendarWidgetEndpoint)
             .then().log().all()
             .statusCode(401)
             .log().all()

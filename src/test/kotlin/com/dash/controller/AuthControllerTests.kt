@@ -4,6 +4,7 @@ import com.dash.controller.requests.LoginRequest
 import com.dash.security.response.JwtResponse
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
+import io.restassured.http.ContentType
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -32,14 +33,13 @@ class AuthControllerTests {
     fun testGetAdmin() {
         val jwtResponse = given()
             .port(port)
-            .contentType("application/json")
+            .contentType(ContentType.JSON)
             .`when`()
             .body(LoginRequest("admintest", "adminpassword"))
             .post("/auth/login/")
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .body("$", Matchers.notNullValue())
             .extract().`as`(JwtResponse::class.java)
         assertEquals("ROLE_ADMIN", jwtResponse.roles[0])
     }
@@ -48,7 +48,7 @@ class AuthControllerTests {
     fun testGetUserWrongUsername() {
         given()
             .port(port)
-            .contentType("application/json")
+            .contentType(ContentType.JSON)
             .`when`()
             .body(LoginRequest("wrongUsername", "wrongPassword"))
             .post("/auth/login/")
