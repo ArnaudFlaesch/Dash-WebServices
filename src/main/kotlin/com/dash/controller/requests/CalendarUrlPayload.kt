@@ -1,5 +1,5 @@
 package com.dash.controller.requests
 
-data class CalendarUrlPayload (
+data class CalendarUrlPayload(
     val calendarUrl: String
 )
