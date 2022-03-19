@@ -2,7 +2,7 @@ package com.dash.controller
 
 import com.dash.security.JwtUtils
 import com.dash.security.UserDetailsImpl
-import com.dash.security.payload.LoginRequest
+import com.dash.controller.requests.LoginRequest
 import com.dash.security.response.JwtResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.AuthenticationManager
