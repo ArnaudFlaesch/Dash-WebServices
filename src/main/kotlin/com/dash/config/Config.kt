@@ -22,7 +22,7 @@ class Config {
         factory.setReadTimeout(timeout)
         val restTemplate = RestTemplate(factory)
         restTemplate.messageConverters
-            .add(0, StringHttpMessageConverter(StandardCharsets.UTF_8));
+            .add(0, StringHttpMessageConverter(StandardCharsets.UTF_8))
         restTemplate.errorHandler = ErrorHandler()
         return restTemplate
     }
