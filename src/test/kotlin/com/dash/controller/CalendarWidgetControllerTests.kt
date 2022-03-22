@@ -190,8 +190,8 @@ class CalendarWidgetControllerTests {
     }
 
     @ParameterizedTest
-    @MethodSource("testGetUrlErrorCodes")
-    fun testGetUrlErrorCodes(urlStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
+    @MethodSource("testGetCalendarDataErrorCodes")
+    fun testGetCalendarDataErrorCodes(urlStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
         val url = "http://testwrongurl.com"
 
         mockServer.expect(
@@ -224,5 +224,5 @@ class CalendarWidgetControllerTests {
             .body("error", equalTo(UNAUTHORIZED_ERROR))
     }
 
-    fun testGetUrlErrorCodes(): Stream<Arguments> = TestEndpointsArguments.testForeignApiCodes()
+    fun testGetCalendarDataErrorCodes(): Stream<Arguments> = TestEndpointsArguments.testForeignApiCodes()
 }

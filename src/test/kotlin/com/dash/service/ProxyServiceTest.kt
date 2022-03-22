@@ -91,7 +91,7 @@ class ProxyServiceTest {
                     .contentType(MediaType.APPLICATION_JSON)
             )
         assertThrows(exceptionClass) {
-            proxyService.postDataFromProxy(testUrl, "")
+            proxyService.postDataFromProxy(testUrl, "{}")
         }
         mockServer.verify()
     }
