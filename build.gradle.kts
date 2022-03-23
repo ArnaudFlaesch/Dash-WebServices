@@ -1,14 +1,15 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 import io.gitlab.arturbosch.detekt.Detekt
-import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 
 val kotlinVersion = "1.5.30"
 val springBootVersion = "2.5.4"
 val jwtVersion = "0.9.1"
+val ical4jVersion = "1.0.2"
 
 val jacksonModuleKotlinVersion = "2.13.1"
 val jacksonModuleJaxbVersion = "2.13.2"
+val jacksonDataformatVersion = "2.13.2"
 val log4jVersion = "2.17.2"
 
 val liquibaseVersion = "4.9.0"
@@ -59,11 +60,13 @@ dependencies {
     implementation ("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
 
     implementation ("io.jsonwebtoken:jjwt:$jwtVersion")
+    implementation("org.mnode.ical4j:ical4j:$ical4jVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonModuleKotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 
     implementation("com.fasterxml.jackson.module:jackson-modules-base:$jacksonModuleJaxbVersion")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonDataformatVersion")
     implementation ("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation("org.liquibase:liquibase-core:$liquibaseVersion")
 
