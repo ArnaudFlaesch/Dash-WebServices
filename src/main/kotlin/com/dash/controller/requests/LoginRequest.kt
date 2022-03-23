@@ -1,4 +1,4 @@
-package com.dash.security.payload
+package com.dash.controller.requests
 
 import javax.validation.constraints.NotBlank
 
