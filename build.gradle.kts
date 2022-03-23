@@ -18,7 +18,7 @@ val gsonVersion = "2.9.0"
 
 val restAssuredVersion = "4.5.1"
 val junitVersion = "5.8.2"
-val hibernateTypesVersion = "2.14.0"
+val hibernateTypesVersion = "2.14.1"
 
 val detektVersion = "1.18.0"
 val ktlintVersion = "0.45.1"
