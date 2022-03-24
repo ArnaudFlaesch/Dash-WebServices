@@ -9,7 +9,7 @@ import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -153,12 +153,10 @@ class CalendarWidgetControllerTests {
             .post(calendarWidgetEndpoint)
             .then().log().all()
             .statusCode(200)
-            .log().all()
-            .extract()
-            .jsonPath()
+            .contentType(ContentType.JSON)
+            .extract().`as`(List::class.java)
 
-        assertEquals(7, getCalendarDataResponse.getList<Any>("properties").size)
-
+        assertEquals(getCalendarDataResponse.size, 4)
         mockServer.verify()
     }
 
