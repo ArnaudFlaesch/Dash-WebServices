@@ -19,6 +19,7 @@ val gsonVersion = "2.9.0"
 val restAssuredVersion = "4.5.1"
 val junitVersion = "5.8.2"
 val hibernateTypesVersion = "2.14.1"
+val testContainersVersion = "1.16.3"
 
 val detektVersion = "1.18.0"
 val ktlintVersion = "0.45.1"
@@ -85,7 +86,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
-
+    testImplementation("org.testcontainers:junit-jupiter:$testContainersVersion")
+    testImplementation("org.testcontainers:postgresql:$testContainersVersion")
     ktlint("com.pinterest:ktlint:${ktlintVersion}")
 }
 

@@ -1,5 +1,6 @@
 package com.dash.controller
 
+import AbstractIT
 import com.dash.controller.requests.GetStravaRefreshTokenPayload
 import com.dash.controller.requests.GetStravaTokenPayload
 import com.dash.utils.IntegrationTestsUtils
@@ -35,7 +36,7 @@ import java.util.stream.Stream
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class StravaWidgetControllerTests {
+class StravaWidgetControllerTests : AbstractIT() {
 
     @LocalServerPort
     private val port: Int = 0

@@ -1,5 +1,6 @@
 package com.dash.service
 
+import AbstractIT
 import com.dash.controller.ErrorHandler
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -30,7 +31,7 @@ import java.util.stream.Stream
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ProxyServiceTest {
+class ProxyServiceTest : AbstractIT() {
 
     @Autowired
     private lateinit var proxyService: ProxyService

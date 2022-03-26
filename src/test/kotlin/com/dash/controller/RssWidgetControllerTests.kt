@@ -1,5 +1,6 @@
 package com.dash.controller
 
+import AbstractIT
 import com.dash.utils.Constants.UNAUTHORIZED_ERROR
 import com.dash.utils.IntegrationTestsUtils
 import com.dash.utils.TestEndpointsArguments
@@ -37,7 +38,7 @@ import java.util.stream.Stream
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class RssWidgetControllerTests {
+class RssWidgetControllerTests : AbstractIT() {
 
     @LocalServerPort
     private val port: Int = 0

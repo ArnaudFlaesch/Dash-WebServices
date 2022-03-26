@@ -1,5 +1,6 @@
 package com.dash.controller
 
+import AbstractIT
 import com.dash.utils.IntegrationTestsUtils
 import com.dash.utils.TestEndpointsArguments.testForeignApiCodes
 import com.dash.utils.TestEndpointsArguments.testTokenArguments
@@ -33,7 +34,7 @@ import java.util.stream.Stream
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class WeatherWidgetControllerTests {
+class WeatherWidgetControllerTests : AbstractIT() {
 
     @LocalServerPort
     private val port: Int = 0
