@@ -1,5 +1,4 @@
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.TestInstance
+
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
@@ -12,14 +11,14 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Testcontainers
-class AbstractIT {
+sealed class AbstractIT {
 
     init {
-        postgreDBContainer.start()
+        postgresDBContainer.start()
     }
 
     companion object {
-        var postgreDBContainer: PostgreSQLContainer<*> = PostgreSQLContainer("postgres:13.2-alpine")
+        var postgresDBContainer: PostgreSQLContainer<*> = PostgreSQLContainer("postgres:13.2-alpine")
             .withDatabaseName("dash_test")
             .withUsername("postgres")
             .withPassword("postgres")
@@ -29,9 +28,9 @@ class AbstractIT {
         fun registerPgProperties(registry: DynamicPropertyRegistry) {
             registry.add(
                 "spring.datasource.url"
-            ) { postgreDBContainer.jdbcUrl }
-            registry.add("spring.datasource.username") { postgreDBContainer.username }
-            registry.add("spring.datasource.password") { postgreDBContainer.password }
+            ) { postgresDBContainer.jdbcUrl }
+            registry.add("spring.datasource.username") { postgresDBContainer.username }
+            registry.add("spring.datasource.password") { postgresDBContainer.password }
         }
     }
 }
