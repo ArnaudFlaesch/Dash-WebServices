@@ -1,6 +1,6 @@
 package com.dash.controller
 
-import AbstractIT
+import com.dash.utils.AbstractIT
 import com.dash.utils.Constants.UNAUTHORIZED_ERROR
 import com.dash.utils.IntegrationTestsUtils
 import com.dash.utils.TestEndpointsArguments

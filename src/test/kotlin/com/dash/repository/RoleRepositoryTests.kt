@@ -1,6 +1,6 @@
 package com.dash.repository
 
-import AbstractIT
+import com.dash.utils.AbstractIT
 import com.dash.entity.Role
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

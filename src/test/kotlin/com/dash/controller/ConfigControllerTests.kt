@@ -1,6 +1,6 @@
 package com.dash.controller
 
-import AbstractIT
+import com.dash.utils.AbstractIT
 import com.dash.entity.ImportData
 import com.dash.repository.TabDataset
 import com.dash.repository.WidgetDataset

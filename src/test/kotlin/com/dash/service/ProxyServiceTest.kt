@@ -1,6 +1,6 @@
 package com.dash.service
 
-import AbstractIT
+import com.dash.utils.AbstractIT
 import com.dash.controller.ErrorHandler
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows

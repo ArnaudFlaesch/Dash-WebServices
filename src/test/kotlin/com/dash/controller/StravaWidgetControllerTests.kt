@@ -1,6 +1,6 @@
 package com.dash.controller
 
-import AbstractIT
+import com.dash.utils.AbstractIT
 import com.dash.controller.requests.GetStravaRefreshTokenPayload
 import com.dash.controller.requests.GetStravaTokenPayload
 import com.dash.utils.IntegrationTestsUtils

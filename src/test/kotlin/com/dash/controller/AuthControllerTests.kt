@@ -1,6 +1,6 @@
 package com.dash.controller
 
-import AbstractIT
+import com.dash.utils.AbstractIT
 import com.dash.controller.requests.LoginRequest
 import com.dash.security.response.JwtResponse
 import io.restassured.RestAssured.defaultParser

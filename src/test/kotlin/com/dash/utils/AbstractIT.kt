@@ -1,4 +1,4 @@
-
+package com.dash.utils
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
@@ -11,14 +11,11 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Testcontainers
-sealed class AbstractIT {
-
-    init {
-        postgresDBContainer.start()
-    }
+class AbstractIT {
+    internal constructor()
 
     companion object {
-        var postgresDBContainer: PostgreSQLContainer<*> = PostgreSQLContainer("postgres:13.2-alpine")
+        private var postgresDBContainer: PostgreSQLContainer<*> = PostgreSQLContainer("postgres:13.2-alpine")
             .withDatabaseName("dash_test")
             .withUsername("postgres")
             .withPassword("postgres")
@@ -26,6 +23,7 @@ sealed class AbstractIT {
         @DynamicPropertySource
         @JvmStatic
         fun registerPgProperties(registry: DynamicPropertyRegistry) {
+            postgresDBContainer.start()
             registry.add(
                 "spring.datasource.url"
             ) { postgresDBContainer.jdbcUrl }
