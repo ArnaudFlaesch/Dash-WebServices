@@ -1,7 +1,7 @@
 package com.dash.service
 
-import com.dash.controller.ErrorHandler
 import com.common.utils.AbstractIT
+import com.dash.controller.ErrorHandler
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeAll

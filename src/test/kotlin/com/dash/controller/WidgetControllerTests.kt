@@ -1,10 +1,10 @@
 package com.dash.controller
 
+import com.common.utils.AbstractIT
+import com.common.utils.IntegrationTestsUtils
 import com.dash.entity.Tab
 import com.dash.entity.Widget
 import com.dash.repository.TabDataset
-import com.common.utils.AbstractIT
-import com.common.utils.IntegrationTestsUtils
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType

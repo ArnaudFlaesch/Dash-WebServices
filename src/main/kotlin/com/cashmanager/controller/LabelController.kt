@@ -2,7 +2,6 @@ package com.cashmanager.controller
 
 import com.cashmanager.entity.Label
 import com.cashmanager.service.LabelService
-import com.dash.entity.Tab
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 

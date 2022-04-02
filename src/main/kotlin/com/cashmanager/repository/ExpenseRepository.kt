@@ -1,7 +1,6 @@
 package com.cashmanager.repository
 
 import com.cashmanager.entity.Expense
-import com.dash.entity.Widget
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query

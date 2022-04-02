@@ -2,8 +2,6 @@ package com.cashmanager.service
 
 import com.cashmanager.entity.Label
 import com.cashmanager.repository.LabelRepository
-import com.dash.entity.Tab
-import com.dash.repository.TabRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 

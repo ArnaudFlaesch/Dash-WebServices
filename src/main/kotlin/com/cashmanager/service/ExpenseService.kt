@@ -2,9 +2,6 @@ package com.cashmanager.service
 
 import com.cashmanager.entity.Expense
 import com.cashmanager.repository.ExpenseRepository
-import com.dash.controller.requests.UpdateWidgetDataPayload
-import com.dash.entity.Widget
-import com.dash.repository.WidgetRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
