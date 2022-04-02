@@ -1,5 +1,6 @@
 package com.dash.controller
 
+import com.dash.utils.AbstractIT
 import com.dash.utils.IntegrationTestsUtils
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
@@ -17,7 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class WidgetTypeControllerTests {
+class WidgetTypeControllerTests : AbstractIT() {
 
     @LocalServerPort
     private val port: Int = 0

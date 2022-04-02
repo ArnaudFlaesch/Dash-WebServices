@@ -19,6 +19,7 @@ val gsonVersion = "2.9.0"
 val restAssuredVersion = "4.5.1"
 val junitVersion = "5.8.2"
 val hibernateTypesVersion = "2.14.1"
+val testContainersVersion = "1.16.3"
 
 val detektVersion = "1.18.0"
 val ktlintVersion = "0.45.1"
@@ -85,17 +86,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
-
+    testImplementation("org.testcontainers:junit-jupiter:$testContainersVersion")
+    testImplementation("org.testcontainers:postgresql:$testContainersVersion")
     ktlint("com.pinterest:ktlint:${ktlintVersion}")
-}
-
-configurations.all {
-    resolutionStrategy.eachDependency {
-        if (this.requested.group == "org.codehaus.groovy") {
-            this.useVersion("3.0.2")
-            this.because("needed by rest-assured>=4.3")
-        }
-    }
 }
 
 tasks.jacocoTestReport {
@@ -124,7 +117,7 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.getByName<Jar>("jar") {
-    enabled = false
+    isEnabled = false
 }
 
 tasks.withType<Detekt>().configureEach {
@@ -138,10 +131,10 @@ detekt {
     autoCorrect = true
 
     reports {
-        html.enabled = true // observe findings in your browser with structure and code snippets
-        xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
-        txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
-        sarif.enabled = true // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
+        html.required.set(true) // observe findings in your browser with structure and code snippets
+        xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins
+        txt.required.set(true) // similar to the console output, contains issue signature to manually edit baseline files
+        sarif.required.set(true) // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
     }
 }
 

@@ -1,5 +1,6 @@
 package com.dash.service
 
+import com.dash.utils.AbstractIT
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -23,7 +24,7 @@ import java.net.URI
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class RssWidgetServiceTest {
+class RssWidgetServiceTest : AbstractIT() {
 
     @Autowired
     private lateinit var rssWidgetService: RssWidgetService

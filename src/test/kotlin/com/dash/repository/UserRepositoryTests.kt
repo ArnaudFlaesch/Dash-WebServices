@@ -1,6 +1,7 @@
 package com.dash.repository
 
 import com.dash.entity.User
+import com.dash.utils.AbstractIT
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -11,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
-class UserRepositoryTests {
+class UserRepositoryTests : AbstractIT() {
 
     @Autowired
     private lateinit var userRepository: UserRepository

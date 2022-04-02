@@ -3,6 +3,7 @@ package com.dash.controller
 import com.dash.entity.ImportData
 import com.dash.repository.TabDataset
 import com.dash.repository.WidgetDataset
+import com.dash.utils.AbstractIT
 import com.dash.utils.IntegrationTestsUtils
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
@@ -26,7 +27,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @WidgetDataset
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ConfigControllerTests {
+class ConfigControllerTests : AbstractIT() {
 
     @LocalServerPort
     private val port: Int = 0
