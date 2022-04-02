@@ -1,8 +1,8 @@
 package com.dash.repository
 
-import com.dash.utils.AbstractIT
 import com.dash.entity.Tab
 import com.dash.entity.Widget
+import com.dash.utils.AbstractIT
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

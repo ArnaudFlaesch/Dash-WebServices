@@ -1,8 +1,8 @@
 package com.dash.controller
 
-import com.dash.utils.AbstractIT
 import com.dash.controller.requests.GetStravaRefreshTokenPayload
 import com.dash.controller.requests.GetStravaTokenPayload
+import com.dash.utils.AbstractIT
 import com.dash.utils.IntegrationTestsUtils
 import com.dash.utils.TestEndpointsArguments
 import io.restassured.RestAssured

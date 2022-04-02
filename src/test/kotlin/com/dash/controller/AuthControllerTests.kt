@@ -1,8 +1,8 @@
 package com.dash.controller
 
-import com.dash.utils.AbstractIT
 import com.dash.controller.requests.LoginRequest
 import com.dash.security.response.JwtResponse
+import com.dash.utils.AbstractIT
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType

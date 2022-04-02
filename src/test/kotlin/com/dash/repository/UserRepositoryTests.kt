@@ -1,7 +1,7 @@
 package com.dash.repository
 
-import com.dash.utils.AbstractIT
 import com.dash.entity.User
+import com.dash.utils.AbstractIT
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
