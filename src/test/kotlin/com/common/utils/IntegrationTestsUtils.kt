@@ -1,5 +1,6 @@
 package com.common.utils
 
+import com.common.controller.requests.LoginRequest
 import com.common.security.response.JwtResponse
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
