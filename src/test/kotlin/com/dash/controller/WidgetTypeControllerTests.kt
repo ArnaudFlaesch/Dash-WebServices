@@ -33,7 +33,6 @@ class WidgetTypeControllerTests : AbstractIT() {
 
     @Test
     fun testGetAllWidgetTypes() {
-
         given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .`when`()
@@ -41,6 +40,6 @@ class WidgetTypeControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .body("size", equalTo(4))
+            .body("size", equalTo(5))
     }
 }
