@@ -1,4 +1,4 @@
-package com.dash.repository
+package com.common.repository
 
 import com.dash.entity.User
 import org.springframework.data.jpa.repository.JpaRepository

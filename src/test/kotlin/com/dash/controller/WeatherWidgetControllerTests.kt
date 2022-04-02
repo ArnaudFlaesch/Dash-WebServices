@@ -1,9 +1,9 @@
 package com.dash.controller
 
-import com.dash.utils.AbstractIT
-import com.dash.utils.IntegrationTestsUtils
-import com.dash.utils.TestEndpointsArguments.testForeignApiCodes
-import com.dash.utils.TestEndpointsArguments.testTokenArguments
+import com.common.utils.AbstractIT
+import com.common.utils.IntegrationTestsUtils
+import com.common.utils.TestEndpointsArguments.testForeignApiCodes
+import com.common.utils.TestEndpointsArguments.testTokenArguments
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.Header

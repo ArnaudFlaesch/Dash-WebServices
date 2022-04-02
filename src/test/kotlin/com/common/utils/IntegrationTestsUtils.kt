@@ -1,7 +1,6 @@
-package com.dash.utils
+package com.common.utils
 
-import com.dash.controller.requests.LoginRequest
-import com.dash.security.response.JwtResponse
+import com.common.security.response.JwtResponse
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.Matchers

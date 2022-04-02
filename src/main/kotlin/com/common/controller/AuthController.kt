@@ -1,9 +1,9 @@
-package com.dash.controller
+package com.common.controller
 
-import com.dash.controller.requests.LoginRequest
-import com.dash.security.JwtUtils
-import com.dash.security.UserDetailsImpl
-import com.dash.security.response.JwtResponse
+import com.common.controller.requests.LoginRequest
+import com.common.security.JwtUtils
+import com.common.security.UserDetailsImpl
+import com.common.security.response.JwtResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

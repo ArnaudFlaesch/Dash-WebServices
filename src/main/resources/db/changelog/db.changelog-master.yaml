@@ -50,3 +50,16 @@ databaseChangeLog:
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
+
+  - changeSet:
+      id: 5
+      author: aflaesch
+      comment: CashManager schema
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            path: /db/changelog/cashmanager/schema_init.sql
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true

@@ -1,8 +1,8 @@
 package com.dash.controller
 
-import com.dash.utils.AbstractIT
-import com.dash.utils.IntegrationTestsUtils
-import com.dash.utils.TestEndpointsArguments
+import com.common.utils.AbstractIT
+import com.common.utils.IntegrationTestsUtils
+import com.common.utils.TestEndpointsArguments
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.Header

@@ -1,4 +1,4 @@
-package com.dash.repository
+package com.common.repository
 
 import com.dash.entity.Role
 import org.springframework.data.jpa.repository.JpaRepository

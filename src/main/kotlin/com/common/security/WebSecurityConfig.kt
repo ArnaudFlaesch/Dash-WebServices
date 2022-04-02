@@ -1,4 +1,4 @@
-package com.dash.security
+package com.common.security
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean

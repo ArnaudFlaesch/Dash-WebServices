@@ -1,7 +1,7 @@
-package com.dash.security
+package com.common.security
 
 import com.dash.entity.User
-import com.dash.repository.UserRepository
+import com.common.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService

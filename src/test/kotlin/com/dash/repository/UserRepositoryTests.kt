@@ -1,7 +1,9 @@
 package com.dash.repository
 
+import com.common.repository.RoleRepository
+import com.common.repository.UserRepository
 import com.dash.entity.User
-import com.dash.utils.AbstractIT
+import com.common.utils.AbstractIT
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

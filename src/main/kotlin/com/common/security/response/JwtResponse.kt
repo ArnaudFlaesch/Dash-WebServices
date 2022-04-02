@@ -1,4 +1,4 @@
-package com.dash.security.response
+package com.common.security.response
 
 class JwtResponse(
     var accessToken: String,

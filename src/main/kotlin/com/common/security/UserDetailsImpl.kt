@@ -1,4 +1,4 @@
-package com.dash.security
+package com.common.security
 
 import com.dash.entity.User
 import com.fasterxml.jackson.annotation.JsonIgnore
