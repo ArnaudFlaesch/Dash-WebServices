@@ -1,6 +1,8 @@
 package com.cashmanager.entity
 
 import java.io.Serializable
+import java.time.LocalDate
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -10,6 +12,11 @@ data class Expense(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "expense-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
+
+    val amount: Int,
+
+    @Temporal(TemporalType.DATE)
+    val expenseDate: Date,
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "labelId")

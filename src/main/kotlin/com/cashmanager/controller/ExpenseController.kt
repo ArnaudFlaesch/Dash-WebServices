@@ -3,7 +3,9 @@ package com.cashmanager.controller
 import com.cashmanager.entity.Expense
 import com.cashmanager.service.ExpenseService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.web.bind.annotation.*
+import java.util.*
 
 @RestController
 @RequestMapping("/expense")
@@ -14,11 +16,17 @@ class ExpenseController {
     private lateinit var expenseService: ExpenseService
 
     @GetMapping("/")
-    fun getTabs(): List<Expense> = (expenseService.getAllExpenses())
+    fun getExpenses(
+        @RequestParam("startIntervalDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) startIntervalDate: Date,
+        @RequestParam("endIntervalDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) endIntervalDate: Date
+    ): List<Expense> = (expenseService.getExpensesByInterval(startIntervalDate, endIntervalDate))
 
     @PostMapping("/addExpense")
-    fun addTab(@RequestBody expense: Expense): Expense = expenseService.addExpense(expense)
+    fun addExpense(@RequestBody expense: Expense): Expense = expenseService.addExpense(expense)
 
     @DeleteMapping("/deleteExpense")
-    fun deleteTab(@RequestParam(value = "id") id: Int) = expenseService.deleteExpensesByTabId(id)
+    fun deleteExpense(@RequestParam(value = "expenseId") id: Int) = expenseService.deleteExpense(id)
+
+    @DeleteMapping("/deleteExpenses")
+    fun deleteExpenses(@RequestParam(value = "labelId") labelId: Int) = expenseService.deleteExpensesByLabelId(labelId)
 }

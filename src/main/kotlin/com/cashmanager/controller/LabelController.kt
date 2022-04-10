@@ -19,6 +19,9 @@ class LabelController {
     @PostMapping("/addLabel")
     fun addLabel(@RequestBody label: Label): Label = labelService.addLabel(label)
 
+    @PatchMapping("/updateLabel")
+    fun updateLabel(@RequestBody label: Label): Label = labelService.updateLabel(label)
+
     @DeleteMapping("/deleteLabel")
     fun deleteLabel(@RequestParam(value = "id") id: Int) = labelService.deleteLabel(id)
 }

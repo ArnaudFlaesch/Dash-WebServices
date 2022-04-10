@@ -21,7 +21,7 @@ class LabelService {
     fun updateLabel(label: Label): Label = labelRepository.save(label)
 
     fun deleteLabel(labelId: Int) {
-        expenseService.deleteExpensesByTabId(labelId)
+        expenseService.deleteExpensesByLabelId(labelId)
         val label = labelRepository.getById(labelId)
         return labelRepository.delete(label)
     }
