@@ -1,5 +1,6 @@
 package com.cashmanager.controller
 
+import com.cashmanager.controller.requests.InsertLabelPayload
 import com.cashmanager.entity.Label
 import com.cashmanager.service.LabelService
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,7 +18,7 @@ class LabelController {
     fun getLabels(): List<Label> = (labelService.getLabels())
 
     @PostMapping("/addLabel")
-    fun addLabel(@RequestBody label: Label): Label = labelService.addLabel(label)
+    fun addLabel(@RequestBody insertLabelPayload: InsertLabelPayload): Label = labelService.addLabel(insertLabelPayload.newLabel)
 
     @PatchMapping("/updateLabel")
     fun updateLabel(@RequestBody label: Label): Label = labelService.updateLabel(label)

@@ -63,3 +63,17 @@ databaseChangeLog:
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
+
+  - changeSet:
+      id: 6
+      author: aflaesch
+      comment: Dataset for CashManager tests
+      context: test
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            path: /db/changelog/testdata/dataset-cashmanager.sql
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true
