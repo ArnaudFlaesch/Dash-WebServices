@@ -1,7 +1,6 @@
 package com.cashmanager.entity
 
 import java.io.Serializable
-import java.time.LocalDate
 import java.util.*
 import javax.persistence.*
 
