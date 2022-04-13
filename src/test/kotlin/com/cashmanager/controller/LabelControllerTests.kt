@@ -47,7 +47,7 @@ class LabelControllerTests : AbstractIT() {
 
     @Test
     fun testAllLabels() {
-        val labels : List<Label> = given().port(port)
+        val labels: List<Label> = given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .`when`().get("$LABEL_ENDPOINT")
             .then().log().all()
@@ -63,7 +63,7 @@ class LabelControllerTests : AbstractIT() {
     @Test
     fun labelCrudTests() {
         val labelToInsert = InsertLabelPayload(newLabel = "Vacances")
-        val insertedLabel : Label = given()
+        val insertedLabel: Label = given()
             .port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .contentType(ContentType.JSON)
@@ -78,7 +78,7 @@ class LabelControllerTests : AbstractIT() {
         assertEquals(labelToInsert.newLabel, insertedLabel.label)
 
         val labelToUpdate = insertedLabel.copy(label = "Vacances d'été")
-        val updatedLabel : Label = given()
+        val updatedLabel: Label = given()
             .port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .contentType(ContentType.JSON)
