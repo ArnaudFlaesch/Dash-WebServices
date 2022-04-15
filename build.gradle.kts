@@ -122,6 +122,12 @@ tasks.getByName<Jar>("jar") {
 
 tasks.withType<Detekt>().configureEach {
     jvmTarget = "16"
+    reports {
+        html.required.set(true) // observe findings in your browser with structure and code snippets
+        xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins
+        txt.required.set(true) // similar to the console output, contains issue signature to manually edit baseline files
+        sarif.required.set(true) // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
+    }
 }
 
 detekt {
@@ -129,13 +135,6 @@ detekt {
     allRules = false // activate all available (even unstable) rules.
     config = files(file("$projectDir/detekt.yml"))
     autoCorrect = true
-
-    reports {
-        html.required.set(true) // observe findings in your browser with structure and code snippets
-        xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins
-        txt.required.set(true) // similar to the console output, contains issue signature to manually edit baseline files
-        sarif.required.set(true) // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
-    }
 }
 
 val ktLintOutputDir = "${project.buildDir}/reports/ktlint/"

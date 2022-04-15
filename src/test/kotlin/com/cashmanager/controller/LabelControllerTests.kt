@@ -3,6 +3,7 @@ package com.cashmanager.controller
 import com.cashmanager.controller.requests.InsertLabelPayload
 import com.cashmanager.entity.Label
 import com.common.utils.AbstractIT
+import com.common.utils.Constants
 import com.common.utils.IntegrationTestsUtils
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
@@ -19,9 +20,14 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.Arguments.arguments
+import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.util.stream.Stream
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
@@ -34,6 +40,9 @@ class LabelControllerTests : AbstractIT() {
     private var jwtToken: String? = null
 
     private val LABEL_ENDPOINT = "/label/"
+    private val ADD_LABEL_ENDPOINT = "${LABEL_ENDPOINT}addLabel"
+    private val UPDATE_LABEL_ENDPOINT = "${LABEL_ENDPOINT}updateLabel"
+    private val DELETE_LABEL_ENDPOINT = "${LABEL_ENDPOINT}deleteLabel"
 
     @BeforeAll
     fun testUp() {
@@ -64,7 +73,7 @@ class LabelControllerTests : AbstractIT() {
             .header(Header("Authorization", "Bearer $jwtToken"))
             .contentType(ContentType.JSON)
             .body(labelToInsert)
-            .`when`().post("${LABEL_ENDPOINT}addLabel/")
+            .`when`().post(ADD_LABEL_ENDPOINT)
             .then().log().all()
             .statusCode(200)
             .log().all()
@@ -79,7 +88,7 @@ class LabelControllerTests : AbstractIT() {
             .header(Header("Authorization", "Bearer $jwtToken"))
             .contentType(ContentType.JSON)
             .body(labelToUpdate)
-            .`when`().patch("${LABEL_ENDPOINT}updateLabel/")
+            .`when`().patch(UPDATE_LABEL_ENDPOINT)
             .then().log().all()
             .statusCode(200)
             .log().all()
@@ -92,9 +101,28 @@ class LabelControllerTests : AbstractIT() {
             .port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .param("labelId", updatedLabel.id)
-            .`when`().delete("${LABEL_ENDPOINT}deleteLabel/")
+            .`when`().delete(DELETE_LABEL_ENDPOINT)
             .then().log().all()
             .statusCode(200)
             .log().all()
     }
+
+    @ParameterizedTest
+    @MethodSource("testGetEndpointsNames")
+    fun testEndpointsNotAuthenticatedError(endpointPath: String) {
+        given().port(port)
+            .`when`().get(endpointPath)
+            .then().log().all()
+            .statusCode(401)
+            .log().all()
+            .body("error", Matchers.equalTo(Constants.UNAUTHORIZED_ERROR))
+    }
+
+    fun testGetEndpointsNames():  Stream<Arguments> =
+        Stream.of(
+            arguments(LABEL_ENDPOINT),
+            arguments(ADD_LABEL_ENDPOINT),
+            arguments(UPDATE_LABEL_ENDPOINT),
+            arguments(DELETE_LABEL_ENDPOINT)
+        )
 }
