@@ -118,7 +118,7 @@ class LabelControllerTests : AbstractIT() {
             .body("error", Matchers.equalTo(Constants.UNAUTHORIZED_ERROR))
     }
 
-    fun testGetEndpointsNames():  Stream<Arguments> =
+    fun testGetEndpointsNames(): Stream<Arguments> =
         Stream.of(
             arguments(LABEL_ENDPOINT),
             arguments(ADD_LABEL_ENDPOINT),
