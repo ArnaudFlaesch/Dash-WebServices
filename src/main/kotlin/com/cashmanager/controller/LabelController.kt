@@ -24,5 +24,5 @@ class LabelController {
     fun updateLabel(@RequestBody label: Label): Label = labelService.updateLabel(label)
 
     @DeleteMapping("/deleteLabel")
-    fun deleteLabel(@RequestParam(value = "id") id: Int) = labelService.deleteLabel(id)
+    fun deleteLabel(@RequestParam(value = "labelId") id: Int) = labelService.deleteLabel(id)
 }

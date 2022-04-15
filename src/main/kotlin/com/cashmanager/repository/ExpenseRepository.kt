@@ -5,13 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
-import java.util.*
+import java.time.LocalDate
 import javax.transaction.Transactional
 
 @Repository
 interface ExpenseRepository : JpaRepository<Expense, Int> {
 
-    fun findAllByExpenseDateBetween(startIntervalDate: Date, endIntervalDate: Date): List<Expense>
+    fun findAllByExpenseDateBetween(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<Expense>
 
     @Transactional
     @Modifying

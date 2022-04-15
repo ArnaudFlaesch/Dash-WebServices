@@ -1,6 +1,7 @@
 package com.cashmanager.entity
 
 import java.io.Serializable
+import java.time.LocalDate
 import java.util.*
 import javax.persistence.*
 
@@ -14,8 +15,8 @@ data class Expense(
 
     val amount: Int,
 
-    @Temporal(TemporalType.DATE)
-    val expenseDate: Date,
+    @Column(name = "expensedate")
+    val expenseDate: LocalDate,
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "labelId")

@@ -16,6 +16,8 @@ class LabelService {
 
     fun getLabels(): List<Label> = labelRepository.findAll()
 
+    fun getLabelById(labelId: Int): Label = labelRepository.getById(labelId)
+
     fun addLabel(labelToAdd: String): Label {
         val newLabel = Label(0, labelToAdd)
         return labelRepository.save(newLabel)

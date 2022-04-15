@@ -1,10 +1,12 @@
 package com.cashmanager.service
 
+import com.cashmanager.controller.requests.InsertExpensePayload
 import com.cashmanager.entity.Expense
+import com.cashmanager.entity.Label
 import com.cashmanager.repository.ExpenseRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.util.*
+import java.time.LocalDate
 
 @Service
 class ExpenseService {
@@ -12,12 +14,17 @@ class ExpenseService {
     @Autowired
     private lateinit var expenseRepository: ExpenseRepository
 
-    fun getExpensesByInterval(startIntervalDate: Date, endIntervalDate: Date): List<Expense> =
+    fun getExpensesByInterval(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<Expense> =
         expenseRepository.findAllByExpenseDateBetween(startIntervalDate, endIntervalDate)
 
-    fun addExpense(expense: Expense): Expense {
-        return expenseRepository.save(expense)
+    fun addExpense(expensePayload: InsertExpensePayload): Expense {
+        val expenseToCreate = Expense(0, expensePayload.amount, expensePayload.expenseDate, Label(expensePayload.labelId))
+        return insertExpense(expenseToCreate)
     }
+
+    fun insertExpense(expense: Expense): Expense = expenseRepository.save(expense)
+
+    fun updateExpense(expense: Expense): Expense = expenseRepository.save(expense)
 
     fun deleteExpense(expenseId: Int) {
         val expense = expenseRepository.getById(expenseId)
