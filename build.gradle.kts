@@ -5,7 +5,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 val kotlinVersion = "1.6.20"
 val springBootVersion = "2.5.4"
 val jwtVersion = "0.9.1"
-val ical4jVersion = "3.2.1"
+val ical4jVersion = "3.2.2"
 
 val jacksonModuleKotlinVersion = "2.13.2"
 val jacksonModuleJaxbVersion = "2.13.2"
@@ -13,13 +13,13 @@ val jacksonDataformatVersion = "2.13.2"
 val log4jVersion = "2.17.2"
 
 val liquibaseVersion = "4.9.1"
-val postgresqlVersion = "42.3.3"
+val postgresqlVersion = "42.3.4"
 val gsonVersion = "2.9.0"
 
 val restAssuredVersion = "4.5.1"
 val mockitoKotlinVersion = "4.0.0"
 val junitVersion = "5.8.2"
-val hibernateTypesVersion = "2.16.0"
+val hibernateTypesVersion = "2.16.1"
 val testContainersVersion = "1.17.1"
 
 val detektVersion = "1.18.0"
@@ -32,7 +32,7 @@ plugins {
     val springBootVersion = "2.6.6"
     val springDependencyManagementVersion = "1.0.11.RELEASE"
     val codacyPluginVersion = "0.1.0"
-    val detektVersion = "1.19.0"
+    val detektVersion = "1.20.0"
 
     jacoco
     id("org.springframework.boot") version springBootVersion
