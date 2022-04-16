@@ -2,8 +2,12 @@ package com.cashmanager.controller
 
 import com.cashmanager.controller.requests.InsertLabelPayload
 import com.cashmanager.entity.Label
+import com.cashmanager.utils.Constants.ADD_LABEL_ENDPOINT
+import com.cashmanager.utils.Constants.DELETE_LABEL_ENDPOINT
+import com.cashmanager.utils.Constants.LABEL_ENDPOINT
+import com.cashmanager.utils.Constants.UPDATE_LABEL_ENDPOINT
 import com.common.utils.AbstractIT
-import com.common.utils.Constants
+import com.common.utils.Constants.UNAUTHORIZED_ERROR
 import com.common.utils.IntegrationTestsUtils
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
@@ -38,11 +42,6 @@ class LabelControllerTests : AbstractIT() {
     private val port: Int = 0
 
     private var jwtToken: String? = null
-
-    private val LABEL_ENDPOINT = "/label/"
-    private val ADD_LABEL_ENDPOINT = "${LABEL_ENDPOINT}addLabel"
-    private val UPDATE_LABEL_ENDPOINT = "${LABEL_ENDPOINT}updateLabel"
-    private val DELETE_LABEL_ENDPOINT = "${LABEL_ENDPOINT}deleteLabel"
 
     @BeforeAll
     fun testUp() {
@@ -115,7 +114,7 @@ class LabelControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(401)
             .log().all()
-            .body("error", Matchers.equalTo(Constants.UNAUTHORIZED_ERROR))
+            .body("error", Matchers.equalTo(UNAUTHORIZED_ERROR))
     }
 
     fun testGetEndpointsNames(): Stream<Arguments> =

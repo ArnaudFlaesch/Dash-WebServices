@@ -17,6 +17,7 @@ val postgresqlVersion = "42.3.3"
 val gsonVersion = "2.9.0"
 
 val restAssuredVersion = "4.5.1"
+val mockitoKotlinVersion = "4.0.0"
 val junitVersion = "5.8.2"
 val hibernateTypesVersion = "2.16.0"
 val testContainersVersion = "1.17.1"
@@ -81,6 +82,7 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("io.rest-assured:json-path:$restAssuredVersion")
     testImplementation("io.rest-assured:xml-path:$restAssuredVersion")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
