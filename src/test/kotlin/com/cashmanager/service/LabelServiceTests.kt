@@ -33,7 +33,7 @@ class LabelServiceTests {
         assertEquals(labelList.size, expectedSize)
     }
 
-    private fun testGetLabelsArguments(): Stream<Arguments> = Stream.of(
+    fun testGetLabelsArguments(): Stream<Arguments> = Stream.of(
         arguments(listOf<Label>(), 0),
         arguments(listOf(Label(1, "Courses"), Label(2, "Restaurant")), 2),
         arguments(listOf(Label(1, "Courses")), 1)
