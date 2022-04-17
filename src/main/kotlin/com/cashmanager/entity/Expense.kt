@@ -13,9 +13,10 @@ data class Expense(
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
 
+    @Column
     val amount: Int,
 
-    @Column(name = "expensedate")
+    @Column(name = "expense_date")
     val expenseDate: LocalDate,
 
     @ManyToOne(optional = true)
