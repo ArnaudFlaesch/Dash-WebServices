@@ -10,6 +10,6 @@ data class Label(
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
 
-    @Column(name= "label")
+    @Column(name = "label")
     val label: String = ""
 )
