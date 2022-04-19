@@ -22,7 +22,7 @@ CREATE SEQUENCE IF NOT EXISTS public.expense_id_seq
 CREATE TABLE IF NOT EXISTS public.expense (
     id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.expense_id_seq'::regclass),
     amount integer,
-    expenseDate date,
+    expense_date date,
     isRegular boolean DEFAULT false,
     label_id integer REFERENCES label (id)
 );
