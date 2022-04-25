@@ -1,8 +1,10 @@
 package com.dash.controller
 
-import com.dash.entity.ImportData
+import com.dash.model.ImportData
 import com.dash.entity.Tab
-import com.dash.service.JsonExporter
+import com.dash.entity.Widget
+import com.common.utils.JsonExporter
+import com.common.utils.JsonExporter.export
 import com.dash.service.TabService
 import com.dash.service.WidgetService
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -16,11 +18,8 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @CrossOrigin(origins = ["*"])
-@RequestMapping("/config")
-class ConfigController {
-
-    @Autowired
-    private lateinit var jsonExporter: JsonExporter
+@RequestMapping("/dashConfig")
+class DashConfigController {
 
     @Autowired
     private lateinit var tabService: TabService
@@ -32,16 +31,16 @@ class ConfigController {
 
     @GetMapping("/export")
     fun downloadJsonFile(): ResponseEntity<ByteArray?>? {
-        val widgets: List<Any> = widgetService.getAllWidgets()
+        val widgets: List<Widget> = widgetService.getAllWidgets()
         val tabs: List<Tab> = tabService.getTabs()
-        val customerJsonString: String = jsonExporter.export(mapOf("widgets" to widgets, "tabs" to tabs))
-        val customerJsonBytes = customerJsonString.toByteArray()
+        val configJsonString: String = export(mapOf("widgets" to widgets, "tabs" to tabs))
+        val configJsonBytes = configJsonString.toByteArray()
         return ResponseEntity
             .ok()
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=dashboardConfig.json")
             .contentType(MediaType.APPLICATION_JSON)
-            .contentLength(customerJsonBytes.size.toLong())
-            .body(customerJsonBytes)
+            .contentLength(configJsonBytes.size.toLong())
+            .body(configJsonBytes)
     }
 
     @PostMapping("/import")

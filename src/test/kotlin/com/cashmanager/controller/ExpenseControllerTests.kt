@@ -63,7 +63,7 @@ class ExpenseControllerTests : AbstractIT() {
 
     @Test
     fun expenseCrudTests() {
-        val expenseToInsert = InsertExpensePayload(140, LocalDate.parse("2022-03-03"), 1)
+        val expenseToInsert = InsertExpensePayload(140F, LocalDate.parse("2022-03-03"), 1)
         val insertedExpense: Expense = given()
             .port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
@@ -78,7 +78,7 @@ class ExpenseControllerTests : AbstractIT() {
         assertNotNull(insertedExpense.id)
         assertEquals(expenseToInsert.amount, insertedExpense.amount)
 
-        val expenseToUpdate = insertedExpense.copy(amount = 2000)
+        val expenseToUpdate = insertedExpense.copy(amount = 2000F)
         val updatedExpense: Expense = given()
             .port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
