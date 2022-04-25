@@ -17,6 +17,7 @@ class ExpenseService {
     fun getExpensesByInterval(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<Expense> =
         expenseRepository.findAllByExpenseDateBetween(startIntervalDate, endIntervalDate)
 
+    fun getAllExpenses(): List<Expense> = expenseRepository.findAll()
     fun addExpense(expensePayload: InsertExpensePayload): Expense {
         val expenseToCreate = Expense(0, expensePayload.amount, expensePayload.expenseDate, Label(expensePayload.labelId))
         return insertExpense(expenseToCreate)

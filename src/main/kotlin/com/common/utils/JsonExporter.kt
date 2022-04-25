@@ -1,10 +1,8 @@
-package com.dash.service
+package com.common.utils
 
 import com.google.gson.Gson
-import org.springframework.stereotype.Service
 
-@Service
-class JsonExporter {
+object JsonExporter {
     fun export(entities: Any): String {
         val gson = Gson()
         return gson.toJson(entities)

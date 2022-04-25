@@ -14,7 +14,7 @@ data class Expense(
     val id: Int,
 
     @Column
-    val amount: Int,
+    val amount: Float,
 
     @Column(name = "expense_date")
     val expenseDate: LocalDate,

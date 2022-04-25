@@ -2,7 +2,7 @@ package com.dash.controller
 
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
-import com.dash.entity.ImportData
+import com.dash.model.ImportData
 import com.dash.repository.TabDataset
 import com.dash.repository.WidgetDataset
 import io.restassured.RestAssured.defaultParser
