@@ -7,7 +7,6 @@ import com.cashmanager.model.ExpenseToDisplay
 import com.cashmanager.model.ImportData
 import com.cashmanager.service.ExpenseService
 import com.cashmanager.service.LabelService
-import com.common.utils.JsonExporter
 import com.common.utils.JsonExporter.export
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
@@ -34,7 +33,7 @@ class CashManagerConfigController {
     @GetMapping("/export")
     fun downloadJsonFile(): ResponseEntity<ByteArray?>? {
         val expenses: List<Expense> = expenseService.getAllExpenses()
-        val expensesToExport = expenses.map{ expense: Expense ->
+        val expensesToExport = expenses.map { expense: Expense ->
             ExpenseToDisplay(expense.id, expense.amount, expense.expenseDate.toString(), expense.label.id)
         }
         val labels: List<Label> = labelService.getLabels()
