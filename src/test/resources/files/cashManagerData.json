@@ -1,0 +1,32 @@
+{
+  "expenses": [
+    {
+      "id": 155,
+      "amount": 19.75,
+      "expenseDate": "2022-04-01",
+      "labelId": 78
+    },
+    {
+      "id": 156,
+      "amount": 36.53,
+      "expenseDate": "2022-04-01",
+      "labelId": 78
+    },
+    {
+      "id": 157,
+      "amount": 40.49,
+      "expenseDate": "2022-04-01",
+      "labelId": 79
+    }
+  ],
+  "labels": [
+    {
+      "id": 78,
+      "label": "Courses"
+    },
+    {
+      "id": 79,
+      "label": "Restaurant"
+    }
+  ]
+}
