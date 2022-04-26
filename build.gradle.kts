@@ -8,6 +8,7 @@ val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.2"
 
 val jacksonModuleKotlinVersion = "2.13.2"
+val jacksonDatatypeVersion = "2.13.2"
 val jacksonModuleJaxbVersion = "2.13.2"
 val jacksonDataformatVersion = "2.13.2"
 val log4jVersion = "2.17.2"
@@ -68,6 +69,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 
     implementation("com.fasterxml.jackson.module:jackson-modules-base:$jacksonModuleJaxbVersion")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonDatatypeVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonDataformatVersion")
     implementation ("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation("org.liquibase:liquibase-core:$liquibaseVersion")

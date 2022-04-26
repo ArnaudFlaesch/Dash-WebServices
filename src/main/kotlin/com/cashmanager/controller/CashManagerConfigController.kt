@@ -9,6 +9,7 @@ import com.cashmanager.service.ExpenseService
 import com.cashmanager.service.LabelService
 import com.common.utils.JsonExporter.export
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import java.time.LocalDate
 
 @RestController
 @CrossOrigin(origins = ["*"])
@@ -50,12 +52,12 @@ class CashManagerConfigController {
     @PostMapping("/import")
     fun importConfig(@RequestParam("file") file: MultipartFile): Boolean {
         logger.info("Import commencé")
-        val importData = ObjectMapper().readValue(file.bytes, ImportData::class.java)
+        val importData = ObjectMapper().registerModule(JavaTimeModule()).readValue(file.bytes, ImportData::class.java)
         importData.labels.forEach { label ->
-            val expenses = importData.expenses.filter { expense -> expense.label.id == label.id }
+            val expenses = importData.expenses.filter { expense -> expense.labelId == label.id }
             val insertedLabel = labelService.addLabel(label.label)
             expenses.forEach { expense ->
-                expenseService.addExpense(InsertExpensePayload(expense.amount, expense.expenseDate, insertedLabel.id))
+                expenseService.addExpense(InsertExpensePayload(expense.amount, LocalDate.parse(expense.expenseDate), insertedLabel.id))
             }
         }
         logger.info("Import terminé")
