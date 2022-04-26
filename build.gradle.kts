@@ -8,6 +8,7 @@ val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.2"
 
 val jacksonModuleKotlinVersion = "2.13.2"
+val jacksonDatatypeVersion = "2.13.2"
 val jacksonModuleJaxbVersion = "2.13.2"
 val jacksonDataformatVersion = "2.13.2"
 val log4jVersion = "2.17.2"
@@ -17,6 +18,7 @@ val postgresqlVersion = "42.3.4"
 val gsonVersion = "2.9.0"
 
 val restAssuredVersion = "4.5.1"
+val mockitoKotlinVersion = "4.0.0"
 val junitVersion = "5.8.2"
 val hibernateTypesVersion = "2.16.1"
 val testContainersVersion = "1.17.1"
@@ -67,6 +69,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 
     implementation("com.fasterxml.jackson.module:jackson-modules-base:$jacksonModuleJaxbVersion")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonDatatypeVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonDataformatVersion")
     implementation ("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation("org.liquibase:liquibase-core:$liquibaseVersion")
@@ -81,6 +84,7 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("io.rest-assured:json-path:$restAssuredVersion")
     testImplementation("io.rest-assured:xml-path:$restAssuredVersion")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
@@ -122,6 +126,12 @@ tasks.getByName<Jar>("jar") {
 
 tasks.withType<Detekt>().configureEach {
     jvmTarget = "16"
+    reports {
+        html.required.set(true) // observe findings in your browser with structure and code snippets
+        xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins
+        txt.required.set(true) // similar to the console output, contains issue signature to manually edit baseline files
+        sarif.required.set(true) // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
+    }
 }
 
 detekt {
@@ -129,13 +139,6 @@ detekt {
     allRules = false // activate all available (even unstable) rules.
     config = files(file("$projectDir/detekt.yml"))
     autoCorrect = true
-
-    reports {
-        html.required.set(true) // observe findings in your browser with structure and code snippets
-        xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins
-        txt.required.set(true) // similar to the console output, contains issue signature to manually edit baseline files
-        sarif.required.set(true) // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
-    }
 }
 
 val ktLintOutputDir = "${project.buildDir}/reports/ktlint/"

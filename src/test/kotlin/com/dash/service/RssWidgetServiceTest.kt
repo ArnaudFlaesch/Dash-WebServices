@@ -1,6 +1,6 @@
 package com.dash.service
 
-import com.dash.utils.AbstractIT
+import com.common.utils.AbstractIT
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach

@@ -1,7 +1,8 @@
 package com.dash.repository
 
+import com.common.repository.RoleRepository
+import com.common.utils.AbstractIT
 import com.dash.entity.Role
-import com.dash.utils.AbstractIT
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
