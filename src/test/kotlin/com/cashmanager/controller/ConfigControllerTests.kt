@@ -28,7 +28,7 @@ class ConfigControllerTests : AbstractIT() {
 
     private var jwtToken: String? = null
 
-    private val CONFIG_ENDPOINT = "/cashManagerConfig/"
+    private val CASH_MANAGER_CONFIG_ENDPOINT = "/cashManagerConfig/"
 
     @BeforeAll
     fun testUp() {
@@ -42,7 +42,7 @@ class ConfigControllerTests : AbstractIT() {
             .port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .`when`()
-            .get("${CONFIG_ENDPOINT}export")
+            .get("${CASH_MANAGER_CONFIG_ENDPOINT}export")
             .then().log().all()
             .statusCode(200)
             .log().all()
@@ -62,7 +62,7 @@ class ConfigControllerTests : AbstractIT() {
             .port(port)
             .headers(Headers(Header("Authorization", "Bearer $jwtToken"), Header("content-type", "multipart/form-data")))
             .`when`()
-            .post("${CONFIG_ENDPOINT}import").then().log().all()
+            .post("${CASH_MANAGER_CONFIG_ENDPOINT}import").then().log().all()
             .statusCode(200)
             .extract().`as`(Boolean::class.java)
         assertTrue(response)

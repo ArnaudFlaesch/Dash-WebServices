@@ -1,5 +1,5 @@
-DELETE FROM expense;
-DELETE FROM label;
+TRUNCATE TABLE expense;
+TRUNCATE TABLE label;
 
 ALTER SEQUENCE label_id_seq RESTART WITH 1;
 ALTER SEQUENCE expense_id_seq RESTART WITH 1;
