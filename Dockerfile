@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine
+FROM openjdk:17-ea-22-jdk-oracle
 EXPOSE 8080
 
 ADD ./build/libs/dash-webservices-*.jar dash-webservices.jar
