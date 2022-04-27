@@ -1,5 +1,8 @@
 package com.dash.repository
 
+import com.common.repository.RoleRepository
+import com.common.repository.UserRepository
+import com.common.utils.AbstractIT
 import com.dash.entity.User
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
@@ -11,7 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
-class UserRepositoryTests {
+class UserRepositoryTests : AbstractIT() {
 
     @Autowired
     private lateinit var userRepository: UserRepository
@@ -29,7 +32,7 @@ class UserRepositoryTests {
 
     @Test
     fun testAddUser() {
-        val roleUser = roleRepository.getOne(1)
+        val roleUser = roleRepository.getById(1)
         val newUser = User(id = 0, email = "test@email.com", username = "testusername", password = "testpassword", role = roleUser)
 
         val insertedUser = userRepository.save(newUser)

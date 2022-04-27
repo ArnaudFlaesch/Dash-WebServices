@@ -1,5 +1,7 @@
 package com.dash.repository
 
+import com.common.repository.RoleRepository
+import com.common.utils.AbstractIT
 import com.dash.entity.Role
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -10,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
-class RoleRepositoryTests {
+class RoleRepositoryTests : AbstractIT() {
 
     @Autowired
     private lateinit var roleRepository: RoleRepository

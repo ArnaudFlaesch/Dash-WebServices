@@ -1,9 +1,10 @@
 package com.dash.controller
 
-import com.dash.entity.ImportData
+import com.common.utils.AbstractIT
+import com.common.utils.IntegrationTestsUtils
+import com.dash.model.ImportData
 import com.dash.repository.TabDataset
 import com.dash.repository.WidgetDataset
-import com.dash.utils.IntegrationTestsUtils
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.http.Header
@@ -26,14 +27,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @WidgetDataset
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ConfigControllerTests {
+class ConfigControllerTests : AbstractIT() {
 
     @LocalServerPort
     private val port: Int = 0
 
     private var jwtToken: String? = null
 
-    private val CONFIG_ENDPOINT = "/config/"
+    private val CONFIG_ENDPOINT = "/dashConfig/"
 
     @BeforeAll
     fun testUp() {

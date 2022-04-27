@@ -1,8 +1,9 @@
 package com.dash.controller
 
+import com.common.utils.AbstractIT
+import com.common.utils.IntegrationTestsUtils
 import com.dash.entity.Tab
 import com.dash.repository.TabDataset
-import com.dash.utils.IntegrationTestsUtils
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
@@ -23,7 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @TabDataset
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TabControllerTests {
+class TabControllerTests : AbstractIT() {
 
     @LocalServerPort
     private val port: Int = 0

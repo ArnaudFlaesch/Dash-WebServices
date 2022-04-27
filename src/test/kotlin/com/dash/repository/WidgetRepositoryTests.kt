@@ -1,5 +1,6 @@
 package com.dash.repository
 
+import com.common.utils.AbstractIT
 import com.dash.entity.Tab
 import com.dash.entity.Widget
 import org.assertj.core.api.Assertions.assertThat
@@ -12,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest
 @TabDataset
 @ExtendWith(SpringExtension::class)
-class WidgetRepositoryTests {
+class WidgetRepositoryTests : AbstractIT() {
 
     @Autowired
     private lateinit var widgetRepository: WidgetRepository

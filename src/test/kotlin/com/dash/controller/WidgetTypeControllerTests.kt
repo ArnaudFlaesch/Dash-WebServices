@@ -1,6 +1,7 @@
 package com.dash.controller
 
-import com.dash.utils.IntegrationTestsUtils
+import com.common.utils.AbstractIT
+import com.common.utils.IntegrationTestsUtils
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.http.Header
@@ -17,7 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class WidgetTypeControllerTests {
+class WidgetTypeControllerTests : AbstractIT() {
 
     @LocalServerPort
     private val port: Int = 0
@@ -32,7 +33,6 @@ class WidgetTypeControllerTests {
 
     @Test
     fun testGetAllWidgetTypes() {
-
         given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .`when`()
@@ -40,6 +40,6 @@ class WidgetTypeControllerTests {
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .body("size", equalTo(4))
+            .body("size", equalTo(5))
     }
 }

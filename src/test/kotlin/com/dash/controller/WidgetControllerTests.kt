@@ -1,9 +1,10 @@
 package com.dash.controller
 
+import com.common.utils.AbstractIT
+import com.common.utils.IntegrationTestsUtils
 import com.dash.entity.Tab
 import com.dash.entity.Widget
 import com.dash.repository.TabDataset
-import com.dash.utils.IntegrationTestsUtils
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
@@ -24,7 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @TabDataset
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class WidgetControllerTests {
+class WidgetControllerTests : AbstractIT() {
 
     @LocalServerPort
     private val port: Int = 0
@@ -43,7 +44,8 @@ class WidgetControllerTests {
     fun testGetAllWidgetsByTabId() {
         given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
-            .param("tabId", 1).`when`().get("$WIDGET_ENDPOINT")
+            .param("tabId", 1)
+            .`when`().get("$WIDGET_ENDPOINT")
             .then().log().all()
             .statusCode(200)
             .log().all()
@@ -59,7 +61,9 @@ class WidgetControllerTests {
             .contentType(ContentType.JSON)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .port(port)
-            .body(widget).`when`().post("${WIDGET_ENDPOINT}addWidget/")
+            .body(widget)
+            .`when`()
+            .post("${WIDGET_ENDPOINT}addWidget/")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(Widget::class.java)
