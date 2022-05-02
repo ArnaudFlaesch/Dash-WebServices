@@ -23,11 +23,14 @@ class ExpenseController {
         @RequestParam("endIntervalDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) endIntervalDate: LocalDate
     ): List<Expense> = (expenseService.getExpensesByInterval(startIntervalDate, endIntervalDate))
 
+    @GetMapping("/getTotalExpensesByMonth")
+    fun getTotalExpensesByMonth() = expenseService.getTotalExpensesByMonth()
+
     @PostMapping("/addExpense")
     fun addExpense(@RequestBody expense: InsertExpensePayload): Expense = expenseService.addExpense(expense)
 
     @PatchMapping("/updateExpense")
-    fun updateExpense(@RequestBody expense: Expense): Expense = expenseService.updateExpense(expense)
+    fun updateExpense(@RequestBody expense: Expense): Expense = expenseService.insertExpense(expense)
 
     @DeleteMapping("/deleteExpense")
     fun deleteExpense(@RequestParam(value = "expenseId") id: Int) = expenseService.deleteExpense(id)

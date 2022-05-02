@@ -1,6 +1,7 @@
 package com.cashmanager.repository
 
 import com.cashmanager.entity.Expense
+import com.cashmanager.model.TotalExpenseByMonth
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -12,6 +13,9 @@ import javax.transaction.Transactional
 interface ExpenseRepository : JpaRepository<Expense, Int> {
 
     fun findAllByExpenseDateBetween(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<Expense>
+
+    @Query(name = "getExpensesByMonth", nativeQuery = true)
+    fun getTotalExpensesByMonth(): List<TotalExpenseByMonth>
 
     @Transactional
     @Modifying

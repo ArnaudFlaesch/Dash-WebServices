@@ -1,9 +1,25 @@
 package com.cashmanager.entity
 
+import com.cashmanager.model.TotalExpenseByMonth
 import java.io.Serializable
 import java.time.LocalDate
-import java.util.*
 import javax.persistence.*
+
+@SqlResultSetMapping(
+    name = "getExpensesByMonth",
+    classes = [
+        ConstructorResult(
+            targetClass = TotalExpenseByMonth::class,
+            columns = [ColumnResult(name = "total"), ColumnResult(name = "date")]
+        )
+    ]
+)
+@NamedNativeQuery(
+    query = "SELECT SUM(amount) AS total, date_trunc('month', E.expense_date) as date FROM Expense E GROUP BY date_trunc('month', E.expense_date)",
+    name = "getExpensesByMonth",
+    resultClass = TotalExpenseByMonth::class,
+    resultSetMapping = "getExpensesByMonth"
+)
 
 @Entity
 data class Expense(

@@ -3,6 +3,7 @@ package com.cashmanager.controller
 import com.cashmanager.controller.requests.InsertExpensePayload
 import com.cashmanager.entity.Expense
 import com.cashmanager.entity.Label
+import com.cashmanager.model.TotalExpenseByMonth
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import io.restassured.RestAssured.defaultParser
@@ -23,7 +24,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.time.LocalDate
-import java.util.*
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
@@ -37,10 +37,13 @@ class ExpenseControllerTests : AbstractIT() {
 
     private val EXPENSE_ENDPOINT = "/expense/"
 
+    private var authorizationHeader: Header? = null
+
     @BeforeAll
     fun testUp() {
         defaultParser = Parser.JSON
         jwtToken = IntegrationTestsUtils.authenticateAdmin(port).accessToken
+        authorizationHeader = Header("Authorization", "Bearer $jwtToken")
     }
 
     @Test
@@ -48,7 +51,7 @@ class ExpenseControllerTests : AbstractIT() {
         val startIntervalDate = "2022-02-01"
         val endIntervalDate = "2022-05-01"
         val expenses: List<Expense> = given().port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(authorizationHeader)
             .param("startIntervalDate", startIntervalDate)
             .param("endIntervalDate", endIntervalDate)
             .`when`().get("$EXPENSE_ENDPOINT")
@@ -62,11 +65,25 @@ class ExpenseControllerTests : AbstractIT() {
     }
 
     @Test
+    fun testGetTotalExpensesByMonth() {
+        val totalExpensesByMonth: List<TotalExpenseByMonth> = given().port(port)
+            .header(authorizationHeader)
+            .`when`().get("${EXPENSE_ENDPOINT}getTotalExpensesByMonth")
+            .then().log().all()
+            .statusCode(200)
+            .log().all()
+            .extract()
+            .`as`(object : TypeRef<List<TotalExpenseByMonth>>() {})
+        assertEquals(3, totalExpensesByMonth.size)
+        assertThat(totalExpensesByMonth.map(TotalExpenseByMonth::total), containsInAnyOrder(55.0F, 32.0F, 100.0F))
+    }
+
+    @Test
     fun expenseCrudTests() {
         val expenseToInsert = InsertExpensePayload(140F, LocalDate.parse("2022-03-03"), 1)
         val insertedExpense: Expense = given()
             .port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(authorizationHeader)
             .contentType(ContentType.JSON)
             .body(expenseToInsert)
             .`when`().post("${EXPENSE_ENDPOINT}addExpense/")
@@ -81,7 +98,7 @@ class ExpenseControllerTests : AbstractIT() {
         val expenseToUpdate = insertedExpense.copy(amount = 2000F)
         val updatedExpense: Expense = given()
             .port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(authorizationHeader)
             .contentType(ContentType.JSON)
             .body(expenseToUpdate)
             .`when`().patch("${EXPENSE_ENDPOINT}updateExpense/")
@@ -94,7 +111,7 @@ class ExpenseControllerTests : AbstractIT() {
 
         given()
             .port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(authorizationHeader)
             .param("expenseId", updatedExpense.id)
             .`when`().delete("${EXPENSE_ENDPOINT}deleteExpense/")
             .then().log().all()
