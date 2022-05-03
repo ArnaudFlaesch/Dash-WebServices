@@ -22,6 +22,8 @@ class ExpenseService {
 
     fun getTotalExpensesByMonth(): List<TotalExpenseByMonth> = expenseRepository.getTotalExpensesByMonth()
 
+    fun getTotalExpensesByMonthByLabelId(labelId: Int): List<TotalExpenseByMonth> = expenseRepository.getTotalExpensesByMonthByLabelId(labelId)
+
     fun addExpense(expensePayload: InsertExpensePayload): Expense {
         val expenseToCreate = Expense(0, expensePayload.amount, expensePayload.expenseDate, Label(expensePayload.labelId))
         return insertExpense(expenseToCreate)

@@ -49,7 +49,7 @@ class ConfigControllerTests : AbstractIT() {
             .body("$", Matchers.notNullValue())
             .extract().`as`(ImportData::class.java)
         assertEquals(2, exportData.labels.size)
-        assertEquals(3, exportData.expenses.size)
+        assertEquals(4, exportData.expenses.size)
 
         val exportedExpense = exportData.expenses[0]
         assertEquals(100.0F, exportedExpense.amount)

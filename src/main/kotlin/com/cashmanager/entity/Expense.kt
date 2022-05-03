@@ -6,7 +6,7 @@ import java.time.LocalDate
 import javax.persistence.*
 
 @SqlResultSetMapping(
-    name = "getExpensesByMonth",
+    name = "totalExpensesByMonth",
     classes = [
         ConstructorResult(
             targetClass = TotalExpenseByMonth::class,
@@ -15,10 +15,22 @@ import javax.persistence.*
     ]
 )
 @NamedNativeQuery(
-    query = "SELECT SUM(amount) AS total, date_trunc('month', E.expense_date) as date FROM Expense E GROUP BY date_trunc('month', E.expense_date)",
+    query = "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
+        "FROM Expense E " +
+        "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
     name = "getExpensesByMonth",
     resultClass = TotalExpenseByMonth::class,
-    resultSetMapping = "getExpensesByMonth"
+    resultSetMapping = "totalExpensesByMonth"
+)
+
+@NamedNativeQuery(
+    query = "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
+        "FROM Expense E " +
+        "WHERE label_id = :labelId " +
+        "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
+    name = "getExpensesByMonthByLabelId",
+    resultClass = TotalExpenseByMonth::class,
+    resultSetMapping = "totalExpensesByMonth"
 )
 
 @Entity

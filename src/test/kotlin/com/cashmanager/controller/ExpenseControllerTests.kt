@@ -4,6 +4,7 @@ import com.cashmanager.controller.requests.InsertExpensePayload
 import com.cashmanager.entity.Expense
 import com.cashmanager.entity.Label
 import com.cashmanager.model.TotalExpenseByMonth
+import com.cashmanager.utils.Constants
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import io.restassured.RestAssured.defaultParser
@@ -13,6 +14,7 @@ import io.restassured.http.ContentType
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers
 import org.hamcrest.Matchers.containsInAnyOrder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -60,8 +62,8 @@ class ExpenseControllerTests : AbstractIT() {
             .log().all()
             .extract()
             .`as`(object : TypeRef<List<Expense>>() {})
-        assertEquals(3, expenses.size)
-        assertThat(expenses.map(Expense::label).map(Label::label), containsInAnyOrder("Courses", "Courses", "Restaurant"))
+        assertEquals(4, expenses.size)
+        assertThat(expenses.map(Expense::label).map(Label::label), containsInAnyOrder("Courses", "Courses", "Courses", "Restaurant"))
     }
 
     @Test
@@ -75,7 +77,32 @@ class ExpenseControllerTests : AbstractIT() {
             .extract()
             .`as`(object : TypeRef<List<TotalExpenseByMonth>>() {})
         assertEquals(3, totalExpensesByMonth.size)
-        assertThat(totalExpensesByMonth.map(TotalExpenseByMonth::total), containsInAnyOrder(55.0F, 32.0F, 100.0F))
+        assertThat(totalExpensesByMonth.map(TotalExpenseByMonth::total), containsInAnyOrder(55.0F, 32.0F, 137.0F))
+    }
+
+    @Test
+    fun testGetTotalExpensesByMonthByLabelId() {
+        val labelId: Int = given().port(port)
+            .header(Header("Authorization", "Bearer $jwtToken"))
+            .`when`().get("${Constants.LABEL_ENDPOINT}")
+            .then().log().all()
+            .statusCode(200)
+            .log().all()
+            .body("size", Matchers.equalTo(2))
+            .extract()
+            .`as`(object : TypeRef<List<Label>>() {}).filter { label: Label -> label.label == "Courses" }[0].id
+
+        val totalExpensesByMonth: List<TotalExpenseByMonth> = given().port(port)
+            .header(authorizationHeader)
+            .param("labelId", labelId)
+            .`when`().get("${EXPENSE_ENDPOINT}getTotalExpensesByMonthByLabelId")
+            .then().log().all()
+            .statusCode(200)
+            .log().all()
+            .extract()
+            .`as`(object : TypeRef<List<TotalExpenseByMonth>>() {})
+        assertEquals(2, totalExpensesByMonth.size)
+        assertThat(totalExpensesByMonth.map(TotalExpenseByMonth::total), containsInAnyOrder(32.0F, 137.0F))
     }
 
     @Test

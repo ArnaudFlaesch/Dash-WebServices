@@ -17,6 +17,9 @@ interface ExpenseRepository : JpaRepository<Expense, Int> {
     @Query(name = "getExpensesByMonth", nativeQuery = true)
     fun getTotalExpensesByMonth(): List<TotalExpenseByMonth>
 
+    @Query(name = "getExpensesByMonthByLabelId", nativeQuery = true)
+    fun getTotalExpensesByMonthByLabelId(labelId: Int): List<TotalExpenseByMonth>
+
     @Transactional
     @Modifying
     @Query("DELETE FROM Expense WHERE label_id = :labelId")
