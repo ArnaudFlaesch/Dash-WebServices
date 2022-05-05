@@ -16,7 +16,7 @@ class ExpenseService {
     private lateinit var expenseRepository: ExpenseRepository
 
     fun getExpensesByInterval(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<Expense> =
-        expenseRepository.findAllByExpenseDateBetween(startIntervalDate, endIntervalDate)
+        expenseRepository.findAllByExpenseDateBetweenOrderByExpenseDateAsc(startIntervalDate, endIntervalDate)
 
     fun getAllExpenses(): List<Expense> = expenseRepository.findAll()
 

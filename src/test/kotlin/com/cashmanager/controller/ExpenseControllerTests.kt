@@ -16,6 +16,7 @@ import io.restassured.parsing.Parser
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.containsInAnyOrder
+import org.hamcrest.Matchers.containsInRelativeOrder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeAll
@@ -51,7 +52,7 @@ class ExpenseControllerTests : AbstractIT() {
     @Test
     fun testAllExpenses() {
         val startIntervalDate = "2022-02-01"
-        val endIntervalDate = "2022-05-01"
+        val endIntervalDate = "2022-05-25"
         val expenses: List<Expense> = given().port(port)
             .header(authorizationHeader)
             .param("startIntervalDate", startIntervalDate)
@@ -63,7 +64,7 @@ class ExpenseControllerTests : AbstractIT() {
             .extract()
             .`as`(object : TypeRef<List<Expense>>() {})
         assertEquals(4, expenses.size)
-        assertThat(expenses.map(Expense::label).map(Label::label), containsInAnyOrder("Courses", "Courses", "Courses", "Restaurant"))
+        assertThat(expenses.map(Expense::label).map(Label::label), containsInRelativeOrder("Restaurant", "Courses", "Courses", "Courses"))
     }
 
     @Test

@@ -12,7 +12,7 @@ import javax.transaction.Transactional
 @Repository
 interface ExpenseRepository : JpaRepository<Expense, Int> {
 
-    fun findAllByExpenseDateBetween(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<Expense>
+    fun findAllByExpenseDateBetweenOrderByExpenseDateAsc(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<Expense>
 
     @Query(name = "getExpensesByMonth", nativeQuery = true)
     fun getTotalExpensesByMonth(): List<TotalExpenseByMonth>
