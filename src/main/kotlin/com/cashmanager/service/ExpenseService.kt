@@ -3,6 +3,7 @@ package com.cashmanager.service
 import com.cashmanager.controller.requests.InsertExpensePayload
 import com.cashmanager.entity.Expense
 import com.cashmanager.entity.Label
+import com.cashmanager.model.TotalExpenseByMonth
 import com.cashmanager.repository.ExpenseRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -15,9 +16,13 @@ class ExpenseService {
     private lateinit var expenseRepository: ExpenseRepository
 
     fun getExpensesByInterval(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<Expense> =
-        expenseRepository.findAllByExpenseDateBetween(startIntervalDate, endIntervalDate)
+        expenseRepository.findAllByExpenseDateBetweenOrderByExpenseDateAsc(startIntervalDate, endIntervalDate)
 
     fun getAllExpenses(): List<Expense> = expenseRepository.findAll()
+
+    fun getTotalExpensesByMonth(): List<TotalExpenseByMonth> = expenseRepository.getTotalExpensesByMonth()
+
+    fun getTotalExpensesByMonthByLabelId(labelId: Int): List<TotalExpenseByMonth> = expenseRepository.getTotalExpensesByMonthByLabelId(labelId)
 
     fun addExpense(expensePayload: InsertExpensePayload): Expense {
         val expenseToCreate = Expense(0, expensePayload.amount, expensePayload.expenseDate, Label(expensePayload.labelId))
@@ -25,8 +30,6 @@ class ExpenseService {
     }
 
     fun insertExpense(expense: Expense): Expense = expenseRepository.save(expense)
-
-    fun updateExpense(expense: Expense): Expense = expenseRepository.save(expense)
 
     fun deleteExpense(expenseId: Int) {
         val expense = expenseRepository.getById(expenseId)
