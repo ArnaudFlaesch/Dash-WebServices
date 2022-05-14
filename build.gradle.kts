@@ -7,7 +7,7 @@ val springBootVersion = "2.5.4"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.2"
 
-val jacksonModuleKotlinVersion = "2.13.2"
+val jacksonModuleKotlinVersion = "2.13.3"
 val jacksonDatatypeVersion = "2.13.3"
 val jacksonModuleJaxbVersion = "2.13.3"
 val jacksonDataformatVersion = "2.13.2"
