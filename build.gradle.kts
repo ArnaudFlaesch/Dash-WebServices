@@ -10,7 +10,7 @@ val ical4jVersion = "3.2.2"
 val jacksonModuleKotlinVersion = "2.13.3"
 val jacksonDatatypeVersion = "2.13.3"
 val jacksonModuleJaxbVersion = "2.13.3"
-val jacksonDataformatVersion = "2.13.2"
+val jacksonDataformatVersion = "2.13.3"
 val log4jVersion = "2.17.2"
 
 val liquibaseVersion = "4.10.0"
