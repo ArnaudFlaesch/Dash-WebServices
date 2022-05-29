@@ -111,7 +111,7 @@ class SteamWidgetControllerTests : AbstractIT() {
             mockServer.verify()
         }
 
-        private fun testGetOwnedGamesArguments(): Stream<Arguments> = TestEndpointsArguments.testForeignApiCodes()
+        fun testGetOwnedGamesArguments(): Stream<Arguments> = TestEndpointsArguments.testForeignApiCodes()
     }
 
     @Nested
@@ -147,6 +147,6 @@ class SteamWidgetControllerTests : AbstractIT() {
             mockServer.verify()
         }
 
-        private fun testGetAchievementListArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
+        fun testGetAchievementListArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
     }
 }
