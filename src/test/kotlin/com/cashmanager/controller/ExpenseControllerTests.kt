@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.time.LocalDate
 
@@ -57,7 +57,7 @@ class ExpenseControllerTests : AbstractIT() {
             .header(authorizationHeader)
             .param("startIntervalDate", startIntervalDate)
             .param("endIntervalDate", endIntervalDate)
-            .`when`().get("$EXPENSE_ENDPOINT")
+            .`when`().get(EXPENSE_ENDPOINT)
             .then().log().all()
             .statusCode(200)
             .log().all()
@@ -85,7 +85,7 @@ class ExpenseControllerTests : AbstractIT() {
     fun testGetTotalExpensesByMonthByLabelId() {
         val labelId: Int = given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
-            .`when`().get("${Constants.LABEL_ENDPOINT}")
+            .`when`().get(Constants.LABEL_ENDPOINT)
             .then().log().all()
             .statusCode(200)
             .log().all()

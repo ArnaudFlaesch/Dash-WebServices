@@ -29,7 +29,7 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.stream.Stream
 
@@ -53,7 +53,7 @@ class LabelControllerTests : AbstractIT() {
     fun testAllLabels() {
         val labels: List<Label> = given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
-            .`when`().get("$LABEL_ENDPOINT")
+            .`when`().get(LABEL_ENDPOINT)
             .then().log().all()
             .statusCode(200)
             .log().all()

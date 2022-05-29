@@ -2,8 +2,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 import io.gitlab.arturbosch.detekt.Detekt
 
-val kotlinVersion = "1.6.20"
-val springBootVersion = "2.5.4"
+val kotlinVersion = "1.6.21"
+val springBootVersion = "2.7.0"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.2"
 
@@ -23,7 +23,7 @@ val junitVersion = "5.8.2"
 val hibernateTypesVersion = "2.16.2"
 val testContainersVersion = "1.17.2"
 
-val detektVersion = "1.18.0"
+val detektVersion = "1.20.0"
 val ktlintVersion = "0.45.2"
 
 val ktlint: Configuration by configurations.creating
