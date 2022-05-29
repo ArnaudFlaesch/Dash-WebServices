@@ -25,7 +25,7 @@ class LabelService {
 
     fun deleteLabel(labelId: Int) {
         expenseService.deleteExpensesByLabelId(labelId)
-        val label = labelRepository.getById(labelId)
+        val label = labelRepository.getReferenceById(labelId)
         return labelRepository.delete(label)
     }
 }

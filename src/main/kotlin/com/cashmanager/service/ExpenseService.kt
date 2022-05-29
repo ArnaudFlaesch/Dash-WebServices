@@ -32,7 +32,7 @@ class ExpenseService {
     fun insertExpense(expense: Expense): Expense = expenseRepository.save(expense)
 
     fun deleteExpense(expenseId: Int) {
-        val expense = expenseRepository.getById(expenseId)
+        val expense = expenseRepository.getReferenceById(expenseId)
         return expenseRepository.delete(expense)
     }
 

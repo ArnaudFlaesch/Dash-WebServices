@@ -40,7 +40,7 @@ class AuthTokenFilter : OncePerRequestFilter() {
                 SecurityContextHolder.getContext().authentication = authentication
             }
         } catch (e: UsernameNotFoundException) {
-            Companion.logger.error("Cannot set user authentication: {}", e)
+            Companion.logger.error("Cannot set user authentication: {}", e.message)
         }
         filterChain.doFilter(request, response)
     }

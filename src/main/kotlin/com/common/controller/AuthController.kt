@@ -36,12 +36,6 @@ class AuthController {
             .map { item: GrantedAuthority -> item.authority }
             .collect(Collectors.toList())
 
-        return JwtResponse(
-            jwt,
-            userDetails.id,
-            userDetails.username,
-            userDetails.email,
-            roles
-        )
+        return JwtResponse(jwt, userDetails.id, userDetails.username, userDetails.email, roles)
     }
 }

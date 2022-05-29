@@ -23,14 +23,14 @@ class WidgetService {
     }
 
     fun updateWidget(widgetId: Int, updateWidgetDataPayload: UpdateWidgetDataPayload): Widget {
-        val oldWidget = widgetRepository.getById(widgetId)
+        val oldWidget = widgetRepository.getReferenceById(widgetId)
         return widgetRepository.save(oldWidget.copy(data = updateWidgetDataPayload.data))
     }
 
     fun updateWidgetsOrder(widgets: List<Widget>): List<Widget> {
         return widgetRepository.saveAll(
             widgets.map { widget ->
-                val oldWidget = widgetRepository.getById(widget.id)
+                val oldWidget = widgetRepository.getReferenceById(widget.id)
                 return@map oldWidget.copy(widgetOrder = widget.widgetOrder)
             }
         )
