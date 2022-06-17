@@ -13,7 +13,7 @@ val jacksonModuleJaxbVersion = "2.13.3"
 val jacksonDataformatVersion = "2.13.3"
 val log4jVersion = "2.17.2"
 
-val liquibaseVersion = "4.11.0"
+val liquibaseVersion = "4.12.0"
 val postgresqlVersion = "42.4.0"
 val gsonVersion = "2.9.0"
 
