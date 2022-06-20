@@ -3,7 +3,9 @@ package com.dash.model
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class GameInfo(
+    @JsonProperty("appid")
     val appid: String = "",
+    @JsonProperty("name")
     val name: String = "",
     @JsonProperty("img_icon_url")
     val imgIconUrl: String = "",
