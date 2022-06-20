@@ -116,8 +116,8 @@ class SteamWidgetControllerTests : AbstractIT() {
 
         fun getOwnedGamesArguments(): Stream<Arguments> =
             Stream.of(
-                Arguments.arguments(null, 10),
-                Arguments.arguments("Call of", 3),
+                Arguments.arguments(null, 28),
+                Arguments.arguments("Half", 7),
                 Arguments.arguments("no results", 0)
             )
 
@@ -145,80 +145,115 @@ class SteamWidgetControllerTests : AbstractIT() {
         val getOwnedGamesJsonData = """
             {
               "response": {
-                "game_count": 10,
+                "game_count": 28,
                 "games": [
                   {
                     "appid": 220,
-                    "name": "Half-Life 2",
-                    "playtime_forever": 2480,
-                    "img_icon_url": "fcfb366051782b8ebf2aa297f3b746395858cb62",
-                    "img_logo_url": "e4ad9cf1b7dc8475c1118625daf9abd4bdcbcad0",
-                    "has_community_visible_stats": true
+                    "name": "Half-Life 2"
                   },
                   {
                     "appid": 340,
-                    "name": "Half-Life 2: Lost Coast",
-                    "playtime_forever": 32,
-                    "img_icon_url": "795e85364189511f4990861b578084deef086cb1",
-                    "img_logo_url": "867cce5c4f37d5ed4aeffb57c60e220ddffe4134"
+                    "name": "Half-Life 2: Lost Coast"
                   },
                   {
                     "appid": 280,
-                    "name": "Half-Life: Source",
-                    "playtime_forever": 774,
-                    "img_icon_url": "b4f572a6cc5a6a84ae84634c31414b9123d2f26b",
-                    "img_logo_url": "a612dd944b768e55389140298dcfda2165db8ced"
+                    "name": "Half-Life: Source"
                   },
                   {
                     "appid": 360,
-                    "name": "Half-Life Deathmatch: Source",
-                    "playtime_forever": 26,
-                    "img_icon_url": "40b8a62efff5a9ab356e5c56f5c8b0532c8e1aa3",
-                    "img_logo_url": "9a5b7119d4e8977fffcd370d3c24036be7cee904"
+                    "name": "Half-Life Deathmatch: Source"
                   },
                   {
                     "appid": 320,
-                    "name": "Half-Life 2: Deathmatch",
-                    "playtime_forever": 15,
-                    "img_icon_url": "795e85364189511f4990861b578084deef086cb1",
-                    "img_logo_url": "6dd9f66771300f2252d411e50739a1ceae9e5b30"
+                    "name": "Half-Life 2: Deathmatch"
                   },
                   {
                     "appid": 380,
-                    "name": "Half-Life 2: Episode One",
-                    "playtime_forever": 442,
-                    "img_icon_url": "795e85364189511f4990861b578084deef086cb1",
-                    "img_logo_url": "b5a666a961d8b39896887abbed3b78c2b837c238",
-                    "has_community_visible_stats": true
+                    "name": "Half-Life 2: Episode One"
                   },
                   {
                     "appid": 420,
-                    "name": "Half-Life 2: Episode Two",
-                    "playtime_forever": 804,
-                    "img_icon_url": "795e85364189511f4990861b578084deef086cb1",
-                    "img_logo_url": "553e6a2e7a469dcbaada729baa1f5fd7764668df",
-                    "has_community_visible_stats": true
+                    "name": "Half-Life 2: Episode Two"
                   },
                   {
                     "appid": 2620,
-                    "name": "Call of Duty",
-                    "playtime_forever": 381,
-                    "img_icon_url": "b4ce47894dee6ec21b0ad96cfb2b8c0036098e39",
-                    "img_logo_url": "e7e4b54c87592bba8978424ba3258b215c2497cd"
+                    "name": "Call of Duty"
                   },
                   {
                     "appid": 2630,
-                    "name": "Call of Duty 2",
-                    "playtime_forever": 410,
-                    "img_icon_url": "2e455daa8702a3cb9da8733232ec330a06936df3",
-                    "img_logo_url": "1341359c59254fad618dfa599f7c5d7e82f3aade"
+                    "name": "Call of Duty 2"
                   },
                   {
-                    "appid": 2640,
-                    "name": "Call of Duty: United Offensive",
-                    "playtime_forever": 363,
-                    "img_icon_url": "e5fbc61fce98c303a9c49dc988163499b183f037",
-                    "img_logo_url": "658a03d797260730790010c1d14ca060ac143a8f"
+                    "appid": 2641,
+                    "name": "Call of Duty 4"
+                  },
+                  {
+                    "appid": 2642,
+                    "name": "Call of Duty 5"
+                  },
+                  {
+                    "appid": 2643,
+                    "name": "Call of Duty 6"
+                  },
+                  {
+                    "appid": 2644,
+                    "name": "Call of Duty 7"
+                  },
+                  {
+                    "appid": 2645,
+                    "name": "Call of Duty 8"
+                  },
+                  {
+                    "appid": 2646,
+                    "name": "Call of Duty 9"
+                  },
+                  {
+                    "appid": 2647,
+                    "name": "Call of Duty 10"
+                  },
+                  {
+                    "appid": 2648,
+                    "name": "Call of Duty 11"
+                  },
+                  {
+                    "appid": 2649,
+                    "name": "Call of Duty 12"
+                  },
+                  {
+                    "appid": 2650,
+                    "name": "Call of Duty 13"
+                  },
+                  {
+                    "appid": 2651,
+                    "name": "Call of Duty 14"
+                  },
+                  {
+                    "appid": 2652,
+                    "name": "Call of Duty 15"
+                  },
+                  {
+                    "appid": 2653,
+                    "name": "Call of Duty 16"
+                  },
+                  {
+                    "appid": 2654,
+                    "name": "Call of Duty 17"
+                  },
+                  {
+                    "appid": 2655,
+                    "name": "Call of Duty 18"
+                  },
+                  {
+                    "appid": 2656,
+                    "name": "Call of Duty 19"
+                  },
+                  {
+                    "appid": 2657,
+                    "name": "Call of Duty 20"
+                  },
+                  {
+                    "appid": 2658,
+                    "name": "Call of Duty 21"
                   }
                 ]
               }
