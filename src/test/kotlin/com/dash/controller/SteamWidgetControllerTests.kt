@@ -91,7 +91,7 @@ class SteamWidgetControllerTests : AbstractIT() {
 
         @ParameterizedTest
         @MethodSource("getOwnedGamesArguments")
-        fun testGetOwnedGames(search : String?, expectedNumberOfResults: Int) {
+        fun testGetOwnedGames(search: String?, expectedNumberOfResults: Int) {
             mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(
