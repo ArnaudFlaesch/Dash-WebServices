@@ -1,10 +1,8 @@
 package com.dash.controller
 
-import com.cashmanager.model.ImportData
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.TestEndpointsArguments
-import com.dash.model.GameInfo
 import com.dash.model.GameInfoResponse
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
@@ -12,13 +10,8 @@ import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.matchesPattern
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -100,8 +93,10 @@ class SteamWidgetControllerTests : AbstractIT() {
         fun testGetOwnedGames() {
             mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
                 .andExpect(method(HttpMethod.GET))
-                .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
-                    .body(getOwnedGamesJsonData))
+                .andRespond(
+                    withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
+                        .body(getOwnedGamesJsonData)
+                )
 
             val ownedGamesData = given()
                 .port(port)
@@ -287,6 +282,4 @@ class SteamWidgetControllerTests : AbstractIT() {
 
         fun testGetAchievementListArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
     }
-
-
 }
