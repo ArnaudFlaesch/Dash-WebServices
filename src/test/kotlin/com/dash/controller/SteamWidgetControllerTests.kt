@@ -103,7 +103,7 @@ class SteamWidgetControllerTests : AbstractIT() {
                 .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
                     .body(getOwnedGamesJsonData))
 
-            given()
+            val ownedGamesData = given()
                 .port(port)
                 .header(Header("Authorization", "Bearer $jwtToken"))
                 .`when`()
@@ -111,7 +111,9 @@ class SteamWidgetControllerTests : AbstractIT() {
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .log().all()
+                .extract().`as`(GameInfoResponse::class.java)
 
+            assertEquals(10, ownedGamesData.response.gameCount)
             mockServer.verify()
         }
 
@@ -122,7 +124,7 @@ class SteamWidgetControllerTests : AbstractIT() {
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(steamApiStatusCodeResponse).contentType(MediaType.APPLICATION_JSON))
 
-            val ownedGamesData = given()
+            given()
                 .port(port)
                 .header(Header("Authorization", "Bearer $jwtToken"))
                 .`when`()
@@ -130,9 +132,7 @@ class SteamWidgetControllerTests : AbstractIT() {
                 .then().log().all()
                 .statusCode(expectedStatusCode)
                 .log().all()
-                .extract().`as`(GameInfoResponse::class.java)
 
-            assertEquals(20, ownedGamesData.response.gameCount)
             mockServer.verify()
         }
 
