@@ -1,11 +1,8 @@
 package com.dash.controller
 
-import com.dash.model.GameInfo
 import com.dash.model.GameInfoResponse
-import com.dash.service.ProxyService
 import com.dash.service.SteamWidgetService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -25,7 +22,7 @@ class SteamWidgetController {
     fun getOwnedGames(
         @RequestParam(value = "search", defaultValue = "") search: String,
         @RequestParam(value = "pageNumber", defaultValue = "0") pageNumber: Int
-    ): GameInfoResponse  {
+    ): GameInfoResponse {
         return steamWidgetService.getOwnedGames(search, pageNumber)
     }
 
