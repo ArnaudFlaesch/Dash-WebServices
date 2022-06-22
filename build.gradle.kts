@@ -24,7 +24,7 @@ val hibernateTypesVersion = "2.16.2"
 val testContainersVersion = "1.17.2"
 
 val detektVersion = "1.20.0"
-val ktlintVersion = "0.45.2"
+val ktlintVersion = "0.46.1"
 
 val ktlint: Configuration by configurations.creating
 
