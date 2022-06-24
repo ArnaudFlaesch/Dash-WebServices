@@ -2,15 +2,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 import io.gitlab.arturbosch.detekt.Detekt
 
-val kotlinVersion = "1.6.21"
+val kotlinVersion = "1.7.0"
 val springBootVersion = "2.7.0"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.2"
 
-val jacksonModuleKotlinVersion = "2.13.3"
-val jacksonDatatypeVersion = "2.13.3"
-val jacksonModuleJaxbVersion = "2.13.3"
-val jacksonDataformatVersion = "2.13.3"
+val jacksonVersion = "2.13.3"
 val log4jVersion = "2.17.2"
 
 val liquibaseVersion = "4.12.0"
@@ -64,13 +61,13 @@ dependencies {
 
     implementation ("io.jsonwebtoken:jjwt:$jwtVersion")
     implementation("org.mnode.ical4j:ical4j:$ical4jVersion")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonModuleKotlinVersion")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 
-    implementation("com.fasterxml.jackson.module:jackson-modules-base:$jacksonModuleJaxbVersion")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonDatatypeVersion")
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonDataformatVersion")
+    implementation("com.fasterxml.jackson.module:jackson-modules-base:$jacksonVersion")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
     implementation ("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation("org.liquibase:liquibase-core:$liquibaseVersion")
 

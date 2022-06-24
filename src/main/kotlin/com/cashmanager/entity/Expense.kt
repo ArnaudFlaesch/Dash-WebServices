@@ -22,7 +22,6 @@ import javax.persistence.*
     resultClass = TotalExpenseByMonth::class,
     resultSetMapping = "totalExpensesByMonth"
 )
-
 @NamedNativeQuery(
     query = "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
         "FROM Expense E " +
@@ -32,7 +31,6 @@ import javax.persistence.*
     resultClass = TotalExpenseByMonth::class,
     resultSetMapping = "totalExpensesByMonth"
 )
-
 @Entity
 data class Expense(
     @Id

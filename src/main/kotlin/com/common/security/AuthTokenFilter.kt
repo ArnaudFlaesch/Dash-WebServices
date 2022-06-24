@@ -33,7 +33,8 @@ class AuthTokenFilter : OncePerRequestFilter() {
                 val username: String = jwtUtils.getUserNameFromJwtToken(jwt)
                 val userDetails = userDetailsService.loadUserByUsername(username)
                 val authentication = UsernamePasswordAuthenticationToken(
-                    userDetails, null,
+                    userDetails,
+                    null,
                     userDetails.authorities
                 )
                 authentication.details = WebAuthenticationDetailsSource().buildDetails(request)

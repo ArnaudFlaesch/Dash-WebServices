@@ -24,7 +24,11 @@ class AuthController {
     private lateinit var jwtUtils: JwtUtils
 
     @PostMapping("/login")
-    fun authenticateUser(@Valid @RequestBody loginRequest: LoginRequest): JwtResponse {
+    fun authenticateUser(
+        @Valid
+        @RequestBody
+        loginRequest: LoginRequest
+    ): JwtResponse {
         val authentication = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(loginRequest.username, loginRequest.password)
         )

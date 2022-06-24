@@ -19,8 +19,12 @@ class ExpenseController {
 
     @GetMapping("/")
     fun getExpenses(
-        @RequestParam("startIntervalDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) startIntervalDate: LocalDate,
-        @RequestParam("endIntervalDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) endIntervalDate: LocalDate
+        @RequestParam("startIntervalDate")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+        startIntervalDate: LocalDate,
+        @RequestParam("endIntervalDate")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+        endIntervalDate: LocalDate
     ): List<Expense> = (expenseService.getExpensesByInterval(startIntervalDate, endIntervalDate))
 
     @GetMapping("/getTotalExpensesByMonth")

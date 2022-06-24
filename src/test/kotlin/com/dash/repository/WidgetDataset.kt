@@ -5,7 +5,6 @@ import org.springframework.test.context.jdbc.SqlGroup
 
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
-
 @SqlGroup(
     Sql(
         statements = [
@@ -16,5 +15,4 @@ import org.springframework.test.context.jdbc.SqlGroup
     ),
     Sql(statements = ["DELETE FROM widget; DELETE FROM tab;"], executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 )
-
 annotation class WidgetDataset

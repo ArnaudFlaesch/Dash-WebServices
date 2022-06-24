@@ -135,9 +135,7 @@ class CalendarWidgetControllerTests : AbstractIT() {
     fun testGetCalendarData() {
         val calendarUrl = "https://calendar.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics"
 
-        mockServer.expect(
-            ExpectedCount.once(), requestTo(URI(calendarUrl))
-        )
+        mockServer.expect(ExpectedCount.once(), requestTo(URI(calendarUrl)))
             .andExpect(method(HttpMethod.GET))
             .andRespond(
                 withStatus(HttpStatus.OK)
@@ -165,9 +163,7 @@ class CalendarWidgetControllerTests : AbstractIT() {
     fun testGetCalendarDataNullResponse() {
         val calendarUrl = "http://wrong_calendar_url.com"
 
-        mockServer.expect(
-            ExpectedCount.once(), requestTo(URI(calendarUrl))
-        )
+        mockServer.expect(ExpectedCount.once(), requestTo(URI(calendarUrl)))
             .andExpect(method(HttpMethod.GET))
             .andRespond(
                 withStatus(HttpStatus.OK)
@@ -193,9 +189,7 @@ class CalendarWidgetControllerTests : AbstractIT() {
     fun testGetCalendarDataErrorCodes(urlStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
         val url = "http://testwrongurl.com"
 
-        mockServer.expect(
-            ExpectedCount.once(), requestTo(URI(url))
-        )
+        mockServer.expect(ExpectedCount.once(), requestTo(URI(url)))
             .andExpect(method(HttpMethod.GET))
             .andRespond(
                 withStatus(urlStatusCodeResponse)
