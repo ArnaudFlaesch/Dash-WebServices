@@ -39,7 +39,6 @@ class TabControllerTests : AbstractIT() {
 
     @Test
     fun testGetAllTabs() {
-
         given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .`when`()

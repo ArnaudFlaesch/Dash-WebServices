@@ -271,7 +271,7 @@ formatting:
     active: false
     autoCorrect: true
   AnnotationSpacing:
-    active: false
+    active: true
     autoCorrect: true
   ArgumentListWrapping:
     active: false
