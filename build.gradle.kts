@@ -26,7 +26,7 @@ val ktlintVersion = "0.46.1"
 val ktlint: Configuration by configurations.creating
 
 plugins {
-    val kotlinVersion = "1.7.0"
+    val kotlinVersion = "1.7.10"
     val springBootVersion = "2.7.1"
     val springDependencyManagementVersion = "1.0.12.RELEASE"
     val codacyPluginVersion = "0.1.0"
