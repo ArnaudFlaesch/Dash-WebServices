@@ -10,7 +10,7 @@ val ical4jVersion = "3.2.2"
 val jacksonVersion = "2.13.3"
 val log4jVersion = "2.18.0"
 
-val liquibaseVersion = "4.12.0"
+val liquibaseVersion = "4.13.0"
 val postgresqlVersion = "42.4.0"
 val gsonVersion = "2.9.0"
 
