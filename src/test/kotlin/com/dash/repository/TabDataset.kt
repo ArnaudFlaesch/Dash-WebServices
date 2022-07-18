@@ -12,7 +12,8 @@ import org.springframework.test.context.jdbc.SqlGroup
             "DELETE FROM widget;" +
             "DELETE FROM tab;" +
             "INSERT INTO tab (id, label, tab_order) VALUES ('10', 'News', 1)"
-        ], executionPhase = BEFORE_TEST_METHOD
+        ],
+            executionPhase = BEFORE_TEST_METHOD
     )
 )
 annotation class TabDataset

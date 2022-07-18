@@ -78,7 +78,7 @@ class TabControllerTests : AbstractIT() {
         assertEquals(2, tabList.size)
 
         val updatedLabel = "Updated label"
-        
+
         val updatedTab: Tab = given().port(port)
             .contentType(ContentType.JSON)
             .header(Header("Authorization", "Bearer $jwtToken"))
