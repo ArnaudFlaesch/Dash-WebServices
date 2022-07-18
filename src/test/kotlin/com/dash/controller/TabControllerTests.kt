@@ -6,10 +6,10 @@ import com.dash.entity.Tab
 import com.dash.repository.TabDataset
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
+import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
-import org.hamcrest.CoreMatchers.equalTo
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeAll
@@ -39,14 +39,15 @@ class TabControllerTests : AbstractIT() {
 
     @Test
     fun testGetAllTabs() {
-        given().port(port)
+        val tabs = given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .`when`()
             .get("/tab/")
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .body("size", equalTo(1))
+            .extract().`as`(object : TypeRef<List<Tab>>() {})
+        assertEquals(1, tabs.size)
     }
 
     @Test
@@ -66,17 +67,17 @@ class TabControllerTests : AbstractIT() {
         assertNotNull(insertedTab.id)
         assertEquals(insertedTab.label, newTab.label)
 
-        given().port(port)
+        val tabList = given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .`when`()
             .get("/tab/")
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .body("size", equalTo(2))
+            .extract().`as`(object : TypeRef<List<Tab>>() {})
+        assertEquals(7, tabList.size)
 
         val updatedLabel = "Updated label"
-
         val updatedTab: Tab = given().port(port)
             .contentType(ContentType.JSON)
             .header(Header("Authorization", "Bearer $jwtToken"))
@@ -105,18 +106,17 @@ class TabControllerTests : AbstractIT() {
         given().port(port)
             .contentType(ContentType.JSON)
             .header(Header("Authorization", "Bearer $jwtToken"))
-            .`when`()
-            .param("id", updatedTab.id)
+            .`when`().param("id", updatedTab.id)
             .delete("/tab/deleteTab/")
             .then().log().all()
             .statusCode(200)
 
-        given().port(port)
+        val updatedTabList = given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
-            .`when`()
-            .get("/tab/")
+            .`when`().get("/tab/")
             .then().log().all()
             .statusCode(200)
-            .body("size", equalTo(1))
+            .extract().`as`(object : TypeRef<List<Tab>>() {})
+        assertEquals(6, updatedTabList.size)
     }
 }

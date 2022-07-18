@@ -14,7 +14,6 @@ import io.restassured.http.ContentType
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.containsInAnyOrder
 import org.hamcrest.Matchers.containsInRelativeOrder
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -83,15 +82,16 @@ class ExpenseControllerTests : AbstractIT() {
 
     @Test
     fun testGetTotalExpensesByMonthByLabelId() {
-        val labelId: Int = given().port(port)
+        val labels: List<Label> = given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .`when`().get(Constants.LABEL_ENDPOINT)
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .body("size", Matchers.equalTo(2))
-            .extract()
-            .`as`(object : TypeRef<List<Label>>() {}).filter { label: Label -> label.label == "Courses" }[0].id
+            .extract().`as`(object : TypeRef<List<Label>>() {})
+
+        assertEquals(2, labels.size)
+        val labelId = labels.filter { label: Label -> label.label == "Courses" }[0].id
 
         val totalExpensesByMonth: List<TotalExpenseByMonth> = given().port(port)
             .header(authorizationHeader)

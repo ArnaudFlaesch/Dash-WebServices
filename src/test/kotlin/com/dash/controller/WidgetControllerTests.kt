@@ -7,10 +7,10 @@ import com.dash.entity.Widget
 import com.dash.repository.TabDataset
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
+import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
-import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeAll
@@ -42,14 +42,15 @@ class WidgetControllerTests : AbstractIT() {
 
     @Test
     fun testGetAllWidgetsByTabId() {
-        given().port(port)
+        val widgetList = given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .param("tabId", 1)
             .`when`().get(WIDGET_ENDPOINT)
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .body("size", equalTo(0))
+            .extract().`as`(object : TypeRef<List<Widget>>() {})
+        assertEquals(0, widgetList.size)
     }
 
     @Test
@@ -71,12 +72,13 @@ class WidgetControllerTests : AbstractIT() {
         assertNotNull(insertedWidget.id)
         assertEquals(insertedWidget.type, widget.type)
 
-        given().port(port)
+        val widgetList = given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .param("tabId", 10)
             .`when`().get(WIDGET_ENDPOINT).then().log().all()
             .statusCode(200).log().all()
-            .body("size", equalTo(1))
+            .extract().`as`(object : TypeRef<List<Widget>>() {})
+        assertEquals(1, widgetList.size)
 
         val updatedWidget: Widget = given()
             .header(Header("Authorization", "Bearer $jwtToken"))
@@ -97,13 +99,14 @@ class WidgetControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(200)
 
-        given()
+        val updatedWidgetList = given()
             .header(Header("Authorization", "Bearer $jwtToken"))
             .port(port)
             .param("tabId", 10)
             .`when`().get(WIDGET_ENDPOINT).then().log().all()
             .statusCode(200).log().all()
-            .body("size", equalTo(0))
+            .extract().`as`(object : TypeRef<List<Widget>>() {})
+        assertEquals(0, updatedWidgetList.size)
     }
 
     @Test
