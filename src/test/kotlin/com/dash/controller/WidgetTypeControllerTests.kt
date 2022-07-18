@@ -2,11 +2,13 @@ package com.dash.controller
 
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
+import com.dash.entity.WidgetType
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
+import io.restassured.common.mapper.TypeRef
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
-import org.hamcrest.CoreMatchers.equalTo
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -33,13 +35,14 @@ class WidgetTypeControllerTests : AbstractIT() {
 
     @Test
     fun testGetAllWidgetTypes() {
-        given().port(port)
+        val widgetTypeList = given().port(port)
             .header(Header("Authorization", "Bearer $jwtToken"))
             .`when`()
             .get("/widgetTypes/")
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .body("size", equalTo(5))
+            .extract().`as`(object : TypeRef<List<WidgetType>>() {})
+        assertEquals(5, widgetTypeList.size)
     }
 }

@@ -57,7 +57,6 @@ class LabelControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .body("size", Matchers.equalTo(2))
             .extract()
             .`as`(object : TypeRef<List<Label>>() {})
         assertEquals(2, labels.size)
