@@ -75,7 +75,7 @@ class TabControllerTests : AbstractIT() {
             .statusCode(200)
             .log().all()
             .extract().`as`(object : TypeRef<List<Tab>>() {})
-        assertEquals(7, tabList.size)
+        assertEquals(2, tabList.size)
 
         val updatedLabel = "Updated label"
         val updatedTab: Tab = given().port(port)
@@ -99,8 +99,7 @@ class TabControllerTests : AbstractIT() {
             .post("/tab/updateTabs/")
             .then().log().all()
             .statusCode(200)
-            .extract().jsonPath().getList("tabs", Tab::class.java)
-
+            .extract().`as`(object : TypeRef<List<Tab>>() {})
         assertEquals(1, updatedTabs.size)
 
         given().port(port)
@@ -117,6 +116,6 @@ class TabControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(200)
             .extract().`as`(object : TypeRef<List<Tab>>() {})
-        assertEquals(6, updatedTabList.size)
+        assertEquals(1, updatedTabList.size)
     }
 }

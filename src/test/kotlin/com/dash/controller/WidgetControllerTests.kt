@@ -147,7 +147,7 @@ class WidgetControllerTests : AbstractIT() {
             .`when`().post("${WIDGET_ENDPOINT}updateWidgetsOrder/")
             .then().log().all()
             .statusCode(200)
-            .extract().jsonPath().getList("", Widget::class.java)
+            .extract().`as`(object : TypeRef<List<Widget>>() {})
 
         assertEquals(2, updatedWidgets.size)
         assertEquals(2, updatedWidgets[0].widgetOrder)
