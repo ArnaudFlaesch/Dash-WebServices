@@ -1,7 +1,9 @@
 package com.dash.model
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class GameInfo(
     @JsonProperty("appid")
     val appid: String = "",
