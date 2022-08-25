@@ -11,7 +11,7 @@ val jacksonVersion = "2.13.3"
 val log4jVersion = "2.18.0"
 
 val liquibaseVersion = "4.15.0"
-val postgresqlVersion = "42.4.2"
+val postgresqlVersion = "42.5.0"
 val gsonVersion = "2.9.1"
 
 val restAssuredVersion = "4.5.1"
@@ -27,7 +27,7 @@ val ktlint: Configuration by configurations.creating
 
 plugins {
     val kotlinVersion = "1.7.10"
-    val springBootVersion = "2.7.2"
+    val springBootVersion = "2.7.3"
     val springDependencyManagementVersion = "1.0.13.RELEASE"
     val codacyPluginVersion = "0.1.0"
     val detektVersion = "1.21.0"
