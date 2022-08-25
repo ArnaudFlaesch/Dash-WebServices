@@ -31,7 +31,8 @@ class SteamWidgetService {
 
     fun getPlayerData(): PlayerDataResponse? {
         val getPlayerDataUrl = "$steamApiUrl$getPlayerSummariesUrl?key=$steamApiKey&steamids=$steamUserId"
-        return ObjectMapper().readValue(proxyService.getDataFromProxy(getPlayerDataUrl), PlayerDataResponse::class.java)
+        val test = proxyService.getDataFromProxy(getPlayerDataUrl)
+        return ObjectMapper().readValue(test, PlayerDataResponse::class.java)
     }
 
     fun getOwnedGames(search: String, pageNumber: Int): GameInfoResponse {

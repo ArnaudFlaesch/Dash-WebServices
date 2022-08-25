@@ -37,9 +37,9 @@ class WorkoutWidgetController {
         )
 
     @PostMapping("/addWorkoutType")
-    fun addTab(@RequestBody addWorkoutTypePayload: AddWorkoutTypePayload): WorkoutType = workoutWidgetService.addWorkoutType(addWorkoutTypePayload.workoutType)
+    fun addWorkoutType(@RequestBody addWorkoutTypePayload: AddWorkoutTypePayload): WorkoutType = workoutWidgetService.addWorkoutType(addWorkoutTypePayload.workoutType)
 
     @PostMapping("/createWorkoutSession")
-    fun addTab(@RequestBody createWorkoutSessionPayload: CreateWorkoutSessionPayload): WorkoutSession =
+    fun createWorkoutSession(@RequestBody createWorkoutSessionPayload: CreateWorkoutSessionPayload): WorkoutSession =
         workoutWidgetService.createWorkoutSession(createWorkoutSessionPayload.workoutDate)
 }
