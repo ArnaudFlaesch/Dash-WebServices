@@ -68,14 +68,14 @@ class SteamWidgetControllerTests : AbstractIT() {
         @Test
         fun testGetPlayerSummary() {
             val getPlayerJsonData = """
-            {
-              "response": {
-                "personaname": personaname,
-                "profileurl": profileUrl,
-                "avatar": avatar
-               }
-            }
-""".trimIndent()
+                {
+                  "response": {
+                    "personaname": personaname,
+                    "profileurl": profileUrl,
+                    "avatar": avatar
+                   }
+                }
+            """.trimIndent()
 
             mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
                 .andExpect(method(HttpMethod.GET))
@@ -267,7 +267,7 @@ class SteamWidgetControllerTests : AbstractIT() {
                 ]
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         }
 
         @Nested
