@@ -22,11 +22,11 @@ class WorkoutExercise {
         this.workoutExerciseId = workoutExerciseId
         this.numberOfReps = numberOfReps
     }
-
 }
 
 @Embeddable
 class WorkoutExerciseId : Serializable {
+
     @Column(name = "workout_session_id")
     val workoutSessionId: Int
 
@@ -36,5 +36,9 @@ class WorkoutExerciseId : Serializable {
     constructor(workoutSessionId: Int, workoutTypeId: Int) {
         this.workoutSessionId = workoutSessionId
         this.workoutTypeId = workoutTypeId
+    }
+
+    companion object {
+        private const val serialVersionUID: Long = 1L
     }
 }

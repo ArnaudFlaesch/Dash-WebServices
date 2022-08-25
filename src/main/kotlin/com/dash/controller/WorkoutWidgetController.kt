@@ -25,14 +25,21 @@ class WorkoutWidgetController {
     fun getWorkoutTypes(): List<WorkoutType> = (workoutWidgetService.getWorkoutTypes())
 
     @GetMapping("/workoutExercises")
-    fun getWorkoutsExercisesByWorkoutSessionId(@RequestParam("workoutSessionId") workoutSessionId: Int): List<WorkoutExercise> = (workoutWidgetService.getWorkoutsExercisesByWorkoutSessionId(workoutSessionId))
+    fun getWorkoutsExercisesByWorkoutSessionId(@RequestParam("workoutSessionId") workoutSessionId: Int): List<WorkoutExercise> =
+        workoutWidgetService.getWorkoutsExercisesByWorkoutSessionId(workoutSessionId)
 
     @PostMapping("/addWorkoutExercise")
-    fun createWorkoutExercise(@RequestBody createWorkoutExercisePayload: CreateWorkoutExercisePayload): WorkoutExercise = (workoutWidgetService.createWorkoutExercise(createWorkoutExercisePayload.workoutSessionId, createWorkoutExercisePayload.workoutTypeId, createWorkoutExercisePayload.numberOfReps))
+    fun createWorkoutExercise(@RequestBody createWorkoutExercisePayload: CreateWorkoutExercisePayload): WorkoutExercise =
+        workoutWidgetService.createWorkoutExercise(
+            createWorkoutExercisePayload.workoutSessionId,
+            createWorkoutExercisePayload.workoutTypeId,
+            createWorkoutExercisePayload.numberOfReps
+        )
 
     @PostMapping("/addWorkoutType")
     fun addTab(@RequestBody addWorkoutTypePayload: AddWorkoutTypePayload): WorkoutType = workoutWidgetService.addWorkoutType(addWorkoutTypePayload.workoutType)
 
     @PostMapping("/createWorkoutSession")
-    fun addTab(@RequestBody createWorkoutSessionPayload: CreateWorkoutSessionPayload): WorkoutSession = workoutWidgetService.createWorkoutSession(createWorkoutSessionPayload.workoutDate)
+    fun addTab(@RequestBody createWorkoutSessionPayload: CreateWorkoutSessionPayload): WorkoutSession =
+        workoutWidgetService.createWorkoutSession(createWorkoutSessionPayload.workoutDate)
 }

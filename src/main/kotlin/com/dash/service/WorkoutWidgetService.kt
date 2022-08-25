@@ -27,16 +27,13 @@ class WorkoutWidgetService {
 
     fun addWorkoutType(workoutType: String): WorkoutType = workoutTypeRepository.save(WorkoutType(0, workoutType))
 
-    fun getWorkoutsExercisesByWorkoutSessionId(workoutSessionId: Int): List<WorkoutExercise> = workoutExerciseRepository.findAllByWorkoutSessionId(workoutSessionId)
+    fun getWorkoutsExercisesByWorkoutSessionId(workoutSessionId: Int): List<WorkoutExercise> =
+        workoutExerciseRepository.findAllByWorkoutSessionId(workoutSessionId)
 
-    fun createWorkoutExercise(workoutSessionId: Int, workoutTypeId: Int, numberOfReps: Int): WorkoutExercise {
-       //   val workoutSession = workoutSessionRepository.getReferenceById(workoutSessionId)
-    //   val workoutType = workoutTypeRepository.getReferenceById(workoutTypeId)
-        return workoutExerciseRepository.save(WorkoutExercise(WorkoutExerciseId(workoutSessionId, workoutTypeId), numberOfReps))
-    }
+    fun createWorkoutExercise(workoutSessionId: Int, workoutTypeId: Int, numberOfReps: Int): WorkoutExercise =
+        workoutExerciseRepository.save(WorkoutExercise(WorkoutExerciseId(workoutSessionId, workoutTypeId), numberOfReps))
 
     fun getWorkoutSessions(): List<WorkoutSession> = workoutSessionRepository.findAll()
 
     fun createWorkoutSession(workoutDate: LocalDate): WorkoutSession = workoutSessionRepository.save(WorkoutSession(0, workoutDate))
-
 }
