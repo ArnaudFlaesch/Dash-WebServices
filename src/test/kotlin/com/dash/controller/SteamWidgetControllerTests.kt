@@ -67,9 +67,19 @@ class SteamWidgetControllerTests : AbstractIT() {
     inner class GetPlayerSummaryTests {
         @Test
         fun testGetPlayerSummary() {
+            val getPlayerJsonData = """
+            {
+              "response": {
+                "personaname": personaname,
+                "profileurl": profileUrl,
+                "avatar": avatar
+               }
+            }
+""".trimIndent()
+
             mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
                 .andExpect(method(HttpMethod.GET))
-                .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body("test"))
+                .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(getPlayerJsonData))
 
             given()
                 .port(port)
@@ -82,67 +92,66 @@ class SteamWidgetControllerTests : AbstractIT() {
 
             mockServer.verify()
         }
-    }
 
-    @Nested
-    @DisplayName("Get owned games tests")
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    inner class GetOwnedGamesTests {
+        @Nested
+        @DisplayName("Get owned games tests")
+        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+        inner class GetOwnedGamesTests {
 
-        @ParameterizedTest
-        @MethodSource("getOwnedGamesArguments")
-        fun testGetOwnedGames(search: String?, expectedNumberOfResults: Int) {
-            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(
-                    withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
-                        .body(getOwnedGamesJsonData)
+            @ParameterizedTest
+            @MethodSource("getOwnedGamesArguments")
+            fun testGetOwnedGames(search: String?, expectedNumberOfResults: Int) {
+                mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
+                    .andExpect(method(HttpMethod.GET))
+                    .andRespond(
+                        withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
+                            .body(getOwnedGamesJsonData)
+                    )
+
+                val ownedGamesData = given()
+                    .port(port)
+                    .header(Header("Authorization", "Bearer $jwtToken"))
+                    .`when`()
+                    .param("search", search)
+                    .get("$steamWidgetEndpoint/ownedGames")
+                    .then().log().all()
+                    .statusCode(HttpStatus.OK.value())
+                    .log().all()
+                    .extract().`as`(GameInfoResponse::class.java)
+
+                assertEquals(expectedNumberOfResults, ownedGamesData.response.gameCount)
+                mockServer.verify()
+            }
+
+            fun getOwnedGamesArguments(): Stream<Arguments> =
+                Stream.of(
+                    Arguments.arguments(null, 28),
+                    Arguments.arguments("Half", 7),
+                    Arguments.arguments("no results", 0)
                 )
 
-            val ownedGamesData = given()
-                .port(port)
-                .header(Header("Authorization", "Bearer $jwtToken"))
-                .`when`()
-                .param("search", search)
-                .get("$steamWidgetEndpoint/ownedGames")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .log().all()
-                .extract().`as`(GameInfoResponse::class.java)
+            @ParameterizedTest
+            @MethodSource("testGetOwnedGamesErrorsCodes")
+            fun testGetOwnedGamesErrorsCodes(steamApiStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
+                mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
+                    .andExpect(method(HttpMethod.GET))
+                    .andRespond(withStatus(steamApiStatusCodeResponse).contentType(MediaType.APPLICATION_JSON))
 
-            assertEquals(expectedNumberOfResults, ownedGamesData.response.gameCount)
-            mockServer.verify()
-        }
+                given()
+                    .port(port)
+                    .header(Header("Authorization", "Bearer $jwtToken"))
+                    .`when`()
+                    .get("$steamWidgetEndpoint/ownedGames")
+                    .then().log().all()
+                    .statusCode(expectedStatusCode)
+                    .log().all()
 
-        fun getOwnedGamesArguments(): Stream<Arguments> =
-            Stream.of(
-                Arguments.arguments(null, 28),
-                Arguments.arguments("Half", 7),
-                Arguments.arguments("no results", 0)
-            )
+                mockServer.verify()
+            }
 
-        @ParameterizedTest
-        @MethodSource("testGetOwnedGamesErrorsCodes")
-        fun testGetOwnedGamesErrorsCodes(steamApiStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
-            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(withStatus(steamApiStatusCodeResponse).contentType(MediaType.APPLICATION_JSON))
+            fun testGetOwnedGamesErrorsCodes(): Stream<Arguments> = TestEndpointsArguments.testForeignApiCodes()
 
-            given()
-                .port(port)
-                .header(Header("Authorization", "Bearer $jwtToken"))
-                .`when`()
-                .get("$steamWidgetEndpoint/ownedGames")
-                .then().log().all()
-                .statusCode(expectedStatusCode)
-                .log().all()
-
-            mockServer.verify()
-        }
-
-        fun testGetOwnedGamesErrorsCodes(): Stream<Arguments> = TestEndpointsArguments.testForeignApiCodes()
-
-        val getOwnedGamesJsonData = """
+            val getOwnedGamesJsonData = """
             {
               "response": {
                 "game_count": 28,
@@ -259,41 +268,42 @@ class SteamWidgetControllerTests : AbstractIT() {
               }
             }
         """.trimIndent()
-    }
-
-    @Nested
-    @DisplayName("Get achievement list tests")
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    inner class GetAchievementListTests {
-        @ParameterizedTest
-        @MethodSource("testGetAchievementListArguments")
-        fun testGetAchievementList(
-            token: String,
-            statusCode: Int,
-            expectedNumberOfApiRequests: ExpectedCount,
-            expectedResponse: String
-        ) {
-            mockServer.expect(expectedNumberOfApiRequests, requestTo(matchesPattern(steamApiUrlMatcher)))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(
-                    withStatus(HttpStatus.OK)
-                        .contentType(MediaType.APPLICATION_JSON).body(expectedResponse)
-                )
-
-            given()
-                .port(port)
-                .header(Header("Authorization", "Bearer $token"))
-                .param("appId", 1337)
-                .`when`()
-                .get("$steamWidgetEndpoint/achievementList")
-                .then().log().all()
-                .statusCode(statusCode)
-                .log().all()
-                .body("$", Matchers.notNullValue())
-
-            mockServer.verify()
         }
 
-        fun testGetAchievementListArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
+        @Nested
+        @DisplayName("Get achievement list tests")
+        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+        inner class GetAchievementListTests {
+            @ParameterizedTest
+            @MethodSource("testGetAchievementListArguments")
+            fun testGetAchievementList(
+                token: String,
+                statusCode: Int,
+                expectedNumberOfApiRequests: ExpectedCount,
+                expectedResponse: String
+            ) {
+                mockServer.expect(expectedNumberOfApiRequests, requestTo(matchesPattern(steamApiUrlMatcher)))
+                    .andExpect(method(HttpMethod.GET))
+                    .andRespond(
+                        withStatus(HttpStatus.OK)
+                            .contentType(MediaType.APPLICATION_JSON).body(expectedResponse)
+                    )
+
+                given()
+                    .port(port)
+                    .header(Header("Authorization", "Bearer $token"))
+                    .param("appId", 1337)
+                    .`when`()
+                    .get("$steamWidgetEndpoint/achievementList")
+                    .then().log().all()
+                    .statusCode(statusCode)
+                    .log().all()
+                    .body("$", Matchers.notNullValue())
+
+                mockServer.verify()
+            }
+
+            fun testGetAchievementListArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
+        }
     }
 }
