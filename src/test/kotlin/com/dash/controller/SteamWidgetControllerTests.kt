@@ -3,7 +3,7 @@ package com.dash.controller
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.TestEndpointsArguments
-import com.dash.model.GameInfoResponse
+import com.dash.model.steamwidget.GameInfoResponse
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.Header

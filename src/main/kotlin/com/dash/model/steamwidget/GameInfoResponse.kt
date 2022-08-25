@@ -1,4 +1,4 @@
-package com.dash.model
+package com.dash.model.steamwidget
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

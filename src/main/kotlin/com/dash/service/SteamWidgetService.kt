@@ -1,7 +1,8 @@
 package com.dash.service
 
-import com.dash.model.GameInfo
-import com.dash.model.GameInfoResponse
+import com.dash.model.steamwidget.GameInfo
+import com.dash.model.steamwidget.GameInfoResponse
+import com.dash.model.steamwidget.PlayerDataResponse
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -28,9 +29,9 @@ class SteamWidgetService {
     val getOwnedGamesUrl = "/IPlayerService/GetOwnedGames/v0001/"
     val getAchievementsUrl = "/ISteamUserStats/GetPlayerAchievements/v0001"
 
-    fun getPlayerData(): String? {
+    fun getPlayerData(): PlayerDataResponse? {
         val getPlayerDataUrl = "$steamApiUrl$getPlayerSummariesUrl?key=$steamApiKey&steamids=$steamUserId"
-        return proxyService.getDataFromProxy(getPlayerDataUrl)
+        return ObjectMapper().readValue(proxyService.getDataFromProxy(getPlayerDataUrl), PlayerDataResponse::class.java)
     }
 
     fun getOwnedGames(search: String, pageNumber: Int): GameInfoResponse {
