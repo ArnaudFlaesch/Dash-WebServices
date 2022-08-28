@@ -9,6 +9,7 @@ import com.cashmanager.utils.Constants.UPDATE_LABEL_ENDPOINT
 import com.common.utils.AbstractIT
 import com.common.utils.Constants.UNAUTHORIZED_ERROR
 import com.common.utils.IntegrationTestsUtils
+import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
@@ -41,7 +42,7 @@ class LabelControllerTests : AbstractIT() {
     @LocalServerPort
     private val port: Int = 0
 
-    private var jwtToken: String? = null
+    private lateinit var jwtToken: String
 
     @BeforeAll
     fun testUp() {
@@ -52,7 +53,7 @@ class LabelControllerTests : AbstractIT() {
     @Test
     fun testAllLabels() {
         val labels: List<Label> = given().port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .`when`().get(LABEL_ENDPOINT)
             .then().log().all()
             .statusCode(200)
@@ -68,7 +69,7 @@ class LabelControllerTests : AbstractIT() {
         val labelToInsert = InsertLabelPayload(newLabel = "Vacances")
         val insertedLabel: Label = given()
             .port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .body(labelToInsert)
             .`when`().post(ADD_LABEL_ENDPOINT)
@@ -83,7 +84,7 @@ class LabelControllerTests : AbstractIT() {
         val labelToUpdate = insertedLabel.copy(label = "Vacances d'été")
         val updatedLabel: Label = given()
             .port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .body(labelToUpdate)
             .`when`().patch(UPDATE_LABEL_ENDPOINT)
@@ -97,7 +98,7 @@ class LabelControllerTests : AbstractIT() {
 
         given()
             .port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .param("labelId", updatedLabel.id)
             .`when`().delete(DELETE_LABEL_ENDPOINT)
             .then().log().all()

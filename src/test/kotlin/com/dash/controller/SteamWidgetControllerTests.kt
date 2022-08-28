@@ -2,6 +2,7 @@ package com.dash.controller
 
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
+import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.common.utils.TestEndpointsArguments
 import com.dash.model.steamwidget.GameInfoResponse
 import io.restassured.RestAssured
@@ -84,7 +85,7 @@ class SteamWidgetControllerTests : AbstractIT() {
 
             given()
                 .port(port)
-                .header(Header("Authorization", "Bearer $jwtToken"))
+                .header(createAuthenticationHeader(jwtToken))
                 .`when`()
                 .get("$steamWidgetEndpoint/playerData")
                 .then().log().all()
@@ -111,7 +112,7 @@ class SteamWidgetControllerTests : AbstractIT() {
 
                 val ownedGamesData = given()
                     .port(port)
-                    .header(Header("Authorization", "Bearer $jwtToken"))
+                    .header(createAuthenticationHeader(jwtToken))
                     .`when`()
                     .param("search", search)
                     .get("$steamWidgetEndpoint/ownedGames")
@@ -140,7 +141,7 @@ class SteamWidgetControllerTests : AbstractIT() {
 
                 given()
                     .port(port)
-                    .header(Header("Authorization", "Bearer $jwtToken"))
+                    .header(createAuthenticationHeader(jwtToken))
                     .`when`()
                     .get("$steamWidgetEndpoint/ownedGames")
                     .then().log().all()

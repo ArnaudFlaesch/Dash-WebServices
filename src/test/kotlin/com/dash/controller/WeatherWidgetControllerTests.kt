@@ -2,6 +2,7 @@ package com.dash.controller
 
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
+import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.common.utils.TestEndpointsArguments.testForeignApiCodes
 import com.common.utils.TestEndpointsArguments.testTokenArguments
 import io.restassured.RestAssured
@@ -70,7 +71,7 @@ class WeatherWidgetControllerTests : AbstractIT() {
 
         given()
             .port(port)
-            .header(Header("Authorization", "Bearer $token"))
+            .header(createAuthenticationHeader(token))
             .param("city", "Paris")
             .`when`()
             .get("$weatherWidgetEndpoint/weather")
@@ -90,7 +91,7 @@ class WeatherWidgetControllerTests : AbstractIT() {
 
         given()
             .port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .param("city", "Paris")
             .`when`()
             .get("$weatherWidgetEndpoint/forecast")

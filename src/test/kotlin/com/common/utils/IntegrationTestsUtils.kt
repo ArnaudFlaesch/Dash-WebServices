@@ -4,6 +4,7 @@ import com.common.controller.requests.LoginRequest
 import com.common.security.response.JwtResponse
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import io.restassured.http.Header
 import org.hamcrest.Matchers
 
 object IntegrationTestsUtils {
@@ -21,4 +22,6 @@ object IntegrationTestsUtils {
             .body("$", Matchers.notNullValue())
             .extract().`as`(JwtResponse::class.java)
     }
+
+    fun createAuthenticationHeader(jwtToken: String): Header = Header("Authorization", "Bearer $jwtToken")
 }

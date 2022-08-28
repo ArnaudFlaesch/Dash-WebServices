@@ -1,6 +1,6 @@
 package com.dash.controller.requests.workoutWidget
 
-data class CreateWorkoutExercisePayload(
+data class AddWorkoutExercisePayload(
     val workoutSessionId: Int,
     val workoutTypeId: Int,
     val numberOfReps: Int

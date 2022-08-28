@@ -2,6 +2,7 @@ package com.dash.controller
 
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
+import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.dash.model.ImportData
 import com.dash.repository.TabDataset
 import com.dash.repository.WidgetDataset
@@ -32,7 +33,7 @@ class ConfigControllerTests : AbstractIT() {
     @LocalServerPort
     private val port: Int = 0
 
-    private var jwtToken: String? = null
+    private lateinit var jwtToken: String
 
     private val CONFIG_ENDPOINT = "/dashConfig/"
 
@@ -46,7 +47,7 @@ class ConfigControllerTests : AbstractIT() {
     fun testExportConfig() {
         val exportData = given()
             .port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .get("${CONFIG_ENDPOINT}export")
             .then().log().all()
@@ -67,7 +68,7 @@ class ConfigControllerTests : AbstractIT() {
         val response = given()
             .multiPart("file", ClassPathResource("./files/dashboardConfigTest.json").file)
             .port(port)
-            .headers(Headers(Header("Authorization", "Bearer $jwtToken"), Header("content-type", "multipart/form-data")))
+            .headers(Headers(createAuthenticationHeader(jwtToken), Header("content-type", "multipart/form-data")))
             .`when`()
             .post("${CONFIG_ENDPOINT}import").then().log().all()
             .statusCode(200)
