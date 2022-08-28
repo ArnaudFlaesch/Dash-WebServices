@@ -27,4 +27,8 @@ data class WorkoutExerciseId(
 
     @Column(name = "workout_type_id")
     val workoutTypeId: Int
-) : Serializable
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 1L
+    }
+}

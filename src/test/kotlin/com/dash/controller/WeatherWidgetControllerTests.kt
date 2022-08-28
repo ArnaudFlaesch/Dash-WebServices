@@ -7,7 +7,6 @@ import com.common.utils.TestEndpointsArguments.testForeignApiCodes
 import com.common.utils.TestEndpointsArguments.testTokenArguments
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
-import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers.matchesPattern
 import org.junit.jupiter.api.BeforeAll

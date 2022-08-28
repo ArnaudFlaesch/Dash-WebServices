@@ -120,7 +120,8 @@ class WorkoutWidgetControllerTests : AbstractIT() {
 
         assertEquals(
             WorkoutExercise(WorkoutExerciseId(workoutSession.id, workoutType.id), 5),
-            workoutExercise)
+            workoutExercise
+        )
 
         val workoutExercises = given()
             .port(port)
@@ -134,7 +135,6 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             .extract().`as`(object : TypeRef<List<WorkoutExercise>>() {})
 
         assertEquals(1, workoutExercises.size)
-        val expectedWorkoutExercise = WorkoutExercise(WorkoutExerciseId(workoutSession.id, workoutType.id), 5)
         assertEquals(workoutSessionDate, workoutExercises[0].workoutSession?.workoutDate ?: fail())
         assertEquals(newWorkoutType, workoutExercises[0].workoutType?.name ?: fail())
     }

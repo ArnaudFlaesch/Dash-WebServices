@@ -9,7 +9,6 @@ import com.google.gson.Gson
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.BeforeAll

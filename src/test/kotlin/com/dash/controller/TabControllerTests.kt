@@ -9,7 +9,6 @@ import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
-import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
