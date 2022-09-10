@@ -3,9 +3,9 @@ package com.dash.controller
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.dash.controller.requests.workoutWidget.UpdateWorkoutExercisePayload
 import com.dash.controller.requests.workoutWidget.AddWorkoutTypePayload
 import com.dash.controller.requests.workoutWidget.CreateWorkoutSessionPayload
+import com.dash.controller.requests.workoutWidget.UpdateWorkoutExercisePayload
 import com.dash.model.workoutwidget.WorkoutExercise
 import com.dash.model.workoutwidget.WorkoutExerciseId
 import com.dash.model.workoutwidget.WorkoutSession

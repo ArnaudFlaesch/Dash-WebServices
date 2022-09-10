@@ -1,8 +1,8 @@
 package com.dash.controller
 
-import com.dash.controller.requests.workoutWidget.UpdateWorkoutExercisePayload
 import com.dash.controller.requests.workoutWidget.AddWorkoutTypePayload
 import com.dash.controller.requests.workoutWidget.CreateWorkoutSessionPayload
+import com.dash.controller.requests.workoutWidget.UpdateWorkoutExercisePayload
 import com.dash.model.workoutwidget.WorkoutExercise
 import com.dash.model.workoutwidget.WorkoutSession
 import com.dash.model.workoutwidget.WorkoutType
