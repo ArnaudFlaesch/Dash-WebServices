@@ -2,11 +2,11 @@ package com.dash.controller
 
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
+import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.common.utils.TestEndpointsArguments.testForeignApiCodes
 import com.common.utils.TestEndpointsArguments.testTokenArguments
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
-import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers.matchesPattern
 import org.junit.jupiter.api.BeforeAll
@@ -70,7 +70,7 @@ class WeatherWidgetControllerTests : AbstractIT() {
 
         given()
             .port(port)
-            .header(Header("Authorization", "Bearer $token"))
+            .header(createAuthenticationHeader(token))
             .param("city", "Paris")
             .`when`()
             .get("$weatherWidgetEndpoint/weather")
@@ -90,7 +90,7 @@ class WeatherWidgetControllerTests : AbstractIT() {
 
         given()
             .port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .param("city", "Paris")
             .`when`()
             .get("$weatherWidgetEndpoint/forecast")

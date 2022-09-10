@@ -1,7 +1,7 @@
 package com.dash.controller
 
-import com.dash.controller.requests.GetStravaRefreshTokenPayload
-import com.dash.controller.requests.GetStravaTokenPayload
+import com.dash.controller.requests.stravaWidget.GetStravaRefreshTokenPayload
+import com.dash.controller.requests.stravaWidget.GetStravaTokenPayload
 import com.dash.service.ProxyService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value

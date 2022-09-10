@@ -2,6 +2,7 @@ package com.dash.controller
 
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
+import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.dash.entity.Tab
 import com.dash.entity.Widget
 import com.dash.repository.TabDataset
@@ -9,7 +10,6 @@ import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
-import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -30,7 +30,7 @@ class WidgetControllerTests : AbstractIT() {
     @LocalServerPort
     private val port: Int = 0
 
-    private var jwtToken: String? = null
+    private lateinit var jwtToken: String
 
     private val WIDGET_ENDPOINT = "/widget/"
 
@@ -43,7 +43,7 @@ class WidgetControllerTests : AbstractIT() {
     @Test
     fun testGetAllWidgetsByTabId() {
         val widgetList = given().port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .param("tabId", 1)
             .`when`().get(WIDGET_ENDPOINT)
             .then().log().all()
@@ -60,7 +60,7 @@ class WidgetControllerTests : AbstractIT() {
 
         val insertedWidget: Widget = given()
             .contentType(ContentType.JSON)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .port(port)
             .body(widget)
             .`when`()
@@ -73,7 +73,7 @@ class WidgetControllerTests : AbstractIT() {
         assertEquals(insertedWidget.type, widget.type)
 
         val widgetList = given().port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .param("tabId", 10)
             .`when`().get(WIDGET_ENDPOINT).then().log().all()
             .statusCode(200).log().all()
@@ -81,7 +81,7 @@ class WidgetControllerTests : AbstractIT() {
         assertEquals(1, widgetList.size)
 
         val updatedWidget: Widget = given()
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
             .body(insertedWidget.copy(widgetOrder = 0)).`when`().patch("${WIDGET_ENDPOINT}updateWidgetData/${insertedWidget.id}")
@@ -92,7 +92,7 @@ class WidgetControllerTests : AbstractIT() {
         assertEquals(insertedWidget.data, updatedWidget.data)
 
         given()
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
             .param("id", updatedWidget.id).`when`().delete("${WIDGET_ENDPOINT}deleteWidget/")
@@ -100,7 +100,7 @@ class WidgetControllerTests : AbstractIT() {
             .statusCode(200)
 
         val updatedWidgetList = given()
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .port(port)
             .param("tabId", 10)
             .`when`().get(WIDGET_ENDPOINT).then().log().all()
@@ -116,7 +116,7 @@ class WidgetControllerTests : AbstractIT() {
         val secondWidget = Widget(0, 3, "{}", 2, tab = tab)
 
         val firstInsertedWidget: Widget = given()
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
             .body(firstWidget).`when`().post("${WIDGET_ENDPOINT}addWidget/")
@@ -125,7 +125,7 @@ class WidgetControllerTests : AbstractIT() {
             .extract().`as`(Widget::class.java)
 
         val secondInsertedWidget: Widget = given()
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
             .body(secondWidget).`when`().post("${WIDGET_ENDPOINT}addWidget/")
@@ -140,7 +140,7 @@ class WidgetControllerTests : AbstractIT() {
         assertEquals(secondInsertedWidget.type, secondWidget.type)
 
         val updatedWidgets: List<Widget> = given()
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
             .body(listOf(firstInsertedWidget.copy(widgetOrder = 2), secondInsertedWidget.copy(widgetOrder = 3)))

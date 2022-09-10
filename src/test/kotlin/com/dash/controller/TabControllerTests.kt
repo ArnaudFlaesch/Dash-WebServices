@@ -2,13 +2,13 @@ package com.dash.controller
 
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
+import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.dash.entity.Tab
 import com.dash.repository.TabDataset
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
-import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -29,7 +29,7 @@ class TabControllerTests : AbstractIT() {
     @LocalServerPort
     private val port: Int = 0
 
-    private var jwtToken: String? = null
+    private lateinit var jwtToken: String
 
     @BeforeAll
     fun testUp() {
@@ -40,7 +40,7 @@ class TabControllerTests : AbstractIT() {
     @Test
     fun testGetAllTabs() {
         val tabs = given().port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .get("/tab/")
             .then().log().all()
@@ -56,7 +56,7 @@ class TabControllerTests : AbstractIT() {
 
         val insertedTab: Tab = given().port(port)
             .contentType(ContentType.JSON)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .body(newTab)
             .post("/tab/addTab/")
@@ -68,7 +68,7 @@ class TabControllerTests : AbstractIT() {
         assertEquals(insertedTab.label, newTab.label)
 
         val tabList = given().port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .get("/tab/")
             .then().log().all()
@@ -81,7 +81,7 @@ class TabControllerTests : AbstractIT() {
 
         val updatedTab: Tab = given().port(port)
             .contentType(ContentType.JSON)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .body(insertedTab.copy(label = updatedLabel))
             .post("/tab/updateTab/")
@@ -94,7 +94,7 @@ class TabControllerTests : AbstractIT() {
 
         val updatedTabs: List<Tab> = given().port(port)
             .contentType(ContentType.JSON)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .body(listOf(updatedTab))
             .post("/tab/updateTabs/")
@@ -105,14 +105,14 @@ class TabControllerTests : AbstractIT() {
 
         given().port(port)
             .contentType(ContentType.JSON)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .`when`().param("id", updatedTab.id)
             .delete("/tab/deleteTab/")
             .then().log().all()
             .statusCode(200)
 
         val updatedTabList = given().port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .`when`().get("/tab/")
             .then().log().all()
             .statusCode(200)

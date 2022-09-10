@@ -28,11 +28,12 @@ databaseChangeLog:
       author: aflaesch
       comment: Dataset for tests
       context: test
+      runOrder: last
       changes:
         - sqlFile:
             dbms: postgresql
             encoding: utf8
-            path: /db/changelog/testdata/dataset.sql
+            path: /db/changelog/testdata/test-dataset.sql
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
@@ -74,6 +75,18 @@ databaseChangeLog:
             dbms: postgresql
             encoding: utf8
             path: /db/changelog/testdata/cashmanager-teste2e-data.sql
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 7
+      author: aflaesch
+      comment: FT-248 Workout widget schema
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            path: /db/changelog/1.0/ft-247-workout-widget.sql
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true

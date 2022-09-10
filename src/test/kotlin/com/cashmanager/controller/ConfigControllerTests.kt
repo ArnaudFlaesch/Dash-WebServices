@@ -3,6 +3,7 @@ package com.cashmanager.controller
 import com.cashmanager.model.ImportData
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
+import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.http.Header
@@ -26,7 +27,7 @@ class ConfigControllerTests : AbstractIT() {
     @LocalServerPort
     private val port: Int = 0
 
-    private var jwtToken: String? = null
+    private lateinit var jwtToken: String
 
     private val CASH_MANAGER_CONFIG_ENDPOINT = "/cashManagerConfig/"
 
@@ -40,7 +41,7 @@ class ConfigControllerTests : AbstractIT() {
     fun testExportConfig() {
         val exportData = given()
             .port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .get("${CASH_MANAGER_CONFIG_ENDPOINT}export")
             .then().log().all()
@@ -60,7 +61,7 @@ class ConfigControllerTests : AbstractIT() {
         val response = given()
             .multiPart("file", ClassPathResource("./files/cashManagerData.json").file)
             .port(port)
-            .headers(Headers(Header("Authorization", "Bearer $jwtToken"), Header("content-type", "multipart/form-data")))
+            .headers(Headers(createAuthenticationHeader(jwtToken), Header("content-type", "multipart/form-data")))
             .`when`()
             .post("${CASH_MANAGER_CONFIG_ENDPOINT}import").then().log().all()
             .statusCode(200)

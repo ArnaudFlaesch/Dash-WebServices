@@ -3,12 +3,12 @@ package com.dash.controller
 import com.common.utils.AbstractIT
 import com.common.utils.Constants.UNAUTHORIZED_ERROR
 import com.common.utils.IntegrationTestsUtils
+import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.common.utils.TestEndpointsArguments
 import com.dash.controller.requests.CalendarUrlPayload
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -147,7 +147,7 @@ class CalendarWidgetControllerTests : AbstractIT() {
             .contentType(ContentType.JSON)
             .accept(MediaType.APPLICATION_JSON_VALUE)
             .body(CalendarUrlPayload(calendarUrl))
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .post(calendarWidgetEndpoint)
             .then().log().all()
@@ -173,7 +173,7 @@ class CalendarWidgetControllerTests : AbstractIT() {
             .port(port)
             .contentType(ContentType.JSON)
             .body(CalendarUrlPayload(calendarUrl))
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .post(calendarWidgetEndpoint)
             .then().log().all()
@@ -196,7 +196,7 @@ class CalendarWidgetControllerTests : AbstractIT() {
             )
 
         given().port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .body(CalendarUrlPayload(url))
             .`when`()

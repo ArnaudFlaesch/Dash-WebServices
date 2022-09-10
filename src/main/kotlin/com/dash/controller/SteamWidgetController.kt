@@ -1,6 +1,7 @@
 package com.dash.controller
 
-import com.dash.model.GameInfoResponse
+import com.dash.model.steamwidget.GameInfoResponse
+import com.dash.model.steamwidget.PlayerDataResponse
 import com.dash.service.SteamWidgetService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -14,7 +15,7 @@ class SteamWidgetController {
     private lateinit var steamWidgetService: SteamWidgetService
 
     @GetMapping("/playerData")
-    fun getPlayerData(): String? {
+    fun getPlayerData(): PlayerDataResponse? {
         return steamWidgetService.getPlayerData()
     }
 

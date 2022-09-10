@@ -2,9 +2,10 @@ package com.dash.controller
 
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
+import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.common.utils.TestEndpointsArguments
-import com.dash.controller.requests.GetStravaRefreshTokenPayload
-import com.dash.controller.requests.GetStravaTokenPayload
+import com.dash.controller.requests.stravaWidget.GetStravaRefreshTokenPayload
+import com.dash.controller.requests.stravaWidget.GetStravaTokenPayload
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
@@ -98,7 +99,7 @@ class StravaWidgetControllerTests : AbstractIT() {
         given()
             .port(port)
             .contentType(ContentType.JSON)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .body(getStravaRefreshTokenPayload)
             .post("$stravaWidgetEndpoint/getRefreshToken")

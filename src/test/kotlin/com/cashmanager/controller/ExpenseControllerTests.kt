@@ -7,6 +7,7 @@ import com.cashmanager.model.TotalExpenseByMonth
 import com.cashmanager.utils.Constants
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
+import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
@@ -35,7 +36,7 @@ class ExpenseControllerTests : AbstractIT() {
     @LocalServerPort
     private val port: Int = 0
 
-    private var jwtToken: String? = null
+    private lateinit var jwtToken: String
 
     private val EXPENSE_ENDPOINT = "/expense/"
 
@@ -45,7 +46,7 @@ class ExpenseControllerTests : AbstractIT() {
     fun testUp() {
         defaultParser = Parser.JSON
         jwtToken = IntegrationTestsUtils.authenticateAdmin(port).accessToken
-        authorizationHeader = Header("Authorization", "Bearer $jwtToken")
+        authorizationHeader = createAuthenticationHeader(jwtToken)
     }
 
     @Test
@@ -83,7 +84,7 @@ class ExpenseControllerTests : AbstractIT() {
     @Test
     fun testGetTotalExpensesByMonthByLabelId() {
         val labels: List<Label> = given().port(port)
-            .header(Header("Authorization", "Bearer $jwtToken"))
+            .header(createAuthenticationHeader(jwtToken))
             .`when`().get(Constants.LABEL_ENDPOINT)
             .then().log().all()
             .statusCode(200)

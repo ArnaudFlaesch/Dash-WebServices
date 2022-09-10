@@ -6,7 +6,9 @@ INSERT INTO tab(label, tab_order) VALUES('Flux RSS', 2);
 INSERT INTO tab(label, tab_order) VALUES('Agenda', 3);
 INSERT INTO tab(label, tab_order) VALUES('Strava', 4);
 INSERT INTO tab(label, tab_order) VALUES('Steam', 5);
+INSERT INTO tab(label, tab_order) VALUES('Workout', 6);
 
 INSERT INTO widget(type, data, widget_order, tab_id) VALUES(1, '{"city": "Nice"}', 1, (SELECT id FROM tab WHERE label = 'Météo'));
 INSERT INTO widget(type, data, widget_order, tab_id) VALUES(2, '{"url": "https://www.jeuxvideo.com/rss/rss-pc.xml"}', 1, (SELECT id FROM tab WHERE label = 'Flux RSS'));
 INSERT INTO widget(type, data, widget_order, tab_id) VALUES(5, null, 1, (SELECT id FROM tab WHERE label = 'Steam'));
+INSERT INTO widget(type, data, widget_order, tab_id) VALUES((SELECT id FROM widget_type WHERE description = 'WORKOUT'), null, 1, (SELECT id FROM tab WHERE label = 'Workout'));
