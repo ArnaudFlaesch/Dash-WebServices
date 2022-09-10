@@ -7,17 +7,17 @@ val springBootVersion = "2.7.0"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.2"
 
-val jacksonVersion = "2.13.3"
+val jacksonVersion = "2.13.4"
 val log4jVersion = "2.18.0"
 
-val liquibaseVersion = "4.15.0"
+val liquibaseVersion = "4.16.0"
 val postgresqlVersion = "42.5.0"
 val gsonVersion = "2.9.1"
 
 val restAssuredVersion = "4.5.1"
 val mockitoKotlinVersion = "4.0.0"
 val junitVersion = "5.9.0"
-val hibernateTypesVersion = "2.18.0"
+val hibernateTypesVersion = "2.19.1"
 val testContainersVersion = "1.17.3"
 
 val detektVersion = "1.20.0"
