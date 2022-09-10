@@ -30,7 +30,7 @@ class WorkoutWidgetService {
     fun getWorkoutsExercisesByWorkoutSessionId(workoutSessionId: Int): List<WorkoutExercise> =
         workoutExerciseRepository.findAllByWorkoutSessionId(workoutSessionId)
 
-    fun createWorkoutExercise(workoutSessionId: Int, workoutTypeId: Int, numberOfReps: Int): WorkoutExercise =
+    fun updateWorkoutExercise(workoutSessionId: Int, workoutTypeId: Int, numberOfReps: Int): WorkoutExercise =
         workoutExerciseRepository.save(WorkoutExercise(WorkoutExerciseId(workoutSessionId, workoutTypeId), numberOfReps))
 
     fun getWorkoutSessions(): List<WorkoutSession> = workoutSessionRepository.findAll()

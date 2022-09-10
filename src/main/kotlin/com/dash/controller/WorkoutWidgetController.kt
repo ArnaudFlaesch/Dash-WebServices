@@ -1,6 +1,6 @@
 package com.dash.controller
 
-import com.dash.controller.requests.workoutWidget.AddWorkoutExercisePayload
+import com.dash.controller.requests.workoutWidget.UpdateWorkoutExercisePayload
 import com.dash.controller.requests.workoutWidget.AddWorkoutTypePayload
 import com.dash.controller.requests.workoutWidget.CreateWorkoutSessionPayload
 import com.dash.model.workoutwidget.WorkoutExercise
@@ -28,12 +28,12 @@ class WorkoutWidgetController {
     fun getWorkoutsExercisesByWorkoutSessionId(@RequestParam("workoutSessionId") workoutSessionId: Int): List<WorkoutExercise> =
         workoutWidgetService.getWorkoutsExercisesByWorkoutSessionId(workoutSessionId)
 
-    @PostMapping("/addWorkoutExercise")
-    fun createWorkoutExercise(@RequestBody createWorkoutExercisePayload: AddWorkoutExercisePayload): WorkoutExercise =
-        workoutWidgetService.createWorkoutExercise(
-            createWorkoutExercisePayload.workoutSessionId,
-            createWorkoutExercisePayload.workoutTypeId,
-            createWorkoutExercisePayload.numberOfReps
+    @PostMapping("/updateWorkoutExercise")
+    fun updateWorkoutExercise(@RequestBody updateWorkoutExercisePayload: UpdateWorkoutExercisePayload): WorkoutExercise =
+        workoutWidgetService.updateWorkoutExercise(
+            updateWorkoutExercisePayload.workoutSessionId,
+            updateWorkoutExercisePayload.workoutTypeId,
+            updateWorkoutExercisePayload.numberOfReps
         )
 
     @PostMapping("/addWorkoutType")

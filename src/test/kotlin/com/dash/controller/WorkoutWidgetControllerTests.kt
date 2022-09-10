@@ -3,7 +3,7 @@ package com.dash.controller
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.dash.controller.requests.workoutWidget.AddWorkoutExercisePayload
+import com.dash.controller.requests.workoutWidget.UpdateWorkoutExercisePayload
 import com.dash.controller.requests.workoutWidget.AddWorkoutTypePayload
 import com.dash.controller.requests.workoutWidget.CreateWorkoutSessionPayload
 import com.dash.model.workoutwidget.WorkoutExercise
@@ -46,7 +46,7 @@ class WorkoutWidgetControllerTests : AbstractIT() {
     }
 
     @Test
-    fun createGetAndDeleteWorkoutTypeTest() {
+    fun createWorkoutSessionTest() {
         val newWorkoutType = "Abdos"
         val addWorkoutTypePayload = AddWorkoutTypePayload(newWorkoutType)
 
@@ -105,14 +105,14 @@ class WorkoutWidgetControllerTests : AbstractIT() {
 
         assertEquals(1, workoutSessions.size)
 
-        val workoutExercisePayload = AddWorkoutExercisePayload(workoutSession.id, workoutType.id, 5)
+        val workoutExercisePayload = UpdateWorkoutExercisePayload(workoutSession.id, workoutType.id, 5)
         val workoutExercise = given()
             .port(port)
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .body(workoutExercisePayload)
             .`when`()
-            .post("$workoutWidgetEndpoint/addWorkoutExercise")
+            .post("$workoutWidgetEndpoint/updateWorkoutExercise")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .log().all()
