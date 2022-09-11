@@ -52,8 +52,7 @@ class SteamWidgetService {
                 response =
                 gameData.response.copy(
                     gameCount =
-                    if (search.isBlank()) gameData.response.gameCount
-                    else gamesList.size,
+                    if (search.isBlank()) gameData.response.gameCount else gamesList.size,
                     games = paginatedGames
                 )
             )

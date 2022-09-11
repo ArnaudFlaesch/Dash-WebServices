@@ -51,6 +51,8 @@ class AuthTokenFilter : OncePerRequestFilter() {
         val prefix = "Bearer "
         return if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(prefix)) {
             headerAuth.substring(prefix.length, headerAuth.length)
-        } else null
+        } else {
+            null
+        }
     }
 }
