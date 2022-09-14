@@ -70,12 +70,14 @@ class SteamWidgetControllerTests : AbstractIT() {
         fun testGetPlayerSummary() {
             val getPlayerJsonData = """
                 {
-                  "response":
-                    [{
-                        "personaname": "personaname",
-                        "profileurl": "profileUrl",
-                        "avatar": "avatar"
-                    }]
+                  "response": {
+                    "players":
+                        [{
+                            "personaname": "personaname",
+                            "profileurl": "profileUrl",
+                            "avatar": "avatar"
+                        }]
+                    }
                 }
             """.trimIndent()
 
