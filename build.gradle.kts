@@ -8,7 +8,7 @@ val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.5"
 
 val jacksonVersion = "2.13.4"
-val log4jVersion = "2.18.0"
+val log4jVersion = "2.19.0"
 
 val liquibaseVersion = "4.16.1"
 val postgresqlVersion = "42.5.0"
