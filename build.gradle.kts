@@ -18,7 +18,7 @@ val restAssuredVersion = "4.5.1"
 val mockitoKotlinVersion = "4.0.0"
 val junitVersion = "5.9.1"
 val hibernateTypesVersion = "2.19.2"
-val testContainersVersion = "1.17.3"
+val testContainersVersion = "1.17.4"
 
 val detektVersion = "1.20.0"
 val ktlintVersion = "0.47.1"
