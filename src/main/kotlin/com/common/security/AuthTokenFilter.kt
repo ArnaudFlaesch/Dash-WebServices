@@ -22,7 +22,7 @@ class AuthTokenFilter : OncePerRequestFilter() {
     private lateinit var userDetailsService: UserDetailsServiceImpl
 
     companion object {
-        private val logger = LoggerFactory.getLogger(AuthTokenFilter::class.java)
+        private val logger = LoggerFactory.getLogger(this::class.java.name)
     }
 
     @Throws(ServletException::class, IOException::class)

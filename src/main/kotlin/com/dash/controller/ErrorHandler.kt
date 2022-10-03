@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.client.ClientHttpResponse
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.client.ResponseErrorHandler
+import org.springframework.web.client.RestClientException
 import java.io.IOException
 
 class ErrorHandler : ResponseErrorHandler {
@@ -18,7 +19,7 @@ class ErrorHandler : ResponseErrorHandler {
             HttpStatus.BAD_REQUEST -> throw BadRequestException()
             HttpStatus.NOT_FOUND -> throw NotFoundException()
             HttpStatus.INTERNAL_SERVER_ERROR -> throw InternalServerErrorException()
-            else -> throw InternalServerErrorException()
+            else -> throw RestClientException(response.statusCode.reasonPhrase)
         }
     }
 
