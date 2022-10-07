@@ -137,11 +137,15 @@ class AirParifWidgetControllerTests : AbstractIT() {
             .extract().`as`(AirParifColors::class.java)
 
         val expected = AirParifColors(
-            "#50f0e6", "#50ccaa", "#f0e641", "#ff5050", "#960032", "#7d2181",
+            "#50f0e6",
+            "#50ccaa",
+            "#f0e641",
+            "#ff5050",
+            "#960032",
+            "#7d2181"
         )
 
         assertEquals(expected, getColorsResponse)
         mockServer.verify()
     }
-
 }

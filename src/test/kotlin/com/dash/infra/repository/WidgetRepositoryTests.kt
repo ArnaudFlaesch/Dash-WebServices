@@ -3,7 +3,6 @@ package com.dash.infra.repository
 import com.common.utils.AbstractIT
 import com.dash.infra.entity.Tab
 import com.dash.infra.entity.Widget
-import com.dash.infra.repository.WidgetRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

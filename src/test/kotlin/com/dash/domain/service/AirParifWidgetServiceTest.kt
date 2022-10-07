@@ -1,7 +1,6 @@
 package com.dash.domain.service
 
 import com.common.utils.AbstractIT
-import com.dash.domain.service.AirParifWidgetService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
