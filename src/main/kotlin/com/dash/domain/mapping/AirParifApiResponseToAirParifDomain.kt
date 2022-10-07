@@ -10,12 +10,12 @@ class AirParifApiResponseToAirParifDomain {
 
     fun airParifColorsResponseToAirParifColorsDomain(colorsResponse: LinkedHashMap<String, String>): AirParifColors =
         AirParifColors(
-            colorsResponse.getOrDefault("Bon", "#000000"),
-            colorsResponse.getOrDefault("Moyen", "#000000"),
-            colorsResponse.getOrDefault("Dégradé", "#000000"),
-            colorsResponse.getOrDefault("Mauvais", "#000000"),
-            colorsResponse.getOrDefault("Très Mauvais", "#000000"),
-            colorsResponse.getOrDefault("Extrêmement Mauvais", "#000000")
+            colorsResponse.getOrDefault("Bon", ""),
+            colorsResponse.getOrDefault("Moyen", ""),
+            colorsResponse.getOrDefault("Dégradé", ""),
+            colorsResponse.getOrDefault("Mauvais", ""),
+            colorsResponse.getOrDefault("Très Mauvais", ""),
+            colorsResponse.getOrDefault("Extrêmement Mauvais", "")
         )
 
     fun airParifPrevisionsResponseToAirParifDomain(
