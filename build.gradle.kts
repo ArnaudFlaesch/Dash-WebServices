@@ -16,9 +16,9 @@ val gsonVersion = "2.9.1"
 
 val restAssuredVersion = "4.5.1"
 val mockitoKotlinVersion = "4.0.0"
-val junitVersion = "5.9.0"
+val junitVersion = "5.9.1"
 val hibernateTypesVersion = "2.19.2"
-val testContainersVersion = "1.17.3"
+val testContainersVersion = "1.17.5"
 
 val detektVersion = "1.20.0"
 val ktlintVersion = "0.47.1"
@@ -26,9 +26,9 @@ val ktlintVersion = "0.47.1"
 val ktlint: Configuration by configurations.creating
 
 plugins {
-    val kotlinVersion = "1.7.10"
-    val springBootVersion = "2.7.3"
-    val springDependencyManagementVersion = "1.0.13.RELEASE"
+    val kotlinVersion = "1.7.20"
+    val springBootVersion = "2.7.4"
+    val springDependencyManagementVersion = "1.0.14.RELEASE"
     val codacyPluginVersion = "0.1.0"
     val detektVersion = "1.21.0"
 
