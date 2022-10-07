@@ -64,10 +64,10 @@ class AirParifWidgetServiceTest : AbstractIT() {
             "      \"date\": \"2021-01-16\",\n" +
             "      \"no2\": \"Bon\",\n" +
             "      \"o3\": \"Mauvais\",\n" +
-            "      \"pm10\": \"Moyen\",\n" +
-            "      \"pm25\": \"Dégradé\",\n" +
-            "      \"so2\": \"Bon\",\n" +
-            "      \"indice\": \"Dégradé\"\n" +
+            "      \"pm10\": \"Dégradé\",\n" +
+            "      \"pm25\": \"Moyen\",\n" +
+            "      \"so2\": \"Dégradé\",\n" +
+            "      \"indice\": \"Bon\"\n" +
             "    }\n" +
             "  ]\n" +
             "}"
