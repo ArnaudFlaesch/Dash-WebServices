@@ -1,10 +1,13 @@
 package com.dash.domain.model.airParif
 
 enum class AirParifPrevisionEnum(val prevision: String) {
-    MAUVAIS("Mauvais"),
-    DEGRADE("Dégradé"),
-    MOYEN("Moyen"),
+
     BON("Bon"),
+    MOYEN("Moyen"),
+    DEGRADE("Dégradé"),
+    MAUVAIS("Mauvais"),
+    TRES_MAUVAIS("Très mauvais"),
+    EXTREMEMENT_MAUVAIS("Extrêmement mauvais"),
     MISSING("Missing");
 
     companion object {

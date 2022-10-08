@@ -1,1 +1,1 @@
-INSERT INTO widget_type (description, config) VALUES ('AIRPARIF', '{}');
+INSERT INTO widget_type (description, config) VALUES ('AIRPARIF', '["airParifApiKey", "communeInseeCode"]');
