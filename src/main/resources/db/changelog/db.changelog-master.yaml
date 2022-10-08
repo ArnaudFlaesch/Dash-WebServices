@@ -81,12 +81,24 @@ databaseChangeLog:
   - changeSet:
       id: 7
       author: aflaesch
-      comment: FT-248 Workout widget schema
+      comment: FT-247 Workout widget schema
       changes:
         - sqlFile:
             dbms: postgresql
             encoding: utf8
             path: /db/changelog/1.0/ft-247-workout-widget.sql
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 8
+      author: aflaesch
+      comment: FT-248 Air Parif widget type
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            path: /db/changelog/1.0/ft-248-airparif-widget.sql
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true

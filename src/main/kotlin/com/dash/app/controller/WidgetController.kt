@@ -1,0 +1,36 @@
+package com.dash.app.controller
+
+import com.dash.app.controller.requests.UpdateWidgetDataPayload
+import com.dash.domain.service.WidgetService
+import com.dash.infra.entity.Widget
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.*
+
+@RestController
+@CrossOrigin(origins = ["*"])
+@RequestMapping("/widget")
+class WidgetController {
+
+    @Autowired
+    private lateinit var widgetService: WidgetService
+
+    @GetMapping("/")
+    fun getWidgets(@RequestParam(value = "tabId") tabId: Int): List<Widget> =
+        widgetService.findByTabIdOrderByWidgetOrderAsc(tabId)
+
+    @PostMapping("/addWidget")
+    fun addWidget(@RequestBody widget: Widget): Widget = widgetService.addWidget(widget)
+
+    @PatchMapping("/updateWidgetData/{widgetId}")
+    fun updateWidgetData(
+        @PathVariable("widgetId") widgetId: Int,
+        @RequestBody updateWidgetDataPayload: UpdateWidgetDataPayload
+    ): Widget =
+        widgetService.updateWidget(widgetId, updateWidgetDataPayload)
+
+    @PostMapping("/updateWidgetsOrder")
+    fun updateWidgetsOrder(@RequestBody widgets: List<Widget>): List<Widget> = widgetService.updateWidgetsOrder(widgets)
+
+    @DeleteMapping("/deleteWidget")
+    fun deleteWidget(@RequestParam(value = "id") id: Int) = widgetService.deleteWidget(id)
+}
