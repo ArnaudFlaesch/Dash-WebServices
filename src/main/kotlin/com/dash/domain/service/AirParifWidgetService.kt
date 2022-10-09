@@ -1,7 +1,7 @@
 package com.dash.domain.service
 
 import com.dash.domain.mapping.AirParifApiResponseToAirParifDomain
-import com.dash.domain.model.airParif.AirParifColors
+import com.dash.domain.model.airParif.AirParifColor
 import com.dash.domain.model.airParif.Prevision
 import com.dash.infra.adapter.AirParifWidgetAdapter
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,7 +21,7 @@ class AirParifWidgetService {
         return airParifApiResponseToAirParifDomain.airParifPrevisionsResponseToAirParifDomain(communeInseeCode, previsionResponse)
     }
 
-    fun getColors(): AirParifColors {
+    fun getColors(): List<AirParifColor> {
         val colorsResponse = airParifWidgetAdapter.getColors()
         return airParifApiResponseToAirParifDomain.airParifColorsResponseToAirParifColorsDomain(colorsResponse)
     }

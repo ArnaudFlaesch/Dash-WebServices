@@ -1,6 +1,6 @@
 package com.dash.domain.mapping
 
-import com.dash.domain.model.airParif.AirParifColors
+import com.dash.domain.model.airParif.AirParifColor
 import com.dash.domain.model.airParif.AirParifPrevisionEnum
 import com.dash.domain.model.airParif.Prevision
 import org.springframework.stereotype.Component
@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component
 @Component
 class AirParifApiResponseToAirParifDomain {
 
-    fun airParifColorsResponseToAirParifColorsDomain(colorsResponse: LinkedHashMap<String, String>): AirParifColors =
-        AirParifColors(
-            colorsResponse.getOrDefault("Bon", ""),
-            colorsResponse.getOrDefault("Moyen", ""),
-            colorsResponse.getOrDefault("Dégradé", ""),
-            colorsResponse.getOrDefault("Mauvais", ""),
-            colorsResponse.getOrDefault("Très Mauvais", ""),
-            colorsResponse.getOrDefault("Extrêmement Mauvais", "")
+    fun airParifColorsResponseToAirParifColorsDomain(colorsResponse: LinkedHashMap<String, String>): List<AirParifColor> =
+        listOf(
+            AirParifColor(AirParifPrevisionEnum.BON, colorsResponse.getOrDefault(AirParifPrevisionEnum.BON.prevision, "")),
+            AirParifColor(AirParifPrevisionEnum.MOYEN, colorsResponse.getOrDefault(AirParifPrevisionEnum.MOYEN.prevision, "")),
+            AirParifColor(AirParifPrevisionEnum.DEGRADE, colorsResponse.getOrDefault(AirParifPrevisionEnum.DEGRADE.prevision, "")),
+            AirParifColor(AirParifPrevisionEnum.MAUVAIS, colorsResponse.getOrDefault(AirParifPrevisionEnum.MAUVAIS.prevision, "")),
+            AirParifColor(AirParifPrevisionEnum.TRES_MAUVAIS, colorsResponse.getOrDefault(AirParifPrevisionEnum.TRES_MAUVAIS.prevision, "")),
+            AirParifColor(AirParifPrevisionEnum.EXTREMEMENT_MAUVAIS, colorsResponse.getOrDefault(AirParifPrevisionEnum.EXTREMEMENT_MAUVAIS.prevision, ""))
         )
 
     fun airParifPrevisionsResponseToAirParifDomain(

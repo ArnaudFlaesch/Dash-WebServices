@@ -1,6 +1,6 @@
 package com.dash.app.controller
 
-import com.dash.domain.model.airParif.AirParifColors
+import com.dash.domain.model.airParif.AirParifColor
 import com.dash.domain.model.airParif.Prevision
 import com.dash.domain.service.AirParifWidgetService
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,6 +20,6 @@ class AirParifWidgetController {
         airParifWidgetService.getPrevisionCommune(commune)
 
     @GetMapping("/couleurs")
-    fun getAirParifCouleurs(): AirParifColors =
+    fun getAirParifCouleurs(): List<AirParifColor> =
         airParifWidgetService.getColors()
 }

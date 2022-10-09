@@ -3,9 +3,12 @@ package com.dash.app.controller
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.dash.domain.model.airParif.AirParifColors
+import com.dash.domain.model.airParif.AirParifColor
+import com.dash.domain.model.airParif.AirParifPrevisionEnum
+import com.dash.domain.model.airParif.Prevision
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
+import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -102,7 +105,7 @@ class AirParifWidgetControllerTests : AbstractIT() {
             .get("$airParifWidgetEndpoint/previsionCommune")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
-            .extract().`as`(List::class.java)
+            .extract().`as`(object : TypeRef<List<Prevision>>() {})
 
         assertEquals(getPrevisionsDataResponse.size, 2)
         mockServer.verify()
@@ -134,15 +137,15 @@ class AirParifWidgetControllerTests : AbstractIT() {
             .get("$airParifWidgetEndpoint/couleurs")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
-            .extract().`as`(AirParifColors::class.java)
+            .extract().`as`(object : TypeRef<List<AirParifColor>>() {})
 
-        val expected = AirParifColors(
-            "#50f0e6",
-            "#50ccaa",
-            "#f0e641",
-            "#ff5050",
-            "#960032",
-            "#7d2181"
+        val expected = listOf(
+            AirParifColor(AirParifPrevisionEnum.BON, "#50f0e6"),
+            AirParifColor(AirParifPrevisionEnum.MOYEN, "#50ccaa"),
+            AirParifColor(AirParifPrevisionEnum.DEGRADE, "#f0e641"),
+            AirParifColor(AirParifPrevisionEnum.MAUVAIS, "#ff5050"),
+            AirParifColor(AirParifPrevisionEnum.TRES_MAUVAIS, "#960032"),
+            AirParifColor(AirParifPrevisionEnum.EXTREMEMENT_MAUVAIS, "#7d2181")
         )
 
         assertEquals(expected, getColorsResponse)
