@@ -6,8 +6,8 @@ enum class AirParifPrevisionEnum(val prevision: String) {
     MOYEN("Moyen"),
     DEGRADE("Dégradé"),
     MAUVAIS("Mauvais"),
-    TRES_MAUVAIS("Très mauvais"),
-    EXTREMEMENT_MAUVAIS("Extrêmement mauvais"),
+    TRES_MAUVAIS("Très Mauvais"),
+    EXTREMEMENT_MAUVAIS("Extrêmement Mauvais"),
     MISSING("Missing");
 
     companion object {
