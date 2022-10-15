@@ -17,9 +17,6 @@ class SteamWidgetService {
     @Value("\${dash.app.STEAM_API_KEY}")
     private lateinit var steamApiKey: String
 
-    @Value("\${dash.app.STEAM_USER_ID}")
-    private lateinit var steamUserId: String
-
     companion object {
         private const val PAGE_SIZE = 25
         private const val steamApiUrl = "https://api.steampowered.com"
@@ -28,12 +25,12 @@ class SteamWidgetService {
         private const val getAchievementsUrl = "/ISteamUserStats/GetPlayerAchievements/v0001"
     }
 
-    fun getPlayerData(): PlayerDataResponse? {
+    fun getPlayerData(steamUserId: String): PlayerDataResponse? {
         val getPlayerDataUrl = "$steamApiUrl$getPlayerSummariesUrl?key=$steamApiKey&steamids=$steamUserId"
         return proxyService.getDataFromProxy(getPlayerDataUrl, PlayerDataResponse::class)
     }
 
-    fun getOwnedGames(search: String, pageNumber: Int): GameInfoResponse {
+    fun getOwnedGames(steamUserId: String, search: String, pageNumber: Int): GameInfoResponse {
         val getOwnedGamesUrl = "$steamApiUrl$getOwnedGamesUrl?key=$steamApiKey&steamid=$steamUserId&format=json&include_appinfo=true"
         proxyService.getDataFromProxy(getOwnedGamesUrl, GameInfoResponse::class)?.let { gameData ->
             val gamesList = gameData.response.games
@@ -57,7 +54,7 @@ class SteamWidgetService {
         return GameInfoResponse()
     }
 
-    fun getAchievementList(appId: String): String? {
+    fun getAchievementList(appId: String, steamUserId: String): String? {
         val getAchievementsUrl = "$steamApiUrl$getAchievementsUrl/?appid=$appId&key=$steamApiKey&steamid=$steamUserId"
         return proxyService.getDataFromProxy(getAchievementsUrl, String::class)
     }

@@ -18,7 +18,7 @@ INSERT INTO widget_type (description, config) VALUES ('WEATHER', '["weather_api_
 INSERT INTO widget_type (description, config) VALUES ('RSS', '["url"]');
 INSERT INTO widget_type (description, config) VALUES ('CALENDAR', '[{"calendars": "list"}]');
 INSERT INTO widget_type (description, config) VALUES ('STRAVA', '["clientId", "clientSecret"]');
-INSERT INTO widget_type (description, config) VALUES ('STEAM', '{}');
+INSERT INTO widget_type (description, config) VALUES ('STEAM', '["steamUserId"]');
 
 CREATE SEQUENCE IF NOT EXISTS public.tab_id_seq
     AS integer

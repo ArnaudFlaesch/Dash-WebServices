@@ -49,6 +49,7 @@ class SteamWidgetControllerTests : AbstractIT() {
 
     private val steamApiUrlMatcher = "https://api.steampowered.com.*"
     private val steamWidgetEndpoint = "/steamWidget"
+    private val steamUserIdParam = "1337"
 
     @BeforeAll
     fun setup() {
@@ -87,6 +88,7 @@ class SteamWidgetControllerTests : AbstractIT() {
 
             given()
                 .port(port)
+                .param("steamUserId", steamUserIdParam)
                 .header(createAuthenticationHeader(jwtToken))
                 .`when`()
                 .get("$steamWidgetEndpoint/playerData")
@@ -114,6 +116,7 @@ class SteamWidgetControllerTests : AbstractIT() {
 
                 val ownedGamesData = given()
                     .port(port)
+                    .param("steamUserId", steamUserIdParam)
                     .header(createAuthenticationHeader(jwtToken))
                     .`when`()
                     .param("search", search)
@@ -143,6 +146,7 @@ class SteamWidgetControllerTests : AbstractIT() {
 
                 given()
                     .port(port)
+                    .param("steamUserId", steamUserIdParam)
                     .header(createAuthenticationHeader(jwtToken))
                     .`when`()
                     .get("$steamWidgetEndpoint/ownedGames")
@@ -295,6 +299,7 @@ class SteamWidgetControllerTests : AbstractIT() {
 
                 given()
                     .port(port)
+                    .param("steamUserId", steamUserIdParam)
                     .header(Header("Authorization", "Bearer $token"))
                     .param("appId", 1337)
                     .`when`()

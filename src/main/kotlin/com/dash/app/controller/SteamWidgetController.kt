@@ -15,20 +15,26 @@ class SteamWidgetController {
     private lateinit var steamWidgetService: SteamWidgetService
 
     @GetMapping("/playerData")
-    fun getPlayerData(): PlayerDataResponse? {
-        return steamWidgetService.getPlayerData()
+    fun getPlayerData(
+        @RequestParam(value = "steamUserId") steamUserId: String
+    ): PlayerDataResponse? {
+        return steamWidgetService.getPlayerData(steamUserId)
     }
 
     @GetMapping("/ownedGames")
     fun getOwnedGames(
+        @RequestParam(value = "steamUserId") steamUserId: String,
         @RequestParam(value = "search", defaultValue = "") search: String,
         @RequestParam(value = "pageNumber", defaultValue = "0") pageNumber: Int
     ): GameInfoResponse {
-        return steamWidgetService.getOwnedGames(search, pageNumber)
+        return steamWidgetService.getOwnedGames(steamUserId, search, pageNumber)
     }
 
     @GetMapping("/achievementList")
-    fun getAchievementList(@RequestParam(value = "appId") appId: String): String? {
-        return steamWidgetService.getAchievementList(appId)
+    fun getAchievementList(
+        @RequestParam(value = "appId") appId: String,
+        @RequestParam(value = "steamUserId") steamUserId: String
+    ): String? {
+        return steamWidgetService.getAchievementList(appId, steamUserId)
     }
 }
