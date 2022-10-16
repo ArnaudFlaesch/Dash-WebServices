@@ -32,6 +32,6 @@ class UserServiceTest : AbstractIT() {
     @Test
     fun getUserByIdTest() {
         val user = userService.getUserById(2)
-        assertEquals(user.username, "demo")
+        assertEquals("admintest", user.username)
     }
 }
