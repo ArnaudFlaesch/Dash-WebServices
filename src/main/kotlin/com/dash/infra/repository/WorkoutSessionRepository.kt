@@ -5,4 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface WorkoutSessionRepository : JpaRepository<WorkoutSession, Int>
+interface WorkoutSessionRepository : JpaRepository<WorkoutSession, Int> {
+
+    fun findByUserId(userId: Int): List<WorkoutSession>
+}

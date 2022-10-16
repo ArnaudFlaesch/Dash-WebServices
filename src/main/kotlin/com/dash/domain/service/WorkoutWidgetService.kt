@@ -27,7 +27,9 @@ class WorkoutWidgetService {
     @Autowired
     private lateinit var userService: UserService
 
-    fun getWorkoutTypes(): List<WorkoutType> = workoutTypeRepository.findAll()
+    fun getWorkoutTypes(userId: Int): List<WorkoutType> = workoutTypeRepository.findByUserId(userId)
+
+    fun getWorkoutSessions(userId: Int): List<WorkoutSession> = workoutSessionRepository.findByUserId(userId)
 
     fun addWorkoutType(workoutType: String, userId: Int): WorkoutType =
         workoutTypeRepository.save(WorkoutType(0, workoutType, userService.getUserById(userId)))
@@ -37,8 +39,6 @@ class WorkoutWidgetService {
 
     fun updateWorkoutExercise(workoutSessionId: Int, workoutTypeId: Int, numberOfReps: Int): WorkoutExercise =
         workoutExerciseRepository.save(WorkoutExercise(WorkoutExerciseId(workoutSessionId, workoutTypeId), numberOfReps))
-
-    fun getWorkoutSessions(): List<WorkoutSession> = workoutSessionRepository.findAll()
 
     fun createWorkoutSession(workoutDate: LocalDate, userId: Int): WorkoutSession =
         workoutSessionRepository.save(WorkoutSession(0, workoutDate, userService.getUserById(userId)))
