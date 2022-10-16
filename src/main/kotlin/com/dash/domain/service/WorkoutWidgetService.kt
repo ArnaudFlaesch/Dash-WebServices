@@ -1,5 +1,6 @@
 package com.dash.domain.service
 
+import com.common.domain.service.UserService
 import com.dash.domain.model.workoutwidget.WorkoutExercise
 import com.dash.domain.model.workoutwidget.WorkoutExerciseId
 import com.dash.domain.model.workoutwidget.WorkoutSession
