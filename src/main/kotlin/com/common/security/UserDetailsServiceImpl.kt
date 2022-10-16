@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserDetailsServiceImpl : UserDetailsService {
+
     @Autowired
     private lateinit var userRepository: UserRepository
 

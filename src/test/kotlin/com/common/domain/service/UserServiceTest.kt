@@ -29,20 +29,9 @@ class UserServiceTest : AbstractIT() {
     @Autowired
     private lateinit var userService: UserService
 
-    @BeforeEach
-    fun setup() {
-        val role = roleRepository.save(Role(0, "Role"))
-        userRepository.save(User(0, "username", "email@email.com", "password", role))
-    }
-
-    @AfterEach
-    fun tearDown() {
-        userRepository.deleteAll()
-    }
-
     @Test
     fun getUserByIdTest() {
-        val user = userService.getUserById(3)
-        assertEquals(user.username, "username")
+        val user = userService.getUserById(2)
+        assertEquals(user.username, "demo")
     }
 }
