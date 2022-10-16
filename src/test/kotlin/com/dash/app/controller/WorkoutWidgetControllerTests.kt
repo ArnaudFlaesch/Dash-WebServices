@@ -91,7 +91,6 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             .post("$workoutWidgetEndpoint/createWorkoutSession")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
-            .log().all()
             .extract().`as`(WorkoutSession::class.java)
 
         assertEquals(workoutSessionDate, workoutSession.workoutDate)
@@ -119,7 +118,6 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             .post("$workoutWidgetEndpoint/updateWorkoutExercise")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
-            .log().all()
             .extract().`as`(WorkoutExercise::class.java)
 
         assertEquals(
