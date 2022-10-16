@@ -1,5 +1,6 @@
 package com.dash.domain.model.workoutwidget
 
+import com.dash.infra.entity.User
 import javax.persistence.*
 
 @Entity
@@ -11,5 +12,9 @@ data class WorkoutType(
     val id: Int,
 
     @Column(name = "name")
-    val name: String
+    val name: String,
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "userId")
+    val user: User
 )

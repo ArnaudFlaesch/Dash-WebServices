@@ -48,7 +48,7 @@ class WorkoutWidgetControllerTests : AbstractIT() {
     @Test
     fun createWorkoutSessionTest() {
         val newWorkoutType = "Abdos"
-        val addWorkoutTypePayload = AddWorkoutTypePayload(newWorkoutType)
+        val addWorkoutTypePayload = AddWorkoutTypePayload(newWorkoutType, 1)
 
         val workoutType = given()
             .port(port)
@@ -77,7 +77,7 @@ class WorkoutWidgetControllerTests : AbstractIT() {
         assertEquals(1, workoutTypes.size)
 
         val workoutSessionDate = LocalDate.now()
-        val createWorkoutSessionPayload = CreateWorkoutSessionPayload(workoutSessionDate)
+        val createWorkoutSessionPayload = CreateWorkoutSessionPayload(workoutSessionDate, 1)
 
         val workoutSession = given()
             .port(port)

@@ -10,7 +10,8 @@ CREATE SEQUENCE IF NOT EXISTS public.workout_type_id_seq
 
 CREATE TABLE IF NOT EXISTS public.workout_type (
     id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.workout_type_id_seq'::regclass),
-    name character varying
+    name character varying,
+    user_id integer REFERENCES users (id)
 );
 
 CREATE SEQUENCE IF NOT EXISTS public.workout_session_id_seq
@@ -23,7 +24,8 @@ CREATE SEQUENCE IF NOT EXISTS public.workout_session_id_seq
 
 CREATE TABLE IF NOT EXISTS public.workout_session (
     id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.workout_session_id_seq'::regclass),
-    workout_date timestamp
+    workout_date timestamp,
+    user_id integer REFERENCES users (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.workout_exercise (

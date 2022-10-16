@@ -1,5 +1,6 @@
 package com.dash.domain.service
 
+import com.common.domain.service.UserService
 import com.dash.domain.model.workoutwidget.WorkoutExercise
 import com.dash.domain.model.workoutwidget.WorkoutExerciseId
 import com.dash.domain.model.workoutwidget.WorkoutSession
@@ -23,9 +24,13 @@ class WorkoutWidgetService {
     @Autowired
     private lateinit var workoutSessionRepository: WorkoutSessionRepository
 
+    @Autowired
+    private lateinit var userService: UserService
+
     fun getWorkoutTypes(): List<WorkoutType> = workoutTypeRepository.findAll()
 
-    fun addWorkoutType(workoutType: String): WorkoutType = workoutTypeRepository.save(WorkoutType(0, workoutType))
+    fun addWorkoutType(workoutType: String, userId: Int): WorkoutType =
+        workoutTypeRepository.save(WorkoutType(0, workoutType, userService.getUserById(userId)))
 
     fun getWorkoutsExercisesByWorkoutSessionId(workoutSessionId: Int): List<WorkoutExercise> =
         workoutExerciseRepository.findAllByWorkoutSessionId(workoutSessionId)
@@ -35,5 +40,6 @@ class WorkoutWidgetService {
 
     fun getWorkoutSessions(): List<WorkoutSession> = workoutSessionRepository.findAll()
 
-    fun createWorkoutSession(workoutDate: LocalDate): WorkoutSession = workoutSessionRepository.save(WorkoutSession(0, workoutDate))
+    fun createWorkoutSession(workoutDate: LocalDate, userId: Int): WorkoutSession =
+        workoutSessionRepository.save(WorkoutSession(0, workoutDate, userService.getUserById(userId)))
 }

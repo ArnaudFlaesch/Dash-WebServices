@@ -1,5 +1,6 @@
 package com.dash.domain.model.workoutwidget
 
+import com.dash.infra.entity.User
 import java.time.LocalDate
 import javax.persistence.*
 
@@ -12,5 +13,9 @@ data class WorkoutSession(
     val id: Int,
 
     @Column(name = "workoutDate")
-    val workoutDate: LocalDate
+    val workoutDate: LocalDate,
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "userId")
+    val user: User
 )

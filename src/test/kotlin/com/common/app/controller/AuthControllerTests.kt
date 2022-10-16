@@ -1,4 +1,4 @@
-package com.common.controller
+package com.common.app.controller
 
 import com.common.app.controller.requests.LoginRequest
 import com.common.security.response.JwtResponse
