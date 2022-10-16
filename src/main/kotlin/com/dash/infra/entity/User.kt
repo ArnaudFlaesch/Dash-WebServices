@@ -9,6 +9,7 @@ import javax.validation.constraints.Size
 @Table(
     name = "users",
     uniqueConstraints = [
+        UniqueConstraint(columnNames = ["id"]),
         UniqueConstraint(columnNames = ["username"]),
         UniqueConstraint(columnNames = ["email"])
     ]
@@ -16,6 +17,7 @@ import javax.validation.constraints.Size
 data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     val id: Int,
     @NotBlank
     @Size(max = 20)
