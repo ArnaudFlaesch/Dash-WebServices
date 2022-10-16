@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class WidgetService {
+
     @Autowired
     private lateinit var widgetRepository: WidgetRepository
+
+    fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<Widget> = widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId)
 
     fun getAllWidgets(): List<Widget> = widgetRepository.findAll()
 
@@ -35,8 +38,6 @@ class WidgetService {
             }
         )
     }
-
-    fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<Widget> = widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId)
 
     fun deleteWidget(id: Int) = widgetRepository.deleteById(id)
 

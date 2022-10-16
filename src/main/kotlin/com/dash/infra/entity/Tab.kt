@@ -12,5 +12,9 @@ data class Tab(
 
     val label: String = "",
 
-    val tabOrder: Int
+    val tabOrder: Int,
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "userId")
+    val user: User
 )

@@ -3,7 +3,7 @@ package com.dash.app.controller
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.dash.domain.model.ImportData
+import com.dash.domain.model.config.ImportData
 import com.dash.infra.repository.TabDataset
 import com.dash.infra.repository.WidgetDataset
 import io.restassured.RestAssured.defaultParser

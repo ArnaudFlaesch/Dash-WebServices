@@ -14,18 +14,6 @@ databaseChangeLog:
   - changeSet:
       id: 2
       author: aflaesch
-      comment: Init roles
-      changes:
-        - sqlFile:
-            dbms: postgresql
-            encoding: utf8
-            path: /db/changelog/0.3/init_roles.sql
-            endDelimiter: \nGO
-            splitStatements: true
-            stripComments: true
-  - changeSet:
-      id: 3
-      author: aflaesch
       comment: Dataset for tests
       context: test
       runOrder: last
@@ -39,7 +27,7 @@ databaseChangeLog:
             stripComments: true
 
   - changeSet:
-      id: 4
+      id: 3
       author: aflaesch
       comment: Dataset for dev and prod
       context: dev,prod
@@ -53,7 +41,7 @@ databaseChangeLog:
             stripComments: true
 
   - changeSet:
-      id: 5
+      id: 4
       author: aflaesch
       comment: CashManager schema
       changes:
@@ -66,7 +54,7 @@ databaseChangeLog:
             stripComments: true
 
   - changeSet:
-      id: 6
+      id: 5
       author: aflaesch
       comment: CashManager e2e dataset
       context: test
@@ -79,7 +67,7 @@ databaseChangeLog:
             splitStatements: true
             stripComments: true
   - changeSet:
-      id: 7
+      id: 6
       author: aflaesch
       comment: FT-247 Workout widget schema
       changes:
@@ -91,7 +79,7 @@ databaseChangeLog:
             splitStatements: true
             stripComments: true
   - changeSet:
-      id: 8
+      id: 7
       author: aflaesch
       comment: FT-248 Air Parif widget type
       changes:

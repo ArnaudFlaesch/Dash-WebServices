@@ -1,5 +1,6 @@
 package com.dash.domain.service
 
+import com.common.domain.service.UserService
 import com.dash.infra.entity.Tab
 import com.dash.infra.repository.TabRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,9 +15,18 @@ class TabService {
     @Autowired
     private lateinit var widgetService: WidgetService
 
-    fun getTabs(): List<Tab> = tabRepository.findByOrderByTabOrderAsc()
+    @Autowired
+    private lateinit var userService: UserService
 
-    fun addTab(tabToAdd: Tab): Tab = tabRepository.save(tabToAdd.copy(tabOrder = tabRepository.getNumberOfTabs() + 1))
+    fun getTabs(): List<Tab> {
+        val userId = userService.getCurrentAuthenticatedUserId()
+        return tabRepository.findByUserIdOrderByTabOrderAsc(userId)
+    }
+
+    fun addTab(tabLabel: String): Tab {
+        val currentAuthenticatedUser = userService.getCurrentAuthenticatedUser()
+        return tabRepository.save(Tab(id = 0, label = tabLabel, tabOrder = tabRepository.getNumberOfTabs() + 1, user = currentAuthenticatedUser))
+    }
 
     fun saveTabs(tabs: List<Tab>): List<Tab> = tabs.map { tab -> tabRepository.save(tab) }
 

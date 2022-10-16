@@ -1,7 +1,8 @@
 package com.dash.app.controller
 
+import com.common.domain.service.UserService
 import com.common.utils.JsonExporter.export
-import com.dash.domain.model.ImportData
+import com.dash.domain.model.config.ImportData
 import com.dash.domain.service.TabService
 import com.dash.domain.service.WidgetService
 import com.dash.infra.entity.Tab
@@ -26,6 +27,9 @@ class DashConfigController {
     @Autowired
     private lateinit var widgetService: WidgetService
 
+    @Autowired
+    private lateinit var userService: UserService
+
     private val logger = LoggerFactory.getLogger(this::class.java.name)
 
     @GetMapping("/export")
@@ -46,11 +50,13 @@ class DashConfigController {
     fun importConfig(@RequestParam("file") file: MultipartFile): Boolean {
         logger.info("Import commencé")
         val importData = ObjectMapper().readValue(file.bytes, ImportData::class.java)
+        val user = userService.getCurrentAuthenticatedUser()
         importData.tabs.forEach { tab ->
-            val widgets = importData.widgets.filter { widget -> widget.tab.id == tab.id }
-            val insertedTab = tabService.addTab(tab.copy(id = 0))
+            val widgets = importData.widgets.filter { widget -> widget.tabId == tab.id }
+            val tabToInsert = Tab(0, tab.label, tab.tabOrder, user)
+            val insertedTab = tabService.updateTab(tabToInsert)
             widgets.forEach { widget ->
-                widgetService.saveWidget(widget.copy(id = 0, tab = insertedTab))
+                widgetService.saveWidget(Widget(id = 0, type = widget.type, widgetOrder = widget.widgetOrder, tab = insertedTab))
             }
         }
         logger.info("Import terminé")
