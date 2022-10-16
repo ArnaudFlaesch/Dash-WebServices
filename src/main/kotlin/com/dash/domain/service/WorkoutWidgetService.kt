@@ -24,9 +24,6 @@ class WorkoutWidgetService {
     private lateinit var workoutSessionRepository: WorkoutSessionRepository
 
     @Autowired
-    private lateinit var widgetService: WidgetService
-
-    @Autowired
     private lateinit var userService: UserService
 
     fun getWorkoutTypes(): List<WorkoutType> = workoutTypeRepository.findAll()

@@ -11,5 +11,4 @@ class UserService {
     private lateinit var userRepository: UserRepository
 
     fun getUserById(userId: Int) = userRepository.getReferenceById(userId)
-
 }
