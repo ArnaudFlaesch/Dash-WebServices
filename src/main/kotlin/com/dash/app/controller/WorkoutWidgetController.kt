@@ -19,10 +19,10 @@ class WorkoutWidgetController {
     private lateinit var workoutWidgetService: WorkoutWidgetService
 
     @GetMapping("/workoutSessions")
-    fun getWorkoutsSessions(): List<WorkoutSession> = (workoutWidgetService.getWorkoutSessions())
+    fun getWorkoutsSessions(@RequestParam("userId") userId: Int): List<WorkoutSession> = (workoutWidgetService.getWorkoutSessions(userId))
 
     @GetMapping("/workoutTypes")
-    fun getWorkoutTypes(): List<WorkoutType> = (workoutWidgetService.getWorkoutTypes())
+    fun getWorkoutTypes(@RequestParam("userId") userId: Int): List<WorkoutType> = (workoutWidgetService.getWorkoutTypes(userId))
 
     @GetMapping("/workoutExercises")
     fun getWorkoutsExercisesByWorkoutSessionId(@RequestParam("workoutSessionId") workoutSessionId: Int): List<WorkoutExercise> =

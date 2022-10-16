@@ -39,6 +39,8 @@ class WorkoutWidgetControllerTests : AbstractIT() {
 
     private val workoutWidgetEndpoint = "/workoutWidget"
 
+    private val userId = 1
+
     @BeforeAll
     fun setup() {
         RestAssured.defaultParser = Parser.JSON
@@ -48,7 +50,7 @@ class WorkoutWidgetControllerTests : AbstractIT() {
     @Test
     fun createWorkoutSessionTest() {
         val newWorkoutType = "Abdos"
-        val addWorkoutTypePayload = AddWorkoutTypePayload(newWorkoutType, 1)
+        val addWorkoutTypePayload = AddWorkoutTypePayload(newWorkoutType, userId)
 
         val workoutType = given()
             .port(port)
@@ -66,6 +68,7 @@ class WorkoutWidgetControllerTests : AbstractIT() {
 
         val workoutTypes = given()
             .port(port)
+            .param("userId", userId)
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .get("$workoutWidgetEndpoint/workoutTypes")
@@ -77,7 +80,7 @@ class WorkoutWidgetControllerTests : AbstractIT() {
         assertEquals(1, workoutTypes.size)
 
         val workoutSessionDate = LocalDate.now()
-        val createWorkoutSessionPayload = CreateWorkoutSessionPayload(workoutSessionDate, 1)
+        val createWorkoutSessionPayload = CreateWorkoutSessionPayload(workoutSessionDate, userId)
 
         val workoutSession = given()
             .port(port)
@@ -95,6 +98,7 @@ class WorkoutWidgetControllerTests : AbstractIT() {
 
         val workoutSessions = given()
             .port(port)
+            .param("userId", userId)
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .get("$workoutWidgetEndpoint/workoutSessions")
