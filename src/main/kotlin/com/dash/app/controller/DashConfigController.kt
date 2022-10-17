@@ -2,11 +2,11 @@ package com.dash.app.controller
 
 import com.common.domain.service.UserService
 import com.common.utils.JsonExporter.export
+import com.dash.domain.model.TabDomain
+import com.dash.domain.model.WidgetDomain
 import com.dash.domain.model.config.ImportData
 import com.dash.domain.service.TabService
 import com.dash.domain.service.WidgetService
-import com.dash.infra.entity.Tab
-import com.dash.infra.entity.Widget
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,8 +34,8 @@ class DashConfigController {
 
     @GetMapping("/export")
     fun downloadJsonFile(): ResponseEntity<ByteArray?>? {
-        val widgets: List<Widget> = widgetService.getAllWidgets()
-        val tabs: List<Tab> = tabService.getTabs()
+        val widgets: List<WidgetDomain> = widgetService.getAllWidgets()
+        val tabs: List<TabDomain> = tabService.getTabs()
         val configJsonString: String = export(mapOf("widgets" to widgets, "tabs" to tabs))
         val configJsonBytes = configJsonString.toByteArray()
         return ResponseEntity
@@ -53,10 +53,10 @@ class DashConfigController {
         val user = userService.getCurrentAuthenticatedUser()
         importData.tabs.forEach { tab ->
             val widgets = importData.widgets.filter { widget -> widget.tabId == tab.id }
-            val tabToInsert = Tab(0, tab.label, tab.tabOrder, user)
-            val insertedTab = tabService.updateTab(tabToInsert)
+            val tabToInsert = TabDomain(0, tab.label, tab.tabOrder, user.id)
+            val insertedTab = tabService.saveTab(tabToInsert)
             widgets.forEach { widget ->
-                widgetService.saveWidget(Widget(id = 0, type = widget.type, widgetOrder = widget.widgetOrder, tab = insertedTab))
+                widgetService.saveWidget(WidgetDomain(id = 0, type = widget.type, data = widget.data, widgetOrder = widget.widgetOrder, tabId = insertedTab.id))
             }
         }
         logger.info("Import terminé")

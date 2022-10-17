@@ -2,7 +2,7 @@ package com.common.domain.service
 
 import com.common.infra.repository.UserRepository
 import com.common.security.UserDetailsImpl
-import com.dash.infra.entity.User
+import com.dash.infra.entity.UserEntity
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -20,10 +20,10 @@ class UserService {
         return userDetails.id ?: 0
     }
 
-    fun getCurrentAuthenticatedUser(): User {
+    fun getCurrentAuthenticatedUser(): UserEntity {
         val userId = getCurrentAuthenticatedUserId()
         return getUserById(userId)
     }
 
-    fun getUserById(userId: Int): User = userRepository.getReferenceById(userId)
+    fun getUserById(userId: Int): UserEntity = userRepository.getReferenceById(userId)
 }

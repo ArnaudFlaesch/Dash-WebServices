@@ -3,8 +3,8 @@ package com.dash.app.controller
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.dash.infra.entity.Tab
-import com.dash.infra.repository.TabDataset
+import com.dash.app.controller.requests.CreateTabPayload
+import com.dash.domain.model.TabDomain
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
@@ -21,7 +21,6 @@ import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TabDataset
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TabControllerTests : AbstractIT() {
@@ -39,22 +38,22 @@ class TabControllerTests : AbstractIT() {
 
     @Test
     fun testGetAllTabs() {
-        val tabs = given().port(port)
+        val tabEntities = given().port(port)
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .get("/tab/")
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .extract().`as`(object : TypeRef<List<Tab>>() {})
-        assertEquals(1, tabs.size)
+            .extract().`as`(object : TypeRef<List<TabDomain>>() {})
+        assertEquals(2, tabEntities.size)
     }
 
     @Test
     fun testAddUpdateDeleteTab() {
-        val newTab = Tab(0, "LabelTest", 1)
+        val newTab = CreateTabPayload("LabelTest")
 
-        val insertedTab: Tab = given().port(port)
+        val insertedTabEntity: TabDomain = given().port(port)
             .contentType(ContentType.JSON)
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
@@ -62,10 +61,10 @@ class TabControllerTests : AbstractIT() {
             .post("/tab/addTab/")
             .then().log().all()
             .statusCode(200)
-            .extract().`as`(Tab::class.java)
+            .extract().`as`(TabDomain::class.java)
 
-        assertNotNull(insertedTab.id)
-        assertEquals(insertedTab.label, newTab.label)
+        assertNotNull(insertedTabEntity.id)
+        assertEquals(insertedTabEntity.label, newTab.label)
 
         val tabList = given().port(port)
             .header(createAuthenticationHeader(jwtToken))
@@ -74,49 +73,49 @@ class TabControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .extract().`as`(object : TypeRef<List<Tab>>() {})
-        assertEquals(2, tabList.size)
+            .extract().`as`(object : TypeRef<List<TabDomain>>() {})
+        assertEquals(3, tabList.size)
 
         val updatedLabel = "Updated label"
 
-        val updatedTab: Tab = given().port(port)
+        val updatedTabEntity: TabDomain = given().port(port)
             .contentType(ContentType.JSON)
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
-            .body(insertedTab.copy(label = updatedLabel))
+            .body(insertedTabEntity.copy(label = updatedLabel))
             .post("/tab/updateTab/")
             .then().log().all()
             .statusCode(200)
-            .extract().`as`(Tab::class.java)
+            .extract().`as`(TabDomain::class.java)
 
-        assertNotNull(updatedTab.id)
-        assertEquals(updatedLabel, updatedTab.label)
+        assertNotNull(updatedTabEntity.id)
+        assertEquals(updatedLabel, updatedTabEntity.label)
 
-        val updatedTabs: List<Tab> = given().port(port)
+        val updatedTabEntities: List<TabDomain> = given().port(port)
             .contentType(ContentType.JSON)
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
-            .body(listOf(updatedTab))
+            .body(listOf(updatedTabEntity))
             .post("/tab/updateTabs/")
             .then().log().all()
             .statusCode(200)
-            .extract().`as`(object : TypeRef<List<Tab>>() {})
-        assertEquals(1, updatedTabs.size)
+            .extract().`as`(object : TypeRef<List<TabDomain>>() {})
+        assertEquals(1, updatedTabEntities.size)
 
         given().port(port)
             .contentType(ContentType.JSON)
             .header(createAuthenticationHeader(jwtToken))
-            .`when`().param("id", updatedTab.id)
+            .`when`().param("id", updatedTabEntity.id)
             .delete("/tab/deleteTab/")
             .then().log().all()
             .statusCode(200)
 
-        val updatedTabList = given().port(port)
+        val updatedTabListEntity = given().port(port)
             .header(createAuthenticationHeader(jwtToken))
             .`when`().get("/tab/")
             .then().log().all()
             .statusCode(200)
-            .extract().`as`(object : TypeRef<List<Tab>>() {})
-        assertEquals(1, updatedTabList.size)
+            .extract().`as`(object : TypeRef<List<TabDomain>>() {})
+        assertEquals(2, updatedTabListEntity.size)
     }
 }

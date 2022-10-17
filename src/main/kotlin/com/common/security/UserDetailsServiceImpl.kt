@@ -1,7 +1,7 @@
 package com.common.security
 
 import com.common.infra.repository.UserRepository
-import com.dash.infra.entity.User
+import com.dash.infra.entity.UserEntity
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -18,8 +18,8 @@ class UserDetailsServiceImpl : UserDetailsService {
     @Transactional
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
-        val user: User = userRepository.findByUsername(username)
+        val userEntity: UserEntity = userRepository.findByUsername(username)
             .orElseThrow { UsernameNotFoundException("User Not Found with username: $username") }
-        return UserDetailsImpl.build(user)
+        return UserDetailsImpl.build(userEntity)
     }
 }

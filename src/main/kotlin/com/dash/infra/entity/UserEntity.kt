@@ -14,7 +14,7 @@ import javax.validation.constraints.Size
         UniqueConstraint(columnNames = ["email"])
     ]
 )
-data class User(
+data class UserEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
@@ -29,7 +29,7 @@ data class User(
     @NotBlank
     @Size(max = 120)
     val password: String,
-    @ManyToOne
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "roleId")
-    val role: Role
+    val role: RoleEntity
 )

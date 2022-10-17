@@ -2,7 +2,7 @@ package com.dash.infra.repository
 
 import com.common.infra.repository.RoleRepository
 import com.common.utils.AbstractIT
-import com.dash.infra.entity.Role
+import com.dash.infra.entity.RoleEntity
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -29,8 +29,8 @@ class RoleRepositoryTests : AbstractIT() {
 
     @Test
     fun testAddRole() {
-        val newRole = Role(0, "ROLE_MODERATOR")
-        val insertedRole = roleRepository.save(newRole)
+        val newRoleEntity = RoleEntity(0, "ROLE_MODERATOR")
+        val insertedRole = roleRepository.save(newRoleEntity)
 
         val rolesFromDatabase = roleRepository.findAll()
         assertEquals(3, rolesFromDatabase.size)

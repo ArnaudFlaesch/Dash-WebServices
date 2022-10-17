@@ -1,11 +1,12 @@
-package com.dash.domain.model.workoutwidget
+package com.dash.infra.entity.workoutwidget
 
-import com.dash.infra.entity.User
+import com.dash.infra.entity.UserEntity
 import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
-data class WorkoutSession(
+@Table(name = "workout_session")
+data class WorkoutSessionEntity(
     @Id
     @SequenceGenerator(name = "workout-session-seq-gen", sequenceName = "workout_session_id_seq", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "workout-session-seq-gen")
@@ -17,5 +18,5 @@ data class WorkoutSession(
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "userId")
-    val user: User
+    val user: UserEntity
 )
