@@ -9,17 +9,6 @@ import org.springframework.stereotype.Component
 @Component
 class WidgetMapper {
 
-    @Autowired
-    private lateinit var tabService: TabService
-
-    fun mapWidgetDomainToWidgetEntity(widgetDomain: WidgetDomain): WidgetEntity = WidgetEntity(
-        id = widgetDomain.id,
-        type = widgetDomain.type,
-        data = widgetDomain.data,
-        widgetOrder = widgetDomain.widgetOrder,
-        tab = tabService.getTabById(widgetDomain.tabId)
-    )
-
     fun mapWidgetEntityToWidgetDomain(widgetEntity: WidgetEntity) = WidgetDomain(
         id = widgetEntity.id,
         type = widgetEntity.type,

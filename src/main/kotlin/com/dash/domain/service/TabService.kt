@@ -8,6 +8,7 @@ import com.dash.infra.repository.TabRepository
 import com.dash.infra.repository.WidgetRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class TabService {
@@ -29,7 +30,7 @@ class TabService {
         return tabRepository.findByUserIdOrderByTabOrderAsc(userId).map(tabMapper::mapTabEntityToTabDomain)
     }
 
-    fun getTabById(tabId: Int) = tabRepository.getReferenceById(tabId)
+    fun getTabById(tabId: Int): TabEntity = tabRepository.getReferenceById(tabId)
 
     fun addTab(tabLabel: String): TabDomain {
         val currentAuthenticatedUser = userService.getCurrentAuthenticatedUser()
@@ -43,10 +44,15 @@ class TabService {
             .map(tabRepository::save)
             .map(tabMapper::mapTabEntityToTabDomain)
 
-    fun saveTab(newTab: TabDomain): TabDomain {
-        val oldTabToUpdate = getTabById(newTab.id)
-        val updatedTab = oldTabToUpdate.copy(label = newTab.label, tabOrder = newTab.tabOrder)
-        return tabMapper.mapTabEntityToTabDomain(tabRepository.save(updatedTab))
+    fun importTab(newTab: TabDomain): TabDomain {
+        val newTab = TabEntity(id = 0, label = newTab.label, tabOrder = newTab.tabOrder, user = userService.getUserById(newTab.userId))
+        return tabMapper.mapTabEntityToTabDomain(tabRepository.save(newTab))
+    }
+
+    fun updateTab(tabId: Int, label: String, tabOrder: Int): TabDomain {
+        val currentAuthenticatedUser = userService.getCurrentAuthenticatedUser()
+        val newTab = TabEntity(id = tabId, label = label, tabOrder = tabOrder, user = currentAuthenticatedUser)
+        return tabMapper.mapTabEntityToTabDomain(tabRepository.save(newTab))
     }
 
     fun deleteTab(id: Int) {

@@ -54,9 +54,9 @@ class DashConfigController {
         importData.tabs.forEach { tab ->
             val widgets = importData.widgets.filter { widget -> widget.tabId == tab.id }
             val tabToInsert = TabDomain(0, tab.label, tab.tabOrder, user.id)
-            val insertedTab = tabService.saveTab(tabToInsert)
+            val insertedTab = tabService.importTab(tabToInsert)
             widgets.forEach { widget ->
-                widgetService.saveWidget(WidgetDomain(id = 0, type = widget.type, data = widget.data, widgetOrder = widget.widgetOrder, tabId = insertedTab.id))
+                widgetService.importWidget(WidgetDomain(id = 0, type = widget.type, data = widget.data, widgetOrder = widget.widgetOrder, tabId = insertedTab.id))
             }
         }
         logger.info("Import terminé")
