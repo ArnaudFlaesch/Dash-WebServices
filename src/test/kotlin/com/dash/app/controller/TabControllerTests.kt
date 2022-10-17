@@ -86,7 +86,7 @@ class TabControllerTests : AbstractIT() {
             .body(
                 UpdateTabPayload(
                     id = insertedTab.id,
-                    label = insertedTab.label,
+                    label = updatedLabel,
                     tabOrder = insertedTab.tabOrder
                 )
             )
