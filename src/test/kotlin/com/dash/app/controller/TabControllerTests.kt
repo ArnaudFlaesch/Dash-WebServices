@@ -4,6 +4,7 @@ import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.dash.app.controller.requests.CreateTabPayload
+import com.dash.app.controller.requests.UpdateTabPayload
 import com.dash.domain.model.TabDomain
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
@@ -53,7 +54,7 @@ class TabControllerTests : AbstractIT() {
     fun testAddUpdateDeleteTab() {
         val newTab = CreateTabPayload("LabelTest")
 
-        val insertedTabEntity: TabDomain = given().port(port)
+        val insertedTab: TabDomain = given().port(port)
             .contentType(ContentType.JSON)
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
@@ -63,8 +64,8 @@ class TabControllerTests : AbstractIT() {
             .statusCode(200)
             .extract().`as`(TabDomain::class.java)
 
-        assertNotNull(insertedTabEntity.id)
-        assertEquals(insertedTabEntity.label, newTab.label)
+        assertNotNull(insertedTab.id)
+        assertEquals(insertedTab.label, newTab.label)
 
         val tabList = given().port(port)
             .header(createAuthenticationHeader(jwtToken))
@@ -78,24 +79,26 @@ class TabControllerTests : AbstractIT() {
 
         val updatedLabel = "Updated label"
 
-        val updatedTabEntity: TabDomain = given().port(port)
+        val updatedTab: TabDomain = given().port(port)
             .contentType(ContentType.JSON)
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
-            .body(insertedTabEntity.copy(label = updatedLabel))
+            .body(UpdateTabPayload(id = insertedTab.id,
+                label = insertedTab.label,
+                tabOrder = insertedTab.tabOrder))
             .post("/tab/updateTab/")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(TabDomain::class.java)
 
-        assertNotNull(updatedTabEntity.id)
-        assertEquals(updatedLabel, updatedTabEntity.label)
+        assertNotNull(updatedTab.id)
+        assertEquals(updatedLabel, updatedTab.label)
 
         val updatedTabEntities: List<TabDomain> = given().port(port)
             .contentType(ContentType.JSON)
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
-            .body(listOf(updatedTabEntity))
+            .body(listOf(updatedTab))
             .post("/tab/updateTabs/")
             .then().log().all()
             .statusCode(200)
@@ -105,7 +108,7 @@ class TabControllerTests : AbstractIT() {
         given().port(port)
             .contentType(ContentType.JSON)
             .header(createAuthenticationHeader(jwtToken))
-            .`when`().param("id", updatedTabEntity.id)
+            .`when`().param("id", updatedTab.id)
             .delete("/tab/deleteTab/")
             .then().log().all()
             .statusCode(200)
