@@ -3,7 +3,6 @@ package com.dash.domain.service
 import com.dash.domain.mapping.WidgetMapper
 import com.dash.domain.model.WidgetDomain
 import com.dash.infra.entity.WidgetEntity
-import com.dash.infra.repository.TabRepository
 import com.dash.infra.repository.WidgetRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

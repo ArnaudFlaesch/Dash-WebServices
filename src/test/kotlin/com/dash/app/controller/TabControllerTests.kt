@@ -83,9 +83,13 @@ class TabControllerTests : AbstractIT() {
             .contentType(ContentType.JSON)
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
-            .body(UpdateTabPayload(id = insertedTab.id,
-                label = insertedTab.label,
-                tabOrder = insertedTab.tabOrder))
+            .body(
+                UpdateTabPayload(
+                    id = insertedTab.id,
+                    label = insertedTab.label,
+                    tabOrder = insertedTab.tabOrder
+                )
+            )
             .post("/tab/updateTab/")
             .then().log().all()
             .statusCode(200)

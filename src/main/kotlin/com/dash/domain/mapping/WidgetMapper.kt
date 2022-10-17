@@ -1,9 +1,7 @@
 package com.dash.domain.mapping
 
 import com.dash.domain.model.WidgetDomain
-import com.dash.domain.service.TabService
 import com.dash.infra.entity.WidgetEntity
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
