@@ -43,7 +43,11 @@ class TabService {
             .map(tabRepository::save)
             .map(tabMapper::mapTabEntityToTabDomain)
 
-    fun saveTab(tabEntity: TabDomain): TabDomain = tabMapper.mapTabEntityToTabDomain(tabRepository.save(tabMapper.mapTabDomainToTabEntity(tabEntity)))
+    fun saveTab(newTab: TabDomain): TabDomain {
+        val oldTabToUpdate = getTabById(newTab.id)
+        val updatedTab = oldTabToUpdate.copy(label = newTab.label, tabOrder = newTab.tabOrder)
+        return tabMapper.mapTabEntityToTabDomain(tabRepository.save(updatedTab))
+    }
 
     fun deleteTab(id: Int) {
         widgetRepository.deleteWidgetsByTabId(id)
