@@ -134,6 +134,6 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             .log().all()
             .extract().`as`(object : TypeRef<List<WorkoutExerciseDomain>>() {})
 
-            assertEquals(1, workoutExercises.size)
+        assertEquals(1, workoutExercises.size)
     }
 }
