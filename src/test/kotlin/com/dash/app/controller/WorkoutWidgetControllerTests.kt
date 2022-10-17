@@ -134,9 +134,6 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             .log().all()
             .extract().`as`(object : TypeRef<List<WorkoutExerciseDomain>>() {})
 
-        assertEquals(1, workoutExercises.size)
-        // @TODO
-        // assertEquals(workoutSessionDate, workoutExercises[0].workoutSession?.workoutDate ?: fail())
-        // assertEquals(newWorkoutType, workoutExercises[0].workoutType?.name ?: fail())
+            assertEquals(1, workoutExercises.size)
     }
 }
