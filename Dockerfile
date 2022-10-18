@@ -1,4 +1,4 @@
-FROM openjdk:19-ea-22-jdk-oracle
+FROM openjdk:20-ea-16-slim-bullseye
 EXPOSE 8080
 
 ADD ./build/libs/dash-webservices-*.jar dash-webservices.jar
