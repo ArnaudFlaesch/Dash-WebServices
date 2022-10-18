@@ -1,14 +1,15 @@
 package com.dash.infra.repository
 
-import com.dash.infra.entity.Tab
+import com.dash.infra.entity.TabEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface TabRepository : JpaRepository<Tab, Int> {
-    fun findByOrderByTabOrderAsc(): List<Tab>
+interface TabRepository : JpaRepository<TabEntity, Int> {
 
-    @Query("SELECT COUNT(*) FROM Tab")
+    fun findByUserIdOrderByTabOrderAsc(userId: Int): List<TabEntity>
+
+    @Query("SELECT COUNT(*) FROM TabEntity")
     fun getNumberOfTabs(): Int
 }

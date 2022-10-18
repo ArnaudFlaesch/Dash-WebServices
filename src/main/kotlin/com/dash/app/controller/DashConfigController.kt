@@ -1,11 +1,12 @@
 package com.dash.app.controller
 
+import com.common.domain.service.UserService
 import com.common.utils.JsonExporter.export
-import com.dash.domain.model.ImportData
+import com.dash.domain.model.TabDomain
+import com.dash.domain.model.WidgetDomain
+import com.dash.domain.model.config.ImportData
 import com.dash.domain.service.TabService
 import com.dash.domain.service.WidgetService
-import com.dash.infra.entity.Tab
-import com.dash.infra.entity.Widget
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,12 +27,15 @@ class DashConfigController {
     @Autowired
     private lateinit var widgetService: WidgetService
 
+    @Autowired
+    private lateinit var userService: UserService
+
     private val logger = LoggerFactory.getLogger(this::class.java.name)
 
     @GetMapping("/export")
     fun downloadJsonFile(): ResponseEntity<ByteArray?>? {
-        val widgets: List<Widget> = widgetService.getAllWidgets()
-        val tabs: List<Tab> = tabService.getTabs()
+        val widgets: List<WidgetDomain> = widgetService.getAllWidgets()
+        val tabs: List<TabDomain> = tabService.getTabs()
         val configJsonString: String = export(mapOf("widgets" to widgets, "tabs" to tabs))
         val configJsonBytes = configJsonString.toByteArray()
         return ResponseEntity
@@ -46,12 +50,12 @@ class DashConfigController {
     fun importConfig(@RequestParam("file") file: MultipartFile): Boolean {
         logger.info("Import commencé")
         val importData = ObjectMapper().readValue(file.bytes, ImportData::class.java)
+        val user = userService.getCurrentAuthenticatedUser()
         importData.tabs.forEach { tab ->
-            val widgets = importData.widgets.filter { widget -> widget.tab.id == tab.id }
-            val insertedTab = tabService.addTab(tab.copy(id = 0))
-            widgets.forEach { widget ->
-                widgetService.saveWidget(widget.copy(id = 0, tab = insertedTab))
-            }
+            val widgets = importData.widgets.filter { widget -> widget.tabId == tab.id }
+            val tabToInsert = tab.copy(userId = user.id)
+            val insertedTab = tabService.importTab(tabToInsert)
+            widgets.forEach { widget -> widgetService.saveWidget(widget.copy(tabId = insertedTab.id)) }
         }
         logger.info("Import terminé")
         return true

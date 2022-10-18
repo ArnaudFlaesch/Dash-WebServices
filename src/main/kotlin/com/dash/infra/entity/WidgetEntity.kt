@@ -9,11 +9,12 @@ import java.io.Serializable
 import javax.persistence.*
 
 @Entity
+@Table(name = "widget")
 @TypeDefs(
     TypeDef(name = "json", typeClass = JsonStringType::class),
     TypeDef(name = "jsonb", typeClass = JsonBinaryType::class)
 )
-data class Widget(
+data class WidgetEntity(
     @Id
     @SequenceGenerator(name = "widget-seq-gen", sequenceName = "widget_id_seq", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "widget-seq-gen")
@@ -28,9 +29,9 @@ data class Widget(
 
     val widgetOrder: Int,
 
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "tabId")
-    val tab: Tab
+    val tab: TabEntity
 ) : Serializable {
     companion object {
         private const val serialVersionUID: Long = 1

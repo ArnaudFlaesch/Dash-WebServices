@@ -3,9 +3,8 @@ package com.dash.app.controller
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.dash.infra.entity.Tab
-import com.dash.infra.entity.Widget
-import com.dash.infra.repository.TabDataset
+import com.dash.app.controller.requests.CreateWidgetPayload
+import com.dash.domain.model.WidgetDomain
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
@@ -22,7 +21,6 @@ import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TabDataset
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class WidgetControllerTests : AbstractIT() {
@@ -42,23 +40,22 @@ class WidgetControllerTests : AbstractIT() {
 
     @Test
     fun testGetAllWidgetsByTabId() {
-        val widgetList = given().port(port)
+        val widgetDomainList = given().port(port)
             .header(createAuthenticationHeader(jwtToken))
             .param("tabId", 1)
             .`when`().get(WIDGET_ENDPOINT)
             .then().log().all()
             .statusCode(200)
             .log().all()
-            .extract().`as`(object : TypeRef<List<Widget>>() {})
-        assertEquals(0, widgetList.size)
+            .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
+        assertEquals(1, widgetDomainList.size)
     }
 
     @Test
     fun insertWidgetToDatabase() {
-        val tab = Tab(10, "", 1)
-        val widget = Widget(0, 2, "{}", 1, tab)
+        val widget = CreateWidgetPayload(2, 1)
 
-        val insertedWidget: Widget = given()
+        val insertedWidgetDomain: WidgetDomain = given()
             .contentType(ContentType.JSON)
             .header(createAuthenticationHeader(jwtToken))
             .port(port)
@@ -67,92 +64,91 @@ class WidgetControllerTests : AbstractIT() {
             .post("${WIDGET_ENDPOINT}addWidget/")
             .then().log().all()
             .statusCode(200)
-            .extract().`as`(Widget::class.java)
+            .extract().`as`(WidgetDomain::class.java)
 
-        assertNotNull(insertedWidget.id)
-        assertEquals(insertedWidget.type, widget.type)
+        assertNotNull(insertedWidgetDomain.id)
+        assertEquals(insertedWidgetDomain.type, widget.type)
 
-        val widgetList = given().port(port)
+        val widgetDomainList = given().port(port)
             .header(createAuthenticationHeader(jwtToken))
-            .param("tabId", 10)
+            .param("tabId", 1)
             .`when`().get(WIDGET_ENDPOINT).then().log().all()
             .statusCode(200).log().all()
-            .extract().`as`(object : TypeRef<List<Widget>>() {})
-        assertEquals(1, widgetList.size)
+            .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
+        assertEquals(2, widgetDomainList.size)
 
-        val updatedWidget: Widget = given()
+        val updatedWidgetDomain: WidgetDomain = given()
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
-            .body(insertedWidget.copy(widgetOrder = 0)).`when`().patch("${WIDGET_ENDPOINT}updateWidgetData/${insertedWidget.id}")
+            .body(insertedWidgetDomain.copy(widgetOrder = 0, data = "{}")).`when`().patch("${WIDGET_ENDPOINT}updateWidgetData/${insertedWidgetDomain.id}")
             .then().log().all()
             .statusCode(200)
-            .extract().`as`(Widget::class.java)
+            .extract().`as`(WidgetDomain::class.java)
 
-        assertEquals(insertedWidget.data, updatedWidget.data)
+        assertEquals("{}", updatedWidgetDomain.data)
 
         given()
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
-            .param("id", updatedWidget.id).`when`().delete("${WIDGET_ENDPOINT}deleteWidget/")
+            .param("id", updatedWidgetDomain.id).`when`().delete("${WIDGET_ENDPOINT}deleteWidget/")
             .then().log().all()
             .statusCode(200)
 
-        val updatedWidgetList = given()
+        val updatedWidgetListDomain = given()
             .header(createAuthenticationHeader(jwtToken))
             .port(port)
-            .param("tabId", 10)
+            .param("tabId", 1)
             .`when`().get(WIDGET_ENDPOINT).then().log().all()
             .statusCode(200).log().all()
-            .extract().`as`(object : TypeRef<List<Widget>>() {})
-        assertEquals(0, updatedWidgetList.size)
+            .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
+        assertEquals(1, updatedWidgetListDomain.size)
     }
 
     @Test
     fun testUpdateWidgetsOrder() {
-        val tab = Tab(10, "", 1)
-        val firstWidget = Widget(0, 2, "{}", 1, tab = tab)
-        val secondWidget = Widget(0, 3, "{}", 2, tab = tab)
+        val firstWidget = CreateWidgetPayload(2, 1)
+        val secondWidget = CreateWidgetPayload(3, 1)
 
-        val firstInsertedWidget: Widget = given()
+        val firstInsertedWidgetDomain: WidgetDomain = given()
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
             .body(firstWidget).`when`().post("${WIDGET_ENDPOINT}addWidget/")
             .then().log().all()
             .statusCode(200)
-            .extract().`as`(Widget::class.java)
+            .extract().`as`(WidgetDomain::class.java)
 
-        val secondInsertedWidget: Widget = given()
+        val secondInsertedWidgetDomain: WidgetDomain = given()
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
             .body(secondWidget).`when`().post("${WIDGET_ENDPOINT}addWidget/")
             .then().log().all()
             .statusCode(200)
-            .extract().`as`(Widget::class.java)
+            .extract().`as`(WidgetDomain::class.java)
 
-        assertNotNull(firstInsertedWidget.id)
-        assertEquals(firstInsertedWidget.type, firstWidget.type)
+        assertNotNull(firstInsertedWidgetDomain.id)
+        assertEquals(firstInsertedWidgetDomain.type, firstWidget.type)
 
-        assertNotNull(secondInsertedWidget.id)
-        assertEquals(secondInsertedWidget.type, secondWidget.type)
+        assertNotNull(secondInsertedWidgetDomain.id)
+        assertEquals(secondInsertedWidgetDomain.type, secondWidget.type)
 
-        val updatedWidgets: List<Widget> = given()
+        val updatedWidgetList: List<WidgetDomain> = given()
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
-            .body(listOf(firstInsertedWidget.copy(widgetOrder = 2), secondInsertedWidget.copy(widgetOrder = 3)))
+            .body(listOf(firstInsertedWidgetDomain.copy(widgetOrder = 2), secondInsertedWidgetDomain.copy(widgetOrder = 3)))
             .`when`().post("${WIDGET_ENDPOINT}updateWidgetsOrder/")
             .then().log().all()
             .statusCode(200)
-            .extract().`as`(object : TypeRef<List<Widget>>() {})
+            .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
 
-        assertEquals(2, updatedWidgets.size)
-        assertEquals(2, updatedWidgets[0].widgetOrder)
-        assertEquals(2, updatedWidgets[0].type)
-        assertEquals(3, updatedWidgets[1].widgetOrder)
-        assertEquals(3, updatedWidgets[1].type)
+        assertEquals(2, updatedWidgetList.size)
+        assertEquals(2, updatedWidgetList[0].widgetOrder)
+        assertEquals(2, updatedWidgetList[0].type)
+        assertEquals(3, updatedWidgetList[1].widgetOrder)
+        assertEquals(3, updatedWidgetList[1].type)
     }
 }
