@@ -40,7 +40,7 @@ class WidgetControllerTests : AbstractIT() {
 
     @Test
     fun testGetAllWidgetsByTabId() {
-        val widgetEntityList = given().port(port)
+        val widgetDomainList = given().port(port)
             .header(createAuthenticationHeader(jwtToken))
             .param("tabId", 1)
             .`when`().get(WIDGET_ENDPOINT)
@@ -48,14 +48,14 @@ class WidgetControllerTests : AbstractIT() {
             .statusCode(200)
             .log().all()
             .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
-        assertEquals(1, widgetEntityList.size)
+        assertEquals(1, widgetDomainList.size)
     }
 
     @Test
     fun insertWidgetToDatabase() {
         val widget = CreateWidgetPayload(2, 1)
 
-        val insertedWidgetEntity: WidgetDomain = given()
+        val insertedWidgetDomain: WidgetDomain = given()
             .contentType(ContentType.JSON)
             .header(createAuthenticationHeader(jwtToken))
             .port(port)
@@ -66,44 +66,44 @@ class WidgetControllerTests : AbstractIT() {
             .statusCode(200)
             .extract().`as`(WidgetDomain::class.java)
 
-        assertNotNull(insertedWidgetEntity.id)
-        assertEquals(insertedWidgetEntity.type, widget.type)
+        assertNotNull(insertedWidgetDomain.id)
+        assertEquals(insertedWidgetDomain.type, widget.type)
 
-        val widgetEntityList = given().port(port)
+        val widgetDomainList = given().port(port)
             .header(createAuthenticationHeader(jwtToken))
             .param("tabId", 1)
             .`when`().get(WIDGET_ENDPOINT).then().log().all()
             .statusCode(200).log().all()
             .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
-        assertEquals(2, widgetEntityList.size)
+        assertEquals(2, widgetDomainList.size)
 
-        val updatedWidgetEntity: WidgetDomain = given()
+        val updatedWidgetDomain: WidgetDomain = given()
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
-            .body(insertedWidgetEntity.copy(widgetOrder = 0, data = "{}")).`when`().patch("${WIDGET_ENDPOINT}updateWidgetData/${insertedWidgetEntity.id}")
+            .body(insertedWidgetDomain.copy(widgetOrder = 0, data = "{}")).`when`().patch("${WIDGET_ENDPOINT}updateWidgetData/${insertedWidgetDomain.id}")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(WidgetDomain::class.java)
 
-        assertEquals("{}", updatedWidgetEntity.data)
+        assertEquals("{}", updatedWidgetDomain.data)
 
         given()
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
-            .param("id", updatedWidgetEntity.id).`when`().delete("${WIDGET_ENDPOINT}deleteWidget/")
+            .param("id", updatedWidgetDomain.id).`when`().delete("${WIDGET_ENDPOINT}deleteWidget/")
             .then().log().all()
             .statusCode(200)
 
-        val updatedWidgetListEntity = given()
+        val updatedWidgetListDomain = given()
             .header(createAuthenticationHeader(jwtToken))
             .port(port)
             .param("tabId", 1)
             .`when`().get(WIDGET_ENDPOINT).then().log().all()
             .statusCode(200).log().all()
             .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
-        assertEquals(1, updatedWidgetListEntity.size)
+        assertEquals(1, updatedWidgetListDomain.size)
     }
 
     @Test
@@ -111,7 +111,7 @@ class WidgetControllerTests : AbstractIT() {
         val firstWidget = CreateWidgetPayload(2, 1)
         val secondWidget = CreateWidgetPayload(3, 1)
 
-        val firstInsertedWidgetEntity: WidgetDomain = given()
+        val firstInsertedWidgetDomain: WidgetDomain = given()
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
@@ -120,7 +120,7 @@ class WidgetControllerTests : AbstractIT() {
             .statusCode(200)
             .extract().`as`(WidgetDomain::class.java)
 
-        val secondInsertedWidgetEntity: WidgetDomain = given()
+        val secondInsertedWidgetDomain: WidgetDomain = given()
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
@@ -129,26 +129,26 @@ class WidgetControllerTests : AbstractIT() {
             .statusCode(200)
             .extract().`as`(WidgetDomain::class.java)
 
-        assertNotNull(firstInsertedWidgetEntity.id)
-        assertEquals(firstInsertedWidgetEntity.type, firstWidget.type)
+        assertNotNull(firstInsertedWidgetDomain.id)
+        assertEquals(firstInsertedWidgetDomain.type, firstWidget.type)
 
-        assertNotNull(secondInsertedWidgetEntity.id)
-        assertEquals(secondInsertedWidgetEntity.type, secondWidget.type)
+        assertNotNull(secondInsertedWidgetDomain.id)
+        assertEquals(secondInsertedWidgetDomain.type, secondWidget.type)
 
-        val updatedWidgetEntities: List<WidgetDomain> = given()
+        val updatedWidgetList: List<WidgetDomain> = given()
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
-            .body(listOf(firstInsertedWidgetEntity.copy(widgetOrder = 2), secondInsertedWidgetEntity.copy(widgetOrder = 3)))
+            .body(listOf(firstInsertedWidgetDomain.copy(widgetOrder = 2), secondInsertedWidgetDomain.copy(widgetOrder = 3)))
             .`when`().post("${WIDGET_ENDPOINT}updateWidgetsOrder/")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
 
-        assertEquals(2, updatedWidgetEntities.size)
-        assertEquals(2, updatedWidgetEntities[0].widgetOrder)
-        assertEquals(2, updatedWidgetEntities[0].type)
-        assertEquals(3, updatedWidgetEntities[1].widgetOrder)
-        assertEquals(3, updatedWidgetEntities[1].type)
+        assertEquals(2, updatedWidgetList.size)
+        assertEquals(2, updatedWidgetList[0].widgetOrder)
+        assertEquals(2, updatedWidgetList[0].type)
+        assertEquals(3, updatedWidgetList[1].widgetOrder)
+        assertEquals(3, updatedWidgetList[1].type)
     }
 }

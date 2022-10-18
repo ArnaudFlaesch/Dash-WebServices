@@ -39,7 +39,7 @@ class TabControllerTests : AbstractIT() {
 
     @Test
     fun testGetAllTabs() {
-        val tabEntities = given().port(port)
+        val tabsDomain = given().port(port)
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .get("/tab/")
@@ -47,7 +47,7 @@ class TabControllerTests : AbstractIT() {
             .statusCode(200)
             .log().all()
             .extract().`as`(object : TypeRef<List<TabDomain>>() {})
-        assertEquals(2, tabEntities.size)
+        assertEquals(2, tabsDomain.size)
     }
 
     @Test
@@ -98,7 +98,7 @@ class TabControllerTests : AbstractIT() {
         assertNotNull(updatedTab.id)
         assertEquals(updatedLabel, updatedTab.label)
 
-        val updatedTabEntities: List<TabDomain> = given().port(port)
+        val updatedTabsDomain: List<TabDomain> = given().port(port)
             .contentType(ContentType.JSON)
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
@@ -107,7 +107,7 @@ class TabControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(200)
             .extract().`as`(object : TypeRef<List<TabDomain>>() {})
-        assertEquals(1, updatedTabEntities.size)
+        assertEquals(1, updatedTabsDomain.size)
 
         given().port(port)
             .contentType(ContentType.JSON)
@@ -117,12 +117,12 @@ class TabControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(200)
 
-        val updatedTabListEntity = given().port(port)
+        val updatedTabListDomain = given().port(port)
             .header(createAuthenticationHeader(jwtToken))
             .`when`().get("/tab/")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(object : TypeRef<List<TabDomain>>() {})
-        assertEquals(2, updatedTabListEntity.size)
+        assertEquals(2, updatedTabListDomain.size)
     }
 }
