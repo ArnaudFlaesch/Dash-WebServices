@@ -25,20 +25,14 @@ class WidgetService {
     fun getAllWidgets(): List<WidgetDomain> = widgetRepository.findAll().map(widgetMapper::mapWidgetEntityToWidgetDomain)
 
     fun addWidget(widgetType: Int, tabId: Int): WidgetDomain {
-        val widgetTab = tabService.getTabById(tabId)
         val widgetOrder = widgetRepository.getNumberOfWidgetsByTab(tabId) + 1
-        val widgetToInsert = WidgetEntity(0, tab = widgetTab, type = widgetType, widgetOrder = widgetOrder, data = null)
-        return saveWidget(widgetToInsert)
+        return saveWidget(WidgetDomain(id = 0, type = widgetType, widgetOrder = widgetOrder, tabId = tabId, data = null))
     }
 
-    fun saveWidget(widget: WidgetEntity): WidgetDomain {
-        return widgetMapper.mapWidgetEntityToWidgetDomain(widgetRepository.save(widget))
-    }
-
-    fun importWidget(widget: WidgetDomain): WidgetDomain {
+    fun saveWidget(widget: WidgetDomain): WidgetDomain {
         val widgetTab = tabService.getTabById(widget.tabId)
-        val widgetToInsert = WidgetEntity(0, tab = widgetTab, type = widget.type, widgetOrder = widget.widgetOrder, data = widget.data)
-        return saveWidget(widgetToInsert)
+        val widgetToInsert = WidgetEntity(id = widget.id, tab = widgetTab, type = widget.type, widgetOrder = widget.widgetOrder, data = widget.data)
+        return widgetMapper.mapWidgetEntityToWidgetDomain(widgetRepository.save(widgetToInsert))
     }
 
     fun updateWidget(widgetId: Int, updatedData: Any): WidgetDomain {

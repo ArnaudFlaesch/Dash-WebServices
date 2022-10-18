@@ -29,7 +29,7 @@ class WidgetController {
     ): WidgetDomain =
         widgetService.updateWidget(widgetId, updateWidgetDataPayload.data)
 
-    @PostMapping("/updateWidgetsOrder")
+    @PostMapping("/updateWidgetsOrder") // TODO
     fun updateWidgetsOrder(@RequestBody widgetEntities: List<WidgetDomain>): List<WidgetDomain> =
         widgetService.updateWidgetsOrder(widgetEntities)
 

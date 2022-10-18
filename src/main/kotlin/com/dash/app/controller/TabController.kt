@@ -24,7 +24,7 @@ class TabController {
     @PostMapping("/updateTab")
     fun updateTab(@RequestBody updatePayload: UpdateTabPayload): TabDomain = tabService.updateTab(updatePayload.id, updatePayload.label, updatePayload.tabOrder)
 
-    @PostMapping("/updateTabs")
+    @PostMapping("/updateTabs") // TODO
     fun updateTabs(@RequestBody tabList: List<TabDomain>): List<TabDomain> = tabService.saveTabs(tabList)
 
     @DeleteMapping("/deleteTab")

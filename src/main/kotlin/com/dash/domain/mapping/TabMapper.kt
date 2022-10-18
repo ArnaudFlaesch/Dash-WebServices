@@ -19,5 +19,10 @@ class TabMapper {
         user = userService.getUserById(tabDomain.userId)
     )
 
-    fun mapTabEntityToTabDomain(tabEntity: TabEntity): TabDomain = TabDomain(tabEntity.id, tabEntity.label, tabEntity.tabOrder, tabEntity.user.id)
+    fun mapTabEntityToTabDomain(tabEntity: TabEntity): TabDomain = TabDomain(
+        tabEntity.id,
+        tabEntity.label,
+        tabEntity.tabOrder,
+        tabEntity.user.id
+    )
 }
