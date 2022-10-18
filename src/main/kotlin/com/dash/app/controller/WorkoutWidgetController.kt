@@ -3,9 +3,9 @@ package com.dash.app.controller
 import com.dash.app.controller.requests.workoutWidget.AddWorkoutTypePayload
 import com.dash.app.controller.requests.workoutWidget.CreateWorkoutSessionPayload
 import com.dash.app.controller.requests.workoutWidget.UpdateWorkoutExercisePayload
-import com.dash.domain.model.workoutwidget.WorkoutExercise
-import com.dash.domain.model.workoutwidget.WorkoutSession
-import com.dash.domain.model.workoutwidget.WorkoutType
+import com.dash.domain.model.workoutwidget.WorkoutExerciseDomain
+import com.dash.domain.model.workoutwidget.WorkoutSessionDomain
+import com.dash.domain.model.workoutwidget.WorkoutTypeDomain
 import com.dash.domain.service.WorkoutWidgetService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -19,17 +19,17 @@ class WorkoutWidgetController {
     private lateinit var workoutWidgetService: WorkoutWidgetService
 
     @GetMapping("/workoutSessions")
-    fun getWorkoutsSessions(@RequestParam("userId") userId: Int): List<WorkoutSession> = (workoutWidgetService.getWorkoutSessions(userId))
+    fun getWorkoutsSessions(@RequestParam("userId") userId: Int): List<WorkoutSessionDomain> = (workoutWidgetService.getWorkoutSessions(userId))
 
     @GetMapping("/workoutTypes")
-    fun getWorkoutTypes(@RequestParam("userId") userId: Int): List<WorkoutType> = (workoutWidgetService.getWorkoutTypes(userId))
+    fun getWorkoutTypes(@RequestParam("userId") userId: Int): List<WorkoutTypeDomain> = (workoutWidgetService.getWorkoutTypes(userId))
 
     @GetMapping("/workoutExercises")
-    fun getWorkoutsExercisesByWorkoutSessionId(@RequestParam("workoutSessionId") workoutSessionId: Int): List<WorkoutExercise> =
+    fun getWorkoutsExercisesByWorkoutSessionId(@RequestParam("workoutSessionId") workoutSessionId: Int): List<WorkoutExerciseDomain> =
         workoutWidgetService.getWorkoutsExercisesByWorkoutSessionId(workoutSessionId)
 
     @PostMapping("/updateWorkoutExercise")
-    fun updateWorkoutExercise(@RequestBody updateWorkoutExercisePayload: UpdateWorkoutExercisePayload): WorkoutExercise =
+    fun updateWorkoutExercise(@RequestBody updateWorkoutExercisePayload: UpdateWorkoutExercisePayload): WorkoutExerciseDomain =
         workoutWidgetService.updateWorkoutExercise(
             updateWorkoutExercisePayload.workoutSessionId,
             updateWorkoutExercisePayload.workoutTypeId,
@@ -37,10 +37,10 @@ class WorkoutWidgetController {
         )
 
     @PostMapping("/addWorkoutType")
-    fun addWorkoutType(@RequestBody addWorkoutTypePayload: AddWorkoutTypePayload): WorkoutType =
+    fun addWorkoutType(@RequestBody addWorkoutTypePayload: AddWorkoutTypePayload): WorkoutTypeDomain =
         workoutWidgetService.addWorkoutType(addWorkoutTypePayload.workoutType, addWorkoutTypePayload.userId)
 
     @PostMapping("/createWorkoutSession")
-    fun createWorkoutSession(@RequestBody createWorkoutSessionPayload: CreateWorkoutSessionPayload): WorkoutSession =
+    fun createWorkoutSession(@RequestBody createWorkoutSessionPayload: CreateWorkoutSessionPayload): WorkoutSessionDomain =
         workoutWidgetService.createWorkoutSession(createWorkoutSessionPayload.workoutDate, createWorkoutSessionPayload.userId)
 }

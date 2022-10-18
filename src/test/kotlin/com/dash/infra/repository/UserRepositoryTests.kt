@@ -3,7 +3,7 @@ package com.dash.infra.repository
 import com.common.infra.repository.RoleRepository
 import com.common.infra.repository.UserRepository
 import com.common.utils.AbstractIT
-import com.dash.infra.entity.User
+import com.dash.infra.entity.UserEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -33,9 +33,9 @@ class UserRepositoryTests : AbstractIT() {
     @Test
     fun testAddUser() {
         val roleUser = roleRepository.getReferenceById(1)
-        val newUser = User(id = 0, email = "test@email.com", username = "testusername", password = "testpassword", role = roleUser)
+        val newUserEntity = UserEntity(id = 0, email = "test@email.com", username = "testusername", password = "testpassword", role = roleUser)
 
-        val insertedUser = userRepository.save(newUser)
+        val insertedUser = userRepository.save(newUserEntity)
         assertNotNull(insertedUser.id)
         val listUsers = userRepository.findAll()
         assertThat(listUsers).hasSize(3)

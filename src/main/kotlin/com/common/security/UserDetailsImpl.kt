@@ -1,6 +1,6 @@
 package com.common.security
 
-import com.dash.infra.entity.User
+import com.dash.infra.entity.UserEntity
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -16,14 +16,14 @@ data class UserDetailsImpl(
 
     companion object {
         private const val serialVersionUID = 1L
-        fun build(user: User): UserDetailsImpl {
-            val authorities: List<GrantedAuthority> = listOf(SimpleGrantedAuthority(user.role.name))
+        fun build(userEntity: UserEntity): UserDetailsImpl {
+            val authorities: List<GrantedAuthority> = listOf(SimpleGrantedAuthority(userEntity.role.name))
 
             return UserDetailsImpl(
-                user.id,
-                user.username,
-                user.email,
-                user.password,
+                userEntity.id,
+                userEntity.username,
+                userEntity.email,
+                userEntity.password,
                 authorities
             )
         }

@@ -1,26 +1,26 @@
-package com.dash.domain.model.workoutwidget
+package com.dash.infra.entity.workoutwidget
 
 import java.io.Serializable
 import javax.persistence.*
 
 @Entity
 @Table(name = "workout_exercise")
-data class WorkoutExercise(
+data class WorkoutExerciseEntity(
     @EmbeddedId
-    var workoutExerciseId: WorkoutExerciseId,
+    var workoutExerciseId: WorkoutExerciseEntityId,
     var numberOfReps: Int = 0,
 
     @ManyToOne
     @JoinColumn(name = "workout_session_id", insertable = false, updatable = false)
-    var workoutSession: WorkoutSession? = null,
+    var workoutSession: WorkoutSessionEntity? = null,
 
     @ManyToOne
     @JoinColumn(name = "workout_type_id", insertable = false, updatable = false)
-    var workoutType: WorkoutType? = null
+    var workoutType: WorkoutTypeEntity? = null
 )
 
 @Embeddable
-data class WorkoutExerciseId(
+data class WorkoutExerciseEntityId(
 
     @Column(name = "workout_session_id")
     val workoutSessionId: Int,

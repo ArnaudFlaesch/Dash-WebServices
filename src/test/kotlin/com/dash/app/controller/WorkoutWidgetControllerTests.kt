@@ -6,17 +6,15 @@ import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.dash.app.controller.requests.workoutWidget.AddWorkoutTypePayload
 import com.dash.app.controller.requests.workoutWidget.CreateWorkoutSessionPayload
 import com.dash.app.controller.requests.workoutWidget.UpdateWorkoutExercisePayload
-import com.dash.domain.model.workoutwidget.WorkoutExercise
-import com.dash.domain.model.workoutwidget.WorkoutExerciseId
-import com.dash.domain.model.workoutwidget.WorkoutSession
-import com.dash.domain.model.workoutwidget.WorkoutType
+import com.dash.domain.model.workoutwidget.WorkoutExerciseDomain
+import com.dash.domain.model.workoutwidget.WorkoutSessionDomain
+import com.dash.domain.model.workoutwidget.WorkoutTypeDomain
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -62,7 +60,7 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .log().all()
-            .extract().`as`(WorkoutType::class.java)
+            .extract().`as`(WorkoutTypeDomain::class.java)
 
         assertEquals(newWorkoutType, workoutType.name)
 
@@ -75,7 +73,7 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .log().all()
-            .extract().`as`(object : TypeRef<List<WorkoutType>>() {})
+            .extract().`as`(object : TypeRef<List<WorkoutTypeDomain>>() {})
 
         assertEquals(1, workoutTypes.size)
 
@@ -91,7 +89,7 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             .post("$workoutWidgetEndpoint/createWorkoutSession")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
-            .extract().`as`(WorkoutSession::class.java)
+            .extract().`as`(WorkoutSessionDomain::class.java)
 
         assertEquals(workoutSessionDate, workoutSession.workoutDate)
 
@@ -104,7 +102,7 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .log().all()
-            .extract().`as`(object : TypeRef<List<WorkoutSession>>() {})
+            .extract().`as`(object : TypeRef<List<WorkoutSessionDomain>>() {})
 
         assertEquals(1, workoutSessions.size)
 
@@ -118,10 +116,10 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             .post("$workoutWidgetEndpoint/updateWorkoutExercise")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
-            .extract().`as`(WorkoutExercise::class.java)
+            .extract().`as`(WorkoutExerciseDomain::class.java)
 
         assertEquals(
-            WorkoutExercise(WorkoutExerciseId(workoutSession.id, workoutType.id), 5),
+            WorkoutExerciseDomain(workoutSession.id, workoutType.id, 5),
             workoutExercise
         )
 
@@ -134,10 +132,8 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .log().all()
-            .extract().`as`(object : TypeRef<List<WorkoutExercise>>() {})
+            .extract().`as`(object : TypeRef<List<WorkoutExerciseDomain>>() {})
 
         assertEquals(1, workoutExercises.size)
-        assertEquals(workoutSessionDate, workoutExercises[0].workoutSession?.workoutDate ?: fail())
-        assertEquals(newWorkoutType, workoutExercises[0].workoutType?.name ?: fail())
     }
 }
