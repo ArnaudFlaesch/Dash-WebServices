@@ -15,7 +15,7 @@ databaseChangeLog:
       id: 2
       author: aflaesch
       comment: Dataset for tests
-      context: dev
+      context: dev,test
       runOrder: last
       changes:
         - sqlFile:
