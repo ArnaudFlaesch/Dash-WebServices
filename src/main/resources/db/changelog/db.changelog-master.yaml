@@ -57,7 +57,7 @@ databaseChangeLog:
       id: 5
       author: aflaesch
       comment: CashManager e2e dataset
-      context: test
+      context: dev,test
       changes:
         - sqlFile:
             dbms: postgresql
