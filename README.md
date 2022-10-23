@@ -11,7 +11,7 @@
 
 L'application a pour but de proposer à un utilisateur de créer un dashboard sur lequel il peut créer plusieurs widgets,
 comme par exemple un lecteur de flux RSS, un calendrier listant des évènements à partir d'un lien ICal et un affichage
-de prévisions météorologiques et les répartir sur plusieurs onglets.
+de prévisions météorologiques. Il est possible de répartir ces widgets sur plusieurs onglets.
 
 Le projet est déployé via Github Pages et accessible à cette addresse : https://arnaudflaesch.github.io/Dash-Web/.
 Ce dépôt contient les sources de la partie backend de l'application, qui est accessible à
@@ -20,24 +20,25 @@ l'addresse : https://dash-webservices.herokuapp.com/.
 ## Démarrage
 
 - Récupération de l'image Docker de la base de données
+
   > docker pull postgres:13.2-alpine
 
 - Démarrage de la base de données
 
   > docker run -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash postgres:13.2-alpine
 
-- Variables d'environnements
+- Variables d'environnement
 
-Le projet a besoin de plusieurs variables d'environnements pour s'exécuter, principalement des clés d'API pour accéder à
+Le projet a besoin de plusieurs variables d'environnement pour s'exécuter, principalement des clés d'API pour accéder à
 des services externes.
 
-| Nom de la variable d'environnement | Lien pour la récupérer        |
-|------------------------------------|-------------------------------|
-| OPENWEATHERMAP_KEY                | https://home.openweathermap.org/api_keys             |
-| STEAM_API_KEY               | https://steamcommunity.com/dev/apikey             |
-|STRAVA_CLIENT_ID    | https://www.strava.com/settings/api |
-|STRAVA_CLIENT_SECRET    | https://www.strava.com/settings/api |
-|AIRPARIF_API_TOKEN    | https://www.airparif.asso.fr/interface-de-programmation-applicative |
+| Nom de la variable d'environnement | Lien pour la récupérer                                              |
+|------------------------------------|---------------------------------------------------------------------|
+| OPENWEATHERMAP_KEY                 | https://home.openweathermap.org/api_keys                            |
+| STEAM_API_KEY                      | https://steamcommunity.com/dev/apikey                               |
+| STRAVA_CLIENT_ID                   | https://www.strava.com/settings/api                                 |
+| STRAVA_CLIENT_SECRET               | https://www.strava.com/settings/api                                 |
+| AIRPARIF_API_TOKEN                 | https://www.airparif.asso.fr/interface-de-programmation-applicative |
 
 - Démarrage du projet
 
@@ -46,9 +47,11 @@ des services externes.
 ## Commandes utiles
 
 - Exécution des tests
- > ./gradlew test
+
+> ./gradlew test
 
 - Lint des fichiers sources
+
 > ./gradlew ktlintCheck
 
 > ./gradlew detekt
