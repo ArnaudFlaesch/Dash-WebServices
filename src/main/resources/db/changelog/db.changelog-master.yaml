@@ -15,7 +15,7 @@ databaseChangeLog:
       id: 2
       author: aflaesch
       comment: Dataset for tests
-      context: test
+      context: dev,test
       runOrder: last
       changes:
         - sqlFile:
@@ -57,7 +57,7 @@ databaseChangeLog:
       id: 5
       author: aflaesch
       comment: CashManager e2e dataset
-      context: test
+      context: dev,test
       changes:
         - sqlFile:
             dbms: postgresql
