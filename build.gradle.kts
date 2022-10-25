@@ -12,7 +12,7 @@ val log4jVersion = "2.19.0"
 
 val liquibaseVersion = "4.17.0"
 val postgresqlVersion = "42.5.0"
-val gsonVersion = "2.9.1"
+val gsonVersion = "2.10"
 
 val restAssuredVersion = "4.5.1"
 val mockitoKotlinVersion = "4.0.0"
