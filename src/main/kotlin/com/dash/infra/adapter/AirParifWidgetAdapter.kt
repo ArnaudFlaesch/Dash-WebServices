@@ -1,11 +1,10 @@
 package com.dash.infra.adapter
 
-import com.dash.infra.rest.RestClient
+import com.dash.domain.mapping.AirParifWidgetMapper
+import com.dash.domain.model.airParif.AirParifColor
+import com.dash.domain.model.airParif.Prevision
+import com.dash.infra.rest.AirParifApiClient
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -13,33 +12,18 @@ import java.util.*
 class AirParifWidgetAdapter {
 
     @Autowired
-    private lateinit var restClient: RestClient
+    private lateinit var airParifApiClient: AirParifApiClient
 
-    @Value("\${dash.app.AIRPARIF_API_TOKEN}")
-    private lateinit var airParifToken: String
+    @Autowired
+    private lateinit var airParifWidgetMapper: AirParifWidgetMapper
 
-    companion object {
-        private const val AIRPARIF_API_URL = "https://api.airparif.asso.fr/indices/prevision"
-        private const val AIRPARIF_API_INSEE_ENDPOINTS = "$AIRPARIF_API_URL/commune"
-        private const val AIRPARIF_API_COLORS_ENDPOINTS = "$AIRPARIF_API_URL/couleurs"
+    fun getPrevisionCommune(communeInseeCode: String): List<Prevision> {
+        val previsionResponse = airParifApiClient.getPrevisionCommune(communeInseeCode)
+        return airParifWidgetMapper.previsionsResponseToDomain(communeInseeCode, previsionResponse)
     }
 
-    fun getPrevisionCommune(communeInseeCode: String): LinkedHashMap<String, List<LinkedHashMap<String, String>>> {
-        val url = "$AIRPARIF_API_INSEE_ENDPOINTS?insee=$communeInseeCode"
-        val httpEntity = HttpEntity<LinkedHashMap<*, *>>(getHeaders())
-        return restClient.getDataFromProxy(url, LinkedHashMap::class, httpEntity) as LinkedHashMap<String, List<LinkedHashMap<String, String>>>
-    }
-
-    fun getColors(): LinkedHashMap<String, String> {
-        val url = AIRPARIF_API_COLORS_ENDPOINTS
-        val httpEntity = HttpEntity<LinkedHashMap<*, *>>(getHeaders())
-        return restClient.getDataFromProxy(url, LinkedHashMap::class, httpEntity) as LinkedHashMap<String, String>
-    }
-
-    private fun getHeaders(): HttpHeaders {
-        val requestHeaders = HttpHeaders()
-        requestHeaders.accept = Collections.singletonList(MediaType.APPLICATION_JSON)
-        requestHeaders.set("X-Api-Key", airParifToken)
-        return requestHeaders
+    fun getColors(): List<AirParifColor> {
+        val colorsResponse = airParifApiClient.getColors()
+        return airParifWidgetMapper.colorsResponseToDomain(colorsResponse)
     }
 }

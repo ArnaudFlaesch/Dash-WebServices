@@ -11,8 +11,8 @@ object TestEndpointsArguments {
 
     fun testTokenArguments(validJwtToken: String): Stream<Arguments> {
         return Stream.of(
-            arguments(validJwtToken, 200, once(), "validRequestResponse"),
-            arguments("WRONG_TOKEN", 401, never(), "Unauthorized")
+            arguments(validJwtToken, 200, once()),
+            arguments("WRONG_TOKEN", 401, never())
         )
     }
 

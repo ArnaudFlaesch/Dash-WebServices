@@ -3,7 +3,7 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 import io.gitlab.arturbosch.detekt.Detekt
 
 val kotlinVersion = "1.7.20"
-val springBootVersion = "2.7.4"
+val springBootVersion = "2.7.5"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.6"
 
@@ -57,26 +57,24 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    implementation ("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation ("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
 
     implementation ("io.jsonwebtoken:jjwt:$jwtVersion")
     implementation("org.mnode.ical4j:ical4j:$ical4jVersion")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 
     implementation("com.fasterxml.jackson.module:jackson-modules-base:$jacksonVersion")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
-    implementation ("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
-    implementation("org.liquibase:liquibase-core:$liquibaseVersion")
 
+    implementation("org.liquibase:liquibase-core:$liquibaseVersion")
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
     implementation("com.vladmihalcea:hibernate-types-52:$hibernateTypesVersion")
     implementation("com.google.code.gson:gson:$gsonVersion")
-
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
 
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("io.rest-assured:json-path:$restAssuredVersion")
@@ -89,6 +87,7 @@ dependencies {
     }
     testImplementation("org.testcontainers:junit-jupiter:$testContainersVersion")
     testImplementation("org.testcontainers:postgresql:$testContainersVersion")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
     ktlint("com.pinterest:ktlint:${ktlintVersion}")
 }
 

@@ -4,12 +4,10 @@ import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.common.utils.TestEndpointsArguments
-import com.dash.domain.model.steamwidget.GameInfoResponse
+import com.dash.domain.model.steamWidget.GameDataDomain
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
-import io.restassured.http.Header
 import io.restassured.parsing.Parser
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.matchesPattern
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -124,9 +122,9 @@ class SteamWidgetControllerTests : AbstractIT() {
                     .then().log().all()
                     .statusCode(HttpStatus.OK.value())
                     .log().all()
-                    .extract().`as`(GameInfoResponse::class.java)
+                    .extract().`as`(GameDataDomain::class.java)
 
-                assertEquals(expectedNumberOfResults, ownedGamesData.response.gameCount)
+                assertEquals(expectedNumberOfResults, ownedGamesData.gameCount)
                 mockServer.verify()
             }
 
@@ -276,43 +274,6 @@ class SteamWidgetControllerTests : AbstractIT() {
               }
             }
             """.trimIndent()
-        }
-
-        @Nested
-        @DisplayName("Get achievement list tests")
-        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        inner class GetAchievementListTests {
-            @ParameterizedTest
-            @MethodSource("testGetAchievementListArguments")
-            fun testGetAchievementList(
-                token: String,
-                statusCode: Int,
-                expectedNumberOfApiRequests: ExpectedCount,
-                expectedResponse: String
-            ) {
-                mockServer.expect(expectedNumberOfApiRequests, requestTo(matchesPattern(steamApiUrlMatcher)))
-                    .andExpect(method(HttpMethod.GET))
-                    .andRespond(
-                        withStatus(HttpStatus.OK)
-                            .contentType(MediaType.APPLICATION_JSON).body(expectedResponse)
-                    )
-
-                given()
-                    .port(port)
-                    .param("steamUserId", steamUserIdParam)
-                    .header(Header("Authorization", "Bearer $token"))
-                    .param("appId", 1337)
-                    .`when`()
-                    .get("$steamWidgetEndpoint/achievementList")
-                    .then().log().all()
-                    .statusCode(statusCode)
-                    .log().all()
-                    .body("$", Matchers.notNullValue())
-
-                mockServer.verify()
-            }
-
-            fun testGetAchievementListArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
         }
     }
 }
