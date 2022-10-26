@@ -16,7 +16,6 @@ databaseChangeLog:
       author: aflaesch
       comment: Dataset for tests
       context: dev,test
-      runOrder: last
       changes:
         - sqlFile:
             dbms: postgresql
