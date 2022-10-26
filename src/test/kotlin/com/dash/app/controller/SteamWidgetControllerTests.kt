@@ -411,6 +411,7 @@ class SteamWidgetControllerTests : AbstractIT() {
             }
         """.trimIndent()
 
+        @Test
         fun testGetAchievementList() {
             mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
                 .andExpect(method(HttpMethod.GET))
