@@ -4,9 +4,11 @@ import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.common.utils.TestEndpointsArguments
+import com.dash.domain.model.steamWidget.AchievementDataDomain
 import com.dash.domain.model.steamWidget.GameDataDomain
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
+import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers.matchesPattern
 import org.junit.jupiter.api.*
@@ -275,5 +277,163 @@ class SteamWidgetControllerTests : AbstractIT() {
             }
             """.trimIndent()
         }
+    }
+
+    @Nested
+    @DisplayName("Get achievements tests")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class GetAchievementsTests {
+        fun testGetAchievementList() {
+            val steamApiResponse = """
+                {
+                  "playerstats": {
+                    "steamID": "76561198046131373",
+                    "gameName": "Half-Life 2: Episode Two",
+                    "achievements": [
+                      {
+                        "apiname": "EP2_KILL_POISONANTLION",
+                        "achieved": 1,
+                        "unlocktime": 1352488322
+                      },
+                      {
+                        "apiname": "EP2_KILL_ALLGRUBS",
+                        "achieved": 0,
+                        "unlocktime": 0
+                      },
+                      {
+                        "apiname": "EP2_BREAK_ALLWEBS",
+                        "achieved": 1,
+                        "unlocktime": 1446892109
+                      },
+                      {
+                        "apiname": "EP2_BEAT_ANTLIONINVASION",
+                        "achieved": 1,
+                        "unlocktime": 1352489474
+                      },
+                      {
+                        "apiname": "EP2_BEAT_ANTLIONGUARDS",
+                        "achieved": 1,
+                        "unlocktime": 1352492128
+                      },
+                      {
+                        "apiname": "EP2_KILL_ENEMIES_WITHCAR",
+                        "achieved": 1,
+                        "unlocktime": 1396087044
+                      },
+                      {
+                        "apiname": "EP2_BEAT_HUNTERAMBUSH",
+                        "achieved": 1,
+                        "unlocktime": 1352494692
+                      },
+                      {
+                        "apiname": "EP2_KILL_CHOPPER_NOMISSES",
+                        "achieved": 1,
+                        "unlocktime": 1446972886
+                      },
+                      {
+                        "apiname": "EP2_KILL_COMBINECANNON",
+                        "achieved": 1,
+                        "unlocktime": 1352496053
+                      },
+                      {
+                        "apiname": "EP2_FIND_ALLRADARCACHES",
+                        "achieved": 1,
+                        "unlocktime": 1352497466
+                      },
+                      {
+                        "apiname": "EP2_BEAT_RACEWITHDOG",
+                        "achieved": 1,
+                        "unlocktime": 1352497786
+                      },
+                      {
+                        "apiname": "EP2_BEAT_ROCKETCACHEPUZZLE",
+                        "achieved": 1,
+                        "unlocktime": 1352496289
+                      },
+                      {
+                        "apiname": "EP2_BEAT_WHITEFORESTINN",
+                        "achieved": 1,
+                        "unlocktime": 1352497109
+                      },
+                      {
+                        "apiname": "EP2_PUT_ITEMINROCKET",
+                        "achieved": 0,
+                        "unlocktime": 0
+                      },
+                      {
+                        "apiname": "EP2_BEAT_MISSILESILO2",
+                        "achieved": 1,
+                        "unlocktime": 1352498951
+                      },
+                      {
+                        "apiname": "EP2_BEAT_OUTLAND12_NOBUILDINGSDESTROYED",
+                        "achieved": 0,
+                        "unlocktime": 0
+                      },
+                      {
+                        "apiname": "EP2_BEAT_GAME",
+                        "achieved": 1,
+                        "unlocktime": 1352555354
+                      },
+                      {
+                        "apiname": "EP2_KILL_HUNTER_WITHFLECHETTES",
+                        "achieved": 1,
+                        "unlocktime": 1396035018
+                      },
+                      {
+                        "apiname": "HLX_KILL_ENEMIES_WITHPHYSICS",
+                        "achieved": 1,
+                        "unlocktime": 1446893075
+                      },
+                      {
+                        "apiname": "HLX_KILL_ENEMY_WITHHOPPERMINE",
+                        "achieved": 1,
+                        "unlocktime": 1352488798
+                      },
+                      {
+                        "apiname": "HLX_KILL_SOLDIER_WITHHISGRENADE",
+                        "achieved": 1,
+                        "unlocktime": 1446974675
+                      },
+                      {
+                        "apiname": "EPX_GET_ZOMBINEGRENADE",
+                        "achieved": 1,
+                        "unlocktime": 1352487603
+                      },
+                      {
+                        "apiname": "GLOBAL_GNOME_ALONE",
+                        "achieved": 0,
+                        "unlocktime": 0
+                      }
+                    ],
+                    "success": true
+                  }
+                }
+            """.trimIndent()
+
+            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(
+                    withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON).body(steamApiResponse)
+                )
+
+            val actual = given()
+                .port(port)
+                .param("steamUserId", steamUserIdParam)
+                .param("appId", 1337)
+                .header(Header("Authorization", "Bearer $jwtToken"))
+                .`when`()
+                .get("$steamWidgetEndpoint/achievementList")
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .extract().`as`(AchievementDataDomain::class.java)
+
+            assertEquals(23, actual.playerstats.achievements.size)
+
+            mockServer.verify()
+        }
+
     }
 }
