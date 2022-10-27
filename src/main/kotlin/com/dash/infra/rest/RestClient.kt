@@ -25,5 +25,6 @@ class RestClient {
     }
 
     @Throws(RestClientException::class)
-    fun postDataFromProxy(url: String, data: Any): String? = restTemplate.postForObject(url, data, String::class.java)
+    fun <T : Any> postDataFromProxy(url: String, data: Any, expectedResponseType: KClass<T>): T? =
+        restTemplate.postForObject(url, data, expectedResponseType.java)
 }

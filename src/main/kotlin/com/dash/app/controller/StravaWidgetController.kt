@@ -2,9 +2,9 @@ package com.dash.app.controller
 
 import com.dash.app.controller.requests.stravaWidget.GetStravaRefreshTokenPayload
 import com.dash.app.controller.requests.stravaWidget.GetStravaTokenPayload
-import com.dash.infra.rest.RestClient
+import com.dash.domain.model.stravaWidget.StravaTokenDataDomain
+import com.dash.domain.service.StravaWidgetService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -13,27 +13,15 @@ import org.springframework.web.bind.annotation.*
 class StravaWidgetController {
 
     @Autowired
-    private lateinit var proxyService: RestClient
-
-    @Value("\${dash.app.STRAVA_CLIENT_ID}")
-    private lateinit var stravaClientId: String
-
-    @Value("\${dash.app.STRAVA_CLIENT_SECRET}")
-    private lateinit var stravaClientSecret: String
-
-    private val stravaTokenUrl = "https://www.strava.com/oauth/token"
+    private lateinit var stravaWidgetService: StravaWidgetService
 
     @PostMapping("/getToken")
-    fun getToken(@RequestBody getStravaTokenPayload: GetStravaTokenPayload): String? {
-        val url = "$stravaTokenUrl?client_id=$stravaClientId&client_secret=$stravaClientSecret" +
-            "&code=${getStravaTokenPayload.apiCode}&grant_type=authorization_code"
-        return proxyService.postDataFromProxy(url, mapOf<String, Any>())
+    fun getToken(@RequestBody getStravaTokenPayload: GetStravaTokenPayload): StravaTokenDataDomain {
+        return stravaWidgetService.getToken(getStravaTokenPayload.apiCode)
     }
 
     @PostMapping("/getRefreshToken")
-    fun getRefreshToken(@RequestBody getStravaRefreshTokenPayload: GetStravaRefreshTokenPayload): String? {
-        val url = "$stravaTokenUrl?client_id=$stravaClientId&client_secret=$stravaClientSecret" +
-            "&refresh_token=${getStravaRefreshTokenPayload.refreshToken}&grant_type=refresh_token"
-        return proxyService.postDataFromProxy(url, mapOf<String, Any>())
+    fun getRefreshToken(@RequestBody getStravaRefreshTokenPayload: GetStravaRefreshTokenPayload): StravaTokenDataDomain {
+        return stravaWidgetService.getRefreshToken(getStravaRefreshTokenPayload.refreshToken)
     }
 }
