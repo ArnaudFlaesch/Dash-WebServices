@@ -24,12 +24,12 @@ data class OpenWeatherWeatherDomain(
     val cod: Int
 ) {
     data class WeatherMainDomain(
-        val temp: Int,
-        val feelsLike: Int,
-        val tempMin: Int,
-        val tempMax: Int,
+        val temp: Float,
+        val feelsLike: Float,
+        val tempMin: Float,
+        val tempMax: Float,
         val pressure: Int,
-        val humidity: Int
+        val humidity: Float
     )
 
     data class WeatherWindDomain(
@@ -63,14 +63,14 @@ data class ForecastDomain(
 ) {
     data class ForecastDataMainDomain(
         val temp: Int,
-        val feelsLike: Int,
-        val tempMin: Int,
-        val tempMax: Int,
+        val feelsLike: Float,
+        val tempMin: Float,
+        val tempMax: Float,
         val pressure: Int,
-        val seaLevel: Int,
-        val grndLevel: Int,
-        val humidity: Int,
-        val tempKf: Int
+        val seaLevel: Float,
+        val grndLevel: Float,
+        val humidity: Float,
+        val tempKf: Float
     )
 
     data class ForecastDataCloudsDomain(

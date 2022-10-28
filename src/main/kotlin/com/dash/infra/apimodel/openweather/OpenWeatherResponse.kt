@@ -72,17 +72,17 @@ data class OpenWeatherWeatherResponse(
 
     data class WeatherMain(
         @JsonProperty("temp")
-        val temp: Int = 0,
+        val temp: Float = 0f,
         @JsonProperty("feels_like")
-        val feelsLike: Int = 0,
+        val feelsLike: Float = 0f,
         @JsonProperty("temp_min")
-        val tempMin: Int = 0,
+        val tempMin: Float = 0f,
         @JsonProperty("temp_max")
-        val tempMax: Int = 0,
+        val tempMax: Float = 0f,
         @JsonProperty("pressure")
         val pressure: Int = 0,
         @JsonProperty("humidity")
-        val humidity: Int = 0
+        val humidity: Float = 0f
     ) {
         fun toDomain(): OpenWeatherWeatherDomain.WeatherMainDomain =
             OpenWeatherWeatherDomain.WeatherMainDomain(
@@ -172,21 +172,21 @@ data class ForecastResponse(
         @JsonProperty("temp")
         val temp: Int = 0,
         @JsonProperty("feels_like")
-        val feelsLike: Int = 0,
+        val feelsLike: Float = 0f,
         @JsonProperty("temp_min")
-        val tempMin: Int = 0,
+        val tempMin: Float = 0f,
         @JsonProperty("temp_max")
-        val tempMax: Int = 0,
+        val tempMax: Float = 0f,
         @JsonProperty("pressure")
         val pressure: Int = 0,
         @JsonProperty("sea_level")
-        val seaLevel: Int = 0,
+        val seaLevel: Float = 0f,
         @JsonProperty("grnd_level")
-        val grndLevel: Int = 0,
+        val grndLevel: Float = 0f,
         @JsonProperty("humidity")
-        val humidity: Int = 0,
+        val humidity: Float = 0f,
         @JsonProperty("temp_kf")
-        val tempKf: Int = 0
+        val tempKf: Float = 0f
     ) {
         fun toDomain(): ForecastDomain.ForecastDataMainDomain =
             ForecastDomain.ForecastDataMainDomain(
