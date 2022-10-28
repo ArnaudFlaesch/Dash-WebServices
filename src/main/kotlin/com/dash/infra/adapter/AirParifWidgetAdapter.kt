@@ -7,6 +7,7 @@ import com.dash.infra.rest.AirParifApiClient
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
+import kotlin.collections.LinkedHashMap
 
 @Service
 class AirParifWidgetAdapter {
@@ -18,12 +19,12 @@ class AirParifWidgetAdapter {
     private lateinit var airParifWidgetMapper: AirParifWidgetMapper
 
     fun getPrevisionCommune(communeInseeCode: String): List<Prevision> {
-        val previsionResponse = airParifApiClient.getPrevisionCommune(communeInseeCode)
+        val previsionResponse = airParifApiClient.getPrevisionCommune(communeInseeCode) ?: LinkedHashMap()
         return airParifWidgetMapper.previsionsResponseToDomain(communeInseeCode, previsionResponse)
     }
 
     fun getColors(): List<AirParifColor> {
-        val colorsResponse = airParifApiClient.getColors()
+        val colorsResponse = airParifApiClient.getColors() ?: LinkedHashMap()
         return airParifWidgetMapper.colorsResponseToDomain(colorsResponse)
     }
 }

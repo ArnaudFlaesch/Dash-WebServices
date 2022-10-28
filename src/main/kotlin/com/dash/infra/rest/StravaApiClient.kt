@@ -8,11 +8,8 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
-import org.springframework.web.client.RestTemplate
-import java.net.URI
 import java.util.*
 
 @Component
@@ -20,9 +17,6 @@ class StravaApiClient {
 
     @Autowired
     private lateinit var restClient: RestClient
-
-    @Autowired
-    private lateinit var restTemplate: RestTemplate
 
     @Value("\${dash.app.STRAVA_CLIENT_ID}")
     private lateinit var stravaClientId: String
@@ -55,7 +49,7 @@ class StravaApiClient {
 
     fun getAthleteActivities(token: String, numberOfActivities: Int): List<StravaActivityResponse>? {
         val httpEntity = HttpEntity<List<StravaActivityResponse>>(getHeaders(token))
-        val typeReference = object: ParameterizedTypeReference<List<StravaActivityResponse>>(){}
+        val typeReference = object : ParameterizedTypeReference<List<StravaActivityResponse>>() {}
         return restClient.getDataFromProxy("$stravaActivitiesUrl$numberOfActivities", typeReference, httpEntity)
     }
 
@@ -65,5 +59,4 @@ class StravaApiClient {
         requestHeaders.set(HttpHeaders.AUTHORIZATION, "Bearer $token")
         return requestHeaders
     }
-
 }
