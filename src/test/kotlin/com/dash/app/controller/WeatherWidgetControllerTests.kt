@@ -5,11 +5,15 @@ import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.common.utils.TestEndpointsArguments.testForeignApiCodes
 import com.common.utils.TestEndpointsArguments.testTokenArguments
+import com.dash.domain.model.weatherWidget.OpenWeatherForecastDomain
+import com.dash.domain.model.weatherWidget.OpenWeatherWeatherDomain
+import com.dash.infra.api.response.OpenWeatherApiResponse
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers.matchesPattern
 import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -87,6 +91,31 @@ class WeatherWidgetControllerTests : AbstractIT() {
         }
 
         fun testGetTokenArguments(): Stream<Arguments> = testTokenArguments(jwtToken)
+
+        @Test
+        fun should_get_weather_data() {
+            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern("$weatherApiUrl.*")))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(
+                    withStatus(HttpStatus.OK)
+                        .body(OpenWeatherApiResponse.weatherApiResponse).contentType(MediaType.APPLICATION_JSON)
+                )
+
+            val actual = given()
+                .port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .param("city", "Paris")
+                .`when`()
+                .get("$weatherWidgetEndpoint/weather")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .log().all()
+                .extract().`as`(OpenWeatherWeatherDomain::class.java)
+
+            mockServer.verify()
+
+            assertEquals("Paris", actual.name)
+        }
     }
 
     @Nested
@@ -94,9 +123,33 @@ class WeatherWidgetControllerTests : AbstractIT() {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class GetForecastTests {
 
+        @Test
+        fun should_get_forecast_data() {
+            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern("$weatherApiUrl.*")))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(
+                    withStatus(HttpStatus.OK)
+                        .body(OpenWeatherApiResponse.forecastApiResponse).contentType(MediaType.APPLICATION_JSON)
+                )
+
+            val actual = given()
+                .port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .param("city", "Paris")
+                .`when`()
+                .get("$weatherWidgetEndpoint/forecast")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .log().all()
+                .extract().`as`(OpenWeatherForecastDomain::class.java)
+            mockServer.verify()
+
+            assertEquals(15, actual.list.size)
+        }
+
         @ParameterizedTest
         @MethodSource("testForecastDataArguments")
-        fun testForecastData(weatherApiStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
+        fun testForecastDataAuth(weatherApiStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
             mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern("$weatherApiUrl.*")))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(weatherApiStatusCodeResponse).contentType(MediaType.APPLICATION_JSON))

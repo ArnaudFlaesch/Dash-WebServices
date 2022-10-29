@@ -1,13 +1,5 @@
 package com.dash.domain.model.weatherWidget
 
-data class OpenWeatherForecastDomain(
-    val cod: String,
-    val message: Int,
-    val cnt: Int,
-    val list: List<ForecastDomain>,
-    val city: CityDomain
-)
-
 data class OpenWeatherWeatherDomain(
     val coord: LatLngDomain,
     val weather: List<WeatherDomain>,
@@ -50,6 +42,14 @@ data class OpenWeatherWeatherDomain(
         val all: String
     )
 }
+
+data class OpenWeatherForecastDomain(
+    val cod: String,
+    val message: Int,
+    val cnt: Int,
+    val list: List<ForecastDomain>,
+    val city: CityDomain
+)
 
 data class ForecastDomain(
     val dt: Int,

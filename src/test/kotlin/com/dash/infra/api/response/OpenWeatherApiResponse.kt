@@ -594,6 +594,7 @@ object OpenWeatherApiResponse {
               },
               "dt_txt": "2022-10-31 09:00:00"
             }
+          ]
         }
     """.trimIndent()
 }
