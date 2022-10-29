@@ -13,11 +13,13 @@ class SteamApiClient {
     @Autowired
     private lateinit var restClient: RestClient
 
+    @Value("\${dash.app.STEAM_API_URL}")
+    private lateinit var steamApiUrl: String
+
     @Value("\${dash.app.STEAM_API_KEY}")
     private lateinit var steamApiKey: String
 
     companion object {
-        private const val steamApiUrl = "https://api.steampowered.com"
         private const val getPlayerSummariesUrl = "/ISteamUser/GetPlayerSummaries/v0002/"
         private const val getOwnedGamesUrl = "/IPlayerService/GetOwnedGames/v0001/"
         private const val getAchievementsUrl = "/ISteamUserStats/GetPlayerAchievements/v0001"

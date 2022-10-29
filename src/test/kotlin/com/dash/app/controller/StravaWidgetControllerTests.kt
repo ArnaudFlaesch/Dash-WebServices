@@ -6,20 +6,24 @@ import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.common.utils.TestEndpointsArguments
 import com.dash.app.controller.requests.stravaWidget.GetStravaRefreshTokenPayload
 import com.dash.app.controller.requests.stravaWidget.GetStravaTokenPayload
+import com.dash.domain.model.stravaWidget.StravaActivityDomain
+import com.dash.domain.model.stravaWidget.StravaAthleteDomain
+import com.dash.infra.api.response.StravaApiResponse
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
+import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers.matchesPattern
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpMethod
@@ -49,7 +53,9 @@ class StravaWidgetControllerTests : AbstractIT() {
 
     private lateinit var jwtToken: String
 
-    private val stravaApiUrlMatcher = "https://www.strava.com/.*"
+    @Value("\${dash.app.STRAVA_API_URL}")
+    private lateinit var stravaApiUrl: String
+
     private val stravaWidgetEndpoint = "/stravaWidget"
 
     @BeforeAll
@@ -64,52 +70,135 @@ class StravaWidgetControllerTests : AbstractIT() {
         mockServer.reset()
     }
 
-    @ParameterizedTest
-    @MethodSource("testGetTokenArguments")
-    fun testGetToken(token: String, statusCode: Int, expectedNumberOfApiRequests: ExpectedCount) {
-        mockServer.expect(expectedNumberOfApiRequests, requestTo(matchesPattern(stravaApiUrlMatcher)))
-            .andExpect(method(HttpMethod.POST))
-            .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON))
+    @Nested
+    @DisplayName("Get token tests")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class GetTokenTests {
 
-        val getStravaTokenPayload = GetStravaTokenPayload("api_code")
+        @ParameterizedTest
+        @MethodSource("testGetTokenArguments")
+        fun should_get_token(token: String, statusCode: Int, expectedNumberOfApiRequests: ExpectedCount) {
+            mockServer.expect(expectedNumberOfApiRequests, requestTo(matchesPattern("$stravaApiUrl/.*")))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(
+                    withStatus(HttpStatus.OK)
+                        .body(StravaApiResponse.stravaTokenResponse)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
 
-        given()
-            .port(port)
-            .contentType(ContentType.JSON)
-            .header(Header("Authorization", "Bearer $token"))
-            .`when`()
-            .body(getStravaTokenPayload)
-            .post("$stravaWidgetEndpoint/getToken")
-            .then().log().all()
-            .statusCode(statusCode)
-            .log().all()
+            val getStravaTokenPayload = GetStravaTokenPayload("api_code")
 
-        mockServer.verify()
+            given()
+                .port(port)
+                .contentType(ContentType.JSON)
+                .header(Header("Authorization", "Bearer $token"))
+                .`when`()
+                .body(getStravaTokenPayload)
+                .post("$stravaWidgetEndpoint/getToken")
+                .then().log().all()
+                .statusCode(statusCode)
+                .log().all()
+
+            mockServer.verify()
+        }
+
+        fun testGetTokenArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
     }
 
-    @ParameterizedTest
-    @MethodSource("testGetRefreshTokenArguments")
-    fun testGetRefreshToken(stravaApiStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
-        mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(stravaApiUrlMatcher)))
-            .andExpect(method(HttpMethod.POST))
-            .andRespond(withStatus(stravaApiStatusCodeResponse).contentType(MediaType.APPLICATION_JSON))
+    @Nested
+    @DisplayName("Get refresh token tests")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class GetRefreshTokenTests {
 
-        val getStravaRefreshTokenPayload = GetStravaRefreshTokenPayload("refresh_token")
+        @ParameterizedTest
+        @MethodSource("testGetRefreshTokenArguments")
+        fun should_get_refresh_token(stravaApiStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
+            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern("$stravaApiUrl/.*")))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(withStatus(stravaApiStatusCodeResponse).contentType(MediaType.APPLICATION_JSON))
 
-        given()
-            .port(port)
-            .contentType(ContentType.JSON)
-            .header(createAuthenticationHeader(jwtToken))
-            .`when`()
-            .body(getStravaRefreshTokenPayload)
-            .post("$stravaWidgetEndpoint/getRefreshToken")
-            .then().log().all()
-            .statusCode(expectedStatusCode)
-            .log().all()
+            val getStravaRefreshTokenPayload = GetStravaRefreshTokenPayload("refresh_token")
 
-        mockServer.verify()
+            given()
+                .port(port)
+                .contentType(ContentType.JSON)
+                .header(createAuthenticationHeader(jwtToken))
+                .`when`()
+                .body(getStravaRefreshTokenPayload)
+                .post("$stravaWidgetEndpoint/getRefreshToken")
+                .then().log().all()
+                .statusCode(expectedStatusCode)
+                .log().all()
+
+            mockServer.verify()
+        }
+
+        fun testGetRefreshTokenArguments(): Stream<Arguments> = TestEndpointsArguments.testForeignApiCodes()
     }
 
-    fun testGetTokenArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
-    fun testGetRefreshTokenArguments(): Stream<Arguments> = TestEndpointsArguments.testForeignApiCodes()
+    @Nested
+    @DisplayName("Get athlete data tests")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class GetAthleteDataTests {
+
+        @Test
+        fun should_get_athlete_data() {
+            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern("$stravaApiUrl/.*")))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(
+                    withStatus(HttpStatus.OK)
+                        .body(StravaApiResponse.stravaAthleteData)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+
+            val actual = given()
+                .port(port)
+                .contentType(ContentType.JSON)
+                .header(createAuthenticationHeader(jwtToken))
+                .param("token", "VALID_TOKEN")
+                .`when`()
+                .get("$stravaWidgetEndpoint/getAthleteData")
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .extract().`as`(StravaAthleteDomain::class.java)
+
+            mockServer.verify()
+
+            assertEquals("aflaesch", actual.username)
+        }
+    }
+
+    @Nested
+    @DisplayName("Get athlete activities tests")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class GetAthleteActivitiesTests {
+
+        @Test
+        fun should_get_athlete_activities() {
+            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern("$stravaApiUrl/.*")))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(
+                    withStatus(HttpStatus.OK)
+                        .body(StravaApiResponse.stravaActivitiesData)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+
+            val actual = given()
+                .port(port)
+                .contentType(ContentType.JSON)
+                .header(createAuthenticationHeader(jwtToken))
+                .param("token", "VALID_TOKEN")
+                .`when`()
+                .get("$stravaWidgetEndpoint/getAthleteActivities")
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .extract().`as`(object : TypeRef<List<StravaActivityDomain>>() {})
+
+            mockServer.verify()
+
+            assertEquals(6, actual.size)
+        }
+    }
 }

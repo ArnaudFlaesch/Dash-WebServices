@@ -19,6 +19,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpMethod
@@ -48,7 +49,9 @@ class SteamWidgetControllerTests : AbstractIT() {
 
     private lateinit var jwtToken: String
 
-    private val steamApiUrlMatcher = "https://api.steampowered.com.*"
+    @Value("\${dash.app.STEAM_API_URL}")
+    private lateinit var steamApiUrl: String
+
     private val steamWidgetEndpoint = "/steamWidget"
     private val steamUserIdParam = "1337"
 
@@ -72,7 +75,7 @@ class SteamWidgetControllerTests : AbstractIT() {
         fun testGetPlayerSummary() {
             val getPlayerJsonData = SteamApiResponse.playerJsonData
 
-            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
+            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern("$steamApiUrl.*")))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(getPlayerJsonData))
 
@@ -97,7 +100,7 @@ class SteamWidgetControllerTests : AbstractIT() {
             @ParameterizedTest
             @MethodSource("getOwnedGamesArguments")
             fun testGetOwnedGames(search: String?, expectedNumberOfResults: Int) {
-                mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
+                mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern("$steamApiUrl.*")))
                     .andExpect(method(HttpMethod.GET))
                     .andRespond(
                         withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
@@ -130,7 +133,7 @@ class SteamWidgetControllerTests : AbstractIT() {
             @ParameterizedTest
             @MethodSource("testGetOwnedGamesErrorsCodes")
             fun testGetOwnedGamesErrorsCodes(steamApiStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
-                mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
+                mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern("$steamApiUrl.*")))
                     .andExpect(method(HttpMethod.GET))
                     .andRespond(withStatus(steamApiStatusCodeResponse).contentType(MediaType.APPLICATION_JSON))
 
@@ -162,7 +165,7 @@ class SteamWidgetControllerTests : AbstractIT() {
 
         @Test
         fun testGetAchievementList() {
-            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
+            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern("$steamApiUrl.*")))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(
                     withStatus(HttpStatus.OK)

@@ -9,14 +9,13 @@ import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers.matchesPattern
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpMethod
@@ -46,7 +45,9 @@ class WeatherWidgetControllerTests : AbstractIT() {
 
     private lateinit var jwtToken: String
 
-    private val weatherApiUrlMatcher = "https://api.openweathermap.org/data/2.5/.*"
+    @Value("\${dash.app.OPENWEATHERMAP_API_URL}")
+    private lateinit var weatherApiUrl: String
+
     private val weatherWidgetEndpoint = "/weatherWidget"
 
     @BeforeAll
@@ -61,46 +62,58 @@ class WeatherWidgetControllerTests : AbstractIT() {
         mockServer.reset()
     }
 
-    @ParameterizedTest
-    @MethodSource("testGetTokenArguments")
-    fun testGetWeatherData(token: String, statusCode: Int, expectedNumberOfApiRequests: ExpectedCount) {
-        mockServer.expect(expectedNumberOfApiRequests, requestTo(matchesPattern(weatherApiUrlMatcher)))
-            .andExpect(method(HttpMethod.GET))
-            .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON))
+    @Nested
+    @DisplayName("Get weather tests")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class GetWeatherTests {
+        @ParameterizedTest
+        @MethodSource("testGetTokenArguments")
+        fun testGetWeatherData(token: String, statusCode: Int, expectedNumberOfApiRequests: ExpectedCount) {
+            mockServer.expect(expectedNumberOfApiRequests, requestTo(matchesPattern("$weatherApiUrl.*")))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON))
 
-        given()
-            .port(port)
-            .header(createAuthenticationHeader(token))
-            .param("city", "Paris")
-            .`when`()
-            .get("$weatherWidgetEndpoint/weather")
-            .then().log().all()
-            .statusCode(statusCode)
-            .log().all()
+            given()
+                .port(port)
+                .header(createAuthenticationHeader(token))
+                .param("city", "Paris")
+                .`when`()
+                .get("$weatherWidgetEndpoint/weather")
+                .then().log().all()
+                .statusCode(statusCode)
+                .log().all()
 
-        mockServer.verify()
+            mockServer.verify()
+        }
+
+        fun testGetTokenArguments(): Stream<Arguments> = testTokenArguments(jwtToken)
     }
 
-    @ParameterizedTest
-    @MethodSource("testForecastDataArguments")
-    fun testForecastData(weatherApiStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
-        mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(weatherApiUrlMatcher)))
-            .andExpect(method(HttpMethod.GET))
-            .andRespond(withStatus(weatherApiStatusCodeResponse).contentType(MediaType.APPLICATION_JSON))
+    @Nested
+    @DisplayName("Get forecast tests")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class GetForecastTests {
 
-        given()
-            .port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .param("city", "Paris")
-            .`when`()
-            .get("$weatherWidgetEndpoint/forecast")
-            .then().log().all()
-            .statusCode(expectedStatusCode)
-            .log().all()
+        @ParameterizedTest
+        @MethodSource("testForecastDataArguments")
+        fun testForecastData(weatherApiStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
+            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern("$weatherApiUrl.*")))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(weatherApiStatusCodeResponse).contentType(MediaType.APPLICATION_JSON))
 
-        mockServer.verify()
+            given()
+                .port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .param("city", "Paris")
+                .`when`()
+                .get("$weatherWidgetEndpoint/forecast")
+                .then().log().all()
+                .statusCode(expectedStatusCode)
+                .log().all()
+
+            mockServer.verify()
+        }
+
+        fun testForecastDataArguments(): Stream<Arguments> = testForeignApiCodes()
     }
-
-    fun testGetTokenArguments(): Stream<Arguments> = testTokenArguments(jwtToken)
-    fun testForecastDataArguments(): Stream<Arguments> = testForeignApiCodes()
 }

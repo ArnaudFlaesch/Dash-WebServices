@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDate
 
 data class StravaAthleteResponse(
-    val id: Int = 0,
+    val id: Double = 0.0,
     val username: String = "",
     @JsonProperty("resource_state")
     val resourceState: Int = 0,
