@@ -6,6 +6,7 @@ import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.dash.domain.model.airParif.AirParifColor
 import com.dash.domain.model.airParif.AirParifPrevisionEnum
 import com.dash.domain.model.airParif.Prevision
+import com.dash.infra.api.response.AirParifApiResponse
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
@@ -65,29 +66,7 @@ class AirParifWidgetControllerTests : AbstractIT() {
     fun testGetPrevisionsData() {
         val communeInseeCode = "75101"
 
-        val mockedResponse = "{\n" +
-            "  \"$communeInseeCode\":" +
-            "[\n" +
-            "    {\n" +
-            "      \"date\": \"2021-01-15\",\n" +
-            "      \"no2\": \"Bon\",\n" +
-            "      \"o3\": \"Mauvais\",\n" +
-            "      \"pm10\": \"Moyen\",\n" +
-            "      \"pm25\": \"Dégradé\",\n" +
-            "      \"so2\": \"Bon\",\n" +
-            "      \"indice\": \"Dégradé\"\n" +
-            "    },\n" +
-            "    {\n" +
-            "      \"date\": \"2021-01-16\",\n" +
-            "      \"no2\": \"Bon\",\n" +
-            "      \"o3\": \"Mauvais\",\n" +
-            "      \"pm10\": \"Dégradé\",\n" +
-            "      \"pm25\": \"Moyen\",\n" +
-            "      \"so2\": \"Dégradé\",\n" +
-            "      \"indice\": \"Bon\"\n" +
-            "    }\n" +
-            "  ]\n" +
-            "}"
+        val mockedResponse = AirParifApiResponse.airParifForecastResponse(communeInseeCode)
 
         mockServer.expect(ExpectedCount.once(), requestTo(URI("https://api.airparif.asso.fr/indices/prevision/commune?insee=$communeInseeCode")))
             .andExpect(method(HttpMethod.GET))
@@ -113,14 +92,7 @@ class AirParifWidgetControllerTests : AbstractIT() {
 
     @Test
     fun testGetColorsData() {
-        val mockedResponse = "{\n" +
-            "  \"Bon\": \"#50f0e6\",\n" +
-            "  \"Moyen\": \"#50ccaa\",\n" +
-            "  \"Dégradé\": \"#f0e641\",\n" +
-            "  \"Mauvais\": \"#ff5050\",\n" +
-            "  \"Très Mauvais\": \"#960032\",\n" +
-            "  \"Extrêmement Mauvais\": \"#7d2181\"\n" +
-            "}"
+        val mockedResponse = AirParifApiResponse.airParifColorsResponse
 
         mockServer.expect(ExpectedCount.once(), requestTo(URI("https://api.airparif.asso.fr/indices/prevision/couleurs")))
             .andExpect(method(HttpMethod.GET))

@@ -1,6 +1,7 @@
 package com.dash.domain.service
 
 import com.common.utils.AbstractIT
+import com.dash.infra.api.response.AirParifApiResponse
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -48,29 +49,7 @@ class AirParifWidgetServiceTest : AbstractIT() {
     fun testGetRequest() {
         val communeInseeCode = "75101"
 
-        val mockedResponse = "{\n" +
-            "  \"$communeInseeCode\":" +
-            "[\n" +
-            "    {\n" +
-            "      \"date\": \"2021-01-15\",\n" +
-            "      \"no2\": \"Bon\",\n" +
-            "      \"o3\": \"Mauvais\",\n" +
-            "      \"pm10\": \"Moyen\",\n" +
-            "      \"pm25\": \"Dégradé\",\n" +
-            "      \"so2\": \"Bon\",\n" +
-            "      \"indice\": \"Dégradé\"\n" +
-            "    },\n" +
-            "    {\n" +
-            "      \"date\": \"2021-01-16\",\n" +
-            "      \"no2\": \"Bon\",\n" +
-            "      \"o3\": \"Mauvais\",\n" +
-            "      \"pm10\": \"Dégradé\",\n" +
-            "      \"pm25\": \"Moyen\",\n" +
-            "      \"so2\": \"Dégradé\",\n" +
-            "      \"indice\": \"Bon\"\n" +
-            "    }\n" +
-            "  ]\n" +
-            "}"
+        val mockedResponse = AirParifApiResponse.airParifForecastResponse(communeInseeCode)
 
         mockServer.expect(ExpectedCount.once(), requestTo(URI("https://api.airparif.asso.fr/indices/prevision/commune?insee=$communeInseeCode")))
             .andExpect(method(HttpMethod.GET))
