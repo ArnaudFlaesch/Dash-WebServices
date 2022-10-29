@@ -3,17 +3,17 @@ package com.dash.infra.api.response
 object SteamApiResponse {
     val playerJsonData =
         """
-        {
-          "response": {
-            "players":
-                [{
-                    "personaname": "personaname",
-                    "profileurl": "profileUrl",
-                    "avatar": "avatar"
-                }]
+            {
+              "response": {
+                "players":
+                    [{
+                        "personaname": "personaname",
+                        "profileurl": "profileUrl",
+                        "avatar": "avatar"
+                    }]
+                }
             }
-        }
-    """.trimIndent()
+        """.trimIndent()
 
     val ownedGamesJsonData = """
         {
@@ -131,7 +131,7 @@ object SteamApiResponse {
             ]
           }
         }
-        """.trimIndent()
+    """.trimIndent()
 
     val halfLifeTwoEpisodeTwoStatsResponse = """
         {
