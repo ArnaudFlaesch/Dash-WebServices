@@ -44,7 +44,7 @@ plugins {
 
 group = "com.dash"
 version = "0.2.0"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_16
 
 repositories {
     mavenCentral()
@@ -111,7 +111,7 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
+        jvmTarget = "16"
     }
 }
 
@@ -120,7 +120,7 @@ tasks.getByName<Jar>("jar") {
 }
 
 tasks.withType<Detekt>().configureEach {
-    jvmTarget = "17"
+    jvmTarget = "16"
     reports {
         html.required.set(true) // observe findings in your browser with structure and code snippets
         xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins
