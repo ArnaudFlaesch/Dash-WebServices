@@ -20,7 +20,7 @@ val junitVersion = "5.9.1"
 val hibernateTypesVersion = "2.20.0"
 val testContainersVersion = "1.17.5"
 
-val detektVersion = "1.21.0"
+val detektVersion = "1.19.0"
 val ktlintVersion = "0.47.1"
 
 val ktlint: Configuration by configurations.creating
@@ -30,7 +30,7 @@ plugins {
     val springBootVersion = "2.7.5"
     val springDependencyManagementVersion = "1.1.0"
     val codacyPluginVersion = "0.1.0"
-    val detektVersion = "1.21.0"
+    val detektVersion = "1.19.0"
 
     jacoco
     id("org.springframework.boot") version springBootVersion
