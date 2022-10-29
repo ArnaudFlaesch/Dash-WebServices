@@ -18,10 +18,13 @@ class AbstractIT {
     internal constructor()
 
     companion object {
-        private var postgresDBContainer: PostgreSQLContainer<*> = PostgreSQLContainer("postgres:13.2-alpine")
-            .withDatabaseName("dash_test")
-            .withUsername("postgres")
-            .withPassword("postgres")
+        // @FIXME remove <Nothing> when Kotlin 1.7 is used
+        // and revert to .with() methods
+        private var postgresDBContainer: PostgreSQLContainer<*> = PostgreSQLContainer<Nothing>("postgres:13.2-alpine").apply {
+            withDatabaseName("dash_test")
+            withUsername("postgres")
+            withPassword("postgres")
+        }
 
         @DynamicPropertySource
         @JvmStatic

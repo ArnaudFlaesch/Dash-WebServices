@@ -14,24 +14,30 @@ import javax.persistence.*
         )
     ]
 )
-@NamedNativeQuery(
-    query = "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
-        "FROM Expense E " +
-        "WHERE E.label_id IN (SELECT id FROM label L WHERE L.user_id = :userId)" +
-        "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
-    name = "getExpensesByMonth",
-    resultClass = TotalExpenseByMonthEntity::class,
-    resultSetMapping = "totalExpensesByMonth"
-)
-@NamedNativeQuery(
-    query = "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
-        "FROM Expense E " +
-        "WHERE label_id = :labelId " +
-        "AND E.label_id IN (SELECT id FROM label L WHERE L.user_id = :userId)" +
-        "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
-    name = "getExpensesByMonthByLabelId",
-    resultClass = TotalExpenseByMonthEntity::class,
-    resultSetMapping = "totalExpensesByMonth"
+
+// @FIXME revert to using multiple chained @NamedNativeQuery annotations instead of @NamedNativeQueries
+@NamedNativeQueries(
+    value = [
+        NamedNativeQuery(
+            query = "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
+                "FROM Expense E " +
+                "WHERE E.label_id IN (SELECT id FROM label L WHERE L.user_id = :userId)" +
+                "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
+            name = "getExpensesByMonth",
+            resultClass = TotalExpenseByMonthEntity::class,
+            resultSetMapping = "totalExpensesByMonth"
+        ),
+        NamedNativeQuery(
+            query = "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
+                "FROM Expense E " +
+                "WHERE label_id = :labelId " +
+                "AND E.label_id IN (SELECT id FROM label L WHERE L.user_id = :userId)" +
+                "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
+            name = "getExpensesByMonthByLabelId",
+            resultClass = TotalExpenseByMonthEntity::class,
+            resultSetMapping = "totalExpensesByMonth"
+        )
+    ]
 )
 @Entity
 @Table(name = "expense")
