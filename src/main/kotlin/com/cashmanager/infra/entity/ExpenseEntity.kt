@@ -14,7 +14,6 @@ import javax.persistence.*
         )
     ]
 )
-
 // @FIXME revert to using multiple chained @NamedNativeQuery annotations instead of @NamedNativeQueries
 @NamedNativeQueries(
     value = [
