@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 import io.gitlab.arturbosch.detekt.Detekt
 
-val kotlinVersion = "1.5.30"
+val kotlinVersion = "1.5.10"
 val springBootVersion = "2.7.5"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.6"
@@ -26,7 +26,7 @@ val ktlintVersion = "0.47.1"
 val ktlint: Configuration by configurations.creating
 
 plugins {
-    val kotlinVersion = "1.5.30"
+    val kotlinVersion = "1.5.10"
     val springBootVersion = "2.7.5"
     val springDependencyManagementVersion = "1.1.0"
     val codacyPluginVersion = "0.1.0"
