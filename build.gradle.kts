@@ -2,8 +2,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 import io.gitlab.arturbosch.detekt.Detekt
 
-val kotlinVersion = "1.7.20"
-val springBootVersion = "2.7.4"
+val kotlinVersion = "1.5.0"
+val springBootVersion = "2.7.5"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.6"
 
@@ -20,17 +20,17 @@ val junitVersion = "5.9.1"
 val hibernateTypesVersion = "2.20.0"
 val testContainersVersion = "1.17.5"
 
-val detektVersion = "1.21.0"
+val detektVersion = "1.19.0"
 val ktlintVersion = "0.47.1"
 
 val ktlint: Configuration by configurations.creating
 
 plugins {
-    val kotlinVersion = "1.7.20"
+    val kotlinVersion = "1.5.0"
     val springBootVersion = "2.7.5"
     val springDependencyManagementVersion = "1.1.0"
     val codacyPluginVersion = "0.1.0"
-    val detektVersion = "1.21.0"
+    val detektVersion = "1.19.0"
 
     jacoco
     id("org.springframework.boot") version springBootVersion
@@ -44,7 +44,7 @@ plugins {
 
 group = "com.dash"
 version = "0.2.0"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_16
 
 repositories {
     mavenCentral()
@@ -57,26 +57,24 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    implementation ("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation ("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
 
     implementation ("io.jsonwebtoken:jjwt:$jwtVersion")
     implementation("org.mnode.ical4j:ical4j:$ical4jVersion")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 
     implementation("com.fasterxml.jackson.module:jackson-modules-base:$jacksonVersion")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
-    implementation ("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
-    implementation("org.liquibase:liquibase-core:$liquibaseVersion")
 
+    implementation("org.liquibase:liquibase-core:$liquibaseVersion")
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
     implementation("com.vladmihalcea:hibernate-types-52:$hibernateTypesVersion")
     implementation("com.google.code.gson:gson:$gsonVersion")
-
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
 
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("io.rest-assured:json-path:$restAssuredVersion")
@@ -89,6 +87,7 @@ dependencies {
     }
     testImplementation("org.testcontainers:junit-jupiter:$testContainersVersion")
     testImplementation("org.testcontainers:postgresql:$testContainersVersion")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
     ktlint("com.pinterest:ktlint:${ktlintVersion}")
 }
 
@@ -112,7 +111,7 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
+        jvmTarget = "16"
     }
 }
 
@@ -121,7 +120,7 @@ tasks.getByName<Jar>("jar") {
 }
 
 tasks.withType<Detekt>().configureEach {
-    jvmTarget = "17"
+    jvmTarget = "16"
     reports {
         html.required.set(true) // observe findings in your browser with structure and code snippets
         xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins

@@ -28,10 +28,10 @@ class TabService {
 
     fun getTabs(): List<TabDomain> {
         val userId = userService.getCurrentAuthenticatedUserId()
-        return tabRepository.findByUserIdOrderByTabOrderAsc(userId).map(tabMapper::mapTabEntityToTabDomain)
+        return tabRepository.findByUserIdOrderByTabOrderAsc(userId).map(TabEntity::toDomain)
     }
 
-    fun getTabById(tabId: Int): TabEntity = tabRepository.getReferenceById(tabId)
+    fun getTabById(tabId: Int): TabDomain = (tabRepository.getReferenceById(tabId).toDomain())
 
     fun addTab(tabLabel: String): TabDomain {
         val currentAuthenticatedUser = userService.getCurrentAuthenticatedUser()
@@ -43,24 +43,24 @@ class TabService {
             role = RoleEntity(0, "")
         )
         val tabToInsert = TabEntity(id = 0, label = tabLabel, tabOrder = tabRepository.getNumberOfTabs() + 1, user = userEntity)
-        return tabMapper.mapTabEntityToTabDomain(tabRepository.save(tabToInsert))
+        return tabRepository.save(tabToInsert).toDomain()
     }
 
     fun saveTabs(tabList: List<TabDomain>): List<TabDomain> =
         tabList
             .map(tabMapper::mapTabDomainToTabEntity)
             .map(tabRepository::save)
-            .map(tabMapper::mapTabEntityToTabDomain)
+            .map(TabEntity::toDomain)
 
     fun importTab(newTab: TabDomain): TabDomain {
-        val newTab = TabEntity(id = 0, label = newTab.label, tabOrder = newTab.tabOrder, user = userService.getUserById(newTab.userId))
-        return tabMapper.mapTabEntityToTabDomain(tabRepository.save(newTab))
+        val tabToInsert = TabEntity(id = 0, label = newTab.label, tabOrder = newTab.tabOrder, user = userService.getUserById(newTab.userId))
+        return tabRepository.save(tabToInsert).toDomain()
     }
 
     fun updateTab(tabId: Int, label: String, tabOrder: Int): TabDomain {
         val oldTabToUpdate = tabRepository.getReferenceById(tabId)
         val updatedTab = oldTabToUpdate.copy(label = label, tabOrder = tabOrder)
-        return tabMapper.mapTabEntityToTabDomain(tabRepository.save(updatedTab))
+        return tabRepository.save(updatedTab).toDomain()
     }
 
     fun deleteTab(id: Int) {

@@ -4,12 +4,13 @@ import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.common.utils.TestEndpointsArguments
-import com.dash.domain.model.steamwidget.GameInfoResponse
+import com.dash.domain.model.steamWidget.AchievementDataDomain
+import com.dash.domain.model.steamWidget.GameDataDomain
+import com.dash.infra.api.response.SteamApiResponse
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.matchesPattern
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -18,6 +19,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpMethod
@@ -47,7 +49,9 @@ class SteamWidgetControllerTests : AbstractIT() {
 
     private lateinit var jwtToken: String
 
-    private val steamApiUrlMatcher = "https://api.steampowered.com.*"
+    @Value("\${dash.app.STEAM_API_URL}")
+    private lateinit var steamApiUrl: String
+
     private val steamWidgetEndpoint = "/steamWidget"
     private val steamUserIdParam = "1337"
 
@@ -69,20 +73,9 @@ class SteamWidgetControllerTests : AbstractIT() {
     inner class GetPlayerSummaryTests {
         @Test
         fun testGetPlayerSummary() {
-            val getPlayerJsonData = """
-                {
-                  "response": {
-                    "players":
-                        [{
-                            "personaname": "personaname",
-                            "profileurl": "profileUrl",
-                            "avatar": "avatar"
-                        }]
-                    }
-                }
-            """.trimIndent()
+            val getPlayerJsonData = SteamApiResponse.playerJsonData
 
-            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
+            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern("$steamApiUrl.*")))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(getPlayerJsonData))
 
@@ -107,7 +100,7 @@ class SteamWidgetControllerTests : AbstractIT() {
             @ParameterizedTest
             @MethodSource("getOwnedGamesArguments")
             fun testGetOwnedGames(search: String?, expectedNumberOfResults: Int) {
-                mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
+                mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern("$steamApiUrl.*")))
                     .andExpect(method(HttpMethod.GET))
                     .andRespond(
                         withStatus(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
@@ -124,9 +117,9 @@ class SteamWidgetControllerTests : AbstractIT() {
                     .then().log().all()
                     .statusCode(HttpStatus.OK.value())
                     .log().all()
-                    .extract().`as`(GameInfoResponse::class.java)
+                    .extract().`as`(GameDataDomain::class.java)
 
-                assertEquals(expectedNumberOfResults, ownedGamesData.response.gameCount)
+                assertEquals(expectedNumberOfResults, ownedGamesData.gameCount)
                 mockServer.verify()
             }
 
@@ -140,7 +133,7 @@ class SteamWidgetControllerTests : AbstractIT() {
             @ParameterizedTest
             @MethodSource("testGetOwnedGamesErrorsCodes")
             fun testGetOwnedGamesErrorsCodes(steamApiStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
-                mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern(steamApiUrlMatcher)))
+                mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern("$steamApiUrl.*")))
                     .andExpect(method(HttpMethod.GET))
                     .andRespond(withStatus(steamApiStatusCodeResponse).contentType(MediaType.APPLICATION_JSON))
 
@@ -159,160 +152,41 @@ class SteamWidgetControllerTests : AbstractIT() {
 
             fun testGetOwnedGamesErrorsCodes(): Stream<Arguments> = TestEndpointsArguments.testForeignApiCodes()
 
-            val getOwnedGamesJsonData = """
-            {
-              "response": {
-                "game_count": 28,
-                "games": [
-                  {
-                    "appid": 220,
-                    "name": "Half-Life 2"
-                  },
-                  {
-                    "appid": 340,
-                    "name": "Half-Life 2: Lost Coast"
-                  },
-                  {
-                    "appid": 280,
-                    "name": "Half-Life: Source"
-                  },
-                  {
-                    "appid": 360,
-                    "name": "Half-Life Deathmatch: Source"
-                  },
-                  {
-                    "appid": 320,
-                    "name": "Half-Life 2: Deathmatch"
-                  },
-                  {
-                    "appid": 380,
-                    "name": "Half-Life 2: Episode One"
-                  },
-                  {
-                    "appid": 420,
-                    "name": "Half-Life 2: Episode Two"
-                  },
-                  {
-                    "appid": 2620,
-                    "name": "Call of Duty"
-                  },
-                  {
-                    "appid": 2630,
-                    "name": "Call of Duty 2"
-                  },
-                  {
-                    "appid": 2641,
-                    "name": "Call of Duty 4"
-                  },
-                  {
-                    "appid": 2642,
-                    "name": "Call of Duty 5"
-                  },
-                  {
-                    "appid": 2643,
-                    "name": "Call of Duty 6"
-                  },
-                  {
-                    "appid": 2644,
-                    "name": "Call of Duty 7"
-                  },
-                  {
-                    "appid": 2645,
-                    "name": "Call of Duty 8"
-                  },
-                  {
-                    "appid": 2646,
-                    "name": "Call of Duty 9"
-                  },
-                  {
-                    "appid": 2647,
-                    "name": "Call of Duty 10"
-                  },
-                  {
-                    "appid": 2648,
-                    "name": "Call of Duty 11"
-                  },
-                  {
-                    "appid": 2649,
-                    "name": "Call of Duty 12"
-                  },
-                  {
-                    "appid": 2650,
-                    "name": "Call of Duty 13"
-                  },
-                  {
-                    "appid": 2651,
-                    "name": "Call of Duty 14"
-                  },
-                  {
-                    "appid": 2652,
-                    "name": "Call of Duty 15"
-                  },
-                  {
-                    "appid": 2653,
-                    "name": "Call of Duty 16"
-                  },
-                  {
-                    "appid": 2654,
-                    "name": "Call of Duty 17"
-                  },
-                  {
-                    "appid": 2655,
-                    "name": "Call of Duty 18"
-                  },
-                  {
-                    "appid": 2656,
-                    "name": "Call of Duty 19"
-                  },
-                  {
-                    "appid": 2657,
-                    "name": "Call of Duty 20"
-                  },
-                  {
-                    "appid": 2658,
-                    "name": "Call of Duty 21"
-                  }
-                ]
-              }
-            }
-            """.trimIndent()
+            val getOwnedGamesJsonData = SteamApiResponse.ownedGamesJsonData
         }
+    }
 
-        @Nested
-        @DisplayName("Get achievement list tests")
-        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        inner class GetAchievementListTests {
-            @ParameterizedTest
-            @MethodSource("testGetAchievementListArguments")
-            fun testGetAchievementList(
-                token: String,
-                statusCode: Int,
-                expectedNumberOfApiRequests: ExpectedCount,
-                expectedResponse: String
-            ) {
-                mockServer.expect(expectedNumberOfApiRequests, requestTo(matchesPattern(steamApiUrlMatcher)))
-                    .andExpect(method(HttpMethod.GET))
-                    .andRespond(
-                        withStatus(HttpStatus.OK)
-                            .contentType(MediaType.APPLICATION_JSON).body(expectedResponse)
-                    )
+    @Nested
+    @DisplayName("Get achievements tests")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class GetAchievementsTests {
 
-                given()
-                    .port(port)
-                    .param("steamUserId", steamUserIdParam)
-                    .header(Header("Authorization", "Bearer $token"))
-                    .param("appId", 1337)
-                    .`when`()
-                    .get("$steamWidgetEndpoint/achievementList")
-                    .then().log().all()
-                    .statusCode(statusCode)
-                    .log().all()
-                    .body("$", Matchers.notNullValue())
+        val steamApiResponse = SteamApiResponse.halfLifeTwoEpisodeTwoStatsResponse
 
-                mockServer.verify()
-            }
+        @Test
+        fun testGetAchievementList() {
+            mockServer.expect(ExpectedCount.once(), requestTo(matchesPattern("$steamApiUrl.*")))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(
+                    withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON).body(steamApiResponse)
+                )
 
-            fun testGetAchievementListArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
+            val actual = given()
+                .port(port)
+                .param("steamUserId", steamUserIdParam)
+                .param("appId", 1337)
+                .header(Header("Authorization", "Bearer $jwtToken"))
+                .`when`()
+                .get("$steamWidgetEndpoint/achievementList")
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .extract().`as`(AchievementDataDomain::class.java)
+
+            assertEquals(23, actual.playerstats.achievements.size)
+
+            mockServer.verify()
         }
     }
 }

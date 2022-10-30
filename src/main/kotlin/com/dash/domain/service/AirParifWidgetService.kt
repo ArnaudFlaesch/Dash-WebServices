@@ -1,6 +1,5 @@
 package com.dash.domain.service
 
-import com.dash.domain.mapping.AirParifApiResponseToAirParifDomain
 import com.dash.domain.model.airParif.AirParifColor
 import com.dash.domain.model.airParif.Prevision
 import com.dash.infra.adapter.AirParifWidgetAdapter
@@ -13,16 +12,8 @@ class AirParifWidgetService {
     @Autowired
     private lateinit var airParifWidgetAdapter: AirParifWidgetAdapter
 
-    @Autowired
-    private lateinit var airParifApiResponseToAirParifDomain: AirParifApiResponseToAirParifDomain
+    fun getPrevisionCommune(communeInseeCode: String): List<Prevision> =
+        airParifWidgetAdapter.getPrevisionCommune(communeInseeCode)
 
-    fun getPrevisionCommune(communeInseeCode: String): List<Prevision> {
-        val previsionResponse = airParifWidgetAdapter.getPrevisionCommune(communeInseeCode)
-        return airParifApiResponseToAirParifDomain.airParifPrevisionsResponseToAirParifDomain(communeInseeCode, previsionResponse)
-    }
-
-    fun getColors(): List<AirParifColor> {
-        val colorsResponse = airParifWidgetAdapter.getColors()
-        return airParifApiResponseToAirParifDomain.airParifColorsResponseToAirParifColorsDomain(colorsResponse)
-    }
+    fun getColors(): List<AirParifColor> = airParifWidgetAdapter.getColors()
 }

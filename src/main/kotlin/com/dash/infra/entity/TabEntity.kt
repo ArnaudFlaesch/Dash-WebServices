@@ -1,5 +1,6 @@
 package com.dash.infra.entity
 
+import com.dash.domain.model.TabDomain
 import javax.persistence.*
 
 @Entity
@@ -18,4 +19,11 @@ data class TabEntity(
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
     val user: UserEntity
-)
+) {
+    fun toDomain(): TabDomain = TabDomain(
+        this.id,
+        this.label,
+        this.tabOrder,
+        this.user.id
+    )
+}

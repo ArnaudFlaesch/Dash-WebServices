@@ -92,7 +92,7 @@ class RestClientTest : AbstractIT() {
                     .contentType(MediaType.APPLICATION_JSON)
             )
         assertThrows(exceptionClass) {
-            proxyService.postDataFromProxy(testUrl, "{}")
+            proxyService.postDataFromProxy(testUrl, "{}", String::class)
         }
         mockServer.verify()
     }

@@ -1,5 +1,6 @@
 package com.dash.infra.entity
 
+import com.dash.domain.model.WidgetDomain
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType
 import com.vladmihalcea.hibernate.type.json.JsonStringType
 import org.hibernate.annotations.Type
@@ -36,4 +37,12 @@ data class WidgetEntity(
     companion object {
         private const val serialVersionUID: Long = 1
     }
+
+    fun toDomain() = WidgetDomain(
+        id = this.id,
+        type = this.type,
+        data = this.data,
+        widgetOrder = this.widgetOrder,
+        tabId = this.tab.id
+    )
 }

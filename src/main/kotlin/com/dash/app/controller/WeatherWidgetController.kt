@@ -1,8 +1,9 @@
 package com.dash.app.controller
 
-import com.dash.infra.rest.RestClient
+import com.dash.domain.model.weatherWidget.OpenWeatherForecastDomain
+import com.dash.domain.model.weatherWidget.OpenWeatherWeatherDomain
+import com.dash.domain.service.WeatherWidgetService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -11,25 +12,15 @@ import org.springframework.web.bind.annotation.*
 class WeatherWidgetController {
 
     @Autowired
-    private lateinit var proxyService: RestClient
-
-    @Value("\${dash.app.OPENWEATHERMAP_KEY}")
-    private lateinit var openWeatherMapKey: String
-
-    val weatherApi = "https://api.openweathermap.org/data/2.5/"
-    val weatherEndpoint = "weather"
-    val forecastEndpoint = "forecast"
-    val apiOptions = "?units=metric&lang=fr&appid="
+    private lateinit var weatherWidgetService: WeatherWidgetService
 
     @GetMapping("/weather")
-    fun getWeatherData(@RequestParam(value = "city") city: String): String? {
-        val url = "$weatherApi$weatherEndpoint$apiOptions$openWeatherMapKey&q=$city"
-        return proxyService.getDataFromProxy(url, String::class)
+    fun getWeatherData(@RequestParam(value = "city") city: String): OpenWeatherWeatherDomain {
+        return weatherWidgetService.getWeatherData(city)
     }
 
     @GetMapping("/forecast")
-    fun getForecastData(@RequestParam(value = "city") city: String): String? {
-        val url = "$weatherApi$forecastEndpoint$apiOptions$openWeatherMapKey&q=$city"
-        return proxyService.getDataFromProxy(url, String::class)
+    fun getForecastData(@RequestParam(value = "city") city: String): OpenWeatherForecastDomain {
+        return weatherWidgetService.getForecastData(city)
     }
 }

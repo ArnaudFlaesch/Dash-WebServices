@@ -1,6 +1,6 @@
 package com.cashmanager.app.controller
 
-import com.cashmanager.model.ImportData
+import com.cashmanager.domain.model.ImportData
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader

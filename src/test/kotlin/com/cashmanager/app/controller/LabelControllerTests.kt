@@ -1,7 +1,7 @@
 package com.cashmanager.app.controller
 
-import com.cashmanager.controller.requests.InsertLabelPayload
-import com.cashmanager.entity.Label
+import com.cashmanager.app.controller.requests.InsertLabelPayload
+import com.cashmanager.domain.model.LabelDomain
 import com.cashmanager.utils.Constants.ADD_LABEL_ENDPOINT
 import com.cashmanager.utils.Constants.DELETE_LABEL_ENDPOINT
 import com.cashmanager.utils.Constants.LABEL_ENDPOINT
@@ -51,22 +51,22 @@ class LabelControllerTests : AbstractIT() {
 
     @Test
     fun testAllLabels() {
-        val labels: List<Label> = given().port(port)
+        val labels: List<LabelDomain> = given().port(port)
             .header(createAuthenticationHeader(jwtToken))
             .`when`().get(LABEL_ENDPOINT)
             .then().log().all()
             .statusCode(200)
             .log().all()
             .extract()
-            .`as`(object : TypeRef<List<Label>>() {})
+            .`as`(object : TypeRef<List<LabelDomain>>() {})
         assertEquals(2, labels.size)
-        assertThat(labels.map(Label::label), containsInAnyOrder("Courses", "Restaurant"))
+        assertThat(labels.map(LabelDomain::label), containsInAnyOrder("Courses", "Restaurant"))
     }
 
     @Test
     fun labelCrudTests() {
         val labelToInsert = InsertLabelPayload(newLabel = "Vacances")
-        val insertedLabel: Label = given()
+        val insertedLabel: LabelDomain = given()
             .port(port)
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
@@ -76,12 +76,12 @@ class LabelControllerTests : AbstractIT() {
             .statusCode(200)
             .log().all()
             .extract()
-            .`as`(Label::class.java)
+            .`as`(LabelDomain::class.java)
         assertNotNull(insertedLabel.id)
         assertEquals(labelToInsert.newLabel, insertedLabel.label)
 
         val labelToUpdate = insertedLabel.copy(label = "Vacances d'été")
-        val updatedLabel: Label = given()
+        val updatedLabel: LabelDomain = given()
             .port(port)
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
@@ -91,7 +91,7 @@ class LabelControllerTests : AbstractIT() {
             .statusCode(200)
             .log().all()
             .extract()
-            .`as`(Label::class.java)
+            .`as`(LabelDomain::class.java)
         assertNotNull(insertedLabel.id)
         assertEquals(labelToUpdate.label, updatedLabel.label)
 

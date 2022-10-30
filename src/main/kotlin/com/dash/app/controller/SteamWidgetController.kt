@@ -1,7 +1,8 @@
 package com.dash.app.controller
 
-import com.dash.domain.model.steamwidget.GameInfoResponse
-import com.dash.domain.model.steamwidget.PlayerDataResponse
+import com.dash.domain.model.steamWidget.AchievementDataDomain
+import com.dash.domain.model.steamWidget.GameDataDomain
+import com.dash.domain.model.steamWidget.PlayerDataDomain
 import com.dash.domain.service.SteamWidgetService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -17,7 +18,7 @@ class SteamWidgetController {
     @GetMapping("/playerData")
     fun getPlayerData(
         @RequestParam(value = "steamUserId") steamUserId: String
-    ): PlayerDataResponse? {
+    ): List<PlayerDataDomain> {
         return steamWidgetService.getPlayerData(steamUserId)
     }
 
@@ -26,7 +27,7 @@ class SteamWidgetController {
         @RequestParam(value = "steamUserId") steamUserId: String,
         @RequestParam(value = "search", defaultValue = "") search: String,
         @RequestParam(value = "pageNumber", defaultValue = "0") pageNumber: Int
-    ): GameInfoResponse {
+    ): GameDataDomain {
         return steamWidgetService.getOwnedGames(steamUserId, search, pageNumber)
     }
 
@@ -34,7 +35,7 @@ class SteamWidgetController {
     fun getAchievementList(
         @RequestParam(value = "appId") appId: String,
         @RequestParam(value = "steamUserId") steamUserId: String
-    ): String? {
+    ): AchievementDataDomain {
         return steamWidgetService.getAchievementList(appId, steamUserId)
     }
 }

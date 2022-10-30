@@ -2,6 +2,7 @@ package com.dash.infra.rest
 
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
@@ -25,5 +26,14 @@ class RestClient {
     }
 
     @Throws(RestClientException::class)
-    fun postDataFromProxy(url: String, data: Any): String? = restTemplate.postForObject(url, data, String::class.java)
+    fun <T : Any> getDataFromProxy(url: String, responseClass: ParameterizedTypeReference<T>, httpEntity: HttpEntity<T>): T? {
+        logger.info("Send GET request to url : $url")
+        return restTemplate.exchange(URI.create(url), HttpMethod.GET, httpEntity, responseClass).body
+    }
+
+    @Throws(RestClientException::class)
+    fun <T : Any> postDataFromProxy(url: String, data: Any, expectedResponseType: KClass<T>): T? {
+        logger.info("Send POST request to url : $url")
+        return restTemplate.postForObject(url, data, expectedResponseType.java)
+    }
 }
