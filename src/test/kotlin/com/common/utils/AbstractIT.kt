@@ -6,7 +6,9 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.context.jdbc.Sql
+import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.containers.wait.strategy.Wait
 import org.testcontainers.junit.jupiter.Testcontainers
 
 @ActiveProfiles("test")
@@ -26,9 +28,15 @@ class AbstractIT {
             withPassword("postgres")
         }
 
+        private val mockServerContainer:GenericContainer<*> = GenericContainer<Nothing>("latest").apply {
+            withExposedPorts(5000)
+            waitingFor(Wait.forListeningPort())
+        }
+
         @DynamicPropertySource
         @JvmStatic
         fun registerPgProperties(registry: DynamicPropertyRegistry) {
+            mockServerContainer.start()
             postgresDBContainer.start()
             registry.add(
                 "spring.datasource.url"

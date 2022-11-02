@@ -15,24 +15,26 @@ class AirParifApiClient {
     @Autowired
     private lateinit var restClient: RestClient
 
+    @Value("\${dash.app.AIRPARIF_API_URL}")
+    private lateinit var airParifApiUrl: String
+
     @Value("\${dash.app.AIRPARIF_API_TOKEN}")
     private lateinit var airParifToken: String
 
     companion object {
-        private const val AIRPARIF_API_URL = "https://api.airparif.asso.fr/indices/prevision"
-        private const val AIRPARIF_API_INSEE_ENDPOINTS = "$AIRPARIF_API_URL/commune"
-        private const val AIRPARIF_API_COLORS_ENDPOINTS = "$AIRPARIF_API_URL/couleurs"
+        private const val AIRPARIF_API_INSEE_ENDPOINTS = "/commune"
+        private const val AIRPARIF_API_COLORS_ENDPOINTS = "/couleurs"
     }
 
     fun getPrevisionCommune(communeInseeCode: String): LinkedHashMap<String, List<LinkedHashMap<String, String>>>? {
-        val url = "$AIRPARIF_API_INSEE_ENDPOINTS?insee=$communeInseeCode"
+        val url = "$airParifApiUrl$AIRPARIF_API_INSEE_ENDPOINTS?insee=$communeInseeCode"
         val httpEntity = HttpEntity<LinkedHashMap<String, List<LinkedHashMap<String, String>>>>(getHeaders())
         val expectedClass = object : ParameterizedTypeReference<LinkedHashMap<String, List<LinkedHashMap<String, String>>>>() {}
         return restClient.getDataFromProxy(url, expectedClass, httpEntity)
     }
 
     fun getColors(): LinkedHashMap<String, String>? {
-        val url = AIRPARIF_API_COLORS_ENDPOINTS
+        val url = "$airParifApiUrl$AIRPARIF_API_COLORS_ENDPOINTS"
         val httpEntity = HttpEntity<LinkedHashMap<String, String>>(getHeaders())
         val expectedClass = object : ParameterizedTypeReference<LinkedHashMap<String, String>>() {}
         return restClient.getDataFromProxy(url, expectedClass, httpEntity)

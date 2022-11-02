@@ -2,30 +2,25 @@ package com.dash.infra.rest
 
 import com.common.utils.AbstractIT
 import com.dash.app.controller.ErrorHandler
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
+import org.mockito.ArgumentMatchers.anyString
+import org.mockito.Mockito
+import org.mockito.kotlin.any
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.test.web.client.ExpectedCount
 import org.springframework.test.web.client.MockRestServiceServer
-import org.springframework.test.web.client.match.MockRestRequestMatchers.method
-import org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
-import org.springframework.test.web.client.response.MockRestResponseCreators.withStatus
 import org.springframework.web.client.RestTemplate
-import java.net.URI
+import org.springframework.web.client.getForEntity
 import java.util.stream.Stream
 
 @SpringBootTest
@@ -48,7 +43,7 @@ class RestClientTest : AbstractIT() {
         mockServer = MockRestServiceServer.createServer(restTemplate)
     }
 
-    @BeforeEach
+    @AfterEach
     fun resetMockServer() {
         mockServer.reset()
     }
@@ -56,45 +51,30 @@ class RestClientTest : AbstractIT() {
     @Test
     fun testGetRequest() {
         val response = "response"
-        mockServer.expect(ExpectedCount.once(), requestTo(URI(testUrl)))
-            .andExpect(method(HttpMethod.GET))
-            .andRespond(
-                withStatus(HttpStatus.OK)
-                    .contentType(MediaType.APPLICATION_JSON).body(response)
-            )
+
+        Mockito.`when`(restTemplate.getForEntity<String>(testUrl)).thenReturn(
+            ResponseEntity(response, HttpStatus.OK)
+        )
+
         val actualResponse = proxyService.getDataFromProxy(testUrl, String::class)
         assertEquals(response, actualResponse)
-        mockServer.verify()
     }
 
     @ParameterizedTest
     @MethodSource("requestErrorsParams")
     fun testGetRequestErrors(statusCode: HttpStatus, exceptionClass: Class<Exception>) {
-        mockServer.expect(ExpectedCount.once(), requestTo(URI(testUrl)))
-            .andExpect(method(HttpMethod.GET))
-            .andRespond(
-                withStatus(statusCode)
-                    .contentType(MediaType.APPLICATION_JSON)
-            )
-        assertThrows(exceptionClass) {
-            proxyService.getDataFromProxy(testUrl, String::class)
-        }
-        mockServer.verify()
+        Mockito.`when`(restTemplate.getForEntity<String>(testUrl)).thenReturn(ResponseEntity(statusCode))
+
+        assertThrows(exceptionClass) { proxyService.getDataFromProxy(testUrl, String::class) }
     }
 
     @ParameterizedTest
     @MethodSource("requestErrorsParams")
     fun testPostRequestErrors(statusCode: HttpStatus, exceptionClass: Class<Exception>) {
-        mockServer.expect(ExpectedCount.once(), requestTo(URI(testUrl)))
-            .andExpect(method(HttpMethod.POST))
-            .andRespond(
-                withStatus(statusCode)
-                    .contentType(MediaType.APPLICATION_JSON)
-            )
-        assertThrows(exceptionClass) {
-            proxyService.postDataFromProxy(testUrl, "{}", String::class)
-        }
-        mockServer.verify()
+        Mockito.`when`(restTemplate.postForObject<ResponseEntity<String>>(anyString(), any(), any()))
+            .thenReturn(ResponseEntity(statusCode))
+
+        assertThrows(exceptionClass) { proxyService.postDataFromProxy(testUrl, "{}", String::class) }
     }
 
     fun requestErrorsParams(): Stream<Arguments> {
