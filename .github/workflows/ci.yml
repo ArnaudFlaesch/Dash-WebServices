@@ -54,6 +54,12 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build -Dspring.profiles.active=test -Dspring.config.location=src/test/resources/application-test.properties
 
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: Test report
+          path: build/reports/tests/test
+
       - name: Report coverage
         run: |
           bash <(curl -Ls https://coverage.codacy.com/get.sh) report -l Kotlin -r build/reports/jacoco/test/jacocoTestReport.xml --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
