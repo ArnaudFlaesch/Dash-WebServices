@@ -28,11 +28,6 @@ class AbstractIT {
             withPassword("postgres")
         }
 
-        private val mockServerContainer: GenericContainer<*> = GenericContainer<Nothing>("latest").apply {
-            withExposedPorts(5000)
-            waitingFor(Wait.forListeningPort())
-        }
-
         @DynamicPropertySource
         @JvmStatic
         fun registerPgProperties(registry: DynamicPropertyRegistry) {

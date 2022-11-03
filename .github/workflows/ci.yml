@@ -33,11 +33,6 @@ jobs:
           username: ${{ secrets.DOCKER_LOGIN }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Pull database image
-        run: |
-          docker pull postgres:13.2-alpine
-          docker run -p 5432:5432 -d --name=dash -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash postgres:13.2-alpine
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
