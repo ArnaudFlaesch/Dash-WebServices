@@ -29,7 +29,6 @@ class AbstractIT {
         @DynamicPropertySource
         @JvmStatic
         fun registerPgProperties(registry: DynamicPropertyRegistry) {
-            mockServerContainer.start()
             postgresDBContainer.start()
             registry.add(
                 "spring.datasource.url"
