@@ -13,16 +13,17 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.web.client.RestTemplate
-import org.springframework.web.client.getForEntity
+import java.net.URI
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
@@ -32,7 +33,7 @@ class CalendarWidgetControllerTests : AbstractIT() {
     @LocalServerPort
     private val port: Int = 0
 
-    @Mock
+    @MockBean
     private lateinit var restTemplate: RestTemplate
 
     private lateinit var jwtToken: String
@@ -117,7 +118,7 @@ class CalendarWidgetControllerTests : AbstractIT() {
     fun testGetCalendarData() {
         val calendarUrl = "https://calendar.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics"
 
-        Mockito.`when`(restTemplate.getForEntity<String>(calendarUrl))
+        Mockito.`when`(restTemplate.exchange(URI.create(calendarUrl), HttpMethod.GET, null, String::class.java))
             .thenReturn(ResponseEntity(mockedCalendarDataResponse, HttpStatus.OK))
 
         val getCalendarDataResponse = given()
@@ -140,7 +141,7 @@ class CalendarWidgetControllerTests : AbstractIT() {
     fun testGetCalendarDataNullResponse() {
         val calendarUrl = "http://wrong_calendar_url.com"
 
-        Mockito.`when`(restTemplate.getForEntity<String>(calendarUrl)).thenReturn(ResponseEntity(HttpStatus.OK))
+        Mockito.`when`(restTemplate.exchange(URI.create(calendarUrl), HttpMethod.GET, null, String::class.java)).thenReturn(ResponseEntity(HttpStatus.OK))
 
         given()
             .port(port)

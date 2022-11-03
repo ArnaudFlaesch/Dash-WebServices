@@ -14,15 +14,16 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.web.client.RestTemplate
-import org.springframework.web.client.getForEntity
+import java.net.URI
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
@@ -32,7 +33,7 @@ class RssWidgetControllerTests : AbstractIT() {
     @LocalServerPort
     private val port: Int = 0
 
-    @Mock
+    @MockBean
     private lateinit var restTemplate: RestTemplate
 
     private lateinit var jwtToken: String
@@ -54,7 +55,15 @@ class RssWidgetControllerTests : AbstractIT() {
             "    <channel></channel>\n" +
             "</rss>"
 
-        Mockito.`when`(restTemplate.getForEntity<String>(url)).thenReturn(ResponseEntity(mockedResponse, HttpStatus.OK))
+        Mockito.`when`(
+            restTemplate.exchange(
+                URI.create(url),
+                HttpMethod.GET,
+                null,
+                String::class.java
+            )
+        )
+            .thenReturn(ResponseEntity(mockedResponse, HttpStatus.OK))
 
         given()
             .port(port)
@@ -73,7 +82,7 @@ class RssWidgetControllerTests : AbstractIT() {
     fun testGetUrlNullResponse() {
         val url = "http://thelastpictureshow.over-blog.com/rss"
 
-        Mockito.`when`(restTemplate.getForEntity<String>(url)).thenReturn(ResponseEntity(HttpStatus.OK))
+        Mockito.`when`(restTemplate.exchange(URI.create(url), HttpMethod.GET, null, String::class.java)).thenReturn(ResponseEntity(HttpStatus.OK))
 
         given()
             .port(port)

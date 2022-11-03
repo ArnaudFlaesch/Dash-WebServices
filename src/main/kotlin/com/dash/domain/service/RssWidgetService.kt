@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service
 class RssWidgetService {
 
     @Autowired
-    private lateinit var proxyService: RestClient
+    private lateinit var restClient: RestClient
 
     fun getJsonFeedFromUrl(url: String): String {
-        val feedData = proxyService.getDataFromProxy(url, String::class)
+        val feedData = restClient.getDataFromProxy(url, String::class)
         return if (feedData != null) {
             parseXmlDataToJsonString(feedData)
         } else {
