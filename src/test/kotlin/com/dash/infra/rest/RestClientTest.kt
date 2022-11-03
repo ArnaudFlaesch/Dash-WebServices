@@ -18,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.test.web.client.MockRestServiceServer
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.getForEntity
 import java.util.stream.Stream
@@ -31,22 +30,10 @@ class RestClientTest : AbstractIT() {
     @Autowired
     private lateinit var proxyService: RestClient
 
-    private lateinit var mockServer: MockRestServiceServer
-
     @Autowired
     private lateinit var restTemplate: RestTemplate
 
     val testUrl = "http://url.com"
-
-    @BeforeAll
-    fun setup() {
-        mockServer = MockRestServiceServer.createServer(restTemplate)
-    }
-
-    @AfterEach
-    fun resetMockServer() {
-        mockServer.reset()
-    }
 
     @Test
     fun testGetRequest() {
