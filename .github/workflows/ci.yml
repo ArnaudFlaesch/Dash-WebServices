@@ -45,10 +45,10 @@ jobs:
         run: |
           if [[ "$(git ls-remote --heads https://github.com/ArnaudFlaesch/Dash-MockServer ${GITHUB_REF#refs/*/} | wc -l)" == 1 && ${GITHUB_REF#refs/*/} != 'master' && ${GITHUB_REF#refs/*/} != 'master' ]]; then
             docker pull arnaudf93/dashmockserver:${GITHUB_REF#refs/*/}
-            docker run -p 5000:5000 -d --network="host" arnaudf93/dashmockserver:${GITHUB_REF#refs/*/}
+            docker run -p 5000:5000 -d arnaudf93/dashmockserver:${GITHUB_REF#refs/*/}
           else
             docker pull arnaudf93/dashmockserver:latest
-            docker run -p 5000:5000 -d --network="host" arnaudf93/dashmockserver:latest
+            docker run -p 5000:5000 -d arnaudf93/dashmockserver:latest
           fi
 
       - name: Build with Gradle
