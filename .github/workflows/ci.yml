@@ -43,7 +43,7 @@ jobs:
 
       - name: Pull mock server
         run: |
-          if [[ "$(git ls-remote --heads https://github.com/ArnaudFlaesch/Dash-MockServer ${GITHUB_REF#refs/*/} | wc -l)" == 1 && ${GITHUB_REF#refs/*/} != 'master' && ${GITHUB_REF#refs/*/} != 'master' ]]; then
+          if [[ "$(git ls-remote --heads https://github.com/ArnaudFlaesch/Dash-MockServer ${GITHUB_REF#refs/*/} | wc -l)" == 1 && ${GITHUB_REF#refs/*/} != 'master' ]]; then
             docker pull arnaudf93/dashmockserver:${GITHUB_REF#refs/*/}
             docker run -p 5000:5000 -d arnaudf93/dashmockserver:${GITHUB_REF#refs/*/}
           else
