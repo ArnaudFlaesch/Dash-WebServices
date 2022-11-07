@@ -5,7 +5,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 val kotlinVersion = "1.5.10"
 val springBootVersion = "2.7.5"
 val jwtVersion = "0.9.1"
-val ical4jVersion = "3.2.6"
+val ical4jVersion = "3.2.7"
 
 val jacksonVersion = "2.13.4"
 val log4jVersion = "2.19.0"
