@@ -2,12 +2,9 @@ package com.dash.infra.rest
 
 import com.common.utils.AbstractIT
 import com.dash.app.controller.ErrorHandler
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -34,12 +31,12 @@ import java.util.stream.Stream
 class RestClientTest : AbstractIT() {
 
     @Autowired
-    private lateinit var proxyService: RestClient
-
-    private lateinit var mockServer: MockRestServiceServer
+    private lateinit var restClient: RestClient
 
     @Autowired
     private lateinit var restTemplate: RestTemplate
+
+    private lateinit var mockServer: MockRestServiceServer
 
     val testUrl = "http://url.com"
 
@@ -56,13 +53,14 @@ class RestClientTest : AbstractIT() {
     @Test
     fun testGetRequest() {
         val response = "response"
+
         mockServer.expect(ExpectedCount.once(), requestTo(URI(testUrl)))
             .andExpect(method(HttpMethod.GET))
             .andRespond(
                 withStatus(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON).body(response)
             )
-        val actualResponse = proxyService.getDataFromProxy(testUrl, String::class)
+        val actualResponse = restClient.getDataFromProxy(testUrl, String::class)
         assertEquals(response, actualResponse)
         mockServer.verify()
     }
@@ -77,7 +75,7 @@ class RestClientTest : AbstractIT() {
                     .contentType(MediaType.APPLICATION_JSON)
             )
         assertThrows(exceptionClass) {
-            proxyService.getDataFromProxy(testUrl, String::class)
+            restClient.getDataFromProxy(testUrl, String::class)
         }
         mockServer.verify()
     }
@@ -92,7 +90,7 @@ class RestClientTest : AbstractIT() {
                     .contentType(MediaType.APPLICATION_JSON)
             )
         assertThrows(exceptionClass) {
-            proxyService.postDataFromProxy(testUrl, "{}", String::class)
+            restClient.postDataFromProxy(testUrl, "{}", String::class)
         }
         mockServer.verify()
     }

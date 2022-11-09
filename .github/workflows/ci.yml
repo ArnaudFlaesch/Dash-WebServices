@@ -33,11 +33,6 @@ jobs:
           username: ${{ secrets.DOCKER_LOGIN }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Pull database image
-        run: |
-          docker pull postgres:13.2-alpine
-          docker run -p 5432:5432 -d --name=dash -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash postgres:13.2-alpine
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
@@ -46,8 +41,24 @@ jobs:
           ./gradlew detekt
           ./gradlew ktlintCheck
 
+      - name: Pull mock server
+        run: |
+          if [[ "$(git ls-remote --heads https://github.com/ArnaudFlaesch/Dash-MockServer ${GITHUB_REF#refs/*/} | wc -l)" == 1 && ${GITHUB_REF#refs/*/} != 'master' ]]; then
+            docker pull arnaudf93/dashmockserver:${GITHUB_REF#refs/*/}
+            docker run -p 5000:5000 -d arnaudf93/dashmockserver:${GITHUB_REF#refs/*/}
+          else
+            docker pull arnaudf93/dashmockserver:latest
+            docker run -p 5000:5000 -d arnaudf93/dashmockserver:latest
+          fi
+
       - name: Build with Gradle
         run: ./gradlew clean build -Dspring.profiles.active=test -Dspring.config.location=src/test/resources/application-test.properties
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: Test report
+          path: build/reports/tests/test
 
       - name: Report coverage
         run: |

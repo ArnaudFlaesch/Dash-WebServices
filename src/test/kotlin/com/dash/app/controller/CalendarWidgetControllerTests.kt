@@ -4,37 +4,26 @@ import com.common.utils.AbstractIT
 import com.common.utils.Constants.UNAUTHORIZED_ERROR
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.common.utils.TestEndpointsArguments
 import com.dash.app.controller.requests.CalendarUrlPayload
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers.equalTo
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
-import org.springframework.beans.factory.annotation.Autowired
+import org.mockito.Mockito
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.test.web.client.ExpectedCount
-import org.springframework.test.web.client.MockRestServiceServer
-import org.springframework.test.web.client.match.MockRestRequestMatchers.method
-import org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
-import org.springframework.test.web.client.response.MockRestResponseCreators.withStatus
 import org.springframework.web.client.RestTemplate
 import java.net.URI
-import java.util.stream.Stream
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
@@ -44,9 +33,7 @@ class CalendarWidgetControllerTests : AbstractIT() {
     @LocalServerPort
     private val port: Int = 0
 
-    private lateinit var mockServer: MockRestServiceServer
-
-    @Autowired
+    @MockBean
     private lateinit var restTemplate: RestTemplate
 
     private lateinit var jwtToken: String
@@ -125,24 +112,14 @@ class CalendarWidgetControllerTests : AbstractIT() {
     fun setup() {
         RestAssured.defaultParser = Parser.JSON
         jwtToken = IntegrationTestsUtils.authenticateAdmin(port).accessToken
-        mockServer = MockRestServiceServer.createServer(restTemplate)
-    }
-
-    @BeforeEach
-    fun resetMockServer() {
-        mockServer.reset()
     }
 
     @Test
     fun testGetCalendarData() {
         val calendarUrl = "https://calendar.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics"
 
-        mockServer.expect(ExpectedCount.once(), requestTo(URI(calendarUrl)))
-            .andExpect(method(HttpMethod.GET))
-            .andRespond(
-                withStatus(HttpStatus.OK)
-                    .body(mockedCalendarDataResponse)
-            )
+        Mockito.`when`(restTemplate.exchange(URI.create(calendarUrl), HttpMethod.GET, null, String::class.java))
+            .thenReturn(ResponseEntity(mockedCalendarDataResponse, HttpStatus.OK))
 
         val getCalendarDataResponse = given()
             .port(port)
@@ -158,18 +135,13 @@ class CalendarWidgetControllerTests : AbstractIT() {
             .extract().`as`(List::class.java)
 
         assertEquals(getCalendarDataResponse.size, 4)
-        mockServer.verify()
     }
 
     @Test
     fun testGetCalendarDataNullResponse() {
         val calendarUrl = "http://wrong_calendar_url.com"
 
-        mockServer.expect(ExpectedCount.once(), requestTo(URI(calendarUrl)))
-            .andExpect(method(HttpMethod.GET))
-            .andRespond(
-                withStatus(HttpStatus.OK)
-            )
+        Mockito.`when`(restTemplate.exchange(URI.create(calendarUrl), HttpMethod.GET, null, String::class.java)).thenReturn(ResponseEntity(HttpStatus.OK))
 
         given()
             .port(port)
@@ -181,30 +153,6 @@ class CalendarWidgetControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(200)
             .body(equalTo(""))
-            .log().all()
-
-        mockServer.verify()
-    }
-
-    @ParameterizedTest
-    @MethodSource("testGetCalendarDataErrorCodes")
-    fun testGetCalendarDataErrorCodes(urlStatusCodeResponse: HttpStatus, expectedStatusCode: Int) {
-        val url = "http://testwrongurl.com"
-
-        mockServer.expect(ExpectedCount.once(), requestTo(URI(url)))
-            .andExpect(method(HttpMethod.GET))
-            .andRespond(
-                withStatus(urlStatusCodeResponse)
-            )
-
-        given().port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .contentType(ContentType.JSON)
-            .body(CalendarUrlPayload(url))
-            .`when`()
-            .post(calendarWidgetEndpoint)
-            .then().log().all()
-            .statusCode(expectedStatusCode)
             .log().all()
     }
 
@@ -218,6 +166,4 @@ class CalendarWidgetControllerTests : AbstractIT() {
             .log().all()
             .body("error", equalTo(UNAUTHORIZED_ERROR))
     }
-
-    fun testGetCalendarDataErrorCodes(): Stream<Arguments> = TestEndpointsArguments.testForeignApiCodes()
 }

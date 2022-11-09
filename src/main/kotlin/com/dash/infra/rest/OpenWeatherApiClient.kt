@@ -19,8 +19,8 @@ class OpenWeatherApiClient {
     private lateinit var openWeatherMapKey: String
 
     companion object {
-        private const val weatherEndpoint = "weather"
-        private const val forecastEndpoint = "forecast"
+        private const val weatherEndpoint = "/weather"
+        private const val forecastEndpoint = "/forecast"
         private const val apiOptions = "?units=metric&lang=fr&appid="
     }
 
