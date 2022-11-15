@@ -3,7 +3,7 @@
 
 name: Gradle CI
 
-on: ["push"]
+on: [ "push" ]
 
 jobs:
   test:
