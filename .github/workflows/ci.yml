@@ -27,12 +27,6 @@ jobs:
           java-version: "16"
           distribution: "adopt"
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_LOGIN }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
@@ -41,14 +35,19 @@ jobs:
           ./gradlew detekt
           ./gradlew ktlintCheck
 
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
       - name: Pull mock server
         run: |
           if [[ "$(git ls-remote --heads https://github.com/ArnaudFlaesch/Dash-MockServer ${GITHUB_REF#refs/*/} | wc -l)" == 1 && ${GITHUB_REF#refs/*/} != 'master' ]]; then
-            docker pull arnaudf93/dashmockserver:${GITHUB_REF#refs/*/}
-            docker run -p 5000:5000 -d arnaudf93/dashmockserver:${GITHUB_REF#refs/*/}
+            docker run -p 5000:5000 -d ghcr.io/arnaudflaesch/dash-mockserver:${GITHUB_REF#refs/*/}
           else
-            docker pull arnaudf93/dashmockserver:latest
-            docker run -p 5000:5000 -d arnaudf93/dashmockserver:latest
+            docker run -p 5000:5000 -d ghcr.io/arnaudflaesch/dash-mockserver:latest
           fi
 
       - name: Build with Gradle
@@ -73,16 +72,23 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Docker build and push TEST
-        if: github.ref != 'refs/heads/master' && !contains(github.ref, 'renovate/')
-        run : |
-          docker build -t dashwebservices .
-          docker tag dashwebservices arnaudf93/dashwebservices:${GITHUB_REF#refs/*/}
-          docker push arnaudf93/dashwebservices:${GITHUB_REF#refs/*/}
-
-      - name: Docker build and push DEV
+      - name: Set Docker tag for release
+        run: |
+          echo "DOCKER_TAG_NAME=latest" >> $GITHUB_ENV
         if: github.ref == 'refs/heads/master'
-        run : |
-          docker build -t dashwebservices .
-          docker tag dashwebservices arnaudf93/dashwebservices:latest
-          docker push arnaudf93/dashwebservices:latest
+
+      - name: Set Docker tag for test
+        run: |
+          echo "DOCKER_TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        if: github.ref != 'refs/heads/master' && !contains(github.ref, 'renovate/')
+
+      - name: Lowercase the repo name and username
+        run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+
+      - name: Build and push container image to registry
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
+          file: ./Dockerfile
