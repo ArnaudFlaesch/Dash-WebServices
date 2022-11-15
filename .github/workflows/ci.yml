@@ -87,6 +87,7 @@ jobs:
 
       - name: Build and push container image to registry
         uses: docker/build-push-action@v3
+        if: !contains(github.ref, 'renovate/')
         with:
           context: .
           push: true
