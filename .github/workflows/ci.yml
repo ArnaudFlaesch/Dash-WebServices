@@ -3,7 +3,7 @@
 
 name: Gradle CI
 
-on: ["push"]
+on: [ "push" ]
 
 jobs:
   test:
@@ -53,7 +53,8 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build -Dspring.profiles.active=test -Dspring.config.location=src/test/resources/application-test.properties
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload test report
+        uses: actions/upload-artifact@v3
         if: always()
         with:
           name: Test report
@@ -86,7 +87,8 @@ jobs:
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
       - name: Build and push container image to registry
-        uses: docker/build-push-action@v2
+        if: success() && !contains(github.ref, 'renovate/')
+        uses: docker/build-push-action@v3
         with:
           context: .
           push: true
