@@ -100,7 +100,7 @@ jobs:
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
       - name: Build Docker image
-        run: docker build . --tag ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
+        run: docker build --tag ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}} .
 
       - name: Run Snyk to check Docker image for vulnerabilities
         # Snyk can be used to break the build when it detects vulnerabilities.
@@ -113,7 +113,7 @@ jobs:
           # or you can sign up for free at https://snyk.io/login
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          image: dash-webservices
+          image: ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
           args: --file=Dockerfile
 
       - name: Upload result to GitHub Code Scanning
