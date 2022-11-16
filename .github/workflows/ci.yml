@@ -81,7 +81,8 @@ jobs:
       runs-on: ubuntu-latest
 
     needs: test
-#    runs-on: ubuntu-latest
+  #  if: !contains(github.ref, 'renovate/')
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
