@@ -6,7 +6,7 @@ COPY ./src ./src
 RUN gradle assemble
 
 
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17.0.5_8-jre-alpine
 WORKDIR /dash-webservices
 EXPOSE 8080
 
