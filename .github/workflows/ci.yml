@@ -111,7 +111,6 @@ jobs:
       - name: Snyk monitor
         run: |
           snyk monitor
-          snyk monitor --file=Dockerfile
           snyk container monitor ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
