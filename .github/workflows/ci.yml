@@ -73,24 +73,52 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Set Docker tag for release
-        run: |
-          echo "DOCKER_TAG_NAME=latest" >> $GITHUB_ENV
-        if: github.ref == 'refs/heads/master'
+  build:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+      runs-on: ubuntu-latest
 
-      - name: Set Docker tag for test
-        run: |
-          echo "DOCKER_TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-        if: github.ref != 'refs/heads/master' && !contains(github.ref, 'renovate/')
+    if: !contains(github.ref, 'renovate/')
 
-      - name: Lowercase the repo name and username
-        run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+      steps:
+        - uses: actions/checkout@v3
 
-      - name: Build and push container image to registry
-        if: success() && !contains(github.ref, 'renovate/')
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          tags: ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
-          file: ./Dockerfile
+        - name: Set Docker tag for release
+          run: |
+            echo "DOCKER_TAG_NAME=latest" >> $GITHUB_ENV
+          if: github.ref == 'refs/heads/master'
+
+        - name: Set Docker tag for test
+          run: |
+            echo "DOCKER_TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          if: github.ref != 'refs/heads/master' && !contains(github.ref, 'renovate/')
+
+        - name: Lowercase the repo name and username
+          run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+
+        - name : Build Docker image
+          run: docker build -t dash-webservices .
+
+        - name: Run Snyk to check Docker image for vulnerabilities
+          # Snyk can be used to break the build when it detects vulnerabilities.
+          # In this case we want to upload the issues to GitHub Code Scanning
+          continue-on-error: true
+          uses: snyk/actions/docker@14818c4695ecc4045f33c9cee9e795a788711ca4
+          env:
+            # In order to use the Snyk Action you will need to have a Snyk API token.
+            # More details in https://github.com/snyk/actions#getting-your-snyk-token
+            # or you can signup for free at https://snyk.io/login
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          with:
+            image: your/image-to-test
+            args: --file=Dockerfile
+
+        - name: Upload result to GitHub Code Scanning
+          uses: github/codeql-action/upload-sarif@v2
+          with:
+            sarif_file: snyk.sarif
+
+        - name: Push container image to registry
+          run: docker push dash-webservices ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
