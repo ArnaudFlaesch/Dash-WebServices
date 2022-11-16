@@ -96,6 +96,11 @@ jobs:
           echo "DOCKER_TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
         if: github.ref != 'refs/heads/master' && !contains(github.ref, 'renovate/')
 
+      - name: Set Docker tag for Renovate branches
+        run: |
+          echo "DOCKER_TAG_NAME=renovate" >> $GITHUB_ENV
+        if: github.ref != 'refs/heads/master' && contains(github.ref, 'renovate/')
+
       - name: Lowercase the repo name and username
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
