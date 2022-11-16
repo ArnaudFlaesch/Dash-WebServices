@@ -39,7 +39,7 @@ class SteamWidgetAdapter {
         val paginatedGames = if (gamesList.isEmpty() || gamesList.size <= PAGE_SIZE) {
             gamesList
         } else {
-            var limit =
+            val limit =
                 if ((pageNumber + 1) * PAGE_SIZE < ownedGamesResponse.response.gameCount) {
                     (pageNumber + 1) * PAGE_SIZE
                 } else { ownedGamesResponse.response.gameCount - 1 }

@@ -13,7 +13,7 @@ L'application a pour but de proposer à un utilisateur de créer un dashboard su
 comme par exemple un lecteur de flux RSS, un calendrier listant des évènements à partir d'un lien ICal et un affichage
 de prévisions météorologiques. Il est possible de répartir ces widgets sur plusieurs onglets.
 
-Le projet est déployé via Github Pages et accessible à cette addresse : https://arnaudflaesch.github.io/Dash-Web/.
+Le projet est déployé via Github Pages et accessible à cette addresse : <https://arnaudflaesch.github.io/Dash-Web/>.
 Ce dépôt contient les sources de la partie backend de l'application, qui est accessible à
 l'addresse : https://dash-webservices.herokuapp.com/.
 
