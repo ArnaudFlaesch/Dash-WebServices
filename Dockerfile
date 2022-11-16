@@ -1,4 +1,11 @@
-FROM openjdk:20-ea-16-slim-bullseye
+FROM gradle:7.5.1-jdk17-alpine
+
+COPY pom.xml .
+COPY ./src ./src
+RUN gradle assemble
+
+
+FROM eclipse-temurin:17-jre-alpine
 EXPOSE 8080
 
 ADD ./build/libs/dash-webservices-*.jar dash-webservices.jar
