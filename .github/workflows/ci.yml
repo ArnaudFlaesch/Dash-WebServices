@@ -80,7 +80,6 @@ jobs:
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
       packages: write
 
-    if: success() && !contains(github.ref, 'renovate/')
     needs: test
     runs-on: ubuntu-latest
 
@@ -122,15 +121,11 @@ jobs:
         with:
           sarif_file: snyk.sarif
 
-      - name: Login to Github Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-
       - name: Push container image to registry
-        run: docker push ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
+        if: success() && !contains(github.ref, 'renovate/')
+        run: |
+          echo ${{ github.token }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          docker push ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
 
   codacy-security-scan:
     permissions:
