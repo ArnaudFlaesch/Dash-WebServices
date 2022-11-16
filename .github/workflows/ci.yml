@@ -172,6 +172,9 @@ jobs:
       - uses: snyk/actions/setup@master
         id: snyk
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
       - name: Snyk monitor
         run: snyk monitor
         env:
