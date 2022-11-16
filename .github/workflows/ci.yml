@@ -80,7 +80,7 @@ jobs:
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
       runs-on: ubuntu-latest
 
-    needs: build
+    needs: test
     if: !contains(github.ref, 'renovate/')
     runs-on: ubuntu-latest
 
@@ -100,7 +100,7 @@ jobs:
       - name: Lowercase the repo name and username
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
-      - name : Build Docker image
+      - name: Build Docker image
         run: docker build -t dash-webservices .
 
       - name: Run Snyk to check Docker image for vulnerabilities
