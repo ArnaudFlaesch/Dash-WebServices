@@ -52,7 +52,9 @@ jobs:
           
       - name: Docs
         run: |
+          docker run --name db -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash_test postgres:13.2-alpine
           ./gradlew generateOpenApiDocs
+          docker stop db
 
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
