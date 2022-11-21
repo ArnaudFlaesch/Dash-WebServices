@@ -86,6 +86,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Set up JDK 16
+        uses: actions/setup-java@v3
+        with:
+          java-version: "16"
+          distribution: "adopt"
+
       - name: Set Docker tag for release
         run: |
           echo "DOCKER_TAG_NAME=latest" >> $GITHUB_ENV
