@@ -42,7 +42,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
-      - name: Pull mock server
+      - name: Start mock server
         run: |
           if [[ "$(git ls-remote --heads https://github.com/ArnaudFlaesch/Dash-MockServer ${GITHUB_REF#refs/*/} | wc -l)" == 1 && ${GITHUB_REF#refs/*/} != 'master' ]]; then
             docker run -p 5000:5000 -d ghcr.io/arnaudflaesch/dash-mockserver:${GITHUB_REF#refs/*/}

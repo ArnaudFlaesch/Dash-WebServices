@@ -7,6 +7,7 @@ val springBootVersion = "2.7.5"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.7"
 
+val springDocVersion = "1.6.4"
 val jacksonVersion = "2.14.0"
 val log4jVersion = "2.19.0"
 
@@ -61,6 +62,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     implementation ("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation ("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
+
+    implementation ("org.springdoc:springdoc-openapi-ui:$springDocVersion")
 
     implementation ("io.jsonwebtoken:jjwt:$jwtVersion")
     implementation("org.mnode.ical4j:ical4j:$ical4jVersion")
