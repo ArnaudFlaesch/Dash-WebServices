@@ -138,6 +138,12 @@ detekt {
     autoCorrect = true
 }
 
+openApi {
+    customBootRun {
+        args.set(listOf("--spring.config.location=src/test/resources/application-test.properties"))
+    }
+}
+
 val ktLintOutputDir = "${project.buildDir}/reports/ktlint/"
 val inputFiles = project.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
 
