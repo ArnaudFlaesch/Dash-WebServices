@@ -7,6 +7,7 @@ val springBootVersion = "2.7.5"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.7"
 
+val springDocVersion = "1.6.4"
 val jacksonVersion = "2.14.0"
 val log4jVersion = "2.19.0"
 
@@ -31,10 +32,12 @@ plugins {
     val springDependencyManagementVersion = "1.1.0"
     val codacyPluginVersion = "0.1.0"
     val detektVersion = "1.19.0"
+    val springDocGradlePluginVersion = "1.5.0"
 
     jacoco
     id("org.springframework.boot") version springBootVersion
     id("io.spring.dependency-management") version springDependencyManagementVersion
+    id ("org.springdoc.openapi-gradle-plugin") version springDocGradlePluginVersion
     id("io.github.ddimtirov.codacy") version codacyPluginVersion
     id("io.gitlab.arturbosch.detekt") version detektVersion
     kotlin("jvm") version kotlinVersion
@@ -59,6 +62,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     implementation ("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation ("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
+
+    implementation ("org.springdoc:springdoc-openapi-ui:$springDocVersion")
 
     implementation ("io.jsonwebtoken:jjwt:$jwtVersion")
     implementation("org.mnode.ical4j:ical4j:$ical4jVersion")
@@ -134,6 +139,12 @@ detekt {
     allRules = false // activate all available (even unstable) rules.
     config = files(file("$projectDir/detekt.yml"))
     autoCorrect = true
+}
+
+openApi {
+    customBootRun {
+        args.set(listOf("--spring.config.location=src/test/resources/application-test.properties"))
+    }
 }
 
 val ktLintOutputDir = "${project.buildDir}/reports/ktlint/"

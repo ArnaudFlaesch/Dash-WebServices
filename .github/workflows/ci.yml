@@ -42,7 +42,27 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
-      - name: Pull mock server
+      - name: Generate OpenAPI docs
+        if: success() && github.ref == 'refs/heads/master'
+        run: |
+          docker run --name db -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash_test postgres:13.2-alpine
+          ./gradlew generateOpenApiDocs
+          docker stop db
+
+      - name: Generate Swagger UI
+        uses: Legion2/swagger-ui-action@v1
+        if: success() && github.ref == 'refs/heads/master'
+        with:
+          output: swagger-ui
+          spec-file: build/openapi.json
+
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v1
+        if: success() && github.ref == 'refs/heads/master'
+        with:
+          path: ./swagger-ui
+
+      - name: Start mock server
         run: |
           if [[ "$(git ls-remote --heads https://github.com/ArnaudFlaesch/Dash-MockServer ${GITHUB_REF#refs/*/} | wc -l)" == 1 && ${GITHUB_REF#refs/*/} != 'master' ]]; then
             docker run -p 5000:5000 -d ghcr.io/arnaudflaesch/dash-mockserver:${GITHUB_REF#refs/*/}
@@ -55,7 +75,7 @@ jobs:
 
       - name: Upload test report
         uses: actions/upload-artifact@v3
-        if: always()
+        if: failure()
         with:
           name: Test report
           path: build/reports/tests/test
@@ -157,6 +177,25 @@ jobs:
         run: |
           echo ${{ github.token }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           docker push ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
+
+  deploy:
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+
+    needs: ["test", "build"]
+    runs-on: ubuntu-latest
+    if: success() && github.ref == 'refs/heads/master'
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
+
 
   codacy-security-scan:
     permissions:

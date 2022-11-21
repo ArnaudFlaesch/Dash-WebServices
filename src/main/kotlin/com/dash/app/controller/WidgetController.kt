@@ -30,8 +30,8 @@ class WidgetController {
         widgetService.updateWidgetData(widgetId, updateWidgetDataPayload.data)
 
     @PostMapping("/updateWidgetsOrder")
-    fun updateWidgetsOrder(@RequestBody widgetEntities: List<WidgetDomain>): List<WidgetDomain> =
-        widgetService.updateWidgetsOrder(widgetEntities)
+    fun updateWidgetsOrder(@RequestBody widgetsData: List<WidgetDomain>): List<WidgetDomain> =
+        widgetService.updateWidgetsOrder(widgetsData)
 
     @DeleteMapping("/deleteWidget")
     fun deleteWidget(@RequestParam(value = "id") id: Int) = widgetService.deleteWidget(id)

@@ -1,7 +1,6 @@
 package com.dash.domain.service
 
 import com.common.domain.service.UserService
-import com.dash.domain.mapping.TabMapper
 import com.dash.domain.model.TabDomain
 import com.dash.infra.entity.RoleEntity
 import com.dash.infra.entity.TabEntity
@@ -23,15 +22,10 @@ class TabService {
     @Autowired
     private lateinit var userService: UserService
 
-    @Autowired
-    private lateinit var tabMapper: TabMapper
-
     fun getTabs(): List<TabDomain> {
         val userId = userService.getCurrentAuthenticatedUserId()
         return tabRepository.findByUserIdOrderByTabOrderAsc(userId).map(TabEntity::toDomain)
     }
-
-    fun getTabById(tabId: Int): TabDomain = (tabRepository.getReferenceById(tabId).toDomain())
 
     fun addTab(tabLabel: String): TabDomain {
         val currentAuthenticatedUser = userService.getCurrentAuthenticatedUser()
@@ -48,7 +42,7 @@ class TabService {
 
     fun saveTabs(tabList: List<TabDomain>): List<TabDomain> =
         tabList
-            .map(tabMapper::mapTabDomainToTabEntity)
+            .map(this::mapTabDomainToTabEntity)
             .map(tabRepository::save)
             .map(TabEntity::toDomain)
 
@@ -68,4 +62,11 @@ class TabService {
         val tab = tabRepository.getReferenceById(id)
         return tabRepository.delete(tab)
     }
+
+    private fun mapTabDomainToTabEntity(tabDomain: TabDomain): TabEntity = TabEntity(
+        id = tabDomain.id,
+        label = tabDomain.label,
+        tabOrder = tabDomain.tabOrder,
+        user = userService.getUserById(tabDomain.userId)
+    )
 }
