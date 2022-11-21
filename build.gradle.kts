@@ -31,10 +31,12 @@ plugins {
     val springDependencyManagementVersion = "1.1.0"
     val codacyPluginVersion = "0.1.0"
     val detektVersion = "1.19.0"
+    val springDocGradlePluginVersion = "1.5.0"
 
     jacoco
     id("org.springframework.boot") version springBootVersion
     id("io.spring.dependency-management") version springDependencyManagementVersion
+    id ("org.springdoc.openapi-gradle-plugin") version springDocGradlePluginVersion
     id("io.github.ddimtirov.codacy") version codacyPluginVersion
     id("io.gitlab.arturbosch.detekt") version detektVersion
     kotlin("jvm") version kotlinVersion
