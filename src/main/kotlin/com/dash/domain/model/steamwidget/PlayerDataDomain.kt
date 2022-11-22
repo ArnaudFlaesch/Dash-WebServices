@@ -1,4 +1,4 @@
-package com.dash.domain.model.steamWidget
+package com.dash.domain.model.steamwidget
 
 data class PlayerDataDomain(
     val personaname: String,
