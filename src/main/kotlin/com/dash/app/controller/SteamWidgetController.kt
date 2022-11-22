@@ -32,5 +32,4 @@ class SteamWidgetController {
         @RequestParam(value = "appId") appId: String,
         @RequestParam(value = "steamUserId") steamUserId: String
     ): AchievementDataDomain = steamWidgetService.getAchievementList(appId, steamUserId)
-
 }

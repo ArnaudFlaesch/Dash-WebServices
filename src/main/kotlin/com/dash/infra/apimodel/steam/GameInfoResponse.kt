@@ -10,7 +10,6 @@ data class GameInfoResponse(
 ) {
     fun toDomain(): GameDataDomain =
         GameDataDomain(gameCount = this.response.gameCount, games = this.response.games.map(GameInfoApi::toDomain))
-
 }
 
 data class GameDataApi(
