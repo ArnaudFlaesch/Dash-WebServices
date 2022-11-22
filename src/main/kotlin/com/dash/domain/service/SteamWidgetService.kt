@@ -1,6 +1,6 @@
 package com.dash.domain.service
 
-import com.dash.domain.model.steamWidget.*
+import com.dash.domain.model.steamwidget.*
 import com.dash.infra.adapter.SteamWidgetAdapter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

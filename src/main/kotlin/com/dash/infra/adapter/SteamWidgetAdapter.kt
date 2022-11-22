@@ -1,9 +1,8 @@
 package com.dash.infra.adapter
 
-import com.dash.domain.mapping.SteamWidgetMapper
-import com.dash.domain.model.steamWidget.AchievementDataDomain
-import com.dash.domain.model.steamWidget.GameDataDomain
-import com.dash.domain.model.steamWidget.PlayerDataDomain
+import com.dash.domain.model.steamwidget.AchievementDataDomain
+import com.dash.domain.model.steamwidget.GameDataDomain
+import com.dash.domain.model.steamwidget.PlayerDataDomain
 import com.dash.infra.apimodel.steam.AchievementDataResponse
 import com.dash.infra.apimodel.steam.GameInfoApi
 import com.dash.infra.apimodel.steam.GameInfoResponse
@@ -18,16 +17,13 @@ class SteamWidgetAdapter {
     @Autowired
     private lateinit var steamApiClient: SteamApiClient
 
-    @Autowired
-    private lateinit var steamWidgetMapper: SteamWidgetMapper
-
     companion object {
         private const val PAGE_SIZE = 25
     }
 
     fun getPlayerData(steamUserId: String): List<PlayerDataDomain> {
         val playerDataResponse = steamApiClient.getPlayerData(steamUserId) ?: PlayersDataApiResponse()
-        return steamWidgetMapper.playersDataResponseToDomain(playerDataResponse)
+        return playerDataResponse.toDomain()
     }
 
     fun getOwnedGames(steamUserId: String, search: String, pageNumber: Int): GameDataDomain {
@@ -53,11 +49,11 @@ class SteamWidgetAdapter {
                 games = paginatedGames
             )
         )
-        return steamWidgetMapper.gameDataResponseToDomain(filteredResponse)
+        return filteredResponse.toDomain()
     }
 
     fun getAchievementList(appId: String, steamUserId: String): AchievementDataDomain {
         val achievementsDataResponse = steamApiClient.getAchievementList(appId, steamUserId) ?: AchievementDataResponse()
-        return steamWidgetMapper.achievementsApiResponseToDomain(achievementsDataResponse)
+        return achievementsDataResponse.toDomain()
     }
 }

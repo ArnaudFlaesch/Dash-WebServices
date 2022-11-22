@@ -3,8 +3,8 @@ package com.dash.app.controller
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.dash.domain.model.steamWidget.AchievementDataDomain
-import com.dash.domain.model.steamWidget.GameDataDomain
+import com.dash.domain.model.steamwidget.AchievementDataDomain
+import com.dash.domain.model.steamwidget.GameDataDomain
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.Header
