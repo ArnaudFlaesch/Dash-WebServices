@@ -89,3 +89,15 @@ databaseChangeLog:
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
+  - changeSet:
+      id: 8
+      author: aflaesch
+      comment: FT-306 Twitter widget
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            path: /db/changelog/1.0/ft-306-twitter-widget.sql
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true

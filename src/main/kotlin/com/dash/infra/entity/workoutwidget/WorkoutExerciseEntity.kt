@@ -1,5 +1,6 @@
 package com.dash.infra.entity.workoutwidget
 
+import com.dash.domain.model.workoutwidget.WorkoutExerciseDomain
 import java.io.Serializable
 import javax.persistence.*
 
@@ -17,7 +18,14 @@ data class WorkoutExerciseEntity(
     @ManyToOne
     @JoinColumn(name = "workout_type_id", insertable = false, updatable = false)
     var workoutType: WorkoutTypeEntity? = null
-)
+) {
+    fun toDomain(): WorkoutExerciseDomain =
+        WorkoutExerciseDomain(
+            workoutSessionId = this.workoutExerciseId.workoutSessionId,
+            workoutTypeId = this.workoutExerciseId.workoutTypeId,
+            numberOfReps = this.numberOfReps
+        )
+}
 
 @Embeddable
 data class WorkoutExerciseEntityId(

@@ -12,13 +12,6 @@ class WorkoutTypeMapper {
     @Autowired
     private lateinit var userService: UserService
 
-    fun mapEntityToDomain(workoutTypeEntity: WorkoutTypeEntity): WorkoutTypeDomain =
-        WorkoutTypeDomain(
-            id = workoutTypeEntity.id,
-            name = workoutTypeEntity.name,
-            userId = workoutTypeEntity.user.id
-        )
-
     fun mapDomainToEntity(workoutTypeDomain: WorkoutTypeDomain): WorkoutTypeEntity =
         WorkoutTypeEntity(
             id = workoutTypeDomain.id,

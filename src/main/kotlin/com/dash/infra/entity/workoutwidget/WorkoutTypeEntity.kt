@@ -1,5 +1,6 @@
 package com.dash.infra.entity.workoutwidget
 
+import com.dash.domain.model.workoutwidget.WorkoutTypeDomain
 import com.dash.infra.entity.UserEntity
 import javax.persistence.*
 
@@ -18,4 +19,11 @@ data class WorkoutTypeEntity(
     @ManyToOne(optional = true)
     @JoinColumn(name = "userId")
     val user: UserEntity
-)
+) {
+    fun toDomain(): WorkoutTypeDomain =
+        WorkoutTypeDomain(
+            id = this.id,
+            name = this.name,
+            userId = this.user.id
+        )
+}

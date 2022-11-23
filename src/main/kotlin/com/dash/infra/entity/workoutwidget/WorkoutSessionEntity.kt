@@ -1,5 +1,6 @@
 package com.dash.infra.entity.workoutwidget
 
+import com.dash.domain.model.workoutwidget.WorkoutSessionDomain
 import com.dash.infra.entity.UserEntity
 import java.time.LocalDate
 import javax.persistence.*
@@ -19,4 +20,11 @@ data class WorkoutSessionEntity(
     @ManyToOne(optional = true)
     @JoinColumn(name = "userId")
     val user: UserEntity
-)
+) {
+    fun toDomain(): WorkoutSessionDomain =
+        WorkoutSessionDomain(
+            id = this.id,
+            workoutDate = this.workoutDate,
+            userId = this.user.id
+        )
+}
