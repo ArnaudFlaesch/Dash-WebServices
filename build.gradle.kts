@@ -31,7 +31,7 @@ plugins {
     val springBootVersion = "2.7.6"
     val springDependencyManagementVersion = "1.1.0"
     val codacyPluginVersion = "0.1.0"
-    val detektVersion = "1.19.0"
+    val detektVersion = "1.22.0"
     val springDocGradlePluginVersion = "1.5.0"
 
     jacoco
