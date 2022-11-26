@@ -30,7 +30,7 @@ plugins {
     val kotlinVersion = "1.7.21"
     val springBootVersion = "2.7.6"
     val springDependencyManagementVersion = "1.1.0"
-    val koverVersion = "0.5.1"
+    val koverVersion = "0.6.0-Beta"
     val codacyPluginVersion = "0.1.0"
     val detektVersion = "1.19.0"
     val springDocGradlePluginVersion = "1.5.0"
@@ -133,6 +133,10 @@ detekt {
     allRules = false // activate all available (even unstable) rules.
     config = files(file("$projectDir/detekt.yml"))
     autoCorrect = true
+}
+
+kover {
+    engine.set(kotlinx.kover.api.IntellijEngine("1.0.689"))
 }
 
 openApi {
