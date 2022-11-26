@@ -104,6 +104,7 @@ tasks.withType<BootRun> {
 tasks.withType<Test> {
     environment("spring.config.location", "src/test/resources/application-test.properties")
     useJUnitPlatform()
+    finalizedBy(tasks.koverReport) // report is always generated after tests run
 }
 
 tasks.withType<KotlinCompile> {
