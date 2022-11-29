@@ -31,6 +31,8 @@ class TwitterRepositoryTests : AbstractIT() {
         val followedUsersList = twitterWidgetRepository.searchFollowedUsers("", userId)
         assertThat(followedUsersList).hasSize(2)
         assertThat(followedUsersList[0].userHandle).isEqualTo("Nono")
+        assertThat(followedUsersList[0].user.id).isEqualTo(userId)
         assertThat(followedUsersList[1].userHandle).isEqualTo("Nono2")
+        assertThat(followedUsersList[1].user.id).isEqualTo(userId)
     }
 }
