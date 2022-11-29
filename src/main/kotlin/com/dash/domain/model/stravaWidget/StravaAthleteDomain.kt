@@ -3,7 +3,7 @@ package com.dash.domain.model.stravaWidget
 import java.time.LocalDate
 
 data class StravaAthleteDomain(
-    val id: Double,
+    val id: Int,
     val username: String,
     val resourceState: Int,
     val firstname: String,

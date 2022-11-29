@@ -4,13 +4,7 @@ import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.dash.app.controller.requests.twitterWidget.AddUserToFollowPayload
-import com.dash.app.controller.requests.workoutWidget.AddWorkoutTypePayload
-import com.dash.app.controller.requests.workoutWidget.CreateWorkoutSessionPayload
-import com.dash.app.controller.requests.workoutWidget.UpdateWorkoutExercisePayload
 import com.dash.domain.model.twitterwidget.FollowedUser
-import com.dash.domain.model.workoutwidget.WorkoutExerciseDomain
-import com.dash.domain.model.workoutwidget.WorkoutSessionDomain
-import com.dash.domain.model.workoutwidget.WorkoutTypeDomain
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
@@ -26,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.time.LocalDate
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)

@@ -29,7 +29,7 @@ data class StravaAthleteResponse(
 ) {
     fun toDomain(): StravaAthleteDomain =
         StravaAthleteDomain(
-            id = this.id,
+            id = this.id.toInt(),
             username = this.username,
             resourceState = this.resourceState,
             firstname = this.firstname,

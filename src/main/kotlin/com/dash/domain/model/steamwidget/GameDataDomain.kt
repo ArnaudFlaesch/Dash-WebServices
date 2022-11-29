@@ -1,7 +1,5 @@
 package com.dash.domain.model.steamwidget
 
-import com.dash.infra.apimodel.steam.GameInfoApi
-
 data class GameDataDomain(
     val gameCount: Int,
     val games: List<GameInfoDomain>
