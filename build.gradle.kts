@@ -16,7 +16,7 @@ val postgresqlVersion = "42.5.1"
 val gsonVersion = "2.10"
 
 val restAssuredVersion = "4.5.1"
-val mockitoKotlinVersion = "4.0.0"
+val mockitoKotlinVersion = "4.1.0"
 val junitVersion = "5.9.1"
 val hibernateTypesVersion = "2.20.0"
 val testContainersVersion = "1.17.6"
@@ -27,7 +27,7 @@ val ktlintVersion = "0.47.1"
 val ktlint: Configuration by configurations.creating
 
 plugins {
-    val kotlinVersion = "1.7.21"
+    val kotlinVersion = "1.7.22"
     val springBootVersion = "2.7.6"
     val springDependencyManagementVersion = "1.1.0"
     val koverVersion = "0.6.0-Beta"
