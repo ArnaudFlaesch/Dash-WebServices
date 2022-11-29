@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
-class TwitterRepositoryTests: AbstractIT() {
+class TwitterRepositoryTests : AbstractIT() {
 
     @Autowired
     private lateinit var twitterWidgetRepository: TwitterWidgetRepository
