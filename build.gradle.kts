@@ -31,7 +31,6 @@ plugins {
     val springBootVersion = "2.7.6"
     val springDependencyManagementVersion = "1.1.0"
     val koverVersion = "0.6.0-Beta"
-    val codacyPluginVersion = "0.1.0"
     val detektVersion = "1.19.0"
     val springDocGradlePluginVersion = "1.5.0"
 
@@ -39,7 +38,6 @@ plugins {
     id("io.spring.dependency-management") version springDependencyManagementVersion
     id ("org.springdoc.openapi-gradle-plugin") version springDocGradlePluginVersion
     id("org.jetbrains.kotlinx.kover") version koverVersion
-    id("io.github.ddimtirov.codacy") version codacyPluginVersion
     id("io.gitlab.arturbosch.detekt") version detektVersion
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion

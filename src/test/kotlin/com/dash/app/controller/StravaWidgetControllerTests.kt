@@ -120,13 +120,14 @@ class StravaWidgetControllerTests : AbstractIT() {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class GetAthleteActivitiesTests {
 
-        @Test
-        fun should_get_athlete_activities() {
+        @ParameterizedTest
+        @MethodSource("getActivitiesArguments")
+        fun should_get_athlete_activities(params: Map<String, Any>, expectedSize: Int) {
             val actual = given()
                 .port(port)
                 .contentType(ContentType.JSON)
                 .header(createAuthenticationHeader(jwtToken))
-                .param("token", "VALID_TOKEN")
+                .params(params)
                 .`when`()
                 .get("$stravaWidgetEndpoint/getAthleteActivities")
                 .then().log().all()
@@ -134,7 +135,14 @@ class StravaWidgetControllerTests : AbstractIT() {
                 .log().all()
                 .extract().`as`(object : TypeRef<List<StravaActivityDomain>>() {})
 
-            assertEquals(6, actual.size)
+            assertEquals(expectedSize, actual.size)
         }
+
+        fun getActivitiesArguments(): Stream<Arguments> =
+            Stream.of(
+                Arguments.arguments(mapOf("token" to "VALID_TOKEN"), 6),
+                Arguments.arguments(mapOf("token" to "VALID_TOKEN", "numberOfActivities" to 25), 6)
+
+            )
     }
 }
