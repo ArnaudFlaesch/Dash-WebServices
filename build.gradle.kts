@@ -2,8 +2,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 import io.gitlab.arturbosch.detekt.Detekt
 
-val kotlinVersion = "1.5.10"
-val springBootVersion = "2.7.5"
+val kotlinVersion = "1.7.22"
+val springBootVersion = "2.7.6"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.7"
 
@@ -21,26 +21,26 @@ val junitVersion = "5.9.1"
 val hibernateTypesVersion = "2.20.0"
 val testContainersVersion = "1.17.6"
 
-val detektVersion = "1.19.0"
+val detektVersion = "1.22.0"
 val ktlintVersion = "0.47.1"
 
 val ktlint: Configuration by configurations.creating
 
 plugins {
-    val kotlinVersion = "1.7.22"
-    val springBootVersion = "2.7.6"
-    val springDependencyManagementVersion = "1.1.0"
-    val detektVersion = "1.22.0"
+    val kotlinPluginVersion = "1.7.22"
+    val springBootPluginVersion = "2.7.6"
+    val springDependencyManagementPluginVersion = "1.1.0"
+    val detektPluginVersion = "1.22.0"
     val springDocGradlePluginVersion = "1.5.0"
 
     jacoco
-    id("org.springframework.boot") version springBootVersion
-    id("io.spring.dependency-management") version springDependencyManagementVersion
+    id("org.springframework.boot") version springBootPluginVersion
+    id("io.spring.dependency-management") version springDependencyManagementPluginVersion
     id ("org.springdoc.openapi-gradle-plugin") version springDocGradlePluginVersion
-    id("io.gitlab.arturbosch.detekt") version detektVersion
-    kotlin("jvm") version kotlinVersion
-    kotlin("plugin.spring") version kotlinVersion
-    kotlin("plugin.jpa") version kotlinVersion
+    id("io.gitlab.arturbosch.detekt") version detektPluginVersion
+    kotlin("jvm") version kotlinPluginVersion
+    kotlin("plugin.spring") version kotlinPluginVersion
+    kotlin("plugin.jpa") version kotlinPluginVersion
 }
 
 group = "com.dash"
