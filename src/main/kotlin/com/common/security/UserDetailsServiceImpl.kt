@@ -10,7 +10,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserDetailsServiceImpl(
-    private val userRepository: UserRepository) : UserDetailsService {
+    private val userRepository: UserRepository
+) : UserDetailsService {
 
     @Transactional
     @Throws(UsernameNotFoundException::class)
