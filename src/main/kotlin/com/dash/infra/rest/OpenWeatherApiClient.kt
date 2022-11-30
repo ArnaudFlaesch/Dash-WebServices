@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
-class OpenWeatherApiClient(private val restClient: RestClient) {
-
+class OpenWeatherApiClient(
+    private val restClient: RestClient,
     @Value("\${dash.app.OPENWEATHERMAP_API_URL}")
-    private lateinit var weatherApiUrl: String
-
+    private val weatherApiUrl: String,
     @Value("\${dash.app.OPENWEATHERMAP_KEY}")
-    private lateinit var openWeatherMapKey: String
+    private val openWeatherMapKey: String
+) {
 
     companion object {
         private const val weatherEndpoint = "/weather"

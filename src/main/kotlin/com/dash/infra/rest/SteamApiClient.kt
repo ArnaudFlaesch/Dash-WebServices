@@ -7,13 +7,14 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
-class SteamApiClient(private val restClient: RestClient) {
-
+class SteamApiClient(
+    private val restClient: RestClient,
     @Value("\${dash.app.STEAM_API_URL}")
-    private lateinit var steamApiUrl: String
-
+    private val steamApiUrl: String,
     @Value("\${dash.app.STEAM_API_KEY}")
-    private lateinit var steamApiKey: String
+    private val steamApiKey: String
+) {
+
 
     companion object {
         private const val getPlayerSummariesUrl = "/ISteamUser/GetPlayerSummaries/v0002/"
