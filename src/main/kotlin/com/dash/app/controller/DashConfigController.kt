@@ -9,7 +9,6 @@ import com.dash.domain.service.TabService
 import com.dash.domain.service.WidgetService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -19,16 +18,11 @@ import org.springframework.web.multipart.MultipartFile
 @RestController
 @CrossOrigin(origins = ["*"])
 @RequestMapping("/dashConfig")
-class DashConfigController {
-
-    @Autowired
-    private lateinit var tabService: TabService
-
-    @Autowired
-    private lateinit var widgetService: WidgetService
-
-    @Autowired
-    private lateinit var userService: UserService
+class DashConfigController(
+    private val tabService: TabService,
+    private val widgetService: WidgetService,
+    private val userService: UserService
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java.name)
 

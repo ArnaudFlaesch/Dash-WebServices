@@ -7,14 +7,12 @@ import com.dash.infra.apimodel.strava.StravaActivityResponse
 import com.dash.infra.apimodel.strava.StravaAthleteResponse
 import com.dash.infra.apimodel.strava.StravaTokenDataResponse
 import com.dash.infra.rest.StravaApiClient
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class StravaWidgetAdapter {
-
-    @Autowired
-    private lateinit var stravaApiClient: StravaApiClient
+class StravaWidgetAdapter(
+    private val stravaApiClient: StravaApiClient
+) {
 
     fun getToken(apiCode: String): StravaTokenDataDomain {
         val getTokenResponse = stravaApiClient.getToken(apiCode) ?: StravaTokenDataResponse()

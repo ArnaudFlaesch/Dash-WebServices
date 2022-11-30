@@ -2,7 +2,6 @@ package com.common.security
 
 import com.common.infra.repository.UserRepository
 import com.dash.infra.entity.UserEntity
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -12,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class UserDetailsServiceImpl : UserDetailsService {
 
-    @Autowired
-    private lateinit var userRepository: UserRepository
+    private val userRepository: UserRepository
 
     @Transactional
     @Throws(UsernameNotFoundException::class)

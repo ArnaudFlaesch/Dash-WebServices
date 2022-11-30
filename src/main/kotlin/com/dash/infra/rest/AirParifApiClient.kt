@@ -1,6 +1,5 @@
 package com.dash.infra.rest
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
@@ -10,10 +9,7 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class AirParifApiClient {
-
-    @Autowired
-    private lateinit var restClient: RestClient
+class AirParifApiClient(private val restClient: RestClient) {
 
     @Value("\${dash.app.AIRPARIF_API_URL}")
     private lateinit var airParifApiUrl: String

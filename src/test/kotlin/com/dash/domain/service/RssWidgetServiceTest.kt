@@ -5,7 +5,6 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
@@ -15,10 +14,7 @@ import org.springframework.web.client.RestTemplate
 import java.net.URI
 
 @ExtendWith(SpringExtension::class)
-class RssWidgetServiceTest : AbstractIT() {
-
-    @Autowired
-    private lateinit var rssWidgetService: RssWidgetService
+class RssWidgetServiceTest(private val rssWidgetService: RssWidgetService) : AbstractIT() {
 
     @MockBean
     private lateinit var restTemplate: RestTemplate

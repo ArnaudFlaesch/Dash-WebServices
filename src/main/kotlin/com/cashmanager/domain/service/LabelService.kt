@@ -3,20 +3,16 @@ package com.cashmanager.domain.service
 import com.cashmanager.domain.model.LabelDomain
 import com.cashmanager.infra.adapter.LabelPersistenceAdapter
 import com.common.domain.service.UserService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
 class LabelService {
 
-    @Autowired
-    private lateinit var labelPersistenceAdapter: LabelPersistenceAdapter
+    private val labelPersistenceAdapter: LabelPersistenceAdapter
 
-    @Autowired
-    private lateinit var expenseService: ExpenseService
+    private val expenseService: ExpenseService
 
-    @Autowired
-    private lateinit var userService: UserService
+    private val userService: UserService
 
     fun getLabels(): List<LabelDomain> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUserId()

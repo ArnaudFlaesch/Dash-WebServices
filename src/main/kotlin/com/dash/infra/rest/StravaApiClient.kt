@@ -3,7 +3,6 @@ package com.dash.infra.rest
 import com.dash.infra.apimodel.strava.StravaActivityResponse
 import com.dash.infra.apimodel.strava.StravaAthleteResponse
 import com.dash.infra.apimodel.strava.StravaTokenDataResponse
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
@@ -13,10 +12,7 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class StravaApiClient {
-
-    @Autowired
-    private lateinit var restClient: RestClient
+class StravaApiClient(private val restClient: RestClient) {
 
     @Value("\${dash.app.STRAVA_API_URL}")
     private lateinit var stravaApiUrl: String

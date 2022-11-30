@@ -2,15 +2,11 @@ package com.dash.infra.rest
 
 import com.dash.infra.apimodel.openweather.OpenWeatherForecastResponse
 import com.dash.infra.apimodel.openweather.OpenWeatherWeatherResponse
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
-class OpenWeatherApiClient {
-
-    @Autowired
-    private lateinit var restClient: RestClient
+class OpenWeatherApiClient(private val restClient: RestClient) {
 
     @Value("\${dash.app.OPENWEATHERMAP_API_URL}")
     private lateinit var weatherApiUrl: String

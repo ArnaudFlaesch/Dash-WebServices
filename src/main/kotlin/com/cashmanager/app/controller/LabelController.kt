@@ -3,16 +3,12 @@ package com.cashmanager.app.controller
 import com.cashmanager.app.controller.requests.InsertLabelPayload
 import com.cashmanager.domain.model.LabelDomain
 import com.cashmanager.domain.service.LabelService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/label")
 @CrossOrigin(origins = ["*"])
-class LabelController {
-
-    @Autowired
-    private lateinit var labelService: LabelService
+class LabelController(private val labelService: LabelService) {
 
     @GetMapping("/")
     fun getLabels(): List<LabelDomain> = (labelService.getLabels())

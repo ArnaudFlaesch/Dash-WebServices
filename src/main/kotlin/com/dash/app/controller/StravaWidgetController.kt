@@ -6,16 +6,14 @@ import com.dash.domain.model.stravaWidget.StravaActivityDomain
 import com.dash.domain.model.stravaWidget.StravaAthleteDomain
 import com.dash.domain.model.stravaWidget.StravaTokenDataDomain
 import com.dash.domain.service.StravaWidgetService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @CrossOrigin(origins = ["*"])
 @RequestMapping("/stravaWidget")
-class StravaWidgetController {
-
-    @Autowired
-    private lateinit var stravaWidgetService: StravaWidgetService
+class StravaWidgetController(
+    private val stravaWidgetService: StravaWidgetService
+) {
 
     @PostMapping("/getToken")
     fun getToken(@RequestBody getStravaTokenPayload: GetStravaTokenPayload): StravaTokenDataDomain =

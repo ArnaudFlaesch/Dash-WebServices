@@ -7,20 +7,16 @@ import com.dash.infra.entity.TabEntity
 import com.dash.infra.entity.UserEntity
 import com.dash.infra.repository.TabRepository
 import com.dash.infra.repository.WidgetRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
 class TabService {
 
-    @Autowired
-    private lateinit var tabRepository: TabRepository
+    private val tabRepository: TabRepository
 
-    @Autowired
-    private lateinit var widgetRepository: WidgetRepository
+    private val widgetRepository: WidgetRepository
 
-    @Autowired
-    private lateinit var userService: UserService
+    private val userService: UserService
 
     fun getTabs(): List<TabDomain> {
         val userId = userService.getCurrentAuthenticatedUserId()

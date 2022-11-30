@@ -3,15 +3,11 @@ package com.dash.infra.rest
 import com.dash.infra.apimodel.steam.AchievementDataResponse
 import com.dash.infra.apimodel.steam.GameInfoResponse
 import com.dash.infra.apimodel.steam.PlayersDataApiResponse
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
-class SteamApiClient {
-
-    @Autowired
-    private lateinit var restClient: RestClient
+class SteamApiClient(private val restClient: RestClient) {
 
     @Value("\${dash.app.STEAM_API_URL}")
     private lateinit var steamApiUrl: String

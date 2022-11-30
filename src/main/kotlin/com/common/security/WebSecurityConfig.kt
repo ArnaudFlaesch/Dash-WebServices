@@ -1,6 +1,5 @@
 package com.common.security
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -20,11 +19,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
-    @Autowired
-    private lateinit var userDetailsService: UserDetailsService
+    private val userDetailsService: UserDetailsService
 
-    @Autowired
-    private lateinit var unauthorizedHandler: AuthEntryPointJwt
+    private val unauthorizedHandler: AuthEntryPointJwt
 
     @Bean
     fun authenticationJwtTokenFilter(): AuthTokenFilter = AuthTokenFilter()

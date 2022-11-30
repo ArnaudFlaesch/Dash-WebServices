@@ -10,7 +10,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
@@ -28,13 +27,10 @@ import java.util.stream.Stream
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class RestClientTest : AbstractIT() {
-
-    @Autowired
-    private lateinit var restClient: RestClient
-
-    @Autowired
-    private lateinit var restTemplate: RestTemplate
+class RestClientTest(
+    private val restClient: RestClient,
+    private val restTemplate: RestTemplate
+) : AbstractIT() {
 
     private lateinit var mockServer: MockRestServiceServer
 

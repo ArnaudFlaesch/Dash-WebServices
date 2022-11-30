@@ -6,18 +6,14 @@ import com.cashmanager.infra.entity.ExpenseEntity
 import com.cashmanager.infra.entity.TotalExpenseByMonthEntity
 import com.cashmanager.infra.repository.ExpenseRepository
 import com.cashmanager.infra.repository.LabelRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 
 @Component
-class ExpensePersistenceAdapter {
-
-    @Autowired
-    private lateinit var expenseRepository: ExpenseRepository
-
-    @Autowired
-    private lateinit var labelRepository: LabelRepository
+class ExpensePersistenceAdapter(
+    private val expenseRepository: ExpenseRepository,
+    private val labelRepository: LabelRepository
+) {
 
     fun getExpensesByInterval(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<ExpenseDomain> =
         expenseRepository.findAllByExpenseDateBetweenOrderByExpenseDateAsc(startIntervalDate, endIntervalDate).map(ExpenseEntity::toDomain)

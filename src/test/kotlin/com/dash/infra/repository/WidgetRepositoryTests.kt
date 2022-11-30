@@ -7,19 +7,15 @@ import com.dash.infra.entity.WidgetEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
-class WidgetRepositoryTests : AbstractIT() {
-
-    @Autowired
-    private lateinit var widgetRepository: WidgetRepository
-
-    @Autowired
-    private lateinit var userRepository: UserRepository
+class WidgetRepositoryTests(
+    private val widgetRepository: WidgetRepository,
+    private val userRepository: UserRepository
+) : AbstractIT() {
 
     @Test
     fun testInsertWidgets() {

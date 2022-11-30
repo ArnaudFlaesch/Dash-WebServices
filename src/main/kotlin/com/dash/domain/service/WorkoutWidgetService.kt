@@ -12,27 +12,21 @@ import com.dash.infra.entity.workoutwidget.WorkoutTypeEntity
 import com.dash.infra.repository.WorkoutExerciseRepository
 import com.dash.infra.repository.WorkoutSessionRepository
 import com.dash.infra.repository.WorkoutTypeRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 @Service
 class WorkoutWidgetService {
 
-    @Autowired
-    private lateinit var workoutTypeRepository: WorkoutTypeRepository
+    private val workoutTypeRepository: WorkoutTypeRepository
 
-    @Autowired
-    private lateinit var workoutExerciseRepository: WorkoutExerciseRepository
+    private val workoutExerciseRepository: WorkoutExerciseRepository
 
-    @Autowired
-    private lateinit var workoutSessionRepository: WorkoutSessionRepository
+    private val workoutSessionRepository: WorkoutSessionRepository
 
-    @Autowired
-    private lateinit var workoutSessionMapper: WorkoutSessionMapper
+    private val workoutSessionMapper: WorkoutSessionMapper
 
-    @Autowired
-    private lateinit var workoutTypeMapper: WorkoutTypeMapper
+    private val workoutTypeMapper: WorkoutTypeMapper
 
     fun getWorkoutTypes(userId: Int): List<WorkoutTypeDomain> =
         workoutTypeRepository.findByUserId(userId).map(WorkoutTypeEntity::toDomain)

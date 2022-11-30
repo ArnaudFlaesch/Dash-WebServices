@@ -2,14 +2,12 @@ package com.dash.domain.service
 
 import com.dash.domain.model.WidgetDomain
 import com.dash.infra.adapter.WidgetPersistenceAdapter
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
 class WidgetService {
 
-    @Autowired
-    private lateinit var widgetPersistenceAdapter: WidgetPersistenceAdapter
+    private val widgetPersistenceAdapter: WidgetPersistenceAdapter
 
     fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<WidgetDomain> =
         widgetPersistenceAdapter.findByTabIdOrderByWidgetOrderAsc(tabId)

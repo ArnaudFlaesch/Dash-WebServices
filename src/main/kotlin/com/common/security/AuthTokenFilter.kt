@@ -1,7 +1,6 @@
 package com.common.security
 
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -15,11 +14,9 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 class AuthTokenFilter : OncePerRequestFilter() {
-    @Autowired
-    private lateinit var jwtUtils: JwtUtils
+    private val jwtUtils: JwtUtils
 
-    @Autowired
-    private lateinit var userDetailsService: UserDetailsServiceImpl
+    private val userDetailsService: UserDetailsServiceImpl
 
     companion object {
         private val logger = LoggerFactory.getLogger(this::class.java.name)

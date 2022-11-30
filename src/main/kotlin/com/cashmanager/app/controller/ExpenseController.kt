@@ -4,7 +4,6 @@ import com.cashmanager.app.controller.requests.InsertExpensePayload
 import com.cashmanager.domain.model.ExpenseDomain
 import com.cashmanager.domain.model.TotalExpenseByMonthDomain
 import com.cashmanager.domain.service.ExpenseService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
@@ -12,10 +11,7 @@ import java.time.LocalDate
 @RestController
 @RequestMapping("/expense")
 @CrossOrigin(origins = ["*"])
-class ExpenseController {
-
-    @Autowired
-    private lateinit var expenseService: ExpenseService
+class ExpenseController(private val expenseService: ExpenseService) {
 
     @GetMapping("/")
     fun getExpenses(

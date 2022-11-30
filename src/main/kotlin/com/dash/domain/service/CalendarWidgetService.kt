@@ -5,7 +5,6 @@ import com.dash.infra.rest.RestClient
 import net.fortuna.ical4j.data.CalendarBuilder
 import net.fortuna.ical4j.model.*
 import net.fortuna.ical4j.model.component.VEvent
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.io.InputStreamReader
 import java.io.Reader
@@ -14,8 +13,7 @@ import java.nio.charset.StandardCharsets
 @Service
 class CalendarWidgetService {
 
-    @Autowired
-    private lateinit var proxyService: RestClient
+    private val proxyService: RestClient
 
     fun getIcalDataFromUrl(url: String): List<CalendarEvent>? {
         return proxyService.getDataFromProxy(url, String::class)?.let { calendarData ->
