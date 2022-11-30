@@ -30,7 +30,7 @@ plugins {
     val kotlinVersion = "1.7.22"
     val springBootVersion = "2.7.6"
     val springDependencyManagementVersion = "1.1.0"
-    val detektVersion = "1.19.0"
+    val detektVersion = "1.22.0"
     val springDocGradlePluginVersion = "1.5.0"
 
     jacoco
