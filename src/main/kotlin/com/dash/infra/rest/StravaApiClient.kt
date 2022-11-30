@@ -3,7 +3,6 @@ package com.dash.infra.rest
 import com.dash.infra.apimodel.strava.StravaActivityResponse
 import com.dash.infra.apimodel.strava.StravaAthleteResponse
 import com.dash.infra.apimodel.strava.StravaTokenDataResponse
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
@@ -13,19 +12,15 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class StravaApiClient {
-
-    @Autowired
-    private lateinit var restClient: RestClient
-
+class StravaApiClient(
+    private val restClient: RestClient,
     @Value("\${dash.app.STRAVA_API_URL}")
-    private lateinit var stravaApiUrl: String
-
+    private val stravaApiUrl: String,
     @Value("\${dash.app.STRAVA_CLIENT_ID}")
-    private lateinit var stravaClientId: String
-
+    private val stravaClientId: String,
     @Value("\${dash.app.STRAVA_CLIENT_SECRET}")
-    private lateinit var stravaClientSecret: String
+    private val stravaClientSecret: String
+) {
 
     fun getToken(apiCode: String): StravaTokenDataResponse? {
         val url = "$stravaApiUrl/oauth/token?client_id=$stravaClientId&client_secret=$stravaClientSecret" +

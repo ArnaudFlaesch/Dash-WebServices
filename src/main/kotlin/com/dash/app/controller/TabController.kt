@@ -4,16 +4,12 @@ import com.dash.app.controller.requests.CreateTabPayload
 import com.dash.app.controller.requests.UpdateTabPayload
 import com.dash.domain.model.TabDomain
 import com.dash.domain.service.TabService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/tab")
 @CrossOrigin(origins = ["*"])
-class TabController {
-
-    @Autowired
-    private lateinit var tabService: TabService
+class TabController(private val tabService: TabService) {
 
     @GetMapping("/")
     fun getTabs(): List<TabDomain> = (tabService.getTabs())

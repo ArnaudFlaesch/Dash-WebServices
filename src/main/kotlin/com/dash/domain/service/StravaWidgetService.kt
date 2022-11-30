@@ -4,14 +4,10 @@ import com.dash.domain.model.stravaWidget.StravaActivityDomain
 import com.dash.domain.model.stravaWidget.StravaAthleteDomain
 import com.dash.domain.model.stravaWidget.StravaTokenDataDomain
 import com.dash.infra.adapter.StravaWidgetAdapter
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class StravaWidgetService {
-
-    @Autowired
-    private lateinit var stravaWidgetAdapter: StravaWidgetAdapter
+class StravaWidgetService(private val stravaWidgetAdapter: StravaWidgetAdapter) {
 
     companion object {
         private const val NUMBER_OF_ACTIVITIES_PER_PAGE = 25

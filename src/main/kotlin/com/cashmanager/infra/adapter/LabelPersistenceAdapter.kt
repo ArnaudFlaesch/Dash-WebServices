@@ -4,17 +4,13 @@ import com.cashmanager.domain.model.LabelDomain
 import com.cashmanager.infra.entity.LabelEntity
 import com.cashmanager.infra.repository.LabelRepository
 import com.common.infra.repository.UserRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class LabelPersistenceAdapter {
-
-    @Autowired
-    private lateinit var labelRepository: LabelRepository
-
-    @Autowired
-    private lateinit var userRepository: UserRepository
+class LabelPersistenceAdapter(
+    private val labelRepository: LabelRepository,
+    private val userRepository: UserRepository
+) {
 
     fun getLabels(authenticatedUserId: Int): List<LabelDomain> =
         labelRepository.findByUserId(authenticatedUserId).map(LabelEntity::toDomain)

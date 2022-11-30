@@ -1,7 +1,6 @@
 package com.dash.infra.rest
 
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
@@ -12,10 +11,7 @@ import java.net.URI
 import kotlin.reflect.KClass
 
 @Service
-class RestClient {
-
-    @Autowired
-    private lateinit var restTemplate: RestTemplate
+class RestClient(private val restTemplate: RestTemplate) {
 
     private val logger = LoggerFactory.getLogger(this::class.java.name)
 

@@ -10,7 +10,6 @@ import com.common.utils.JsonExporter.export
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -21,13 +20,10 @@ import java.time.LocalDate
 @RestController
 @CrossOrigin(origins = ["*"])
 @RequestMapping("/cashManagerConfig")
-class CashManagerConfigController {
-
-    @Autowired
-    private lateinit var labelService: LabelService
-
-    @Autowired
-    private lateinit var expenseService: ExpenseService
+class CashManagerConfigController(
+    private val labelService: LabelService,
+    private val expenseService: ExpenseService
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java.name)
 

@@ -3,17 +3,13 @@ package com.dash.domain.service
 import com.common.domain.service.UserService
 import com.dash.domain.model.twitterwidget.FollowedUser
 import com.dash.infra.adapter.TwitterWidgetAdapter
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class TwitterWidgetService {
-
-    @Autowired
-    private lateinit var twitterWidgetAdapter: TwitterWidgetAdapter
-
-    @Autowired
-    private lateinit var userService: UserService
+class TwitterWidgetService(
+    private val twitterWidgetAdapter: TwitterWidgetAdapter,
+    private val userService: UserService
+) {
 
     fun getFollowedUsers(searchParam: String): List<FollowedUser> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUserId()

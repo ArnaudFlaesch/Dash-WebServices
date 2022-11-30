@@ -27,7 +27,7 @@ val ktlintVersion = "0.47.1"
 val ktlint: Configuration by configurations.creating
 
 plugins {
-    val kotlinVersion = "1.5.10"
+    val kotlinVersion = "1.7.22"
     val springBootVersion = "2.7.6"
     val springDependencyManagementVersion = "1.1.0"
     val detektVersion = "1.19.0"
@@ -44,7 +44,7 @@ plugins {
 }
 
 group = "com.dash"
-version = "0.4.0"
+version = "1.0.0"
 java.sourceCompatibility = JavaVersion.VERSION_16
 
 repositories {

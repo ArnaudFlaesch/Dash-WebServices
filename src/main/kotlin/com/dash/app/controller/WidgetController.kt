@@ -4,16 +4,14 @@ import com.dash.app.controller.requests.CreateWidgetPayload
 import com.dash.app.controller.requests.UpdateWidgetDataPayload
 import com.dash.domain.model.WidgetDomain
 import com.dash.domain.service.WidgetService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @CrossOrigin(origins = ["*"])
 @RequestMapping("/widget")
-class WidgetController {
-
-    @Autowired
-    private lateinit var widgetService: WidgetService
+class WidgetController(
+    private val widgetService: WidgetService
+) {
 
     @GetMapping("/")
     fun getWidgets(@RequestParam(value = "tabId") tabId: Int): List<WidgetDomain> =

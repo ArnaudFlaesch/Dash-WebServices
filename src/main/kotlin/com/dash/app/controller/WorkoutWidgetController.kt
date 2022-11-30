@@ -7,16 +7,14 @@ import com.dash.domain.model.workoutwidget.WorkoutExerciseDomain
 import com.dash.domain.model.workoutwidget.WorkoutSessionDomain
 import com.dash.domain.model.workoutwidget.WorkoutTypeDomain
 import com.dash.domain.service.WorkoutWidgetService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @CrossOrigin(origins = ["*"])
 @RequestMapping("/workoutWidget")
-class WorkoutWidgetController {
-
-    @Autowired
-    private lateinit var workoutWidgetService: WorkoutWidgetService
+class WorkoutWidgetController(
+    private val workoutWidgetService: WorkoutWidgetService
+) {
 
     @GetMapping("/workoutSessions")
     fun getWorkoutsSessions(@RequestParam("userId") userId: Int): List<WorkoutSessionDomain> =

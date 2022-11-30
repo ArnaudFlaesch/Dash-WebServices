@@ -1,19 +1,14 @@
-package com.dash.infra.repository
+package com.common.infra.repository
 
-import com.common.infra.repository.RoleRepository
-import com.common.infra.repository.UserRepository
 import com.common.utils.AbstractIT
 import com.dash.infra.entity.UserEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest
-@ExtendWith(SpringExtension::class)
 class UserRepositoryTests : AbstractIT() {
 
     @Autowired

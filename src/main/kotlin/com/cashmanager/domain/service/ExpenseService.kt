@@ -4,18 +4,14 @@ import com.cashmanager.domain.model.ExpenseDomain
 import com.cashmanager.domain.model.TotalExpenseByMonthDomain
 import com.cashmanager.infra.adapter.ExpensePersistenceAdapter
 import com.common.domain.service.UserService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 @Service
-class ExpenseService {
-
-    @Autowired
-    private lateinit var expensePersistenceAdapter: ExpensePersistenceAdapter
-
-    @Autowired
-    private lateinit var userService: UserService
+class ExpenseService(
+    private val expensePersistenceAdapter: ExpensePersistenceAdapter,
+    private val userService: UserService
+) {
 
     fun getExpensesByInterval(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<ExpenseDomain> =
         expensePersistenceAdapter.getExpensesByInterval(startIntervalDate, endIntervalDate)

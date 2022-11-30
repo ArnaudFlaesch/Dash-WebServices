@@ -4,7 +4,6 @@ import com.common.app.controller.requests.LoginRequest
 import com.common.security.JwtUtils
 import com.common.security.UserDetailsImpl
 import com.common.security.response.JwtResponse
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
@@ -16,12 +15,10 @@ import javax.validation.Valid
 @CrossOrigin(origins = ["*"], maxAge = 3600)
 @RestController
 @RequestMapping("/auth")
-class AuthController {
-    @Autowired
-    private lateinit var authenticationManager: AuthenticationManager
-
-    @Autowired
-    private lateinit var jwtUtils: JwtUtils
+class AuthController(
+    private val authenticationManager: AuthenticationManager,
+    private val jwtUtils: JwtUtils
+) {
 
     @PostMapping("/login")
     fun authenticateUser(

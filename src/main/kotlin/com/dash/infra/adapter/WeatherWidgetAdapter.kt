@@ -5,14 +5,12 @@ import com.dash.domain.model.weatherWidget.OpenWeatherWeatherDomain
 import com.dash.infra.apimodel.openweather.OpenWeatherForecastResponse
 import com.dash.infra.apimodel.openweather.OpenWeatherWeatherResponse
 import com.dash.infra.rest.OpenWeatherApiClient
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class WeatherWidgetAdapter {
-
-    @Autowired
-    private lateinit var openWeatherApiClient: OpenWeatherApiClient
+class WeatherWidgetAdapter(
+    private val openWeatherApiClient: OpenWeatherApiClient
+) {
 
     fun getWeatherData(city: String): OpenWeatherWeatherDomain {
         val weatherDataResponse = openWeatherApiClient.getWeatherData(city) ?: OpenWeatherWeatherResponse()

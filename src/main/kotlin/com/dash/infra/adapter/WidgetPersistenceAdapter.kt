@@ -4,18 +4,13 @@ import com.dash.domain.model.WidgetDomain
 import com.dash.infra.entity.WidgetEntity
 import com.dash.infra.repository.TabRepository
 import com.dash.infra.repository.WidgetRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class WidgetPersistenceAdapter {
-
-    @Autowired
-    private lateinit var widgetRepository: WidgetRepository
-
-    @Autowired
-    private lateinit var tabRepository: TabRepository
-
+class WidgetPersistenceAdapter(
+    private val widgetRepository: WidgetRepository,
+    private val tabRepository: TabRepository
+) {
     fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<WidgetDomain> =
         widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId).map(WidgetEntity::toDomain)
 

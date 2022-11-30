@@ -8,14 +8,12 @@ import com.dash.infra.apimodel.steam.GameInfoApi
 import com.dash.infra.apimodel.steam.GameInfoResponse
 import com.dash.infra.apimodel.steam.PlayersDataApiResponse
 import com.dash.infra.rest.SteamApiClient
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class SteamWidgetAdapter {
-
-    @Autowired
-    private lateinit var steamApiClient: SteamApiClient
+class SteamWidgetAdapter(
+    private val steamApiClient: SteamApiClient
+) {
 
     companion object {
         private const val PAGE_SIZE = 25
