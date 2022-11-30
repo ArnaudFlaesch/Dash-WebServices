@@ -34,7 +34,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.stream.Stream
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class LabelControllerTests : AbstractIT() {
 

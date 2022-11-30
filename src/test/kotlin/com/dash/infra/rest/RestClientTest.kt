@@ -25,7 +25,6 @@ import java.net.URI
 import java.util.stream.Stream
 
 @SpringBootTest
-@ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RestClientTest(
     private val restClient: RestClient,
