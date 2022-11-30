@@ -28,7 +28,7 @@ val ktlint: Configuration by configurations.creating
 
 plugins {
     val kotlinVersion = "1.7.22"
-    val springBootVersion = "2.7.6"
+    val springBootVersion = "3.0.0"
     val springDependencyManagementVersion = "1.1.0"
     val detektVersion = "1.22.0"
     val springDocGradlePluginVersion = "1.5.0"
