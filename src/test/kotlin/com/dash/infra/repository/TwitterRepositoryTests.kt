@@ -11,11 +11,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
-class TwitterRepositoryTests : AbstractIT() {
-
-    private val twitterWidgetRepository: TwitterWidgetRepository
-
+class TwitterRepositoryTests(
+    private val twitterWidgetRepository: TwitterWidgetRepository,
     private val userRepository: UserRepository
+) : AbstractIT() {
 
     @Test
     fun testInsertFollowedUsers() {

@@ -9,9 +9,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest
-class LabelRepositoryTests : AbstractIT() {
-
+class LabelRepositoryTests(
     private val labelRepository: LabelRepository
+) : AbstractIT() {
 
     @Test
     fun testGetLabels() {

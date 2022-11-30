@@ -11,9 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class UserServiceTest : AbstractIT() {
-
-    private val userService: UserService
+class UserServiceTest(private val userService: UserService) : AbstractIT() {
 
     @Test
     fun getUserByIdTest() {
