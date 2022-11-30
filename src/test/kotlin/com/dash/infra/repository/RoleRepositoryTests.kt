@@ -5,12 +5,14 @@ import com.common.utils.AbstractIT
 import com.dash.infra.entity.RoleEntity
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest
-class RoleRepositoryTests(private val roleRepository: RoleRepository) : AbstractIT() {
+class RoleRepositoryTests : AbstractIT() {
+
+    @Autowired
+    private lateinit var roleRepository: RoleRepository
 
     @Test
     fun testGetAllRoles() {

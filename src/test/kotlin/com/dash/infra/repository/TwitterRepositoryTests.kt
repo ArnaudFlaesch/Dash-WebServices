@@ -5,15 +5,17 @@ import com.common.utils.AbstractIT
 import com.dash.infra.entity.twitterwidget.FollowedUserEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @SpringBootTest
-class TwitterRepositoryTests(
-    private val twitterWidgetRepository: TwitterWidgetRepository,
-    private val userRepository: UserRepository
-) : AbstractIT() {
+class TwitterRepositoryTests : AbstractIT() {
+
+    @Autowired
+    private lateinit var twitterWidgetRepository: TwitterWidgetRepository
+
+    @Autowired
+    private lateinit var userRepository: UserRepository
 
     @Test
     fun testInsertFollowedUsers() {
