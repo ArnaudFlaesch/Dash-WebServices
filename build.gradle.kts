@@ -30,14 +30,13 @@ plugins {
     val kotlinVersion = "1.7.22"
     val springBootVersion = "2.7.6"
     val springDependencyManagementVersion = "1.1.0"
-    val koverVersion = "0.6.0-Beta"
     val detektVersion = "1.19.0"
     val springDocGradlePluginVersion = "1.5.0"
 
+    jacoco
     id("org.springframework.boot") version springBootVersion
     id("io.spring.dependency-management") version springDependencyManagementVersion
     id ("org.springdoc.openapi-gradle-plugin") version springDocGradlePluginVersion
-    id("org.jetbrains.kotlinx.kover") version koverVersion
     id("io.gitlab.arturbosch.detekt") version detektVersion
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
@@ -95,6 +94,13 @@ dependencies {
     ktlint("com.pinterest:ktlint:${ktlintVersion}")
 }
 
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+}
+
 tasks.withType<BootRun> {
     systemProperties(System.getProperties().mapKeys { it.key as String })
 }
@@ -102,7 +108,7 @@ tasks.withType<BootRun> {
 tasks.withType<Test> {
     environment("spring.config.location", "src/test/resources/application-test.properties")
     useJUnitPlatform()
-    finalizedBy(tasks.koverReport) // report is always generated after tests run
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
 }
 
 tasks.withType<KotlinCompile> {
@@ -131,10 +137,6 @@ detekt {
     allRules = false // activate all available (even unstable) rules.
     config = files(file("$projectDir/detekt.yml"))
     autoCorrect = true
-}
-
-kover {
-    engine.set(kotlinx.kover.api.IntellijEngine("1.0.689"))
 }
 
 openApi {
