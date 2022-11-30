@@ -15,7 +15,6 @@ class SteamApiClient(
     private val steamApiKey: String
 ) {
 
-
     companion object {
         private const val getPlayerSummariesUrl = "/ISteamUser/GetPlayerSummaries/v0002/"
         private const val getOwnedGamesUrl = "/IPlayerService/GetOwnedGames/v0001/"
