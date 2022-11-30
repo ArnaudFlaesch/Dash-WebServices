@@ -5,9 +5,9 @@ import com.dash.infra.adapter.WidgetPersistenceAdapter
 import org.springframework.stereotype.Service
 
 @Service
-class WidgetService {
-
+class WidgetService(
     private val widgetPersistenceAdapter: WidgetPersistenceAdapter
+) {
 
     fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<WidgetDomain> =
         widgetPersistenceAdapter.findByTabIdOrderByWidgetOrderAsc(tabId)

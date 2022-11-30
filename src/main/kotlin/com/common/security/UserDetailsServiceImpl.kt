@@ -9,9 +9,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class UserDetailsServiceImpl : UserDetailsService {
-
-    private val userRepository: UserRepository
+class UserDetailsServiceImpl(
+    private val userRepository: UserRepository) : UserDetailsService {
 
     @Transactional
     @Throws(UsernameNotFoundException::class)

@@ -16,17 +16,13 @@ import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 @Service
-class WorkoutWidgetService {
-
-    private val workoutTypeRepository: WorkoutTypeRepository
-
-    private val workoutExerciseRepository: WorkoutExerciseRepository
-
-    private val workoutSessionRepository: WorkoutSessionRepository
-
-    private val workoutSessionMapper: WorkoutSessionMapper
-
+class WorkoutWidgetService(
+    private val workoutTypeRepository: WorkoutTypeRepository,
+    private val workoutExerciseRepository: WorkoutExerciseRepository,
+    private val workoutSessionRepository: WorkoutSessionRepository,
+    private val workoutSessionMapper: WorkoutSessionMapper,
     private val workoutTypeMapper: WorkoutTypeMapper
+) {
 
     fun getWorkoutTypes(userId: Int): List<WorkoutTypeDomain> =
         workoutTypeRepository.findByUserId(userId).map(WorkoutTypeEntity::toDomain)

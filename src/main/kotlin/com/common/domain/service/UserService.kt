@@ -10,11 +10,10 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
-class UserService {
-
-    private val userRepository: UserRepository
-
+class UserService(
+    private val userRepository: UserRepository,
     private val userMapper: UserMapper
+) {
 
     fun getCurrentAuthenticatedUserId(): Int {
         val authentication = SecurityContextHolder.getContext().authentication as UsernamePasswordAuthenticationToken

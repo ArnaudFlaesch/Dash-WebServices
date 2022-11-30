@@ -11,9 +11,7 @@ import java.io.Reader
 import java.nio.charset.StandardCharsets
 
 @Service
-class CalendarWidgetService {
-
-    private val proxyService: RestClient
+class CalendarWidgetService(private val proxyService: RestClient) {
 
     fun getIcalDataFromUrl(url: String): List<CalendarEvent>? {
         return proxyService.getDataFromProxy(url, String::class)?.let { calendarData ->

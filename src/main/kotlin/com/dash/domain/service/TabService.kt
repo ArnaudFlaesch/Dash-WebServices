@@ -10,13 +10,11 @@ import com.dash.infra.repository.WidgetRepository
 import org.springframework.stereotype.Service
 
 @Service
-class TabService {
-
-    private val tabRepository: TabRepository
-
-    private val widgetRepository: WidgetRepository
-
+class TabService(
+    private val tabRepository: TabRepository,
+    private val widgetRepository: WidgetRepository,
     private val userService: UserService
+) {
 
     fun getTabs(): List<TabDomain> {
         val userId = userService.getCurrentAuthenticatedUserId()

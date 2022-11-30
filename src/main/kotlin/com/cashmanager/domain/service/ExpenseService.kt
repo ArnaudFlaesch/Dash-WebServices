@@ -8,11 +8,10 @@ import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 @Service
-class ExpenseService {
-
-    private val expensePersistenceAdapter: ExpensePersistenceAdapter
-
+class ExpenseService(
+    private val expensePersistenceAdapter: ExpensePersistenceAdapter,
     private val userService: UserService
+) {
 
     fun getExpensesByInterval(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<ExpenseDomain> =
         expensePersistenceAdapter.getExpensesByInterval(startIntervalDate, endIntervalDate)

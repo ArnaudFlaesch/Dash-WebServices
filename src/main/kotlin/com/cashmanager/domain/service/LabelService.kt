@@ -6,13 +6,11 @@ import com.common.domain.service.UserService
 import org.springframework.stereotype.Service
 
 @Service
-class LabelService {
-
-    private val labelPersistenceAdapter: LabelPersistenceAdapter
-
-    private val expenseService: ExpenseService
-
+class LabelService(
+    private val labelPersistenceAdapter: LabelPersistenceAdapter,
+    private val expenseService: ExpenseService,
     private val userService: UserService
+) {
 
     fun getLabels(): List<LabelDomain> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUserId()

@@ -5,9 +5,7 @@ import com.dash.infra.adapter.SteamWidgetAdapter
 import org.springframework.stereotype.Service
 
 @Service
-class SteamWidgetService {
-
-    private val steamWidgetAdapter: SteamWidgetAdapter
+class SteamWidgetService(private val steamWidgetAdapter: SteamWidgetAdapter) {
 
     fun getPlayerData(steamUserId: String): List<PlayerDataDomain> = steamWidgetAdapter.getPlayerData(steamUserId)
 

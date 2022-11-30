@@ -15,10 +15,10 @@ import javax.validation.Valid
 @CrossOrigin(origins = ["*"], maxAge = 3600)
 @RestController
 @RequestMapping("/auth")
-class AuthController {
-    private val authenticationManager: AuthenticationManager
-
+class AuthController(
+    private val authenticationManager: AuthenticationManager,
     private val jwtUtils: JwtUtils
+) {
 
     @PostMapping("/login")
     fun authenticateUser(

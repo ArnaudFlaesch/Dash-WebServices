@@ -6,11 +6,10 @@ import com.dash.infra.adapter.TwitterWidgetAdapter
 import org.springframework.stereotype.Service
 
 @Service
-class TwitterWidgetService {
-
-    private val twitterWidgetAdapter: TwitterWidgetAdapter
-
+class TwitterWidgetService(
+    private val twitterWidgetAdapter: TwitterWidgetAdapter,
     private val userService: UserService
+) {
 
     fun getFollowedUsers(searchParam: String): List<FollowedUser> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
