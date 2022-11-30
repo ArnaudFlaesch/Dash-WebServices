@@ -10,7 +10,7 @@ pipeline {
 
         stage('Backend tests') {
             agent {
-                docker { image 'gradle:7.0.0-jdk16' }
+                docker { image 'gradle:7.6.0-jdk17-alpine' }
             }
             stages {
                 stage('Lint') {
