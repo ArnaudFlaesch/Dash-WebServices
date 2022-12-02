@@ -101,3 +101,15 @@ databaseChangeLog:
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
+  - changeSet:
+      id: 9
+      author: aflaesch
+      comment: FT-322 Ecowatt widget
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            path: /db/changelog/1.0/ft-322-ecowatt-widget.sql
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true
