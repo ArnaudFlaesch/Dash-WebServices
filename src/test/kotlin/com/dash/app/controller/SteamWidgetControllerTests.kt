@@ -84,7 +84,7 @@ class SteamWidgetControllerTests : AbstractIT() {
         fun getOwnedGamesArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.arguments(null, 27),
-                Arguments.arguments("Half", 7),
+                Arguments.arguments("Half", 10),
                 Arguments.arguments("no results", 0)
             )
     }
