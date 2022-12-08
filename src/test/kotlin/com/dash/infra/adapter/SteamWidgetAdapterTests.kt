@@ -44,7 +44,6 @@ class SteamWidgetAdapterTests {
         assertEquals(expectedSecondPage, actualSecondPage)
     }
 
-
     private fun createGameListFromApi(startIndex: Int, size: Int): List<GameInfoApi> {
         return (startIndex until size).map { index ->
             GameInfoApi(appid = index.toString(), name = "Call of Duty $index")
