@@ -31,9 +31,9 @@ data class StravaActivityResponse(
     @JsonProperty("utc_offset")
     val utcOffset: Float = 0f,
     @JsonProperty("start_latlng")
-    val startLatlng: IntArray,
+    val startLatlng: IntArray = IntArray(2),
     @JsonProperty("end_latlng")
-    val endLatlng: IntArray,
+    val endLatlng: IntArray = IntArray(2),
     @JsonProperty("location_city")
     val locationCity: String? = "",
     @JsonProperty("location_state")
@@ -54,7 +54,7 @@ data class StravaActivityResponse(
     val athleteCount: Int = 0,
     @JsonProperty("photo_count")
     val photoCount: Int = 0,
-    val map: ActivityMap,
+    val map: ActivityMap = ActivityMap(),
     val trainer: Boolean = false,
     val commute: Boolean = false,
     val manual: Boolean = false,

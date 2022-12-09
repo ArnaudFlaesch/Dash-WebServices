@@ -1,5 +1,6 @@
 package com.dash.infra.adapter
 
+import com.dash.infra.apimodel.strava.StravaActivityResponse
 import com.dash.infra.rest.StravaApiClient
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -54,6 +55,20 @@ class StravaWidgetAdapterTests {
         assertEquals(0, response.id)
         assertEquals("", response.username)
         assertEquals("", response.city)
+    }
+
+    @Test
+    fun should_return_strava_activities_data() {
+        val token = "token"
+        val numberOfActivities = 25
+        val activitiesDataList= listOf(StravaActivityResponse(name = "Evening run"), StravaActivityResponse(name = "Lunch run"))
+        given(stravaApiClient.getAthleteActivities(token, numberOfActivities)).willReturn(activitiesDataList)
+
+        val response = stravaWidgetAdapter.getAthleteActivities(token, numberOfActivities)
+
+        assertEquals(2, response.size)
+        assertEquals("Evening run", response[0].name)
+        assertEquals("Lunch run", response[1].name)
     }
 
     @Test
