@@ -3,7 +3,7 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 import io.gitlab.arturbosch.detekt.Detekt
 
 val kotlinVersion = "1.7.22"
-val springBootVersion = "2.7.6"
+val springBootVersion = "3.0.0"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.7"
 
@@ -28,7 +28,7 @@ val ktlint: Configuration by configurations.creating
 
 plugins {
     val kotlinPluginVersion = "1.7.22"
-    val springBootPluginVersion = "2.7.6"
+    val springBootPluginVersion = "3.0.0"
     val springDependencyManagementPluginVersion = "1.1.0"
     val detektPluginVersion = "1.22.0"
     val springDocGradlePluginVersion = "1.5.0"
