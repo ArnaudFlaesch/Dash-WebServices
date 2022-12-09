@@ -1,7 +1,6 @@
 package com.dash.infra.adapter
 
-import com.dash.infra.apimodel.openweather.OpenWeatherWeatherResponse
-import com.dash.infra.apimodel.openweather.Weather
+import com.dash.infra.apimodel.openweather.*
 import com.dash.infra.rest.OpenWeatherApiClient
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -40,6 +39,20 @@ class WeatherWidgetAdapterTests {
         val response = weatherWidgetAdapter.getWeatherData(city)
         assertEquals(0, response.weather.size)
         assertEquals("", response.name)
+    }
+
+    @Test
+    fun should_return_forecast_data() {
+        val city = "Paris"
+
+        val cityResponse = CityResponse(name = city, country = "France")
+        val forecastList = listOf(ForecastResponse(dt = 1), ForecastResponse(dt = 2))
+        val forecastData = OpenWeatherForecastResponse(list = forecastList, city = cityResponse)
+
+        given(weatherApiClient.getForecastData(city)).willReturn(forecastData)
+        val response = weatherWidgetAdapter.getForecastData(city)
+        assertEquals(2, response.list.size)
+        assertEquals(city, response.city.name)
     }
 
     @Test
