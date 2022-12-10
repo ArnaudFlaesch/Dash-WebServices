@@ -42,7 +42,7 @@ jobs:
 
       # Re enable when new version of plugin is released
       - name: Generate OpenAPI docs
-        if: false # success() && github.ref == 'refs/heads/master'
+        if: failure() # success() && github.ref == 'refs/heads/master'
         run: |
           docker run --name db -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash_test postgres:13.2-alpine
           ./gradlew generateOpenApiDocs
@@ -51,7 +51,7 @@ jobs:
       # Re enable when new version of plugin is released
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
-        if: false # success() && github.ref == 'refs/heads/master'
+        if: failure() # success() && github.ref == 'refs/heads/master'
         with:
           output: swagger-ui
           spec-file: build/openapi.json
@@ -195,7 +195,7 @@ jobs:
     needs: [ "test", "build" ]
     runs-on: ubuntu-latest
     # Re enable when new version of plugin is released
-    if: false # success() && github.ref == 'refs/heads/master'
+    if: failure() && github.ref != 'refs/heads/master' # success() && github.ref == 'refs/heads/master'
 
     environment:
       name: github-pages
