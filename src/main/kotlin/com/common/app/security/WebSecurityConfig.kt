@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
@@ -50,8 +49,8 @@ class WebSecurityConfig(
         val authenticationManager = authenticationManagerBuilder.build()
 
         http
-            .authorizeHttpRequests { authz ->
-                authz
+            .authorizeHttpRequests { auth ->
+                auth
                     .requestMatchers("/auth/**", "/v3/api-docs/**")
                     .permitAll()
                     .and().authorizeHttpRequests().requestMatchers("/error").permitAll()
