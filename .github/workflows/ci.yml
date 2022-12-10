@@ -130,6 +130,9 @@ jobs:
       - name: Build Docker image
         run: docker build --tag ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}} .
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/gradle-jdk17@master
         continue-on-error: true # To make sure that SARIF upload gets called
@@ -152,9 +155,6 @@ jobs:
 
       - uses: snyk/actions/setup@master
         id: snyk
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew
 
       - name: Snyk monitor
         run: |
