@@ -145,7 +145,6 @@ detekt {
 }
 
 openApi {
-
     customBootRun {
         args.set(listOf("--spring.config.location=src/test/resources/application-test.properties"))
     }
