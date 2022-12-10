@@ -3,7 +3,6 @@ package com.common.app.security
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.config.Customizer.withDefaults
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
@@ -27,11 +26,6 @@ class WebSecurityConfig(
     @Bean
     fun authenticationJwtTokenFilter(): AuthTokenFilter = AuthTokenFilter(jwtUtils, userDetailsService)
 
-    @Throws(Exception::class)
-    fun configure(authenticationManagerBuilder: AuthenticationManagerBuilder) {
-        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder())
-    }
-
     @Bean
     @Throws(java.lang.Exception::class)
     fun authenticationManager(authenticationConfiguration: AuthenticationConfiguration): AuthenticationManager {
@@ -45,21 +39,15 @@ class WebSecurityConfig(
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         val authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder::class.java)
-        authenticationManagerBuilder.userDetailsService(userDetailsService)
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder())
         val authenticationManager = authenticationManagerBuilder.build()
-
-        http
-            .authorizeHttpRequests { auth ->
-                auth
-                    .requestMatchers("/auth/**", "/v3/api-docs/**")
-                    .permitAll()
-                    .and().authorizeHttpRequests().requestMatchers("/error").permitAll()
-                    .anyRequest().authenticated()
-            }
-            .httpBasic(withDefaults())
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
             .cors().and().csrf().disable()
+            .authorizeHttpRequests().requestMatchers("/auth/**", "/v3/api-docs/**")
+            .permitAll()
+            .and().authorizeHttpRequests().requestMatchers("/error").permitAll()
+            .anyRequest().authenticated().and()
             .authenticationManager(authenticationManager)
             .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
