@@ -139,6 +139,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
+          command: monitor
           args: --sarif-file-output=snyk-code.sarif
 
       - name: Upload result to GitHub Code Scanning
@@ -156,12 +157,11 @@ jobs:
       - uses: snyk/actions/setup@master
         id: snyk
 
-      - name: Snyk monitor
-        run: |
-          sudo snyk monitor
-          sudo snyk container monitor ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      #   - name: Snyk monitor
+      #     run: |
+      #      snyk container monitor ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
+      #    env:
+      #      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Run Snyk to check Docker image for vulnerabilities
         uses: snyk/actions/docker@master
@@ -174,6 +174,7 @@ jobs:
           # or you can sign up for free at https://snyk.io/login
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
+          command: monitor
           image: ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
           args: --file=Dockerfile
 
