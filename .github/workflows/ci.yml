@@ -88,10 +88,7 @@ jobs:
           coverage-reports: build/reports/jacoco/test/jacocoTestReport.xml
 
       - name: Report coverage for Codecov
-        run: |
-          curl -Os https://uploader.codecov.io/latest/linux/codecov
-          chmod +x codecov
-          ./codecov -t ${{ secrets.CODECOV_TOKEN }}
+        uses: codecov/codecov-action@v3
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
