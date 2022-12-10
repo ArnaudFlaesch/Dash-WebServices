@@ -15,7 +15,7 @@ val liquibaseVersion = "4.18.0"
 val postgresqlVersion = "42.5.1"
 val gsonVersion = "2.10"
 
-val restAssuredVersion = "4.5.1"
+val restAssuredVersion = "5.3.0"
 val mockitoKotlinVersion = "4.1.0"
 val junitVersion = "5.9.1"
 val hibernateTypesVersion = "2.20.0"
@@ -64,7 +64,9 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:$springDocVersion")
 
     implementation("io.jsonwebtoken:jjwt:$jwtVersion")
-    implementation("org.mnode.ical4j:ical4j:$ical4jVersion")
+    implementation("org.mnode.ical4j:ical4j:$ical4jVersion") {
+        exclude("org.codehaus.groovy", "groovy")
+    }
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 
@@ -80,9 +82,9 @@ dependencies {
     implementation("com.google.code.gson:gson:$gsonVersion")
 
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
-    testImplementation("io.rest-assured:rest-assured-common:$restAssuredVersion")
     testImplementation("io.rest-assured:json-path:$restAssuredVersion")
     testImplementation("io.rest-assured:xml-path:$restAssuredVersion")
+
     testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
