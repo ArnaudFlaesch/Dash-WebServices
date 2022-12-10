@@ -36,7 +36,7 @@ plugins {
     jacoco
     id("org.springframework.boot") version springBootPluginVersion
     id("io.spring.dependency-management") version springDependencyManagementPluginVersion
-    id("org.springdoc.openapi-gradle-plugin") version springDocGradlePluginVersion
+    // id("org.springdoc.openapi-gradle-plugin") version springDocGradlePluginVersion
     id("io.gitlab.arturbosch.detekt") version detektPluginVersion
     kotlin("jvm") version kotlinPluginVersion
     kotlin("plugin.spring") version kotlinPluginVersion
@@ -103,10 +103,11 @@ tasks.jacocoTestReport {
         html.required.set(true)
     }
 }
-
+/**
 tasks.create("bootRunMainClassName") {
-    dependsOn(tasks.resolveMainClassName)
+dependsOn(tasks.resolveMainClassName)
 }
+ */
 
 tasks.withType<BootRun> {
     systemProperties(System.getProperties().mapKeys { it.key as String })
@@ -146,11 +147,13 @@ detekt {
     autoCorrect = true
 }
 
+/*
 openApi {
     customBootRun {
         args.set(listOf("--spring.config.location=src/test/resources/application-test.properties"))
     }
 }
+*/
 
 val ktLintOutputDir = "${project.buildDir}/reports/ktlint/"
 val inputFiles = project.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
