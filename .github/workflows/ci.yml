@@ -133,7 +133,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      - name: Run Snyk to check for vulnerabilities
+      - name: Snyk monitor
         uses: snyk/actions/gradle-jdk17@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -148,19 +148,19 @@ jobs:
         with:
           args: --sarif-file-output=snyk-code.sarif
 
-      - name: Upload result to GitHub Code Scanning
+      - name: Upload Snyk code scan result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk-code.sarif
 
-      - uses: snyk/actions/setup@master
-        id: snyk
-
-      #   - name: Snyk monitor
-      #     run: |
-      #      snyk container monitor ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
-      #    env:
-      #      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Snyk container monitor
+        uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor
+          image: ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
+          args: --file=Dockerfile
 
       - name: Run Snyk to check Docker image for vulnerabilities
         uses: snyk/actions/docker@master
@@ -168,16 +168,12 @@ jobs:
         # In this case we want to upload the issues to GitHub Code Scanning
         continue-on-error: true
         env:
-          # In order to use the Snyk Action you will need to have a Snyk API token.
-          # More details in https://github.com/snyk/actions#getting-your-snyk-token
-          # or you can sign up for free at https://snyk.io/login
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: monitor
           image: ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
           args: --file=Dockerfile
 
-      - name: Upload result to GitHub Code Scanning
+      - name: Upload Snyk container scan result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk.sarif
