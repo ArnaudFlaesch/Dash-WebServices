@@ -109,13 +109,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: "17"
-          distribution: "adopt"
-          cache: gradle
-
       - name: Set Docker tag for release
         run: |
           echo "DOCKER_TAG_NAME=latest" >> $GITHUB_ENV
@@ -137,19 +130,6 @@ jobs:
       - name: Build Docker image
         run: docker build --tag ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}} .
 
-      - uses: snyk/actions/setup@master
-        id: snyk
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew
-
-      - name: Snyk monitor
-        run: |
-          snyk monitor
-          snyk container monitor ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/gradle-jdk17@master
         continue-on-error: true # To make sure that SARIF upload gets called
@@ -162,6 +142,26 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk-code.sarif
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "adopt"
+          cache: gradle
+
+      - uses: snyk/actions/setup@master
+        id: snyk
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Snyk monitor
+        run: |
+          snyk monitor
+          snyk container monitor ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Run Snyk to check Docker image for vulnerabilities
         uses: snyk/actions/docker@master
