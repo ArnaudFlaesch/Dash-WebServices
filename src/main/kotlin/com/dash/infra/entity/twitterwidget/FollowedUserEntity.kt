@@ -2,7 +2,7 @@ package com.dash.infra.entity.twitterwidget
 
 import com.dash.domain.model.twitterwidget.FollowedUser
 import com.dash.infra.entity.UserEntity
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "followed_user")

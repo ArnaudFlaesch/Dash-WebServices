@@ -1,4 +1,4 @@
-package com.common.security
+package com.common.app.security
 
 import com.common.infra.repository.UserRepository
 import com.dash.infra.entity.UserEntity

@@ -1,9 +1,9 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
-import io.gitlab.arturbosch.detekt.Detekt
 
 val kotlinVersion = "1.7.22"
-val springBootVersion = "2.7.6"
+val springBootVersion = "3.0.0"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.7"
 
@@ -28,7 +28,7 @@ val ktlint: Configuration by configurations.creating
 
 plugins {
     val kotlinPluginVersion = "1.7.22"
-    val springBootPluginVersion = "2.7.6"
+    val springBootPluginVersion = "3.0.0"
     val springDependencyManagementPluginVersion = "1.1.0"
     val detektPluginVersion = "1.22.0"
     val springDocGradlePluginVersion = "1.5.0"
@@ -36,7 +36,7 @@ plugins {
     jacoco
     id("org.springframework.boot") version springBootPluginVersion
     id("io.spring.dependency-management") version springDependencyManagementPluginVersion
-    id ("org.springdoc.openapi-gradle-plugin") version springDocGradlePluginVersion
+    id("org.springdoc.openapi-gradle-plugin") version springDocGradlePluginVersion
     id("io.gitlab.arturbosch.detekt") version detektPluginVersion
     kotlin("jvm") version kotlinPluginVersion
     kotlin("plugin.spring") version kotlinPluginVersion
@@ -58,12 +58,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
-    implementation ("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
-    implementation ("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
 
-    implementation ("org.springdoc:springdoc-openapi-ui:$springDocVersion")
+    implementation("org.springdoc:springdoc-openapi-ui:$springDocVersion")
 
-    implementation ("io.jsonwebtoken:jjwt:$jwtVersion")
+    implementation("io.jsonwebtoken:jjwt:$jwtVersion")
     implementation("org.mnode.ical4j:ical4j:$ical4jVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
@@ -76,10 +76,11 @@ dependencies {
     implementation("org.liquibase:liquibase-core:$liquibaseVersion")
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
-    implementation("com.vladmihalcea:hibernate-types-52:$hibernateTypesVersion")
+    implementation("com.vladmihalcea:hibernate-types-60:$hibernateTypesVersion")
     implementation("com.google.code.gson:gson:$gsonVersion")
 
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
+    testImplementation("io.rest-assured:rest-assured-common:$restAssuredVersion")
     testImplementation("io.rest-assured:json-path:$restAssuredVersion")
     testImplementation("io.rest-assured:xml-path:$restAssuredVersion")
     testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
@@ -99,6 +100,10 @@ tasks.jacocoTestReport {
         xml.required.set(true)
         html.required.set(true)
     }
+}
+
+tasks.create("bootRunMainClassName") {
+    dependsOn(tasks.resolveMainClassName)
 }
 
 tasks.withType<BootRun> {
@@ -140,6 +145,7 @@ detekt {
 }
 
 openApi {
+
     customBootRun {
         args.set(listOf("--spring.config.location=src/test/resources/application-test.properties"))
     }

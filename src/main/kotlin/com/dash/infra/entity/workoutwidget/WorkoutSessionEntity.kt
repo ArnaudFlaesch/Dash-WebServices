@@ -2,8 +2,8 @@ package com.dash.infra.entity.workoutwidget
 
 import com.dash.domain.model.workoutwidget.WorkoutSessionDomain
 import com.dash.infra.entity.UserEntity
+import jakarta.persistence.*
 import java.time.LocalDate
-import javax.persistence.*
 
 @Entity
 @Table(name = "workout_session")

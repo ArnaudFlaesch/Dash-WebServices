@@ -2,19 +2,12 @@ package com.dash.infra.entity
 
 import com.dash.domain.model.WidgetDomain
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType
-import com.vladmihalcea.hibernate.type.json.JsonStringType
+import jakarta.persistence.*
 import org.hibernate.annotations.Type
-import org.hibernate.annotations.TypeDef
-import org.hibernate.annotations.TypeDefs
 import java.io.Serializable
-import javax.persistence.*
 
 @Entity
 @Table(name = "widget")
-@TypeDefs(
-    TypeDef(name = "json", typeClass = JsonStringType::class),
-    TypeDef(name = "jsonb", typeClass = JsonBinaryType::class)
-)
 data class WidgetEntity(
     @Id
     @SequenceGenerator(name = "widget-seq-gen", sequenceName = "widget_id_seq", initialValue = 1, allocationSize = 1)
@@ -24,7 +17,7 @@ data class WidgetEntity(
 
     val type: Int,
 
-    @Type(type = "jsonb")
+    @Type(JsonBinaryType::class)
     @Column(columnDefinition = "json")
     val data: Any? = null,
 

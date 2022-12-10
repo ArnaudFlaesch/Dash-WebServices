@@ -1,7 +1,7 @@
 package com.dash.infra.entity
 
 import com.dash.domain.model.TabDomain
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "tab")

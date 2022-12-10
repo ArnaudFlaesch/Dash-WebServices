@@ -2,7 +2,7 @@ package com.dash.infra.entity.workoutwidget
 
 import com.dash.domain.model.workoutwidget.WorkoutTypeDomain
 import com.dash.infra.entity.UserEntity
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "workout_type")

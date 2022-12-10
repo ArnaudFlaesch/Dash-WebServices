@@ -2,7 +2,7 @@ package com.cashmanager.infra.entity
 
 import com.cashmanager.domain.model.LabelDomain
 import com.dash.infra.entity.UserEntity
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "label")

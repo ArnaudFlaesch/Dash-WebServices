@@ -1,7 +1,7 @@
 package com.common.utils
 
 import com.common.app.controller.requests.LoginRequest
-import com.common.security.response.JwtResponse
+import com.common.app.security.response.JwtResponse
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import io.restassured.http.Header
@@ -15,7 +15,7 @@ object IntegrationTestsUtils {
             .contentType(ContentType.JSON)
             .`when`()
             .body(LoginRequest("admintest", "adminpassword"))
-            .post("/auth/login/")
+            .post("/auth/login")
             .then().log().all()
             .statusCode(200)
             .log().all()

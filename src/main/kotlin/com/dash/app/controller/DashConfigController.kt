@@ -1,7 +1,7 @@
 package com.dash.app.controller
 
 import com.common.domain.service.UserService
-import com.common.utils.JsonExporter.export
+import com.common.infra.utils.JsonExporter.export
 import com.dash.domain.model.TabDomain
 import com.dash.domain.model.WidgetDomain
 import com.dash.domain.model.config.ImportData
