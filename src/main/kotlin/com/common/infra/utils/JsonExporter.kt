@@ -1,4 +1,4 @@
-package com.common.utils
+package com.common.infra.utils
 
 import com.google.gson.Gson
 

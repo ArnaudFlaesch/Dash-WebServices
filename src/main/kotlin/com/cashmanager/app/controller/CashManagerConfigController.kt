@@ -6,7 +6,7 @@ import com.cashmanager.domain.model.ImportData
 import com.cashmanager.domain.model.LabelDomain
 import com.cashmanager.domain.service.ExpenseService
 import com.cashmanager.domain.service.LabelService
-import com.common.utils.JsonExporter.export
+import com.common.infra.utils.JsonExporter.export
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import org.slf4j.LoggerFactory

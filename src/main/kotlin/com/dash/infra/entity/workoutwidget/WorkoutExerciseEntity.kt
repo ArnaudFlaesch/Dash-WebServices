@@ -1,8 +1,8 @@
 package com.dash.infra.entity.workoutwidget
 
 import com.dash.domain.model.workoutwidget.WorkoutExerciseDomain
+import jakarta.persistence.*
 import java.io.Serializable
-import javax.persistence.*
 
 @Entity
 @Table(name = "workout_exercise")

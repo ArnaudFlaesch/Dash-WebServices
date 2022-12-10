@@ -1,7 +1,7 @@
 package com.common.app.controller
 
 import com.common.app.controller.requests.LoginRequest
-import com.common.security.response.JwtResponse
+import com.common.app.security.response.JwtResponse
 import com.common.utils.AbstractIT
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
@@ -34,7 +34,7 @@ class AuthControllerTests : AbstractIT() {
             .contentType(ContentType.JSON)
             .`when`()
             .body(LoginRequest("admintest", "adminpassword"))
-            .post("/auth/login/")
+            .post("/auth/login")
             .then().log().all()
             .statusCode(200)
             .log().all()
@@ -49,7 +49,7 @@ class AuthControllerTests : AbstractIT() {
             .contentType(ContentType.JSON)
             .`when`()
             .body(LoginRequest("wrongUsername", "wrongPassword"))
-            .post("/auth/login/")
+            .post("/auth/login")
             .then().log().all()
             .statusCode(401)
             .log().all()

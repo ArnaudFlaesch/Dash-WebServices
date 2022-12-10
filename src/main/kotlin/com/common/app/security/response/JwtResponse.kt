@@ -1,4 +1,4 @@
-package com.common.security.response
+package com.common.app.security.response
 
 class JwtResponse(
     var accessToken: String,

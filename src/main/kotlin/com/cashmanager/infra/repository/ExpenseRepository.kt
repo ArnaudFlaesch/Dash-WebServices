@@ -2,12 +2,12 @@ package com.cashmanager.infra.repository
 
 import com.cashmanager.infra.entity.ExpenseEntity
 import com.cashmanager.infra.entity.TotalExpenseByMonthEntity
+import jakarta.transaction.Transactional
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
-import javax.transaction.Transactional
 
 @Repository
 interface ExpenseRepository : JpaRepository<ExpenseEntity, Int> {
@@ -24,6 +24,6 @@ interface ExpenseRepository : JpaRepository<ExpenseEntity, Int> {
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM ExpenseEntity WHERE label_id = :labelId")
+    @Query("DELETE FROM ExpenseEntity WHERE label.id = :labelId")
     fun deleteExpensesByLabelId(labelId: Int)
 }

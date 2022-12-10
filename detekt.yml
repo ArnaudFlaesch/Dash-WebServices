@@ -296,7 +296,7 @@ formatting:
   ImportOrdering:
     active: false
     autoCorrect: true
-    layout: '*,java.**,javax.**,kotlin.**,^'
+    layout: '*,java.**,jakarta.**,kotlin.**,^'
   Indentation:
     active: false
     autoCorrect: true

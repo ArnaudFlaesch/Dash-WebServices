@@ -1,4 +1,4 @@
-package com.common.security
+package com.common.app.security
 
 import io.jsonwebtoken.*
 import org.slf4j.LoggerFactory
