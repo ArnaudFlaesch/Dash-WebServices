@@ -64,7 +64,9 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:$springDocVersion")
 
     implementation("io.jsonwebtoken:jjwt:$jwtVersion")
-    implementation("org.mnode.ical4j:ical4j:$ical4jVersion")
+    implementation("org.mnode.ical4j:ical4j:$ical4jVersion") {
+        exclude("org.codehaus.groovy", "groovy")
+    }
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 
@@ -80,9 +82,9 @@ dependencies {
     implementation("com.google.code.gson:gson:$gsonVersion")
 
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
-    testImplementation("io.rest-assured:rest-assured-common:$restAssuredVersion")
     testImplementation("io.rest-assured:json-path:$restAssuredVersion")
     testImplementation("io.rest-assured:xml-path:$restAssuredVersion")
+
     testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
