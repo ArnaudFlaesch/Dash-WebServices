@@ -16,7 +16,7 @@ class ExpenseRepositoryTests : AbstractIT() {
     fun testExpenses() {
         val expenseList = expenseRepository.findAll()
         assertEquals(4, expenseList.size)
-        assertEquals(100.0, expenseList[0].amount)
+        assertEquals(100.0f, expenseList[0].amount)
         assertEquals("Courses", expenseList[0].label.label)
     }
 }
