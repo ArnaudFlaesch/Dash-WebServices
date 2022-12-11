@@ -35,9 +35,9 @@ data class StravaActivityResponse(
     @JsonProperty("end_latlng")
     val endLatlng: IntArray = IntArray(2),
     @JsonProperty("location_city")
-    val locationCity: String = "",
+    val locationCity: String? = "",
     @JsonProperty("location_state")
-    val locationState: String = "",
+    val locationState: String? = "",
     @JsonProperty("location_country")
     val locationCountry: String = "",
     @JsonProperty("start_latitude")
