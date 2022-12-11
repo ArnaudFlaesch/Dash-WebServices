@@ -1,9 +1,8 @@
 package com.dash.infra.adapter
 
 import com.dash.domain.model.steamwidget.GameDataDomain
-import com.dash.infra.apimodel.steam.GameDataApi
-import com.dash.infra.apimodel.steam.GameInfoApi
-import com.dash.infra.apimodel.steam.GameInfoResponse
+import com.dash.domain.model.steamwidget.PlayerDataDomain
+import com.dash.infra.apimodel.steam.*
 import com.dash.infra.rest.SteamApiClient
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -23,6 +22,18 @@ class SteamWidgetAdapterTests {
     private lateinit var steamWidgetAdapter: SteamWidgetAdapter
 
     @Test
+    fun should_get_player_data() {
+        val steamUserId = "1337"
+        val playerDataResponse = PlayerDataApi(personaname = "Nono", profileurl = "steam/nono", avatar = "profile.png")
+        given(steamApiClient.getPlayerData(steamUserId)).willReturn(
+            PlayersDataApiResponse(response = PlayersDataListResponse(players = listOf(playerDataResponse)))
+        )
+        val actual = steamWidgetAdapter.getPlayerData(steamUserId)
+        val expected = listOf(PlayerDataDomain(personaname = "Nono", profileurl = "steam/nono", avatar = "profile.png"))
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun should_paginate_results() {
         val steamUserId = "1337"
         val gamesListMock = createGameListFromApi(0, 50)
@@ -31,15 +42,13 @@ class SteamWidgetAdapterTests {
 
         val actualFirstPage = steamWidgetAdapter.getOwnedGames(steamUserId, "", 0)
         val expectedFirstPage = GameDataDomain(
-            gameCount = 50,
-            games = gamesListMock.subList(0, 25).map(GameInfoApi::toDomain)
+            gameCount = 50, games = gamesListMock.subList(0, 25).map(GameInfoApi::toDomain)
         )
         assertEquals(expectedFirstPage, actualFirstPage)
 
         val actualSecondPage = steamWidgetAdapter.getOwnedGames(steamUserId, "", 1)
         val expectedSecondPage = GameDataDomain(
-            gameCount = 50,
-            games = gamesListMock.subList(25, 50).map(GameInfoApi::toDomain)
+            gameCount = 50, games = gamesListMock.subList(25, 50).map(GameInfoApi::toDomain)
         )
         assertEquals(expectedSecondPage, actualSecondPage)
     }

@@ -9,6 +9,5 @@ import org.springframework.web.bind.annotation.CrossOrigin
 class DashWebServicesApplication
 
 fun main(args: Array<String>) {
-    @Suppress("SpreadOperator")
     runApplication<DashWebServicesApplication>(*args)
 }
