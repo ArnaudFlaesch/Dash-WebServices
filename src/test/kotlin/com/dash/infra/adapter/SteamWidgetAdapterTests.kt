@@ -42,13 +42,15 @@ class SteamWidgetAdapterTests {
 
         val actualFirstPage = steamWidgetAdapter.getOwnedGames(steamUserId, "", 0)
         val expectedFirstPage = GameDataDomain(
-            gameCount = 50, games = gamesListMock.subList(0, 25).map(GameInfoApi::toDomain)
+            gameCount = 50,
+            games = gamesListMock.subList(0, 25).map(GameInfoApi::toDomain)
         )
         assertEquals(expectedFirstPage, actualFirstPage)
 
         val actualSecondPage = steamWidgetAdapter.getOwnedGames(steamUserId, "", 1)
         val expectedSecondPage = GameDataDomain(
-            gameCount = 50, games = gamesListMock.subList(25, 50).map(GameInfoApi::toDomain)
+            gameCount = 50,
+            games = gamesListMock.subList(25, 50).map(GameInfoApi::toDomain)
         )
         assertEquals(expectedSecondPage, actualSecondPage)
     }
