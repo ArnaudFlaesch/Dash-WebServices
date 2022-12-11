@@ -66,6 +66,7 @@ class TabControllerTests : AbstractIT() {
 
         assertNotNull(insertedTab.id)
         assertEquals(insertedTab.label, newTab.label)
+        assertNotNull(insertedTab.userId)
 
         val tabList = given().port(port)
             .header(createAuthenticationHeader(jwtToken))
