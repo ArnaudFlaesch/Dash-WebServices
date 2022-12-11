@@ -17,8 +17,10 @@ class LabelRepositoryTests : AbstractIT() {
     fun testGetLabels() {
         val labelList = labelRepository.findAll()
         assertEquals(2, labelList.size)
+        assertNotNull(labelList[0].id)
         assertEquals("Courses", labelList[0].label)
         assertNotNull(labelList[0].user)
+        assertNotNull(labelList[1].id)
         assertEquals("Restaurant", labelList[1].label)
         assertNotNull(labelList[1].user)
     }
