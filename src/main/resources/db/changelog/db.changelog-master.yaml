@@ -24,7 +24,6 @@ databaseChangeLog:
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
-
   - changeSet:
       id: 3
       author: aflaesch
@@ -38,7 +37,6 @@ databaseChangeLog:
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
-
   - changeSet:
       id: 4
       author: aflaesch
@@ -51,7 +49,6 @@ databaseChangeLog:
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
-
   - changeSet:
       id: 5
       author: aflaesch
@@ -62,54 +59,6 @@ databaseChangeLog:
             dbms: postgresql
             encoding: utf8
             path: /db/changelog/testdata/cashmanager-teste2e-data.sql
-            endDelimiter: \nGO
-            splitStatements: true
-            stripComments: true
-  - changeSet:
-      id: 6
-      author: aflaesch
-      comment: FT-247 Workout widget schema
-      changes:
-        - sqlFile:
-            dbms: postgresql
-            encoding: utf8
-            path: /db/changelog/1.0/ft-247-workout-widget.sql
-            endDelimiter: \nGO
-            splitStatements: true
-            stripComments: true
-  - changeSet:
-      id: 7
-      author: aflaesch
-      comment: FT-248 Air Parif widget type
-      changes:
-        - sqlFile:
-            dbms: postgresql
-            encoding: utf8
-            path: /db/changelog/1.0/ft-248-airparif-widget.sql
-            endDelimiter: \nGO
-            splitStatements: true
-            stripComments: true
-  - changeSet:
-      id: 8
-      author: aflaesch
-      comment: FT-306 Twitter widget
-      changes:
-        - sqlFile:
-            dbms: postgresql
-            encoding: utf8
-            path: /db/changelog/1.0/ft-306-twitter-widget.sql
-            endDelimiter: \nGO
-            splitStatements: true
-            stripComments: true
-  - changeSet:
-      id: 9
-      author: aflaesch
-      comment: FT-322 Ecowatt widget
-      changes:
-        - sqlFile:
-            dbms: postgresql
-            encoding: utf8
-            path: /db/changelog/1.0/ft-322-ecowatt-widget.sql
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
