@@ -2,19 +2,31 @@ databaseChangeLog:
   - changeSet:
       id: 1
       author: aflaesch
-      comment: Init schema
+      comment: Dash schema
       changes:
         - sqlFile:
             dbms: postgresql
             encoding: utf8
-            path: /db/changelog/0.2/schema_init.sql
+            path: /db/changelog/1.0/dash_schema_init.sql
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
   - changeSet:
       id: 2
       author: aflaesch
-      comment: Dataset for tests
+      comment: CashManager schema
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            path: /db/changelog/1.0/cashmanager_schema_init.sql
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 3
+      author: aflaesch
+      comment: Users dataset for tests
       context: dev,test
       changes:
         - sqlFile:
@@ -24,11 +36,22 @@ databaseChangeLog:
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
-
   - changeSet:
-      id: 3
+      id: 4
       author: aflaesch
-      comment: Dataset for dev and prod
+      comment: Config data
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            path: /db/changelog/proddata/configdata.sql
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 5
+      author: aflaesch
+      comment: Users dataset for dev and prod
       context: dev,prod
       changes:
         - sqlFile:
@@ -38,22 +61,8 @@ databaseChangeLog:
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
-
   - changeSet:
-      id: 4
-      author: aflaesch
-      comment: CashManager schema
-      changes:
-        - sqlFile:
-            dbms: postgresql
-            encoding: utf8
-            path: /db/changelog/cashmanager/schema_init.sql
-            endDelimiter: \nGO
-            splitStatements: true
-            stripComments: true
-
-  - changeSet:
-      id: 5
+      id: 6
       author: aflaesch
       comment: CashManager e2e dataset
       context: dev,test
@@ -62,54 +71,6 @@ databaseChangeLog:
             dbms: postgresql
             encoding: utf8
             path: /db/changelog/testdata/cashmanager-teste2e-data.sql
-            endDelimiter: \nGO
-            splitStatements: true
-            stripComments: true
-  - changeSet:
-      id: 6
-      author: aflaesch
-      comment: FT-247 Workout widget schema
-      changes:
-        - sqlFile:
-            dbms: postgresql
-            encoding: utf8
-            path: /db/changelog/1.0/ft-247-workout-widget.sql
-            endDelimiter: \nGO
-            splitStatements: true
-            stripComments: true
-  - changeSet:
-      id: 7
-      author: aflaesch
-      comment: FT-248 Air Parif widget type
-      changes:
-        - sqlFile:
-            dbms: postgresql
-            encoding: utf8
-            path: /db/changelog/1.0/ft-248-airparif-widget.sql
-            endDelimiter: \nGO
-            splitStatements: true
-            stripComments: true
-  - changeSet:
-      id: 8
-      author: aflaesch
-      comment: FT-306 Twitter widget
-      changes:
-        - sqlFile:
-            dbms: postgresql
-            encoding: utf8
-            path: /db/changelog/1.0/ft-306-twitter-widget.sql
-            endDelimiter: \nGO
-            splitStatements: true
-            stripComments: true
-  - changeSet:
-      id: 9
-      author: aflaesch
-      comment: FT-322 Ecowatt widget
-      changes:
-        - sqlFile:
-            dbms: postgresql
-            encoding: utf8
-            path: /db/changelog/1.0/ft-322-ecowatt-widget.sql
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true

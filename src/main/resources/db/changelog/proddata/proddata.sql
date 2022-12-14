@@ -1,2 +1,2 @@
-INSERT INTO users(username, password, email, role_id) VALUES('aflaesch', '$2a$10$DzYNkYSoNkDh2/zy3NDJSOWRNi70FQAFdiHxAZHzNlhR6XYcvCGDC', 'arnaud.flaesch93@gmail.com', 2);
-INSERT INTO users(username, password, email, role_id) VALUES('demo', '$2a$10$7s8i0LOTm6CRvONAMlJ9POjwYfvRVAvV4vIMPVa3QL1QM.2E24bm2', 'demo@gmail.com', 2);
+insert into users(username, password, email, role_id) values('aflaesch', '$2a$10$DzYNkYSoNkDh2/zy3NDJSOWRNi70FQAFdiHxAZHzNlhR6XYcvCGDC', 'arnaud.flaesch93@gmail.com', 2);
+insert into users(username, password, email, role_id) values('demo', '$2a$10$7s8i0LOTm6CRvONAMlJ9POjwYfvRVAvV4vIMPVa3QL1QM.2E24bm2', 'demo@gmail.com', 2);
