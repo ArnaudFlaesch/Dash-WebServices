@@ -27,9 +27,6 @@ CREATE TABLE IF NOT EXISTS users (
     role_id integer
 );
 
-INSERT INTO roles(name) VALUES('ROLE_USER');
-INSERT INTO roles(name) VALUES('ROLE_ADMIN');
-
 -- Database structure and widgets config
 
 CREATE SEQUENCE IF NOT EXISTS public.widget_type_id_seq
@@ -128,13 +125,3 @@ CREATE TABLE IF NOT EXISTS public.followed_user (
     user_handle character varying,
     user_id integer REFERENCES users (id)
 );
-
-INSERT INTO widget_type (description, config) VALUES ('WEATHER', '["weather_api_key", "city"]');
-INSERT INTO widget_type (description, config) VALUES ('RSS', '["url"]');
-INSERT INTO widget_type (description, config) VALUES ('CALENDAR', '[{"calendars": "list"}]');
-INSERT INTO widget_type (description, config) VALUES ('STRAVA', '["clientId", "clientSecret"]');
-INSERT INTO widget_type (description, config) VALUES ('STEAM', '["steamUserId"]');
-INSERT INTO widget_type (description, config) VALUES ('WORKOUT', '{}');
-INSERT INTO widget_type (description, config) VALUES ('AIRPARIF', '["airParifApiKey", "communeInseeCode"]');
-INSERT INTO widget_type (description, config) VALUES ('TWITTER', '["twitterHandle"]');
-INSERT INTO widget_type (description, config) VALUES ('ECOWATT', '[]');

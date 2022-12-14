@@ -2,19 +2,31 @@ databaseChangeLog:
   - changeSet:
       id: 1
       author: aflaesch
-      comment: Init schema
+      comment: Dash schema
       changes:
         - sqlFile:
             dbms: postgresql
             encoding: utf8
-            path: /db/changelog/0.2/schema_init.sql
+            path: /db/changelog/1.0/dash_schema_init.sql
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
   - changeSet:
       id: 2
       author: aflaesch
-      comment: Dataset for tests
+      comment: CashManager schema
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            path: /db/changelog/1.0/cashmanager_schema_init.sql
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 3
+      author: aflaesch
+      comment: Users dataset for tests
       context: dev,test
       changes:
         - sqlFile:
@@ -25,27 +37,15 @@ databaseChangeLog:
             splitStatements: true
             stripComments: true
   - changeSet:
-      id: 3
+      id: 4
       author: aflaesch
-      comment: Dataset for dev and prod
+      comment: Users dataset for dev and prod
       context: dev,prod
       changes:
         - sqlFile:
             dbms: postgresql
             encoding: utf8
             path: /db/changelog/proddata/proddata.sql
-            endDelimiter: \nGO
-            splitStatements: true
-            stripComments: true
-  - changeSet:
-      id: 4
-      author: aflaesch
-      comment: CashManager schema
-      changes:
-        - sqlFile:
-            dbms: postgresql
-            encoding: utf8
-            path: /db/changelog/cashmanager/schema_init.sql
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
