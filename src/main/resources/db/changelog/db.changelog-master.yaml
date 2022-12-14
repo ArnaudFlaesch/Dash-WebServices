@@ -39,6 +39,18 @@ databaseChangeLog:
   - changeSet:
       id: 4
       author: aflaesch
+      comment: Config data
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            path: /db/changelog/proddata/configdata.sql
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 5
+      author: aflaesch
       comment: Users dataset for dev and prod
       context: dev,prod
       changes:
@@ -50,7 +62,7 @@ databaseChangeLog:
             splitStatements: true
             stripComments: true
   - changeSet:
-      id: 5
+      id: 6
       author: aflaesch
       comment: CashManager e2e dataset
       context: dev,test
