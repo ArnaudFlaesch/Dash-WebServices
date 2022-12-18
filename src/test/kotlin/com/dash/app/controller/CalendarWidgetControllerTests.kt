@@ -4,7 +4,7 @@ import com.common.utils.AbstractIT
 import com.common.utils.Constants.UNAUTHORIZED_ERROR
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.dash.app.controller.requests.CalendarUrlPayload
+import com.dash.app.controller.requests.calendarwidget.CalendarUrlPayload
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
@@ -116,7 +116,8 @@ class CalendarWidgetControllerTests : AbstractIT() {
 
     @Test
     fun testGetCalendarData() {
-        val calendarUrl = "https://calendar.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics"
+        val calendarUrl =
+            "https://calendar.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics"
 
         Mockito.`when`(restTemplate.exchange(URI.create(calendarUrl), HttpMethod.GET, null, String::class.java))
             .thenReturn(ResponseEntity(mockedCalendarDataResponse, HttpStatus.OK))
@@ -141,7 +142,8 @@ class CalendarWidgetControllerTests : AbstractIT() {
     fun testGetCalendarDataNullResponse() {
         val calendarUrl = "http://wrong_calendar_url.com"
 
-        Mockito.`when`(restTemplate.exchange(URI.create(calendarUrl), HttpMethod.GET, null, String::class.java)).thenReturn(ResponseEntity(HttpStatus.OK))
+        Mockito.`when`(restTemplate.exchange(URI.create(calendarUrl), HttpMethod.GET, null, String::class.java))
+            .thenReturn(ResponseEntity(HttpStatus.OK))
 
         given()
             .port(port)

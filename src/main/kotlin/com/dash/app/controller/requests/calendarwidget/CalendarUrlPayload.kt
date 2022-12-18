@@ -1,4 +1,4 @@
-package com.dash.app.controller.requests
+package com.dash.app.controller.requests.calendarwidget
 
 data class CalendarUrlPayload(
     val calendarUrl: String
