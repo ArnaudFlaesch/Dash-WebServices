@@ -75,7 +75,7 @@ class MiniWidgetControllerTests : AbstractIT() {
 
         assertNotNull(updatedMiniWidgetDomain.id)
         assertEquals("{}", updatedMiniWidgetDomain.data)
-        assertEquals(1, updatedMiniWidgetDomain.userId)
+        assertNotNull(updatedMiniWidgetDomain.userId)
 
         val updatedWidgetListDomain = given()
             .header(createAuthenticationHeader(jwtToken))
