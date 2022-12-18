@@ -3,8 +3,8 @@ package com.dash.app.controller
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.dash.app.controller.requests.CreateTabPayload
-import com.dash.app.controller.requests.UpdateTabPayload
+import com.dash.app.controller.requests.tab.CreateTabPayload
+import com.dash.app.controller.requests.tab.UpdateTabPayload
 import com.dash.domain.model.TabDomain
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given

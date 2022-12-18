@@ -1,6 +1,6 @@
 package com.dash.app.controller
 
-import com.dash.app.controller.requests.CalendarUrlPayload
+import com.dash.app.controller.requests.calendarwidget.CalendarUrlPayload
 import com.dash.domain.model.calendarWidget.CalendarEvent
 import com.dash.domain.service.CalendarWidgetService
 import org.springframework.http.MediaType
