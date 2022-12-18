@@ -1,4 +1,4 @@
-package com.dash.app.controller.requests
+package com.dash.app.controller.requests.tab
 
 data class UpdateTabPayload(
     val id: Int,

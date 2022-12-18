@@ -43,6 +43,20 @@ CREATE TABLE widget_type (
     config jsonb
 );
 
+CREATE SEQUENCE IF NOT EXISTS public.mini_widget_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE TABLE mini_widget_type (
+    id INT NOT NULL PRIMARY KEY DEFAULT nextval('public.mini_widget_type_id_seq'::regclass),
+    description CHAR(50),
+    config jsonb
+);
+
 CREATE SEQUENCE IF NOT EXISTS public.tab_id_seq
     AS integer
     START WITH 1
@@ -72,6 +86,21 @@ CREATE TABLE IF NOT EXISTS public.widget (
     data jsonb,
     widget_order integer,
     tab_id integer REFERENCES tab (id)
+);
+
+CREATE SEQUENCE IF NOT EXISTS public.mini_widget_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE TABLE IF NOT EXISTS public.mini_widget (
+    id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.mini_widget_id_seq'::regclass),
+    type integer REFERENCES mini_widget_type (id),
+    data jsonb,
+   user_id integer REFERENCES users (id)
 );
 
 -- Workout Widget

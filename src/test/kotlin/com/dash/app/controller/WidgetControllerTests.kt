@@ -3,7 +3,7 @@ package com.dash.app.controller
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.dash.app.controller.requests.CreateWidgetPayload
+import com.dash.app.controller.requests.widget.CreateWidgetPayload
 import com.dash.domain.model.WidgetDomain
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
@@ -81,7 +81,8 @@ class WidgetControllerTests : AbstractIT() {
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
-            .body(insertedWidgetDomain.copy(widgetOrder = 0, data = "{}")).`when`().patch("${WIDGET_ENDPOINT}updateWidgetData/${insertedWidgetDomain.id}")
+            .body(insertedWidgetDomain.copy(widgetOrder = 0, data = "{}")).`when`()
+            .patch("${WIDGET_ENDPOINT}updateWidgetData/${insertedWidgetDomain.id}")
             .then().log().all()
             .statusCode(200)
             .extract().`as`(WidgetDomain::class.java)
@@ -139,7 +140,12 @@ class WidgetControllerTests : AbstractIT() {
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .port(port)
-            .body(listOf(firstInsertedWidgetDomain.copy(widgetOrder = 2), secondInsertedWidgetDomain.copy(widgetOrder = 3)))
+            .body(
+                listOf(
+                    firstInsertedWidgetDomain.copy(widgetOrder = 2),
+                    secondInsertedWidgetDomain.copy(widgetOrder = 3)
+                )
+            )
             .`when`().post("${WIDGET_ENDPOINT}updateWidgetsOrder")
             .then().log().all()
             .statusCode(200)
