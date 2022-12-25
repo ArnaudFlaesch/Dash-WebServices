@@ -22,15 +22,13 @@ val hibernateTypesVersion = "2.20.0"
 val testContainersVersion = "1.17.6"
 
 val detektVersion = "1.22.0"
-val ktlintVersion = "0.48.0"
-
-val ktlint: Configuration by configurations.creating
 
 plugins {
     val kotlinPluginVersion = "1.7.22"
     val springBootPluginVersion = "3.0.0"
     val springDependencyManagementPluginVersion = "1.1.0"
     val detektPluginVersion = "1.22.0"
+    val kotlinterPluginVersion = "3.13.0"
     val springDocGradlePluginVersion = "1.5.0"
 
     jacoco
@@ -38,6 +36,7 @@ plugins {
     id("io.spring.dependency-management") version springDependencyManagementPluginVersion
     // id("org.springdoc.openapi-gradle-plugin") version springDocGradlePluginVersion
     id("io.gitlab.arturbosch.detekt") version detektPluginVersion
+    id("org.jmailen.kotlinter") version kotlinterPluginVersion
     kotlin("jvm") version kotlinPluginVersion
     kotlin("plugin.spring") version kotlinPluginVersion
     kotlin("plugin.jpa") version kotlinPluginVersion
@@ -94,7 +93,6 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter:$testContainersVersion")
     testImplementation("org.testcontainers:postgresql:$testContainersVersion")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
-    ktlint("com.pinterest:ktlint:${ktlintVersion}")
 }
 
 tasks.jacocoTestReport {
@@ -154,26 +152,3 @@ openApi {
     }
 }
 */
-
-val ktLintOutputDir = "${project.buildDir}/reports/ktlint/"
-val inputFiles = project.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
-
-val ktlintCheck by tasks.creating(JavaExec::class) {
-    inputs.files(inputFiles)
-    outputs.dir(ktLintOutputDir)
-
-    description = "Check Kotlin code style."
-    classpath = ktlint
-    mainClass.set("com.pinterest.ktlint.Main")
-    args = listOf("src/**/*.kt")
-}
-
-val ktlintFormat by tasks.creating(JavaExec::class) {
-    inputs.files(inputFiles)
-    outputs.dir(ktLintOutputDir)
-
-    description = "Fix Kotlin code style deviations."
-    classpath = ktlint
-    mainClass.set("com.pinterest.ktlint.Main")
-    args = listOf("-F", "src/**/*.kt")
-}
