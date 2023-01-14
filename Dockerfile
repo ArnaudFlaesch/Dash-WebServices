@@ -15,4 +15,4 @@ ARG SPRING_PROFILE
 ARG FILE_CONTEXT
 ADD ./src/main/resources/application.properties application.properties
 ADD ./src/main/resources/application-prod.properties application-prod.properties
-CMD ["java","-Dspring.profiles.active=${SPRING_PROFILE:dev}", "-Dspring.config.location=./${FILE_CONTEXT:application}.properties", "-jar", "dash-webservices.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=${SPRING_PROFILE:dev}", "-Dspring.config.location=./${FILE_CONTEXT:application}.properties", "-jar", "dash-webservices.jar"]
