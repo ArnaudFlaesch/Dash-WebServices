@@ -7,8 +7,12 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/healthCheck")
 class HealthCheckController {
 
+    companion object {
+        private const val HEALTH_CHECK_MESSAGE = "Application is running."
+    }
+
     @GetMapping("/status")
     fun healthCheck(): String {
-        return "Application is running."
+        return HEALTH_CHECK_MESSAGE
     }
 }
