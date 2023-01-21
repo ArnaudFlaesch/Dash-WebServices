@@ -28,7 +28,7 @@ class WorkoutWidgetService(
         workoutTypeRepository.findByUserId(userId).map(WorkoutTypeEntity::toDomain)
 
     fun getWorkoutSessions(userId: Int): List<WorkoutSessionDomain> =
-        workoutSessionRepository.findByUserId(userId).map(WorkoutSessionEntity::toDomain)
+        workoutSessionRepository.findByUserIdOrderByWorkoutDateAsc(userId).map(WorkoutSessionEntity::toDomain)
 
     fun addWorkoutType(workoutType: String, userId: Int): WorkoutTypeDomain {
         val workoutToInsert = WorkoutTypeDomain(0, workoutType, userId)
