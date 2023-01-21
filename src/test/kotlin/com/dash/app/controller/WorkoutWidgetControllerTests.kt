@@ -8,6 +8,7 @@ import com.dash.app.controller.requests.workoutWidget.CreateWorkoutSessionPayloa
 import com.dash.app.controller.requests.workoutWidget.UpdateWorkoutExercisePayload
 import com.dash.domain.model.workoutwidget.WorkoutExerciseDomain
 import com.dash.domain.model.workoutwidget.WorkoutSessionDomain
+import com.dash.domain.model.workoutwidget.WorkoutStatsByMonthDomain
 import com.dash.domain.model.workoutwidget.WorkoutTypeDomain
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
@@ -24,6 +25,7 @@ import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
@@ -135,5 +137,18 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             .extract().`as`(object : TypeRef<List<WorkoutExerciseDomain>>() {})
 
         assertEquals(1, workoutExercises.size)
+
+        val workoutStats = given()
+            .port(port)
+            .header(createAuthenticationHeader(jwtToken))
+            .param("dateMonth", workoutSessionDate.format(DateTimeFormatter.ISO_DATE))
+            .`when`()
+            .get("$workoutWidgetEndpoint/workoutStatsByMonth")
+            .then().log().all()
+            .statusCode(HttpStatus.OK.value())
+            .log().all()
+            .extract().`as`(object : TypeRef<List<WorkoutStatsByMonthDomain>>() {})
+
+        assertEquals(1, workoutStats.size)
     }
 }
