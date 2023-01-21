@@ -4,6 +4,28 @@ import com.dash.domain.model.workoutwidget.WorkoutExerciseDomain
 import jakarta.persistence.*
 import java.io.Serializable
 
+@SqlResultSetMapping(
+    name = "workoutStatsByMonth",
+    classes = [
+        ConstructorResult(
+            targetClass = WorkoutStatsByMonthEntity::class,
+            columns = [ColumnResult(name = "totalnumberofreps"), ColumnResult(name = "workouttypename")]
+        )
+    ]
+)
+@NamedNativeQuery(
+    query = "SELECT sum(E.number_of_reps) AS totalNumberOfReps, T.name AS workoutTypeName\n" +
+        "FROM Workout_Exercise E\n" +
+        "RIGHT JOIN Workout_Session S ON E.workout_session_id = S.id\n" +
+        "RIGHT JOIN Workout_Type T ON E.workout_type_id = T.id\n" +
+        "WHERE EXTRACT(MONTH FROM S.workout_date) = :month\n" +
+        "AND EXTRACT(YEAR FROM S.workout_date) = :year\n" +
+        "AND S.user_id = :userId\n" +
+        "GROUP BY T.name",
+    name = "getWorkoutStatsByMonth",
+    resultClass = WorkoutStatsByMonthEntity::class,
+    resultSetMapping = "workoutStatsByMonth"
+)
 @Entity
 @Table(name = "workout_exercise")
 data class WorkoutExerciseEntity(

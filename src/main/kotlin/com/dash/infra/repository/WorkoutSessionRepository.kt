@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface WorkoutSessionRepository : JpaRepository<WorkoutSessionEntity, Int> {
 
-    fun findByUserId(userId: Int): List<WorkoutSessionEntity>
+    fun findByUserIdOrderByWorkoutDateAsc(userId: Int): List<WorkoutSessionEntity>
 }
