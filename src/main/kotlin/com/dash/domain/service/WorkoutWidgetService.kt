@@ -5,7 +5,7 @@ import com.dash.domain.mapping.WorkoutSessionMapper
 import com.dash.domain.mapping.WorkoutTypeMapper
 import com.dash.domain.model.workoutwidget.WorkoutExerciseDomain
 import com.dash.domain.model.workoutwidget.WorkoutSessionDomain
-import com.dash.domain.model.workoutwidget.WorkoutStatsByMonthDomain
+import com.dash.domain.model.workoutwidget.WorkoutStatsByIntervalDomain
 import com.dash.domain.model.workoutwidget.WorkoutTypeDomain
 import com.dash.infra.entity.workoutwidget.*
 import com.dash.infra.repository.WorkoutExerciseRepository
@@ -29,16 +29,16 @@ class WorkoutWidgetService(
         return workoutTypeRepository.findByUserId(authenticatedUserId).map(WorkoutTypeEntity::toDomain)
     }
 
-    fun getWorkoutSessions(): List<WorkoutSessionDomain> {
+    fun getWorkoutSessions(dateIntervalStart: LocalDate, dateIntervalEnd: LocalDate): List<WorkoutSessionDomain> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return workoutSessionRepository.findByUserIdOrderByWorkoutDateAsc(authenticatedUserId)
+        return workoutSessionRepository.findByUserIdAndWorkoutDateBetweenOrderByWorkoutDateAsc(authenticatedUserId, dateIntervalStart, dateIntervalEnd)
             .map(WorkoutSessionEntity::toDomain)
     }
 
-    fun getWorkoutStatsByMonth(dateMonth: LocalDate): List<WorkoutStatsByMonthDomain> {
+    fun getWorkoutStatsByPeriod(dateIntervalStart: LocalDate, dateIntervalEnd: LocalDate): List<WorkoutStatsByIntervalDomain> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return workoutExerciseRepository.getWorkoutStatsByMonth(dateMonth.monthValue, dateMonth.year, authenticatedUserId)
-            .map(WorkoutStatsByMonthEntity::toDomain)
+        return workoutExerciseRepository.getWorkoutStatsByInterval(dateIntervalStart, dateIntervalEnd, authenticatedUserId)
+            .map(WorkoutStatsByIntervalEntity::toDomain)
     }
 
     fun addWorkoutType(workoutType: String): WorkoutTypeDomain {
