@@ -5,9 +5,10 @@ import com.dash.app.controller.requests.workoutWidget.CreateWorkoutSessionPayloa
 import com.dash.app.controller.requests.workoutWidget.UpdateWorkoutExercisePayload
 import com.dash.domain.model.workoutwidget.WorkoutExerciseDomain
 import com.dash.domain.model.workoutwidget.WorkoutSessionDomain
-import com.dash.domain.model.workoutwidget.WorkoutStatsByMonthDomain
+import com.dash.domain.model.workoutwidget.WorkoutStatsByIntervalDomain
 import com.dash.domain.model.workoutwidget.WorkoutTypeDomain
 import com.dash.domain.service.WorkoutWidgetService
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
@@ -18,23 +19,31 @@ class WorkoutWidgetController(
     private val workoutWidgetService: WorkoutWidgetService
 ) {
 
-    @GetMapping("/workoutSessions")
-    fun getWorkoutsSessions(): List<WorkoutSessionDomain> =
-        workoutWidgetService.getWorkoutSessions()
-
     @GetMapping("/workoutTypes")
     fun getWorkoutTypes(): List<WorkoutTypeDomain> =
         workoutWidgetService.getWorkoutTypes()
+
+    @GetMapping("/workoutSessions")
+    fun getWorkoutsSessions(
+        @RequestParam("dateIntervalStart")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+        dateIntervalStart: LocalDate,
+        @RequestParam("dateIntervalEnd")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+        dateIntervalEnd: LocalDate
+    ): List<WorkoutSessionDomain> =
+        workoutWidgetService.getWorkoutSessions(dateIntervalStart, dateIntervalEnd)
 
     @GetMapping("/workoutExercises")
     fun getWorkoutsExercisesByWorkoutSessionId(@RequestParam("workoutSessionId") workoutSessionId: Int): List<WorkoutExerciseDomain> =
         workoutWidgetService.getWorkoutsExercisesByWorkoutSessionId(workoutSessionId)
 
-    @GetMapping("/workoutStatsByMonth")
-    fun getWorkoutStatsByMonth(
-        @RequestParam("dateMonth") dateMonth: LocalDate
-    ): List<WorkoutStatsByMonthDomain> =
-        workoutWidgetService.getWorkoutStatsByMonth(dateMonth)
+    @GetMapping("/workoutStatsByPeriod")
+    fun getWorkoutStatsByPeriod(
+        @RequestParam("dateIntervalStart") dateIntervalStart: LocalDate,
+        @RequestParam("dateIntervalEnd") dateIntervalEnd: LocalDate
+    ): List<WorkoutStatsByIntervalDomain> =
+        workoutWidgetService.getWorkoutStatsByPeriod(dateIntervalStart, dateIntervalEnd)
 
     @PostMapping("/updateWorkoutExercise")
     fun updateWorkoutExercise(@RequestBody updateWorkoutExercisePayload: UpdateWorkoutExercisePayload): WorkoutExerciseDomain =

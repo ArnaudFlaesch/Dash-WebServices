@@ -8,7 +8,7 @@ import com.dash.app.controller.requests.workoutWidget.CreateWorkoutSessionPayloa
 import com.dash.app.controller.requests.workoutWidget.UpdateWorkoutExercisePayload
 import com.dash.domain.model.workoutwidget.WorkoutExerciseDomain
 import com.dash.domain.model.workoutwidget.WorkoutSessionDomain
-import com.dash.domain.model.workoutwidget.WorkoutStatsByMonthDomain
+import com.dash.domain.model.workoutwidget.WorkoutStatsByIntervalDomain
 import com.dash.domain.model.workoutwidget.WorkoutTypeDomain
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
@@ -100,6 +100,8 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             .param("userId", userId)
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
+            .param("dateIntervalStart", LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE))
+            .param("dateIntervalEnd", LocalDate.now().plusDays(1).format(DateTimeFormatter.ISO_DATE))
             .get("$workoutWidgetEndpoint/workoutSessions")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
@@ -141,13 +143,14 @@ class WorkoutWidgetControllerTests : AbstractIT() {
         val workoutStats = given()
             .port(port)
             .header(createAuthenticationHeader(jwtToken))
-            .param("dateMonth", workoutSessionDate.format(DateTimeFormatter.ISO_DATE))
+            .param("dateIntervalStart", LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE))
+            .param("dateIntervalEnd", LocalDate.now().plusDays(1).format(DateTimeFormatter.ISO_DATE))
             .`when`()
-            .get("$workoutWidgetEndpoint/workoutStatsByMonth")
+            .get("$workoutWidgetEndpoint/workoutStatsByPeriod")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .log().all()
-            .extract().`as`(object : TypeRef<List<WorkoutStatsByMonthDomain>>() {})
+            .extract().`as`(object : TypeRef<List<WorkoutStatsByIntervalDomain>>() {})
 
         assertEquals(1, workoutStats.size)
     }

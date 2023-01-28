@@ -5,10 +5,10 @@ import jakarta.persistence.*
 import java.io.Serializable
 
 @SqlResultSetMapping(
-    name = "workoutStatsByMonth",
+    name = "workoutStatsByInterval",
     classes = [
         ConstructorResult(
-            targetClass = WorkoutStatsByMonthEntity::class,
+            targetClass = WorkoutStatsByIntervalEntity::class,
             columns = [ColumnResult(name = "totalnumberofreps"), ColumnResult(name = "workouttypename")]
         )
     ]
@@ -18,13 +18,12 @@ import java.io.Serializable
         "FROM Workout_Exercise E\n" +
         "RIGHT JOIN Workout_Session S ON E.workout_session_id = S.id\n" +
         "RIGHT JOIN Workout_Type T ON E.workout_type_id = T.id\n" +
-        "WHERE EXTRACT(MONTH FROM S.workout_date) = :month\n" +
-        "AND EXTRACT(YEAR FROM S.workout_date) = :year\n" +
+        "WHERE S.workout_date BETWEEN :dateIntervalStart AND :dateIntervalEnd\n" +
         "AND S.user_id = :userId\n" +
         "GROUP BY T.name",
-    name = "getWorkoutStatsByMonth",
-    resultClass = WorkoutStatsByMonthEntity::class,
-    resultSetMapping = "workoutStatsByMonth"
+    name = "getWorkoutStatsByInterval",
+    resultClass = WorkoutStatsByIntervalEntity::class,
+    resultSetMapping = "workoutStatsByInterval"
 )
 @Entity
 @Table(name = "workout_exercise")
