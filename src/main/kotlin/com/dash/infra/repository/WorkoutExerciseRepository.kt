@@ -3,6 +3,7 @@ package com.dash.infra.repository
 import com.dash.infra.entity.workoutwidget.WorkoutExerciseEntity
 import com.dash.infra.entity.workoutwidget.WorkoutExerciseEntityId
 import com.dash.infra.entity.workoutwidget.WorkoutStatsByIntervalEntity
+import com.dash.infra.entity.workoutwidget.WorkoutStatsByYearEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
@@ -16,4 +17,7 @@ interface WorkoutExerciseRepository : JpaRepository<WorkoutExerciseEntity, Worko
 
     @Query(name = "getWorkoutStatsByInterval", nativeQuery = true)
     fun getWorkoutStatsByInterval(dateIntervalStart: LocalDate, dateIntervalEnd: LocalDate, userId: Int): List<WorkoutStatsByIntervalEntity>
+
+    @Query(name = "getWorkoutStatsByYear", nativeQuery = true)
+    fun getWorkoutStatsByYear(year: Int, userId: Int): List<WorkoutStatsByYearEntity>
 }
