@@ -2,7 +2,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
-val kotlinVersion = "1.8.0"
+val kotlinVersion = "1.8.10"
 val springBootVersion = "3.0.2"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.8"
@@ -12,7 +12,7 @@ val jacksonVersion = "2.14.2"
 val log4jVersion = "2.19.0"
 
 val liquibaseVersion = "4.19.0"
-val postgresqlVersion = "42.5.2"
+val postgresqlVersion = "42.5.3"
 val gsonVersion = "2.10.1"
 
 val restAssuredVersion = "5.3.0"
@@ -24,7 +24,7 @@ val testContainersVersion = "1.17.6"
 val detektVersion = "1.22.0"
 
 plugins {
-    val kotlinPluginVersion = "1.8.0"
+    val kotlinPluginVersion = "1.8.10"
     val springBootPluginVersion = "3.0.2"
     val springDependencyManagementPluginVersion = "1.1.0"
     val detektPluginVersion = "1.22.0"
