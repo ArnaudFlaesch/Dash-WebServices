@@ -3,10 +3,7 @@ package com.dash.app.controller
 import com.dash.app.controller.requests.workoutWidget.AddWorkoutTypePayload
 import com.dash.app.controller.requests.workoutWidget.CreateWorkoutSessionPayload
 import com.dash.app.controller.requests.workoutWidget.UpdateWorkoutExercisePayload
-import com.dash.domain.model.workoutwidget.WorkoutExerciseDomain
-import com.dash.domain.model.workoutwidget.WorkoutSessionDomain
-import com.dash.domain.model.workoutwidget.WorkoutStatsByIntervalDomain
-import com.dash.domain.model.workoutwidget.WorkoutTypeDomain
+import com.dash.domain.model.workoutwidget.*
 import com.dash.domain.service.WorkoutWidgetService
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.web.bind.annotation.*
@@ -44,6 +41,12 @@ class WorkoutWidgetController(
         @RequestParam("dateIntervalEnd") dateIntervalEnd: LocalDate
     ): List<WorkoutStatsByIntervalDomain> =
         workoutWidgetService.getWorkoutStatsByPeriod(dateIntervalStart, dateIntervalEnd)
+
+    @GetMapping("/workoutStatsByYear")
+    fun getWorkoutStatsByYear(
+        @RequestParam("year") yearPeriod: Int
+    ): List<WorkoutStatsByYearDomain> =
+        workoutWidgetService.getWorkoutStatsByYear(yearPeriod)
 
     @PostMapping("/updateWorkoutExercise")
     fun updateWorkoutExercise(@RequestBody updateWorkoutExercisePayload: UpdateWorkoutExercisePayload): WorkoutExerciseDomain =

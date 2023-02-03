@@ -3,10 +3,7 @@ package com.dash.domain.service
 import com.common.domain.service.UserService
 import com.dash.domain.mapping.WorkoutSessionMapper
 import com.dash.domain.mapping.WorkoutTypeMapper
-import com.dash.domain.model.workoutwidget.WorkoutExerciseDomain
-import com.dash.domain.model.workoutwidget.WorkoutSessionDomain
-import com.dash.domain.model.workoutwidget.WorkoutStatsByIntervalDomain
-import com.dash.domain.model.workoutwidget.WorkoutTypeDomain
+import com.dash.domain.model.workoutwidget.*
 import com.dash.infra.entity.workoutwidget.*
 import com.dash.infra.repository.WorkoutExerciseRepository
 import com.dash.infra.repository.WorkoutSessionRepository
@@ -39,6 +36,12 @@ class WorkoutWidgetService(
         val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
         return workoutExerciseRepository.getWorkoutStatsByInterval(dateIntervalStart, dateIntervalEnd, authenticatedUserId)
             .map(WorkoutStatsByIntervalEntity::toDomain)
+    }
+
+    fun getWorkoutStatsByYear(yearPeriod: Int): List<WorkoutStatsByYearDomain> {
+        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
+        return workoutExerciseRepository.getWorkoutStatsByYear(yearPeriod, authenticatedUserId)
+            .map(WorkoutStatsByYearEntity::toDomain)
     }
 
     fun addWorkoutType(workoutType: String): WorkoutTypeDomain {
