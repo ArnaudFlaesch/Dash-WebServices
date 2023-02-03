@@ -6,10 +6,10 @@ import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.dash.app.controller.requests.workoutWidget.AddWorkoutTypePayload
 import com.dash.app.controller.requests.workoutWidget.CreateWorkoutSessionPayload
 import com.dash.app.controller.requests.workoutWidget.UpdateWorkoutExercisePayload
-import com.dash.domain.model.workoutwidget.WorkoutExerciseDomain
-import com.dash.domain.model.workoutwidget.WorkoutSessionDomain
-import com.dash.domain.model.workoutwidget.WorkoutStatsByIntervalDomain
-import com.dash.domain.model.workoutwidget.WorkoutTypeDomain
+import com.dash.domain.model.workoutwidget.*
+import com.dash.infra.repository.WorkoutExerciseRepository
+import com.dash.infra.repository.WorkoutSessionRepository
+import com.dash.infra.repository.WorkoutTypeRepository
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
@@ -17,9 +17,11 @@ import io.restassured.http.ContentType
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
@@ -38,13 +40,28 @@ class WorkoutWidgetControllerTests : AbstractIT() {
     private lateinit var jwtToken: String
 
     private val workoutWidgetEndpoint = "/workoutWidget"
-
     private val userId = 1
+
+    @Autowired
+    private lateinit var workoutTypeRepository: WorkoutTypeRepository
+
+    @Autowired
+    private lateinit var workoutExerciseRepository: WorkoutExerciseRepository
+
+    @Autowired
+    private lateinit var workoutSessionRepository: WorkoutSessionRepository
 
     @BeforeAll
     fun setup() {
         RestAssured.defaultParser = Parser.JSON
         jwtToken = IntegrationTestsUtils.authenticateAdmin(port).accessToken
+    }
+
+    @BeforeEach
+    fun tearDown() {
+        workoutExerciseRepository.deleteAll()
+        workoutSessionRepository.deleteAll()
+        workoutTypeRepository.deleteAll()
     }
 
     @Test
@@ -153,5 +170,74 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             .extract().`as`(object : TypeRef<List<WorkoutStatsByIntervalDomain>>() {})
 
         assertEquals(1, workoutStats.size)
+    }
+
+    @Test
+    fun shouldGetWorkoutStatsByYear() {
+        val year = 2022
+        val newWorkoutType = "Abdos"
+        val addWorkoutTypePayload = AddWorkoutTypePayload(newWorkoutType)
+
+        val workoutType = given()
+            .port(port)
+            .header(createAuthenticationHeader(jwtToken))
+            .contentType(ContentType.JSON)
+            .body(addWorkoutTypePayload)
+            .`when`()
+            .post("$workoutWidgetEndpoint/addWorkoutType")
+            .then().log().all()
+            .statusCode(HttpStatus.OK.value())
+            .log().all()
+            .extract().`as`(WorkoutTypeDomain::class.java)
+
+        assertEquals(newWorkoutType, workoutType.name)
+
+        val workoutSessionDate = LocalDate.of(year, 5, 1)
+        val createWorkoutSessionPayload = CreateWorkoutSessionPayload(workoutSessionDate)
+
+        val workoutSession = given()
+            .port(port)
+            .header(createAuthenticationHeader(jwtToken))
+            .contentType(ContentType.JSON)
+            .body(createWorkoutSessionPayload)
+            .`when`()
+            .post("$workoutWidgetEndpoint/createWorkoutSession")
+            .then().log().all()
+            .statusCode(HttpStatus.OK.value())
+            .extract().`as`(WorkoutSessionDomain::class.java)
+
+        assertEquals(workoutSessionDate, workoutSession.workoutDate)
+
+        val workoutExercisePayload = UpdateWorkoutExercisePayload(workoutSession.id, workoutType.id, 5)
+        val workoutExercise = given()
+            .port(port)
+            .header(createAuthenticationHeader(jwtToken))
+            .contentType(ContentType.JSON)
+            .body(workoutExercisePayload)
+            .`when`()
+            .post("$workoutWidgetEndpoint/updateWorkoutExercise")
+            .then().log().all()
+            .statusCode(HttpStatus.OK.value())
+            .extract().`as`(WorkoutExerciseDomain::class.java)
+
+        assertEquals(
+            WorkoutExerciseDomain(workoutSession.id, workoutType.id, 5),
+            workoutExercise
+        )
+
+        val workoutStats = given()
+            .port(port)
+            .header(createAuthenticationHeader(jwtToken))
+            .param("year", year)
+            .`when`()
+            .get("$workoutWidgetEndpoint/workoutStatsByYear")
+            .then().log().all()
+            .statusCode(HttpStatus.OK.value())
+            .log().all()
+            .extract().`as`(object : TypeRef<List<WorkoutStatsByYearDomain>>() {})
+
+        assertEquals(1, workoutStats.size)
+        assertEquals("Abdos", workoutStats[0].workoutTypeName)
+        assertEquals(5, workoutStats[0].totalNumberOfReps)
     }
 }
