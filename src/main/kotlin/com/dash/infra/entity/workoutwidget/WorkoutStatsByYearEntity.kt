@@ -6,8 +6,8 @@ import java.time.LocalDate
 data class WorkoutStatsByYearEntity(
     val totalNumberOfReps: Long,
     val workoutTypeId: Int,
-    val monthPeriod: Double,
-    val yearPeriod: Double,
+    val monthPeriod: Number,
+    val yearPeriod: Number,
     val workoutTypeName: String
 ) {
     constructor() : this(0, 0, 0.0, 0.0, "")

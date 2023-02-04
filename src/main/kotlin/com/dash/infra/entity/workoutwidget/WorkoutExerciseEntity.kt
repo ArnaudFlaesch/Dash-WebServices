@@ -17,16 +17,16 @@ import java.io.Serializable
         resultSetMapping = "workoutStatsByInterval"
     ),
     NamedNativeQuery(
-        query = "SELECT E.workout_type_id AS workoutTypeId, SUM(E.number_of_reps) as totalNumberOfReps,\n" +
-            "T.name as workoutTypeName, EXTRACT(MONTH FROM S.workout_date) AS monthPeriod,\n" +
-            "EXTRACT(YEAR FROM S.workout_date) AS yearPeriod\n" +
-            "FROM Workout_Exercise E\n" +
-            "RIGHT JOIN Workout_Session S ON E.workout_session_id = S.id\n" +
-            "RIGHT JOIN Workout_Type T ON E.workout_type_id = T.id\n" +
-            "WHERE EXTRACT(YEAR FROM S.workout_date) = :year\n" +
-            "AND S.user_id = :userId\n" +
-            "GROUP BY monthPeriod, workoutTypeId, yearPeriod, workoutTypeName\n" +
-            "ORDER BY monthPeriod ASC",
+        query = """SELECT E.workout_type_id AS workoutTypeId, SUM(E.number_of_reps) as totalNumberOfReps,
+            T.name as workoutTypeName, EXTRACT(MONTH FROM S.workout_date) AS monthPeriod,
+            EXTRACT(YEAR FROM S.workout_date) AS yearPeriod
+            FROM Workout_Exercise E
+            RIGHT JOIN Workout_Session S ON E.workout_session_id = S.id
+            RIGHT JOIN Workout_Type T ON E.workout_type_id = T.id
+            WHERE EXTRACT(YEAR FROM S.workout_date) = :year
+            AND S.user_id = :userId
+            GROUP BY monthPeriod, workoutTypeId, yearPeriod, workoutTypeName
+            ORDER BY monthPeriod ASC""",
         name = "getWorkoutStatsByYear",
         resultClass = WorkoutStatsByYearEntity::class,
         resultSetMapping = "workoutStatsByYear"
