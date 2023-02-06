@@ -1,9 +1,9 @@
 package com.dash.infra.entity.workoutwidget
 
-import com.dash.domain.model.workoutwidget.WorkoutStatsByYearDomain
+import com.dash.domain.model.workoutwidget.WorkoutStatsByMonthDomain
 import java.time.LocalDate
 
-data class WorkoutStatsByYearEntity(
+data class WorkoutStatsByMonthEntity(
     val totalNumberOfReps: Long,
     val workoutTypeId: Int,
     val monthPeriod: Number,
@@ -12,7 +12,7 @@ data class WorkoutStatsByYearEntity(
 ) {
     constructor() : this(0, 0, 0.0, 0.0, "")
 
-    fun toDomain() = WorkoutStatsByYearDomain(
+    fun toDomain() = WorkoutStatsByMonthDomain(
         totalNumberOfReps = this.totalNumberOfReps,
         workoutTypeId = this.workoutTypeId,
         monthPeriod = LocalDate.of(yearPeriod.toInt(), monthPeriod.toInt(), 1),

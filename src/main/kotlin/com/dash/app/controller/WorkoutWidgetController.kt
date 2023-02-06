@@ -42,11 +42,12 @@ class WorkoutWidgetController(
     ): List<WorkoutStatsByIntervalDomain> =
         workoutWidgetService.getWorkoutStatsByPeriod(dateIntervalStart, dateIntervalEnd)
 
-    @GetMapping("/workoutStatsByYear")
-    fun getWorkoutStatsByYear(
-        @RequestParam("year") yearPeriod: Int
-    ): List<WorkoutStatsByYearDomain> =
-        workoutWidgetService.getWorkoutStatsByYear(yearPeriod)
+    @GetMapping("/workoutStatsByMonth")
+    fun workoutStatsByMonth(
+        @RequestParam("dateIntervalStart") dateIntervalStart: LocalDate,
+        @RequestParam("dateIntervalEnd") dateIntervalEnd: LocalDate
+    ): List<WorkoutStatsByMonthDomain> =
+        workoutWidgetService.getWorkoutStatsByMonth(dateIntervalStart, dateIntervalEnd)
 
     @PostMapping("/updateWorkoutExercise")
     fun updateWorkoutExercise(@RequestBody updateWorkoutExercisePayload: UpdateWorkoutExercisePayload): WorkoutExerciseDomain =

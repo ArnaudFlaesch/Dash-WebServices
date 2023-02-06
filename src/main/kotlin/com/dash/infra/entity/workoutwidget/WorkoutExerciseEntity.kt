@@ -6,12 +6,13 @@ import java.io.Serializable
 
 @NamedNativeQueries(
     NamedNativeQuery(
-        query = "SELECT sum(E.number_of_reps) AS totalNumberOfReps, T.name AS workoutTypeName\n" +
-            "FROM Workout_Exercise E\n" +
-            "RIGHT JOIN Workout_Session S ON E.workout_session_id = S.id\n" +
-            "RIGHT JOIN Workout_Type T ON E.workout_type_id = T.id\n" +
-            "WHERE S.workout_date BETWEEN :dateIntervalStart AND :dateIntervalEnd\n" +
-            "AND S.user_id = :userId\n" + "GROUP BY T.name",
+        query = """SELECT sum(E.number_of_reps) AS totalNumberOfReps, T.name AS workoutTypeName
+            FROM Workout_Exercise E
+            RIGHT JOIN Workout_Session S ON E.workout_session_id = S.id
+            RIGHT JOIN Workout_Type T ON E.workout_type_id = T.id
+            WHERE S.workout_date BETWEEN :dateIntervalStart AND :dateIntervalEnd
+            AND S.user_id = :userId
+            GROUP BY T.name""",
         name = "getWorkoutStatsByInterval",
         resultClass = WorkoutStatsByIntervalEntity::class,
         resultSetMapping = "workoutStatsByInterval"
@@ -23,33 +24,16 @@ import java.io.Serializable
             FROM Workout_Exercise E
             RIGHT JOIN Workout_Session S ON E.workout_session_id = S.id
             RIGHT JOIN Workout_Type T ON E.workout_type_id = T.id
-            WHERE EXTRACT(YEAR FROM S.workout_date) = :year
+            WHERE S.workout_date BETWEEN :dateIntervalStart AND :dateIntervalEnd
             AND S.user_id = :userId
             GROUP BY monthPeriod, workoutTypeId, yearPeriod, workoutTypeName
             ORDER BY monthPeriod ASC""",
-        name = "getWorkoutStatsByYear",
-        resultClass = WorkoutStatsByYearEntity::class,
-        resultSetMapping = "workoutStatsByYear"
+        name = "getWorkoutStatsByMonth",
+        resultClass = WorkoutStatsByMonthEntity::class,
+        resultSetMapping = "workoutStatsByMonth"
     )
 )
 @SqlResultSetMappings(
-    SqlResultSetMapping(
-        name = "workoutStatsByYear",
-        classes = [
-            ConstructorResult(
-                targetClass = WorkoutStatsByYearEntity::class,
-                columns = [
-                    ColumnResult(name = "workoutTypeId"),
-                    ColumnResult(name = "totalNumberOfReps"),
-                    ColumnResult(name = "workoutTypeName"),
-                    ColumnResult(name = "monthPeriod"),
-                    ColumnResult(
-                        name = "yearPeriod"
-                    )
-                ]
-            )
-        ]
-    ),
     SqlResultSetMapping(
         name = "workoutStatsByInterval",
         classes = [
@@ -58,6 +42,23 @@ import java.io.Serializable
                 columns = [
                     ColumnResult(name = "totalNumberOfReps"),
                     ColumnResult(name = "workoutTypeName")
+                ]
+            )
+        ]
+    ),
+    SqlResultSetMapping(
+        name = "workoutStatsByMonth",
+        classes = [
+            ConstructorResult(
+                targetClass = WorkoutStatsByMonthEntity::class,
+                columns = [
+                    ColumnResult(name = "workoutTypeId"),
+                    ColumnResult(name = "totalNumberOfReps"),
+                    ColumnResult(name = "workoutTypeName"),
+                    ColumnResult(name = "monthPeriod"),
+                    ColumnResult(
+                        name = "yearPeriod"
+                    )
                 ]
             )
         ]
