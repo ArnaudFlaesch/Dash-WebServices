@@ -38,10 +38,10 @@ class WorkoutWidgetService(
             .map(WorkoutStatsByIntervalEntity::toDomain)
     }
 
-    fun getWorkoutStatsByYear(yearPeriod: Int): List<WorkoutStatsByYearDomain> {
+    fun getWorkoutStatsByMonth(dateIntervalStart: LocalDate, dateIntervalEnd: LocalDate): List<WorkoutStatsByMonthDomain> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return workoutExerciseRepository.getWorkoutStatsByYear(yearPeriod, authenticatedUserId)
-            .map(WorkoutStatsByYearEntity::toDomain)
+        return workoutExerciseRepository.getWorkoutStatsByMonth(dateIntervalStart, dateIntervalEnd, authenticatedUserId)
+            .map(WorkoutStatsByMonthEntity::toDomain)
     }
 
     fun addWorkoutType(workoutType: String): WorkoutTypeDomain {
