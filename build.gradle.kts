@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
 val kotlinVersion = "1.8.10"
-val springBootVersion = "3.0.2"
+val springBootVersion = "3.0.3"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.9"
 
