@@ -111,7 +111,7 @@ class StravaWidgetControllerTests : AbstractIT() {
                 .log().all()
                 .extract().`as`(StravaAthleteDomain::class.java)
 
-            assertEquals("aflaesch", actual.username)
+            assertEquals("Paris", actual.city)
         }
     }
 
