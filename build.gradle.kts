@@ -15,6 +15,7 @@ val liquibaseVersion = "4.20.0"
 val postgresqlVersion = "42.6.0"
 val gsonVersion = "2.10.1"
 
+val springSecurityVersion = "6.0.2"
 val restAssuredVersion = "5.3.0"
 val mockitoKotlinVersion = "4.1.0"
 val junitVersion = "5.9.2"
@@ -84,6 +85,7 @@ dependencies {
     testImplementation("io.rest-assured:json-path:$restAssuredVersion")
     testImplementation("io.rest-assured:xml-path:$restAssuredVersion")
 
+    testImplementation("org.springframework.security:spring-security-test:$springSecurityVersion")
     testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")

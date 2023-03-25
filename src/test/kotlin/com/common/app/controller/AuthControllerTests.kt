@@ -2,6 +2,7 @@ package com.common.app.controller
 
 import com.common.app.controller.requests.LoginRequest
 import com.common.app.security.response.JwtResponse
+import com.common.domain.model.RoleEnum
 import com.common.utils.AbstractIT
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
@@ -39,7 +40,7 @@ class AuthControllerTests : AbstractIT() {
             .statusCode(200)
             .log().all()
             .extract().`as`(JwtResponse::class.java)
-        assertEquals("ROLE_ADMIN", jwtResponse.roles[0])
+        assertEquals(RoleEnum.ROLE_ADMIN.roleName, jwtResponse.roles[0])
     }
 
     @Test

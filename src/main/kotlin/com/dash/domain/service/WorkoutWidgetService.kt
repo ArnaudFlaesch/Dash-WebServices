@@ -22,30 +22,30 @@ class WorkoutWidgetService(
 ) {
 
     fun getWorkoutTypes(): List<WorkoutTypeDomain> {
-        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
+        val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return workoutTypeRepository.findByUserIdOrderByNameAsc(authenticatedUserId).map(WorkoutTypeEntity::toDomain)
     }
 
     fun getWorkoutSessions(dateIntervalStart: LocalDate, dateIntervalEnd: LocalDate): List<WorkoutSessionDomain> {
-        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
+        val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return workoutSessionRepository.findByUserIdAndWorkoutDateBetweenOrderByWorkoutDateAsc(authenticatedUserId, dateIntervalStart, dateIntervalEnd)
             .map(WorkoutSessionEntity::toDomain)
     }
 
     fun getWorkoutStatsByPeriod(dateIntervalStart: LocalDate, dateIntervalEnd: LocalDate): List<WorkoutStatsByIntervalDomain> {
-        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
+        val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return workoutExerciseRepository.getWorkoutStatsByInterval(dateIntervalStart, dateIntervalEnd, authenticatedUserId)
             .map(WorkoutStatsByIntervalEntity::toDomain)
     }
 
     fun getWorkoutStatsByMonth(dateIntervalStart: LocalDate, dateIntervalEnd: LocalDate): List<WorkoutStatsByMonthDomain> {
-        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
+        val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return workoutExerciseRepository.getWorkoutStatsByMonth(dateIntervalStart, dateIntervalEnd, authenticatedUserId)
             .map(WorkoutStatsByMonthEntity::toDomain)
     }
 
     fun addWorkoutType(workoutType: String): WorkoutTypeDomain {
-        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
+        val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
         val workoutToInsert = WorkoutTypeDomain(0, workoutType, authenticatedUserId)
         return workoutTypeRepository.save(workoutTypeMapper.mapDomainToEntity(workoutToInsert)).toDomain()
     }
@@ -59,7 +59,7 @@ class WorkoutWidgetService(
     }
 
     fun createWorkoutSession(workoutDate: LocalDate): WorkoutSessionDomain {
-        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
+        val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
         val newWorkoutSession = WorkoutSessionDomain(0, workoutDate, authenticatedUserId)
         return workoutSessionRepository.save(workoutSessionMapper.mapDomainToEntity(newWorkoutSession)).toDomain()
     }
