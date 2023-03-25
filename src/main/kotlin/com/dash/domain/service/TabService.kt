@@ -17,7 +17,7 @@ class TabService(
 ) {
 
     fun getTabs(): List<TabDomain> {
-        val userId = userService.getCurrentAuthenticatedUserId()
+        val userId = userService.getCurrentAuthenticatedUser().id
         return tabRepository.findByUserIdOrderByTabOrderAsc(userId).map(TabEntity::toDomain)
     }
 

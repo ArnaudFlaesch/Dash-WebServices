@@ -40,7 +40,7 @@ class StravaWidgetControllerTests : AbstractIT() {
     @BeforeAll
     fun setup() {
         RestAssured.defaultParser = Parser.JSON
-        jwtToken = IntegrationTestsUtils.authenticateAdmin(port).accessToken
+        jwtToken = IntegrationTestsUtils.authenticateAdminRole(port).accessToken
     }
 
     @Nested
@@ -89,6 +89,7 @@ class StravaWidgetControllerTests : AbstractIT() {
                 .statusCode(statusCode)
                 .log().all()
         }
+
         fun testGetRefreshTokenArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
     }
 
@@ -111,7 +112,7 @@ class StravaWidgetControllerTests : AbstractIT() {
                 .log().all()
                 .extract().`as`(StravaAthleteDomain::class.java)
 
-            assertEquals("aflaesch", actual.username)
+            assertEquals("Paris", actual.city)
         }
     }
 

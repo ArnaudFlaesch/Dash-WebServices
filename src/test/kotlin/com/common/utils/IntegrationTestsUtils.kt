@@ -9,12 +9,16 @@ import org.hamcrest.Matchers
 
 object IntegrationTestsUtils {
 
-    fun authenticateAdmin(port: Int): JwtResponse {
+    fun authenticateAdminRole(port: Int): JwtResponse = authenticate("admintest", "adminpassword", port)
+
+    fun authenticateUserRole(port: Int): JwtResponse = authenticate("usertest", "userpassword", port)
+
+    private fun authenticate(username: String, password: String, port: Int): JwtResponse {
         return given()
             .port(port)
             .contentType(ContentType.JSON)
             .`when`()
-            .body(LoginRequest("admintest", "adminpassword"))
+            .body(LoginRequest(username, password))
             .post("/auth/login")
             .then().log().all()
             .statusCode(200)

@@ -13,12 +13,12 @@ class LabelService(
 ) {
 
     fun getLabels(): List<LabelDomain> {
-        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
+        val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return labelPersistenceAdapter.getLabels(authenticatedUserId)
     }
 
     fun addLabel(labelToAdd: String): LabelDomain {
-        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUserId()
+        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return labelPersistenceAdapter.addLabel(labelToAdd, currentAuthenticatedUserId)
     }
 

@@ -12,12 +12,12 @@ class MiniWidgetService(
 ) {
 
     fun findAuthenticatedUserMiniWidgets(): List<MiniWidgetDomain> {
-        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUserId()
+        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return miniWidgetPersistenceAdapter.findAuthenticatedUserMiniWidgets(currentAuthenticatedUserId)
     }
 
     fun addMiniWidget(widgetType: Int): MiniWidgetDomain {
-        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUserId()
+        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUser().id
         val newMiniWidget = MiniWidgetDomain(id = 0, type = widgetType, data = null, userId = currentAuthenticatedUserId)
         return saveMiniWidget(newMiniWidget)
     }

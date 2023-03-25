@@ -12,12 +12,12 @@ class TwitterWidgetService(
 ) {
 
     fun getFollowedUsers(searchParam: String): List<FollowedUser> {
-        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
+        val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return twitterWidgetAdapter.getFollowedUsers(searchParam, authenticatedUserId)
     }
 
     fun addFollowedUser(followedUserHandle: String): FollowedUser {
-        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
+        val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return twitterWidgetAdapter.addFollowedUser(followedUserHandle, authenticatedUserId)
     }
 
