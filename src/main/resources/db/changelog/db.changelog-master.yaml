@@ -26,6 +26,18 @@ databaseChangeLog:
   - changeSet:
       id: 3
       author: aflaesch
+      comment: Config data
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            path: /db/changelog/proddata/configdata.sql
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 4
+      author: aflaesch
       comment: Users dataset for tests
       context: dev,test
       changes:
@@ -33,18 +45,6 @@ databaseChangeLog:
             dbms: postgresql
             encoding: utf8
             path: /db/changelog/testdata/test-dataset.sql
-            endDelimiter: \nGO
-            splitStatements: true
-            stripComments: true
-  - changeSet:
-      id: 4
-      author: aflaesch
-      comment: Config data
-      changes:
-        - sqlFile:
-            dbms: postgresql
-            encoding: utf8
-            path: /db/changelog/proddata/configdata.sql
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true

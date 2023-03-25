@@ -31,7 +31,7 @@ class CashManagerConfigControllerTests : AbstractIT() {
     @BeforeAll
     fun testUp() {
         defaultParser = Parser.JSON
-        jwtToken = IntegrationTestsUtils.authenticateAdmin(port).accessToken
+        jwtToken = IntegrationTestsUtils.authenticateAdminRole(port).accessToken
     }
 
     @Test

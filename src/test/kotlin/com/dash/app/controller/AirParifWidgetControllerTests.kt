@@ -33,7 +33,7 @@ class AirParifWidgetControllerTests : AbstractIT() {
     @BeforeAll
     fun setup() {
         RestAssured.defaultParser = Parser.JSON
-        jwtToken = IntegrationTestsUtils.authenticateAdmin(port).accessToken
+        jwtToken = IntegrationTestsUtils.authenticateAdminRole(port).accessToken
     }
 
     @Test

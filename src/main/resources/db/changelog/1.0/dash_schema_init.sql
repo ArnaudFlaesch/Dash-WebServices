@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS users (
     username character varying,
     password character varying,
     email character varying,
-    role_id integer
+    role_id integer REFERENCES roles (id)
 );
 
 -- Database structure and widgets config
