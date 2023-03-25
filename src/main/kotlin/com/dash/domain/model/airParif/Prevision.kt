@@ -1,6 +1,5 @@
 package com.dash.domain.model.airParif
 
-
 data class Prevision(
     val date: String,
     val no2: AirParifPrevisionEnum,
