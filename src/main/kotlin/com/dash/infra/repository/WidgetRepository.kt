@@ -14,7 +14,7 @@ interface WidgetRepository : JpaRepository<WidgetEntity, Int> {
     @Query("SELECT COUNT(*) FROM WidgetEntity WHERE tab.id = :tabId")
     fun getNumberOfWidgetsByTab(tabId: Int): Int
 
-    @Query("SELECT * FROM WidgetEntity WHERE tab.user.id = :userId")
+    @Query("FROM WidgetEntity WHERE tab.user.id = :userId")
     fun getUsersWidget(userId: Int): List<WidgetEntity>
 
     @Transactional

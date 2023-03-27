@@ -11,5 +11,5 @@ interface TabRepository : JpaRepository<TabEntity, Int> {
     fun findByUserIdOrderByTabOrderAsc(userId: Int): List<TabEntity>
 
     @Query("SELECT COUNT(*) FROM TabEntity WHERE user.id = :userId")
-    fun getNumberOfTabs(): Int
+    fun getNumberOfTabs(userId: Int): Int
 }

@@ -16,7 +16,7 @@ class TabController(private val tabService: TabService) {
 
     @GetMapping("/")
     @PostFilter(SecurityConditions.doesTabBelongToAuthenticatedUser)
-    fun getTabs(): List<TabDomain> = tabService.getTabs()
+    fun getTabs(): List<TabDomain> = tabService.getUserTabs()
 
     @PostMapping("/addTab")
     fun addTab(@RequestBody createTabPayload: CreateTabPayload): TabDomain = tabService.addTab(createTabPayload.label)
