@@ -2,6 +2,18 @@ databaseChangeLog:
   - changeSet:
       id: 1
       author: aflaesch
+      comment: Common schema
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            path: /db/changelog/1.0/common_schema_init.sql
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 2
+      author: aflaesch
       comment: Dash schema
       changes:
         - sqlFile:
@@ -12,7 +24,7 @@ databaseChangeLog:
             splitStatements: true
             stripComments: true
   - changeSet:
-      id: 2
+      id: 3
       author: aflaesch
       comment: CashManager schema
       changes:
@@ -24,19 +36,19 @@ databaseChangeLog:
             splitStatements: true
             stripComments: true
   - changeSet:
-      id: 3
+      id: 4
       author: aflaesch
       comment: Config data
       changes:
         - sqlFile:
             dbms: postgresql
             encoding: utf8
-            path: /db/changelog/proddata/configdata.sql
+            path: /db/changelog/1.0/configdata.sql
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
   - changeSet:
-      id: 4
+      id: 5
       author: aflaesch
       comment: Users dataset for tests
       context: dev,test
@@ -49,7 +61,7 @@ databaseChangeLog:
             splitStatements: true
             stripComments: true
   - changeSet:
-      id: 5
+      id: 6
       author: aflaesch
       comment: CashManager e2e dataset
       context: dev,test

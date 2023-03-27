@@ -2,17 +2,20 @@ package com.cashmanager.domain.service
 
 import com.cashmanager.domain.model.LabelDomain
 import com.cashmanager.infra.adapter.LabelPersistenceAdapter
+import com.common.app.security.SecurityConditions
 import com.common.domain.service.UserService
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service
 
 @Service
+@PreAuthorize(SecurityConditions.isUserAdmin)
 class LabelService(
     private val labelPersistenceAdapter: LabelPersistenceAdapter,
     private val expenseService: ExpenseService,
     private val userService: UserService
 ) {
 
-    fun getLabels(): List<LabelDomain> {
+    fun getUserLabels(): List<LabelDomain> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return labelPersistenceAdapter.getLabels(authenticatedUserId)
     }

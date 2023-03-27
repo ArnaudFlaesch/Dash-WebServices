@@ -1,6 +1,5 @@
 package com.dash.app.controller
 
-import com.common.domain.service.UserService
 import com.common.infra.utils.JsonExporter.export
 import com.dash.domain.model.TabDomain
 import com.dash.domain.model.WidgetDomain
@@ -20,16 +19,15 @@ import org.springframework.web.multipart.MultipartFile
 @RequestMapping("/dashConfig")
 class DashConfigController(
     private val tabService: TabService,
-    private val widgetService: WidgetService,
-    private val userService: UserService
+    private val widgetService: WidgetService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java.name)
 
     @GetMapping("/export")
     fun downloadJsonFile(): ResponseEntity<ByteArray?>? {
-        val widgets: List<WidgetDomain> = widgetService.getAllWidgets()
-        val tabs: List<TabDomain> = tabService.getTabs()
+        val widgets: List<WidgetDomain> = widgetService.getUserWidgets()
+        val tabs: List<TabDomain> = tabService.getUserTabs()
         val configJsonString: String = export(mapOf("widgets" to widgets, "tabs" to tabs))
         val configJsonBytes = configJsonString.toByteArray()
         return ResponseEntity
@@ -44,12 +42,10 @@ class DashConfigController(
     fun importConfig(@RequestParam("file") file: MultipartFile): Boolean {
         logger.info("Import commencé")
         val importData = ObjectMapper().readValue(file.bytes, ImportData::class.java)
-        val user = userService.getCurrentAuthenticatedUser()
         importData.tabs.forEach { tab ->
             val widgets = importData.widgets.filter { widget -> widget.tabId == tab.id }
-            val tabToInsert = tab.copy(userId = user.id)
-            val insertedTab = tabService.importTab(tabToInsert)
-            widgets.forEach { widget -> widgetService.saveWidget(widget.copy(tabId = insertedTab.id)) }
+            val insertedTab = tabService.importTab(tab.label, tab.tabOrder)
+            widgets.forEach { widget -> widgetService.importWidget(widget.type, widget.widgetOrder, widget.data, insertedTab.id) }
         }
         logger.info("Import terminé")
         return true

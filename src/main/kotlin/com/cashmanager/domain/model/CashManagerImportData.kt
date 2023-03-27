@@ -1,6 +1,6 @@
 package com.cashmanager.domain.model
 
-data class ImportData(
+data class CashManagerImportData(
     val expenses: List<ExpenseExportDomain> = listOf(),
-    val labels: List<LabelDomain> = listOf()
+    val labels: List<LabelExportDomain> = listOf()
 )

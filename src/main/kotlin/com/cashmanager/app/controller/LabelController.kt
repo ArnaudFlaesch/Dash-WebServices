@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 class LabelController(private val labelService: LabelService) {
 
     @GetMapping("/")
-    fun getLabels(): List<LabelDomain> = (labelService.getLabels())
+    fun getLabels(): List<LabelDomain> = labelService.getUserLabels()
 
     @PostMapping("/addLabel")
     fun addLabel(@RequestBody insertLabelPayload: InsertLabelPayload): LabelDomain =

@@ -1,8 +1,8 @@
 package com.cashmanager.app.controller
 
+import com.cashmanager.domain.model.CashManagerImportData
 import com.cashmanager.domain.model.ExpenseDomain
 import com.cashmanager.domain.model.ExpenseExportDomain
-import com.cashmanager.domain.model.ImportData
 import com.cashmanager.domain.model.LabelDomain
 import com.cashmanager.domain.service.ExpenseService
 import com.cashmanager.domain.service.LabelService
@@ -29,11 +29,11 @@ class CashManagerConfigController(
 
     @GetMapping("/export")
     fun downloadJsonFile(): ResponseEntity<ByteArray?>? {
-        val expenses: List<ExpenseDomain> = expenseService.getAllExpenses()
+        val expenses: List<ExpenseDomain> = expenseService.getUserExpenses()
         val expensesToExport = expenses.map { expense: ExpenseDomain ->
             ExpenseExportDomain(expense.id, expense.amount, expense.expenseDate.toString(), expense.labelId)
         }
-        val labels: List<LabelDomain> = labelService.getLabels()
+        val labels: List<LabelDomain> = labelService.getUserLabels()
         val dataJsonString: String = export(mapOf("expenses" to expensesToExport, "labels" to labels))
         val dataJsonBytes = dataJsonString.toByteArray()
         return ResponseEntity
@@ -47,7 +47,7 @@ class CashManagerConfigController(
     @PostMapping("/import")
     fun importConfig(@RequestParam("file") file: MultipartFile): Boolean {
         logger.info("Import commencé")
-        val importData = ObjectMapper().registerModule(JavaTimeModule()).readValue(file.bytes, ImportData::class.java)
+        val importData = ObjectMapper().registerModule(JavaTimeModule()).readValue(file.bytes, CashManagerImportData::class.java)
         importData.labels.forEach { label ->
             val expenses = importData.expenses.filter { expense -> expense.labelId == label.id }
             val insertedLabel = labelService.addLabel(label.label)

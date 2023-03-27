@@ -3,20 +3,25 @@ package com.cashmanager.domain.service
 import com.cashmanager.domain.model.ExpenseDomain
 import com.cashmanager.domain.model.TotalExpenseByMonthDomain
 import com.cashmanager.infra.adapter.ExpensePersistenceAdapter
+import com.common.app.security.SecurityConditions
 import com.common.domain.service.UserService
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 @Service
+@PreAuthorize(SecurityConditions.isUserAdmin)
 class ExpenseService(
     private val expensePersistenceAdapter: ExpensePersistenceAdapter,
     private val userService: UserService
 ) {
 
-    fun getExpensesByInterval(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<ExpenseDomain> =
-        expensePersistenceAdapter.getExpensesByInterval(startIntervalDate, endIntervalDate)
+    fun getExpensesByInterval(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<ExpenseDomain> {
+        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUser().id
+        return expensePersistenceAdapter.getExpensesByInterval(startIntervalDate, endIntervalDate, currentAuthenticatedUserId)
+    }
 
-    fun getAllExpenses(): List<ExpenseDomain> {
+    fun getUserExpenses(): List<ExpenseDomain> {
         val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return expensePersistenceAdapter.getAllUserExpenses(currentAuthenticatedUserId)
     }
