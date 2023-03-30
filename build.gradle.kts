@@ -2,7 +2,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
-val kotlinVersion = "1.8.10"
+val kotlinVersion = "1.8.20"
 val springBootVersion = "3.0.5"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.10"
