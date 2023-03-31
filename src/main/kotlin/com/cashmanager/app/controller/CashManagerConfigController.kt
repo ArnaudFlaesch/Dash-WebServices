@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @RestController
 @CrossOrigin(origins = ["*"])
@@ -38,7 +39,7 @@ class CashManagerConfigController(
         val dataJsonBytes = dataJsonString.toByteArray()
         return ResponseEntity
             .ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=cashManagerData.json")
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=cashManagerData_${LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)}.json")
             .contentType(MediaType.APPLICATION_JSON)
             .contentLength(dataJsonBytes.size.toLong())
             .body(dataJsonBytes)

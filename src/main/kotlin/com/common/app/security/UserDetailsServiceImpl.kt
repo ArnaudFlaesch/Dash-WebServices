@@ -1,7 +1,7 @@
 package com.common.app.security
 
+import com.common.infra.entity.UserEntity
 import com.common.infra.repository.UserRepository
-import com.dash.infra.entity.UserEntity
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException

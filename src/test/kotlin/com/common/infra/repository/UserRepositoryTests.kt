@@ -1,7 +1,7 @@
 package com.common.infra.repository
 
+import com.common.infra.entity.UserEntity
 import com.common.utils.AbstractIT
-import com.dash.infra.entity.UserEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

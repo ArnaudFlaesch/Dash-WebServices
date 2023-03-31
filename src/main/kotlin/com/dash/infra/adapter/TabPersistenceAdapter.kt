@@ -5,9 +5,9 @@ import com.dash.domain.model.TabDomain
 import com.dash.infra.entity.TabEntity
 import com.dash.infra.repository.TabRepository
 import com.dash.infra.repository.WidgetRepository
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class TabPersistenceAdapter(
     private val userRepository: UserRepository,
     private val tabRepository: TabRepository,

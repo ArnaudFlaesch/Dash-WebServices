@@ -4,16 +4,13 @@ import com.cashmanager.app.controller.requests.InsertExpensePayload
 import com.cashmanager.domain.model.ExpenseDomain
 import com.cashmanager.domain.model.TotalExpenseByMonthDomain
 import com.cashmanager.domain.service.ExpenseService
-import com.common.app.security.SecurityConditions
 import org.springframework.format.annotation.DateTimeFormat
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
 @RestController
 @RequestMapping("/expense")
 @CrossOrigin(origins = ["*"])
-@PreAuthorize(SecurityConditions.isUserAdmin)
 class ExpenseController(private val expenseService: ExpenseService) {
 
     @GetMapping("/")

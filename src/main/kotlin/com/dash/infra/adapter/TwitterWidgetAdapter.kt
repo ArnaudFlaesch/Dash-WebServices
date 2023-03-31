@@ -4,9 +4,9 @@ import com.common.infra.repository.UserRepository
 import com.dash.domain.model.twitterwidget.FollowedUser
 import com.dash.infra.entity.twitterwidget.FollowedUserEntity
 import com.dash.infra.repository.TwitterWidgetRepository
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class TwitterWidgetAdapter(
     private val twitterWidgetRepository: TwitterWidgetRepository,
     private val userRepository: UserRepository

@@ -1,5 +1,6 @@
 package com.dash.infra.entity
 
+import com.common.infra.entity.UserEntity
 import com.dash.domain.model.TabDomain
 import jakarta.persistence.*
 

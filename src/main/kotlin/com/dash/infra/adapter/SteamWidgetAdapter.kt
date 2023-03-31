@@ -8,9 +8,9 @@ import com.dash.infra.apimodel.steam.GameInfoApi
 import com.dash.infra.apimodel.steam.GameInfoResponse
 import com.dash.infra.apimodel.steam.PlayersDataApiResponse
 import com.dash.infra.rest.SteamApiClient
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class SteamWidgetAdapter(
     private val steamApiClient: SteamApiClient
 ) {

@@ -4,7 +4,10 @@ import com.common.app.controller.requests.LoginRequest
 import com.common.app.security.JwtUtils
 import com.common.app.security.UserDetailsImpl
 import com.common.app.security.response.JwtResponse
+import com.common.domain.event.DashEvent
+import com.common.domain.model.EventTypeEnum
 import jakarta.validation.Valid
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
@@ -16,6 +19,7 @@ import java.util.stream.Collectors
 @RestController
 @RequestMapping("/auth")
 class AuthController(
+    private val applicationEventPublisher: ApplicationEventPublisher,
     private val authenticationManager: AuthenticationManager,
     private val jwtUtils: JwtUtils
 ) {
@@ -33,6 +37,8 @@ class AuthController(
         SecurityContextHolder.getContext().authentication = authentication
         val jwt = jwtUtils.generateJwtToken(authentication)
         val userDetails = authentication.principal as UserDetailsImpl
+
+        applicationEventPublisher.publishEvent(DashEvent(this, loginRequest.username, EventTypeEnum.USER_LOGGED_IN))
         val roles = userDetails.authorities.stream()
             .map { item: GrantedAuthority -> item.authority }
             .collect(Collectors.toList())

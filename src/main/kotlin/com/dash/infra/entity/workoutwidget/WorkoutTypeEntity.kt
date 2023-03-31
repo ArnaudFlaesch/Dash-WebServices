@@ -1,7 +1,7 @@
 package com.dash.infra.entity.workoutwidget
 
+import com.common.infra.entity.UserEntity
 import com.dash.domain.model.workoutwidget.WorkoutTypeDomain
-import com.dash.infra.entity.UserEntity
 import jakarta.persistence.*
 
 @Entity

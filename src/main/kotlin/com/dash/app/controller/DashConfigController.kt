@@ -13,6 +13,8 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @RestController
 @CrossOrigin(origins = ["*"])
@@ -32,7 +34,7 @@ class DashConfigController(
         val configJsonBytes = configJsonString.toByteArray()
         return ResponseEntity
             .ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=dashboardConfig.json")
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=dashboardConfig_${LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)}.json")
             .contentType(MediaType.APPLICATION_JSON)
             .contentLength(configJsonBytes.size.toLong())
             .body(configJsonBytes)
