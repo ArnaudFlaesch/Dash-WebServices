@@ -141,5 +141,5 @@ CREATE TABLE IF NOT EXISTS public.notification (
     message character varying,
     notification_date timestamp,
     notification_type character varying,
-    is_read boolean DEFAULT false,
+    is_read boolean DEFAULT false
 );
