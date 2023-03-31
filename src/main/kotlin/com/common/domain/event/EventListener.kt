@@ -5,7 +5,6 @@ import com.dash.domain.service.NotificationService
 import org.springframework.context.ApplicationListener
 import org.springframework.stereotype.Component
 
-
 @Component
 class EventListener(private val notificationService: NotificationService) : ApplicationListener<DashEvent> {
 
