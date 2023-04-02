@@ -7,7 +7,7 @@ val springBootVersion = "3.0.5"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.10"
 
-val springDocVersion = "1.6.15"
+val springDocVersion = "1.7.0"
 val jacksonVersion = "2.14.2"
 val log4jVersion = "2.20.0"
 
@@ -25,7 +25,7 @@ val testContainersVersion = "1.17.6"
 val detektVersion = "1.22.0"
 
 plugins {
-    val kotlinPluginVersion = "1.8.10"
+    val kotlinPluginVersion = "1.8.20"
     val springBootPluginVersion = "3.0.5"
     val springDependencyManagementPluginVersion = "1.1.0"
     val detektPluginVersion = "1.22.0"
