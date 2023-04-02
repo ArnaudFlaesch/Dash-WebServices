@@ -85,5 +85,4 @@ class NotificationControllerTests : AbstractIT() {
         assertEquals(NotificationType.WARN, updatedNotifications[0].notificationType)
         assertEquals(true, updatedNotifications[0].isRead)
     }
-
 }

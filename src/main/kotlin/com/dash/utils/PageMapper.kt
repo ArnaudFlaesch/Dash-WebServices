@@ -10,7 +10,7 @@ object PageMapper {
             totalElements = page.totalElements,
             totalPages = page.totalPages,
             size = page.size,
-            number = page.number,
+            number = page.number
         )
     }
 }
