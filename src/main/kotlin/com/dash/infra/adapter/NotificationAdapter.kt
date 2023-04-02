@@ -3,10 +3,14 @@ package com.dash.infra.adapter
 import com.dash.domain.model.notification.NotificationDomain
 import com.dash.infra.entity.NotificationEntity
 import com.dash.infra.repository.NotificationRepository
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
 
 @Component
 class NotificationAdapter(private val notificationRepository: NotificationRepository) {
+
+    fun getNotifications(pageNumber: Int, pageSize: Int) =
+        notificationRepository.findAllByOrderByNotificationDateDesc(PageRequest.of(pageNumber, pageSize)).map(NotificationEntity::toDomain)
 
     fun saveNotification(notification: NotificationDomain): NotificationDomain {
         val notificationEntity = NotificationEntity(
@@ -17,5 +21,10 @@ class NotificationAdapter(private val notificationRepository: NotificationReposi
             isRead = notification.isRead
         )
         return notificationRepository.save(notificationEntity).toDomain()
+    }
+
+    fun markNotificationsAsRead(notificationIds: List<Int>): List<NotificationDomain> {
+        val updatedNotificationEntities = notificationIds.map { notificationRepository.getReferenceById(it).copy(isRead = true) }
+        return notificationRepository.saveAll(updatedNotificationEntities).map(NotificationEntity::toDomain)
     }
 }

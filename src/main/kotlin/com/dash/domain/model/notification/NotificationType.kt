@@ -2,5 +2,5 @@ package com.dash.domain.model.notification
 
 enum class NotificationType {
     INFO,
-    ALERT
+    WARN
 }

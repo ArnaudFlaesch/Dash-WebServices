@@ -1,4 +1,4 @@
-package com.dash.app.controller
+package com.dash.app.controller.webservices
 
 import com.dash.domain.service.RssWidgetService
 import org.springframework.http.MediaType
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @CrossOrigin(origins = ["*"])
-@RequestMapping("/rssWidget", produces = [ MediaType.APPLICATION_JSON_VALUE ])
+@RequestMapping("/rssWidget", produces = [MediaType.APPLICATION_JSON_VALUE])
 class RssWidgetController(
     private val rssWidgetService: RssWidgetService
 ) {

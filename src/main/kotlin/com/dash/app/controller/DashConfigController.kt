@@ -1,13 +1,17 @@
 package com.dash.app.controller
 
+import com.common.domain.event.DashEvent
 import com.common.infra.utils.JsonExporter.export
 import com.dash.domain.model.TabDomain
 import com.dash.domain.model.WidgetDomain
 import com.dash.domain.model.config.ImportData
+import com.dash.domain.model.notification.NotificationType
 import com.dash.domain.service.TabService
 import com.dash.domain.service.WidgetService
+import com.dash.domain.utils.Constants
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -20,6 +24,7 @@ import java.time.format.DateTimeFormatter
 @CrossOrigin(origins = ["*"])
 @RequestMapping("/dashConfig")
 class DashConfigController(
+    private val applicationEventPublisher: ApplicationEventPublisher,
     private val tabService: TabService,
     private val widgetService: WidgetService
 ) {
@@ -32,6 +37,7 @@ class DashConfigController(
         val tabs: List<TabDomain> = tabService.getUserTabs()
         val configJsonString: String = export(mapOf("widgets" to widgets, "tabs" to tabs))
         val configJsonBytes = configJsonString.toByteArray()
+        applicationEventPublisher.publishEvent(DashEvent(this, Constants.EXPORT_CONFIG_EVENT, NotificationType.WARN))
         return ResponseEntity
             .ok()
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=dashboardConfig_${LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)}.json")

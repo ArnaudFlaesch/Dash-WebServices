@@ -1,4 +1,4 @@
-package com.dash.app.controller
+package com.dash.app.controller.webservices
 
 import com.dash.domain.model.airParif.AirParifColor
 import com.dash.domain.model.airParif.Prevision
