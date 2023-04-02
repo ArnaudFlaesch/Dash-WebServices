@@ -36,7 +36,6 @@ class NotificationControllerTests : AbstractIT() {
     private lateinit var jwtToken: String
 
     private val notificationsEndpoint = "/notifications"
-    private val userId = 1
 
     @Autowired
     private lateinit var notificationRepository: NotificationRepository
