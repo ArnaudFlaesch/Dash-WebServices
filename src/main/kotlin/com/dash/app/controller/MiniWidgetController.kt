@@ -25,4 +25,7 @@ class MiniWidgetController(
         @PathVariable("widgetId") widgetId: Int,
         @RequestBody updateWidgetDataPayload: UpdateWidgetDataPayload
     ): MiniWidgetDomain = miniWidgetService.updateWidgetData(widgetId, updateWidgetDataPayload.data)
+
+    @DeleteMapping("/deleteMiniWidget")
+    fun deleteMiniWidget(@RequestParam(value = "widgetId") widgetId: Int) = miniWidgetService.deleteMiniWidget(widgetId)
 }

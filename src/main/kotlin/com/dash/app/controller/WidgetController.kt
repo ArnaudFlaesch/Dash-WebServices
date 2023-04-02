@@ -1,11 +1,9 @@
 package com.dash.app.controller
 
-import com.common.app.security.SecurityConditions.isUserAdmin
 import com.dash.app.controller.requests.widget.CreateWidgetPayload
 import com.dash.app.controller.requests.widget.UpdateWidgetDataPayload
 import com.dash.domain.model.WidgetDomain
 import com.dash.domain.service.WidgetService
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -34,6 +32,5 @@ class WidgetController(
         widgetService.updateWidgetsOrder(widgetsData)
 
     @DeleteMapping("/deleteWidget")
-    @PreAuthorize(isUserAdmin)
-    fun deleteWidget(@RequestParam(value = "id") id: Int) = widgetService.deleteWidget(id)
+    fun deleteWidget(@RequestParam(value = "id") widgetId: Int) = widgetService.deleteWidget(widgetId)
 }

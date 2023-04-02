@@ -84,5 +84,20 @@ class MiniWidgetControllerTests : AbstractIT() {
             .statusCode(200).log().all()
             .extract().`as`(object : TypeRef<List<MiniWidgetDomain>>() {})
         assertEquals(1, updatedWidgetListDomain.size)
+
+        given()
+            .header(createAuthenticationHeader(jwtToken))
+            .port(port)
+            .`when`().param("widgetId", insertedMiniWidgetDomain.id)
+            .delete("${MINI_WIDGET_ENDPOINT}deleteMiniWidget")
+            .then().log().all()
+            .statusCode(200).log().all()
+
+        val updatedMiniWidgetList = given().port(port)
+            .header(createAuthenticationHeader(jwtToken))
+            .`when`().get(MINI_WIDGET_ENDPOINT).then().log().all()
+            .statusCode(200).log().all()
+            .extract().`as`(object : TypeRef<List<MiniWidgetDomain>>() {})
+        assertEquals(0, updatedMiniWidgetList.size)
     }
 }

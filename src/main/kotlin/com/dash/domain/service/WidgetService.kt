@@ -1,8 +1,10 @@
 package com.dash.domain.service
 
+import com.common.app.security.SecurityConditions
 import com.common.domain.service.UserService
 import com.dash.domain.model.WidgetDomain
 import com.dash.infra.adapter.WidgetPersistenceAdapter
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service
 
 @Service
@@ -34,5 +36,6 @@ class WidgetService(
 
     fun updateWidgetsOrder(widgetList: List<WidgetDomain>): List<WidgetDomain> = widgetPersistenceAdapter.updateWidgetsOrder(widgetList)
 
+    @PreAuthorize(SecurityConditions.isUserAdmin)
     fun deleteWidget(id: Int) = widgetPersistenceAdapter.deleteWidget(id)
 }
