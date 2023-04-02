@@ -44,7 +44,7 @@ class WebSecurityConfig(
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
             .cors().and().csrf().disable()
-            .authorizeHttpRequests().requestMatchers("/auth/**", "/healthCheck/status", "/v3/api-docs/**", "/error")
+            .authorizeHttpRequests().requestMatchers("/auth/**", "/v3/api-docs/**", "/error")
             .permitAll()
             .anyRequest().authenticated().and()
             .authenticationManager(authenticationManager)
