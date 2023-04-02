@@ -5,7 +5,6 @@ import com.dash.app.controller.requests.tab.CreateTabPayload
 import com.dash.app.controller.requests.tab.UpdateTabPayload
 import com.dash.domain.model.TabDomain
 import com.dash.domain.service.TabService
-import org.springframework.security.access.prepost.PostFilter
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*
 class TabController(private val tabService: TabService) {
 
     @GetMapping("/")
-    @PostFilter(SecurityConditions.doesTabBelongToAuthenticatedUser)
     fun getTabs(): List<TabDomain> = tabService.getUserTabs()
 
     @PostMapping("/addTab")

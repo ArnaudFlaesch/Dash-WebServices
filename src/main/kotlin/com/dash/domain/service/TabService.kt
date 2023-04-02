@@ -1,8 +1,10 @@
 package com.dash.domain.service
 
+import com.common.app.security.SecurityConditions
 import com.common.domain.service.UserService
 import com.dash.domain.model.TabDomain
 import com.dash.infra.adapter.TabPersistenceAdapter
+import org.springframework.security.access.prepost.PostFilter
 import org.springframework.stereotype.Service
 
 @Service
@@ -11,6 +13,7 @@ class TabService(
     private val userService: UserService
 ) {
 
+    @PostFilter(SecurityConditions.doesTabBelongToAuthenticatedUser)
     fun getUserTabs(): List<TabDomain> {
         val userId = userService.getCurrentAuthenticatedUser().id
         return tabPersistenceAdapter.getUserTabs(userId)
@@ -33,5 +36,6 @@ class TabService(
     fun updateTab(tabId: Int, label: String, tabOrder: Int): TabDomain =
         tabPersistenceAdapter.updateTab(tabId, label, tabOrder)
 
+    // TODO Security precheck
     fun deleteTab(id: Int) = tabPersistenceAdapter.deleteTab(id)
 }
