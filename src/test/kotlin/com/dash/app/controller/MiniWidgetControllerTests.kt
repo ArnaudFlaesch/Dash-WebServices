@@ -40,7 +40,7 @@ class MiniWidgetControllerTests : AbstractIT() {
 
     @Test
     fun insertWidgetToDatabase() {
-        val widget = CreateMiniWidgetPayload(2)
+        val widget = CreateMiniWidgetPayload(1)
 
         val insertedMiniWidgetDomain: MiniWidgetDomain = given()
             .contentType(ContentType.JSON)

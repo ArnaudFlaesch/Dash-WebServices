@@ -20,8 +20,8 @@ class MiniWidgetRepositoryTests : AbstractIT() {
     @Test
     fun testInsertWidgets() {
         val authenticatedUser = userRepository.getReferenceById(1)
-        val w1 = MiniWidgetEntity(id = 0, type = 2, data = "{}", user = authenticatedUser)
-        val w2 = MiniWidgetEntity(id = 0, type = 3, data = "{}", user = authenticatedUser)
+        val w1 = MiniWidgetEntity(id = 0, type = 1, data = "{}", user = authenticatedUser)
+        val w2 = MiniWidgetEntity(id = 0, type = 1, data = "{}", user = authenticatedUser)
         miniWidgetRepository.save(w1)
         miniWidgetRepository.save(w2)
 
