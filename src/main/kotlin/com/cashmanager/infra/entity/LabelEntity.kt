@@ -1,7 +1,7 @@
 package com.cashmanager.infra.entity
 
 import com.cashmanager.domain.model.LabelDomain
-import com.dash.infra.entity.UserEntity
+import com.common.infra.entity.UserEntity
 import jakarta.persistence.*
 
 @Entity

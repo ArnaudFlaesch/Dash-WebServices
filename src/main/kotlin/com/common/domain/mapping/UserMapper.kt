@@ -1,7 +1,7 @@
 package com.common.domain.mapping
 
 import com.common.domain.model.UserDomain
-import com.dash.infra.entity.UserEntity
+import com.common.infra.entity.UserEntity
 import org.springframework.stereotype.Component
 
 @Component

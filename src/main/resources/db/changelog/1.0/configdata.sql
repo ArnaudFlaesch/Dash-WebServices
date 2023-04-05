@@ -9,8 +9,6 @@ insert into widget_type (description, config) values ('TWITTER', '["twitterHandl
 insert into widget_type (description, config) values ('ECOWATT', '[]');
 
 insert into mini_widget_type (description, config) values ('WEATHER', '["weather_api_key", "city"]');
-insert into mini_widget_type (description, config) values ('AIRPARIF', '["airParifApiKey", "communeInseeCode"]');
-insert into mini_widget_type (description, config) values ('ECOWATT', '[]');
 
 insert into roles(name) values('ROLE_USER');
 insert into roles(name) values('ROLE_ADMIN');

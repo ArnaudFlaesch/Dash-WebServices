@@ -1,8 +1,8 @@
 package com.dash.infra.repository
 
+import com.common.infra.entity.RoleEntity
 import com.common.infra.repository.RoleRepository
 import com.common.utils.AbstractIT
-import com.dash.infra.entity.RoleEntity
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

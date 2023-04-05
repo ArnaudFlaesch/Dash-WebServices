@@ -1,4 +1,4 @@
-package com.dash.app.controller
+package com.dash.app.controller.webservices
 
 import com.common.utils.AbstractIT
 import com.common.utils.Constants.UNAUTHORIZED_ERROR

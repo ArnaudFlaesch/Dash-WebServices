@@ -1,6 +1,6 @@
 package com.common.app.security
 
-import com.dash.infra.entity.UserEntity
+import com.common.infra.entity.UserEntity
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority

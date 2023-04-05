@@ -4,11 +4,9 @@ import com.dash.domain.mapping.AirParifWidgetMapper
 import com.dash.domain.model.airParif.AirParifColor
 import com.dash.domain.model.airParif.Prevision
 import com.dash.infra.rest.AirParifApiClient
-import org.springframework.stereotype.Service
-import java.util.*
-import kotlin.collections.LinkedHashMap
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class AirParifWidgetAdapter(
     private val airParifApiClient: AirParifApiClient,
     private val airParifWidgetMapper: AirParifWidgetMapper

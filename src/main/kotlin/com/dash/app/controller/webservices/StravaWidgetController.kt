@@ -1,4 +1,4 @@
-package com.dash.app.controller
+package com.dash.app.controller.webservices
 
 import com.dash.app.controller.requests.stravaWidget.GetStravaRefreshTokenPayload
 import com.dash.app.controller.requests.stravaWidget.GetStravaTokenPayload

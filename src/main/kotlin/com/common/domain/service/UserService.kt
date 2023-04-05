@@ -2,8 +2,8 @@ package com.common.domain.service
 
 import com.common.domain.mapping.UserMapper
 import com.common.domain.model.UserDomain
+import com.common.infra.entity.UserEntity
 import com.common.infra.repository.UserRepository
-import com.dash.infra.entity.UserEntity
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails

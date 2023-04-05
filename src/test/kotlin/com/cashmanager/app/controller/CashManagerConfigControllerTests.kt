@@ -1,6 +1,6 @@
 package com.cashmanager.app.controller
 
-import com.cashmanager.domain.model.ImportData
+import com.cashmanager.domain.model.CashManagerImportData
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
@@ -45,7 +45,7 @@ class CashManagerConfigControllerTests : AbstractIT() {
             .statusCode(200)
             .log().all()
             .body("$", Matchers.notNullValue())
-            .extract().`as`(ImportData::class.java)
+            .extract().`as`(CashManagerImportData::class.java)
         assertEquals(2, exportData.labels.size)
         assertEquals(4, exportData.expenses.size)
 

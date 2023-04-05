@@ -1,7 +1,7 @@
 package com.dash.infra.entity.twitterwidget
 
+import com.common.infra.entity.UserEntity
 import com.dash.domain.model.twitterwidget.FollowedUser
-import com.dash.infra.entity.UserEntity
 import jakarta.persistence.*
 
 @Entity

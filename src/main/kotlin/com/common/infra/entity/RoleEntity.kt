@@ -1,4 +1,4 @@
-package com.dash.infra.entity
+package com.common.infra.entity
 
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank

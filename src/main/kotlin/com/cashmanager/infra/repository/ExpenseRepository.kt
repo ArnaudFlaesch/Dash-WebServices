@@ -12,7 +12,11 @@ import java.time.LocalDate
 @Repository
 interface ExpenseRepository : JpaRepository<ExpenseEntity, Int> {
 
-    fun findAllByExpenseDateBetweenOrderByExpenseDateAsc(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<ExpenseEntity>
+    fun findAllByLabelUserIdAndExpenseDateBetweenOrderByExpenseDateAsc(
+        userId: Int,
+        startIntervalDate: LocalDate,
+        endIntervalDate: LocalDate
+    ): List<ExpenseEntity>
 
     fun findAllByLabelUserId(userId: Int): List<ExpenseEntity>
 

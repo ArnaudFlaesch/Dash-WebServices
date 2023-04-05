@@ -1,5 +1,6 @@
 package com.dash.infra.entity
 
+import com.common.infra.entity.UserEntity
 import com.dash.domain.model.MiniWidgetDomain
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType
 import jakarta.persistence.*
