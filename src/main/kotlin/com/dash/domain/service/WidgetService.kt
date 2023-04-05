@@ -13,6 +13,7 @@ class WidgetService(
     private val widgetPersistenceAdapter: WidgetPersistenceAdapter
 ) {
 
+    @PreAuthorize(SecurityConditions.doesTabBelongToAuthenticatedUser)
     fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<WidgetDomain> = widgetPersistenceAdapter.findByTabIdOrderByWidgetOrderAsc(tabId)
 
     fun getUserWidgets(): List<WidgetDomain> {
@@ -36,6 +37,6 @@ class WidgetService(
 
     fun updateWidgetsOrder(widgetList: List<WidgetDomain>): List<WidgetDomain> = widgetPersistenceAdapter.updateWidgetsOrder(widgetList)
 
-    @PreAuthorize(SecurityConditions.isUserAdmin)
-    fun deleteWidget(id: Int) = widgetPersistenceAdapter.deleteWidget(id)
+    @PreAuthorize("${SecurityConditions.doesWidgetBelongToAuthenticatedUser} and ${SecurityConditions.isUserAdmin}")
+    fun deleteWidget(widgetId: Int) = widgetPersistenceAdapter.deleteWidget(widgetId)
 }
