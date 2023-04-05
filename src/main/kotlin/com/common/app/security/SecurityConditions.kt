@@ -5,8 +5,8 @@ object SecurityConditions {
 
     // Tabs
     const val doesTabsBelongToAuthenticatedUser = "filterObject != authentication.principal.id"
-    const val doesTabBelongToAuthenticatedUser = "@tabSecurityService.doesTabBelongToUser(principal, #tabId)"
+    const val doesTabBelongToAuthenticatedUser = "@tabSecurityService.doesTabBelongToUser(#tabId)"
 
     // Widgets
-    const val doesWidgetBelongToAuthenticatedUser = "@widgetSecurityService.doesWidgetBelongToUser(principal, #widgetId)"
+    const val doesWidgetBelongToAuthenticatedUser = "@widgetSecurityService.doesWidgetBelongToUser(#widgetId)"
 }
