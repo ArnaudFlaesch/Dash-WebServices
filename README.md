@@ -15,7 +15,7 @@ de prévisions météorologiques. Il est possible de répartir ces widgets sur p
 
 Le projet est déployé via Github Pages et accessible à cette addresse : <https://arnaudflaesch.github.io/Dash-Web/>.
 Ce dépôt contient les sources de la partie backend de l'application, qui est accessible à
-l'addresse : https://dash-webservices-production.up.railway.app/.
+l'addresse : https://dash-webservices.herokuapp.com/.
 
 ## Démarrage
 
@@ -52,7 +52,7 @@ des services externes.
 
 - Lint des fichiers sources
 
-> ./gradlew ktlintCheck
+> ./gradlew lintKotlin
 
 > ./gradlew detekt
 

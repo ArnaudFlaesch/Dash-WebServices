@@ -3,7 +3,7 @@ package com.dash.infra.entity
 import com.dash.domain.model.notification.NotificationDomain
 import com.dash.domain.model.notification.NotificationType
 import jakarta.persistence.*
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Entity
 @Table(name = "notification")
@@ -21,7 +21,7 @@ data class NotificationEntity(
 
     val message: String,
 
-    @Column(name = "notification_date") val notificationDate: LocalDateTime,
+    @Column(name = "notification_date") val notificationDate: OffsetDateTime,
 
     @Column(name = "notificationType") val notificationType: String,
 
