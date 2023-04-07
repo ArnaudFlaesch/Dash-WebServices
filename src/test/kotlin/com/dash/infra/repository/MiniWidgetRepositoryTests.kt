@@ -23,12 +23,15 @@ class MiniWidgetRepositoryTests : AbstractIT() {
         val authenticatedUser = userRepository.getReferenceById(1)
         val w1 = MiniWidgetEntity(0, 1, "{}", authenticatedUser)
         val w2 = MiniWidgetEntity(0, 1, "{}", authenticatedUser)
-        miniWidgetRepository.save(w1)
-        miniWidgetRepository.save(w2)
+        miniWidgetRepository.saveAll(listOf(w1, w2))
 
         val listWidgets = miniWidgetRepository.findByUserId(authenticatedUser.id)
         assertThat(listWidgets).hasSize(2)
         assertEquals(1, listWidgets[0].type)
+        assertEquals(LinkedHashMap<String, String>(), listWidgets[0].data)
+        assertEquals(authenticatedUser.id, listWidgets[0].user.id)
         assertEquals(1, listWidgets[1].type)
+        assertEquals(LinkedHashMap<String, String>(), listWidgets[1].data)
+        assertEquals(authenticatedUser.id, listWidgets[1].user.id)
     }
 }
