@@ -23,13 +23,16 @@ class WorkoutSessionRepositoryTests : AbstractIT() {
     fun testInsertWorkoutSessions() {
         val authenticatedUser = userRepository.getReferenceById(1)
         val workoutSessions = listOf(
-            WorkoutSessionEntity(0, LocalDate.of(2023, 1, 1), authenticatedUser), WorkoutSessionEntity(0, LocalDate.of(2023, 1, 5), authenticatedUser)
+            WorkoutSessionEntity(0, LocalDate.of(2023, 1, 1), authenticatedUser),
+            WorkoutSessionEntity(0, LocalDate.of(2023, 1, 5), authenticatedUser)
         )
 
         workoutSessionRepository.saveAll(workoutSessions)
 
         val listWorkoutSessions = workoutSessionRepository.findByUserIdAndWorkoutDateBetweenOrderByWorkoutDateAsc(
-            authenticatedUser.id, LocalDate.of(2023, 1, 1), LocalDate.now()
+            authenticatedUser.id,
+            LocalDate.of(2023, 1, 1),
+            LocalDate.now()
         )
         assertThat(listWorkoutSessions).hasSize(2)
 
