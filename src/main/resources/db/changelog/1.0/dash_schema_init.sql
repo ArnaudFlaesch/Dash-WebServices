@@ -139,7 +139,7 @@ CREATE SEQUENCE IF NOT EXISTS public.notification_id_seq
 CREATE TABLE IF NOT EXISTS public.notification (
     id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.notification_id_seq'::regclass),
     message character varying,
-    notification_date timestamp,
+    notification_date timestamptz,
     notification_type character varying,
     is_read boolean DEFAULT false
 );

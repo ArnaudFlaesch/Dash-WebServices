@@ -8,7 +8,7 @@ import com.dash.infra.adapter.NotificationAdapter
 import org.springframework.data.domain.Page
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Service
 class NotificationService(
@@ -29,5 +29,5 @@ class NotificationService(
     fun markNotificationsAsRead(notificationIds: List<Int>): List<NotificationDomain> = notificationAdapter.markNotificationsAsRead(notificationIds)
 
     private fun createNotification(message: String, notificationType: NotificationType): NotificationDomain =
-        NotificationDomain(0, message, LocalDateTime.now(), notificationType, isRead = false)
+        NotificationDomain(0, message, OffsetDateTime.now(), notificationType, isRead = false)
 }
