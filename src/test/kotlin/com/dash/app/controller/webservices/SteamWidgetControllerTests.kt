@@ -3,10 +3,12 @@ package com.dash.app.controller.webservices
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
+import com.dash.app.controller.response.Page
 import com.dash.domain.model.steamwidget.AchievementDataDomain
-import com.dash.domain.model.steamwidget.GameDataDomain
+import com.dash.domain.model.steamwidget.GameInfoDomain
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
+import io.restassured.common.mapper.TypeRef
 import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.*
@@ -76,9 +78,9 @@ class SteamWidgetControllerTests : AbstractIT() {
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .log().all()
-                .extract().`as`(GameDataDomain::class.java)
+                .extract().`as`(object : TypeRef<Page<GameInfoDomain>>() {})
 
-            assertEquals(expectedNumberOfResults, ownedGamesData.gameCount)
+            assertEquals(expectedNumberOfResults, ownedGamesData.totalElements.toInt())
         }
 
         fun getOwnedGamesArguments(): Stream<Arguments> =

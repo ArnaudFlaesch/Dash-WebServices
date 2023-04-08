@@ -1,6 +1,6 @@
 package com.dash.infra.adapter
 
-import com.dash.domain.model.steamwidget.GameDataDomain
+import com.dash.app.controller.response.Page
 import com.dash.domain.model.steamwidget.PlayerDataDomain
 import com.dash.infra.apimodel.steam.*
 import com.dash.infra.rest.SteamApiClient
@@ -41,16 +41,25 @@ class SteamWidgetAdapterTests {
         given(steamApiClient.getOwnedGames(steamUserId)).willReturn(gameInfoResponseMock)
 
         val actualFirstPage = steamWidgetAdapter.getOwnedGames(steamUserId, "", 0)
-        val expectedFirstPage = GameDataDomain(
-            gameCount = 50,
-            games = gamesListMock.subList(0, 25).map(GameInfoApi::toDomain)
+        val expectedFirstPage = Page(
+            totalElements = 50,
+            last = false,
+            totalPages = 2,
+            size = 25,
+            number = 0,
+            content = gamesListMock.subList(0, 25).map(GameInfoApi::toDomain)
         )
         assertEquals(expectedFirstPage, actualFirstPage)
 
         val actualSecondPage = steamWidgetAdapter.getOwnedGames(steamUserId, "", 1)
-        val expectedSecondPage = GameDataDomain(
-            gameCount = 50,
-            games = gamesListMock.subList(25, 50).map(GameInfoApi::toDomain)
+
+        val expectedSecondPage = Page(
+            totalElements = 50,
+            last = true,
+            totalPages = 2,
+            size = 25,
+            number = 1,
+            content = gamesListMock.subList(25, 50).map(GameInfoApi::toDomain)
         )
         assertEquals(expectedSecondPage, actualSecondPage)
     }

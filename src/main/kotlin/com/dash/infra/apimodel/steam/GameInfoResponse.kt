@@ -1,16 +1,12 @@
 package com.dash.infra.apimodel.steam
 
-import com.dash.domain.model.steamwidget.GameDataDomain
 import com.dash.domain.model.steamwidget.GameInfoDomain
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class GameInfoResponse(
     val response: GameDataApi = GameDataApi()
-) {
-    fun toDomain(): GameDataDomain =
-        GameDataDomain(gameCount = this.response.gameCount, games = this.response.games.map(GameInfoApi::toDomain))
-}
+)
 
 data class GameDataApi(
     @JsonProperty("game_count")

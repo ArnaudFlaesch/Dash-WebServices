@@ -26,7 +26,7 @@ class TwitterRepositoryTests : AbstractIT() {
         twitterWidgetRepository.save(followedUser1)
         twitterWidgetRepository.save(followedUser2)
 
-        val followedUsersList = twitterWidgetRepository.searchFollowedUsers("", Pageable.ofSize(10), userId)
+        val followedUsersList = twitterWidgetRepository.searchFollowedUsers("", userId, Pageable.ofSize(10))
         assertThat(followedUsersList.content).hasSize(2)
         assertThat(followedUsersList.content[0].id).isNotNull
         assertThat(followedUsersList.content[0].userHandle).isEqualTo("Nono")
