@@ -36,10 +36,10 @@ class SteamWidgetAdapter(
             gamesList
         } else {
             val limit =
-                if ((pageNumber + 1) * PAGE_SIZE < ownedGamesResponse.response.gameCount) {
+                if ((pageNumber + 1) * PAGE_SIZE < gamesList.size) {
                     (pageNumber + 1) * PAGE_SIZE - 1
                 } else {
-                    ownedGamesResponse.response.gameCount - 1
+                    gamesList.size - 1
                 }
             gamesList.slice(pageNumber * PAGE_SIZE..limit)
         }
