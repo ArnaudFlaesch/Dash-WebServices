@@ -11,8 +11,7 @@ import io.restassured.http.Headers
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.core.io.ClassPathResource
@@ -50,6 +49,7 @@ class CashManagerConfigControllerTests : AbstractIT() {
         assertEquals(4, exportData.expenses.size)
 
         val exportedExpense = exportData.expenses[0]
+        assertNotNull(exportedExpense.id)
         assertEquals(100.0F, exportedExpense.amount)
     }
 
