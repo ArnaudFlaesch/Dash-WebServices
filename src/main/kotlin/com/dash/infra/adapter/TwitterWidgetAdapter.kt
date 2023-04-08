@@ -15,7 +15,7 @@ class TwitterWidgetAdapter(
 ) {
 
     fun getFollowedUsers(searchParam: String, pageNumber: Int, pageSize: Int, userId: Int): Page<FollowedUser> =
-        twitterWidgetRepository.searchFollowedUsers(searchParam, PageRequest.of(pageNumber, pageSize), userId).map(FollowedUserEntity::toDomain)
+        twitterWidgetRepository.searchFollowedUsers(searchParam, userId, PageRequest.of(pageNumber, pageSize)).map(FollowedUserEntity::toDomain)
 
     fun addFollowedUser(followedUserHandle: String, userId: Int): FollowedUser {
         return twitterWidgetRepository.save(
