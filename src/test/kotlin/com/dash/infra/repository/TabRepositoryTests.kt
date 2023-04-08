@@ -26,6 +26,7 @@ class TabRepositoryTests : AbstractIT() {
         val createdTab = tabRepository.save(tabToInsert)
         assertNotNull(createdTab.id)
         assertEquals("Onglet test", createdTab.label)
+        assertEquals(1, createdTab.user.id)
 
         tabRepository.delete(createdTab)
     }

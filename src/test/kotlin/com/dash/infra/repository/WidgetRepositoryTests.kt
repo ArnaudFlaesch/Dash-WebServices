@@ -23,12 +23,14 @@ class WidgetRepositoryTests : AbstractIT() {
         val tabIdToInsertInto = 1
         val w1 = WidgetEntity(0, 2, "{}", 1, TabEntity(tabIdToInsertInto, "", 1, user = userRepository.getReferenceById(1)))
         val w2 = WidgetEntity(0, 3, "{}", 2, TabEntity(tabIdToInsertInto, "", 2, user = userRepository.getReferenceById(1)))
-        widgetRepository.save(w1)
-        widgetRepository.save(w2)
+        widgetRepository.saveAll(listOf(w1, w2))
 
         val listWidgets = widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabIdToInsertInto)
         assertThat(listWidgets).hasSize(3)
         assertThat(listWidgets[0].type).isEqualTo(1)
+        assertThat(listWidgets[0].widgetOrder).isEqualTo(1)
+        assertThat(listWidgets[0].tab.id).isEqualTo(tabIdToInsertInto)
         assertThat(listWidgets[1].type).isEqualTo(2)
+        assertThat(listWidgets[1].data).isEqualTo(LinkedHashMap<String, String>())
     }
 }
