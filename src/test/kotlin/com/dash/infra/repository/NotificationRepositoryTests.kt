@@ -5,7 +5,6 @@ import com.dash.domain.model.notification.NotificationType
 import com.dash.infra.entity.NotificationEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -40,8 +39,11 @@ class NotificationRepositoryTests : AbstractIT() {
 
         assertThat(listNotifications.content).hasSize(2)
         assertNotNull(listNotifications.content[0].id)
-        assertEquals("Test notif", listNotifications.content[0].message)
-        assertEquals(NotificationType.WARN.name, listNotifications.content[0].notificationType)
-        assertEquals(false, listNotifications.content[0].isRead)
+        assertThat(listNotifications.content.map(NotificationEntity::message)).containsExactlyInAnyOrder("Test notif", "Test notif 2")
+        assertThat(listNotifications.content.map(NotificationEntity::notificationType)).containsExactlyInAnyOrder(
+            NotificationType.WARN.name,
+            NotificationType.INFO.name
+        )
+        assertThat(listNotifications.content.map(NotificationEntity::isRead)).containsExactlyInAnyOrder(false, true)
     }
 }
