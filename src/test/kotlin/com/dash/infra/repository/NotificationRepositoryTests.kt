@@ -4,22 +4,26 @@ import com.common.utils.AbstractIT
 import com.dash.domain.model.notification.NotificationType
 import com.dash.infra.entity.NotificationEntity
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.After
+import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.Pageable
 import java.time.OffsetDateTime
 
 @SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class NotificationRepositoryTests : AbstractIT() {
 
     @Autowired
     private lateinit var notificationRepository: NotificationRepository
 
-    @After
+    @BeforeAll
+    @AfterAll
     fun tearDown() {
         notificationRepository.deleteAll()
     }
