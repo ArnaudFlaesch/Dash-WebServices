@@ -4,7 +4,9 @@ import com.common.infra.repository.UserRepository
 import com.common.utils.AbstractIT
 import com.dash.infra.entity.MiniWidgetEntity
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.After
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -18,6 +20,11 @@ class MiniWidgetRepositoryTests : AbstractIT() {
     @Autowired
     private lateinit var userRepository: UserRepository
 
+    @After
+    fun tearDown() {
+        miniWidgetRepository.deleteAll()
+    }
+
     @Test
     fun testInsertWidgets() {
         val authenticatedUser = userRepository.getReferenceById(1)
@@ -27,6 +34,7 @@ class MiniWidgetRepositoryTests : AbstractIT() {
 
         val listWidgets = miniWidgetRepository.findByUserId(authenticatedUser.id)
         assertThat(listWidgets).hasSize(2)
+        assertNotNull(listWidgets[0].id)
         assertEquals(1, listWidgets[0].type)
         assertEquals(LinkedHashMap<String, String>(), listWidgets[0].data)
         assertEquals(authenticatedUser.id, listWidgets[0].user.id)
