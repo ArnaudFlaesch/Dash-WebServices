@@ -4,6 +4,7 @@ import com.common.infra.repository.UserRepository
 import com.common.utils.AbstractIT
 import com.dash.infra.entity.workoutwidget.WorkoutSessionEntity
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -36,6 +37,7 @@ class WorkoutSessionRepositoryTests : AbstractIT() {
         )
         assertThat(listWorkoutSessions).hasSize(2)
 
+        Assertions.assertNotNull(listWorkoutSessions[0].id)
         assertEquals(LocalDate.of(2023, 1, 1), listWorkoutSessions[0].workoutDate)
         assertEquals(authenticatedUser.id, listWorkoutSessions[0].user.id)
         assertEquals(LocalDate.of(2023, 1, 5), listWorkoutSessions[1].workoutDate)

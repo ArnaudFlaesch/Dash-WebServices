@@ -1,10 +1,5 @@
 package com.dash.domain.model.steamwidget
 
-data class GameDataDomain(
-    val gameCount: Int,
-    val games: List<GameInfoDomain>
-)
-
 data class GameInfoDomain(
     val appid: String,
     val name: String,

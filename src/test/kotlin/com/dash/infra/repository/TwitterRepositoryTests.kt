@@ -7,6 +7,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.domain.Pageable
 
 @SpringBootTest
 class TwitterRepositoryTests : AbstractIT() {
@@ -25,13 +26,13 @@ class TwitterRepositoryTests : AbstractIT() {
         twitterWidgetRepository.save(followedUser1)
         twitterWidgetRepository.save(followedUser2)
 
-        val followedUsersList = twitterWidgetRepository.searchFollowedUsers("", userId)
-        assertThat(followedUsersList).hasSize(2)
-        assertThat(followedUsersList[0].id).isNotNull
-        assertThat(followedUsersList[0].userHandle).isEqualTo("Nono")
-        assertThat(followedUsersList[0].user.id).isEqualTo(userId)
-        assertThat(followedUsersList[1].id).isNotNull
-        assertThat(followedUsersList[1].userHandle).isEqualTo("Nono2")
-        assertThat(followedUsersList[1].user.id).isEqualTo(userId)
+        val followedUsersList = twitterWidgetRepository.searchFollowedUsers("", userId, Pageable.ofSize(10))
+        assertThat(followedUsersList.content).hasSize(2)
+        assertThat(followedUsersList.content[0].id).isNotNull
+        assertThat(followedUsersList.content[0].userHandle).isEqualTo("Nono")
+        assertThat(followedUsersList.content[0].user.id).isEqualTo(userId)
+        assertThat(followedUsersList.content[1].id).isNotNull
+        assertThat(followedUsersList.content[1].userHandle).isEqualTo("Nono2")
+        assertThat(followedUsersList.content[1].user.id).isEqualTo(userId)
     }
 }

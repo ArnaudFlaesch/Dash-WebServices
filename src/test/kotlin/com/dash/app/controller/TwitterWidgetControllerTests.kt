@@ -4,6 +4,7 @@ import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.dash.app.controller.requests.twitterWidget.AddUserToFollowPayload
+import com.dash.app.controller.response.Page
 import com.dash.domain.model.twitterwidget.FollowedUser
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
@@ -52,9 +53,9 @@ class TwitterWidgetControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .log().all()
-            .extract().`as`(object : TypeRef<List<FollowedUser>>() {})
+            .extract().`as`(object : TypeRef<Page<FollowedUser>>() {})
 
-        assertEquals(0, followedUsersEmptyList.size)
+        assertEquals(0, followedUsersEmptyList.content.size)
 
         val userHandleToAdd = "Nono"
         val addUserToFollowPayload = AddUserToFollowPayload(userHandleToAdd)
@@ -84,10 +85,10 @@ class TwitterWidgetControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .log().all()
-            .extract().`as`(object : TypeRef<List<FollowedUser>>() {})
+            .extract().`as`(object : TypeRef<Page<FollowedUser>>() {})
 
-        assertEquals(1, followedUsers.size)
-        assertEquals(userHandleToAdd, followedUsers[0].userHandle)
+        assertEquals(1, followedUsers.content.size)
+        assertEquals(userHandleToAdd, followedUsers.content[0].userHandle)
 
         given()
             .port(port)
@@ -109,8 +110,8 @@ class TwitterWidgetControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
             .log().all()
-            .extract().`as`(object : TypeRef<List<FollowedUser>>() {})
+            .extract().`as`(object : TypeRef<Page<FollowedUser>>() {})
 
-        assertEquals(0, followedUsersAfterDeletion.size)
+        assertEquals(0, followedUsersAfterDeletion.content.size)
     }
 }
