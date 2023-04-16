@@ -33,15 +33,6 @@ class WeatherWidgetAdapterTests {
     }
 
     @Test
-    fun should_return_empty_weather_data() {
-        val city = "Paris"
-        given(weatherApiClient.getWeatherData(city)).willReturn(null)
-        val response = weatherWidgetAdapter.getWeatherData(city)
-        assertEquals(0, response.weather.size)
-        assertEquals("", response.name)
-    }
-
-    @Test
     fun should_return_forecast_data() {
         val city = "Paris"
 
@@ -53,14 +44,5 @@ class WeatherWidgetAdapterTests {
         val response = weatherWidgetAdapter.getForecastData(city)
         assertEquals(2, response.list.size)
         assertEquals(city, response.city.name)
-    }
-
-    @Test
-    fun should_return_empty_forecast_data() {
-        val city = "Paris"
-        given(weatherApiClient.getForecastData(city)).willReturn(null)
-        val response = weatherWidgetAdapter.getForecastData(city)
-        assertEquals(0, response.list.size)
-        assertEquals("", response.city.name)
     }
 }

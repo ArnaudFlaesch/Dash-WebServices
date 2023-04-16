@@ -94,9 +94,9 @@ class RestClientTest : AbstractIT() {
 
     fun requestErrorsParams(): Stream<Arguments> {
         return Stream.of(
-            arguments(HttpStatus.BAD_REQUEST, ErrorHandler.BadRequestException::class.java),
-            arguments(HttpStatus.NOT_FOUND, ErrorHandler.NotFoundException::class.java),
-            arguments(HttpStatus.INTERNAL_SERVER_ERROR, ErrorHandler.InternalServerErrorException::class.java)
+            arguments(HttpStatus.BAD_REQUEST, ErrorHandler.Companion.BadRequestException::class.java),
+            arguments(HttpStatus.NOT_FOUND, ErrorHandler.Companion.NotFoundException::class.java),
+            arguments(HttpStatus.INTERNAL_SERVER_ERROR, ErrorHandler.Companion.InternalServerErrorException::class.java)
         )
     }
 }

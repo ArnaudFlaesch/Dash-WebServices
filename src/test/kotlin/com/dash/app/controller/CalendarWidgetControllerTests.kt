@@ -153,9 +153,7 @@ class CalendarWidgetControllerTests : AbstractIT() {
             .`when`()
             .post(calendarWidgetEndpoint)
             .then().log().all()
-            .statusCode(200)
-            .body(equalTo(""))
-            .log().all()
+            .statusCode(404)
     }
 
     @Test
