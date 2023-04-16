@@ -5,6 +5,7 @@ import com.common.utils.AbstractIT
 import com.dash.infra.entity.TabEntity
 import com.dash.infra.entity.WidgetEntity
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -27,6 +28,7 @@ class WidgetRepositoryTests : AbstractIT() {
 
         val listWidgets = widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabIdToInsertInto)
         assertThat(listWidgets).hasSize(3)
+        assertNotNull(listWidgets[0].id)
         assertThat(listWidgets[0].type).isEqualTo(1)
         assertThat(listWidgets[0].widgetOrder).isEqualTo(1)
         assertThat(listWidgets[0].tab.id).isEqualTo(tabIdToInsertInto)
