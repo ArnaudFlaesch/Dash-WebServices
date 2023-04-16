@@ -17,11 +17,11 @@ import java.net.URI
 @SpringBootTest
 class StravaWidgetServiceTest : AbstractIT() {
 
-    @Autowired
-    private lateinit var stravaWidgetService: StravaWidgetService
-
     @MockBean
     private lateinit var restTemplate: RestTemplate
+
+    @Autowired
+    private lateinit var stravaWidgetService: StravaWidgetService
 
     @Test
     fun should_return_empty_strava_refresh_token_data() {

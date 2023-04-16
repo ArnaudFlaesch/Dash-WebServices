@@ -30,7 +30,7 @@ class StravaWidgetController(
     @GetMapping("/getAthleteActivities")
     fun getAthleteActivities(
         @RequestParam("token") token: String,
-        @RequestParam("numberOfActivities") numberOfActivities: Int?
+        @RequestParam(name = "numberOfActivities", required = false) numberOfActivities: Int?
     ): List<StravaActivityDomain> =
         stravaWidgetService.getAthleteActivities(token, numberOfActivities)
 }

@@ -11,9 +11,8 @@ import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType
+import org.springframework.core.ParameterizedTypeReference
+import org.springframework.http.*
 import org.springframework.test.web.client.ExpectedCount
 import org.springframework.test.web.client.MockRestServiceServer
 import org.springframework.test.web.client.match.MockRestRequestMatchers.method
@@ -73,6 +72,20 @@ class RestClientTest : AbstractIT() {
             )
         assertThrows(exceptionClass) {
             restClient.getDataFromProxy(testUrl, String::class)
+        }
+        mockServer.verify()
+    }
+
+    @Test
+    fun testGetRequestNullResponse() {
+        mockServer.expect(ExpectedCount.once(), requestTo(URI(testUrl)))
+            .andExpect(method(HttpMethod.GET))
+            .andRespond(
+                withStatus(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+        assertThrows(ErrorHandler.Companion.NotFoundException::class.java) {
+            restClient.getDataFromProxy(testUrl, object : ParameterizedTypeReference<List<String>>() {}, HttpEntity<List<String>>(HttpHeaders()))
         }
         mockServer.verify()
     }
