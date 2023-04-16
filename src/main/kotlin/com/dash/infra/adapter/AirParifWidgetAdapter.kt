@@ -13,12 +13,12 @@ class AirParifWidgetAdapter(
 ) {
 
     fun getPrevisionCommune(communeInseeCode: String): List<Prevision> {
-        val previsionResponse = airParifApiClient.getPrevisionCommune(communeInseeCode) ?: LinkedHashMap()
+        val previsionResponse = airParifApiClient.getPrevisionCommune(communeInseeCode)
         return airParifWidgetMapper.previsionsResponseToDomain(communeInseeCode, previsionResponse)
     }
 
     fun getColors(): List<AirParifColor> {
-        val colorsResponse = airParifApiClient.getColors() ?: LinkedHashMap()
+        val colorsResponse = airParifApiClient.getColors()
         return airParifWidgetMapper.colorsResponseToDomain(colorsResponse)
     }
 }

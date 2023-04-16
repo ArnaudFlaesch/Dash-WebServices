@@ -9,6 +9,17 @@ import java.io.IOException
 
 class ErrorHandler : ResponseErrorHandler {
 
+    companion object {
+        @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Bad request")
+        class BadRequestException : Exception()
+
+        @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Not found")
+        class NotFoundException : Exception()
+
+        @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Internal server error")
+        class InternalServerErrorException : Exception()
+    }
+
     @Throws(IOException::class)
     override fun hasError(response: ClientHttpResponse): Boolean {
         return (response.statusCode.is4xxClientError || response.statusCode.is5xxServerError)
@@ -23,12 +34,5 @@ class ErrorHandler : ResponseErrorHandler {
         }
     }
 
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Bad request")
-    class BadRequestException : Exception()
 
-    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Not found")
-    class NotFoundException : Exception()
-
-    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Internal server error")
-    class InternalServerErrorException : Exception()
 }

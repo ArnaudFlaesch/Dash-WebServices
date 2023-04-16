@@ -4,10 +4,7 @@ import com.dash.app.controller.response.Page
 import com.dash.domain.model.steamwidget.AchievementDataDomain
 import com.dash.domain.model.steamwidget.GameInfoDomain
 import com.dash.domain.model.steamwidget.PlayerDataDomain
-import com.dash.infra.apimodel.steam.AchievementDataResponse
 import com.dash.infra.apimodel.steam.GameInfoApi
-import com.dash.infra.apimodel.steam.GameInfoResponse
-import com.dash.infra.apimodel.steam.PlayersDataApiResponse
 import com.dash.infra.rest.SteamApiClient
 import org.springframework.stereotype.Component
 
@@ -21,26 +18,24 @@ class SteamWidgetAdapter(
     }
 
     fun getPlayerData(steamUserId: String): List<PlayerDataDomain> {
-        val playerDataResponse = steamApiClient.getPlayerData(steamUserId) ?: PlayersDataApiResponse()
+        val playerDataResponse = steamApiClient.getPlayerData(steamUserId)
         return playerDataResponse.toDomain()
     }
 
     fun getOwnedGames(steamUserId: String, search: String, pageNumber: Int): Page<GameInfoDomain> {
-        val ownedGamesResponse = steamApiClient.getOwnedGames(steamUserId) ?: GameInfoResponse()
+        val ownedGamesResponse = steamApiClient.getOwnedGames(steamUserId)
 
-        val gamesList = ownedGamesResponse.response.games
-            .sortedBy(GameInfoApi::name)
-            .filter { gameInfo -> gameInfo.name.lowercase().contains(search.lowercase()) }
+        val gamesList =
+            ownedGamesResponse.response.games.sortedBy(GameInfoApi::name).filter { gameInfo -> gameInfo.name.lowercase().contains(search.lowercase()) }
 
         val paginatedGames = if (gamesList.isEmpty() || gamesList.size <= PAGE_SIZE) {
             gamesList
         } else {
-            val limit =
-                if ((pageNumber + 1) * PAGE_SIZE < gamesList.size) {
-                    (pageNumber + 1) * PAGE_SIZE - 1
-                } else {
-                    gamesList.size - 1
-                }
+            val limit = if ((pageNumber + 1) * PAGE_SIZE < gamesList.size) {
+                (pageNumber + 1) * PAGE_SIZE - 1
+            } else {
+                gamesList.size - 1
+            }
             gamesList.slice(pageNumber * PAGE_SIZE..limit)
         }
 
@@ -56,7 +51,7 @@ class SteamWidgetAdapter(
     }
 
     fun getAchievementList(appId: String, steamUserId: String): AchievementDataDomain {
-        val achievementsDataResponse = steamApiClient.getAchievementList(appId, steamUserId) ?: AchievementDataResponse()
+        val achievementsDataResponse = steamApiClient.getAchievementList(appId, steamUserId)
         return achievementsDataResponse.toDomain()
     }
 }
