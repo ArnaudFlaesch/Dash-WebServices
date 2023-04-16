@@ -33,6 +33,4 @@ class ErrorHandler : ResponseErrorHandler {
             else -> throw RestClientException(response.statusCode.toString())
         }
     }
-
-
 }
