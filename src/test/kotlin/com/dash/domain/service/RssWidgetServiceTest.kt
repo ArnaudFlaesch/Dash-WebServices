@@ -1,8 +1,10 @@
 package com.dash.domain.service
 
 import com.common.utils.AbstractIT
-import org.junit.jupiter.api.*
+import com.dash.app.controller.ErrorHandler
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -45,7 +47,6 @@ class RssWidgetServiceTest : AbstractIT() {
         Mockito.`when`(restTemplate.exchange(URI.create(url), HttpMethod.GET, null, String::class.java))
             .thenReturn(ResponseEntity(HttpStatus.OK))
 
-        val actualResponse = rssWidgetService.getJsonFeedFromUrl(url)
-        assertEquals("", actualResponse)
+        assertThrows<ErrorHandler.Companion.NotFoundException> { rssWidgetService.getJsonFeedFromUrl(url) }
     }
 }

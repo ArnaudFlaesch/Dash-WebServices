@@ -2,8 +2,6 @@ package com.dash.infra.adapter
 
 import com.dash.domain.model.weatherWidget.OpenWeatherForecastDomain
 import com.dash.domain.model.weatherWidget.OpenWeatherWeatherDomain
-import com.dash.infra.apimodel.openweather.OpenWeatherForecastResponse
-import com.dash.infra.apimodel.openweather.OpenWeatherWeatherResponse
 import com.dash.infra.rest.OpenWeatherApiClient
 import org.springframework.stereotype.Component
 
@@ -13,12 +11,12 @@ class WeatherWidgetAdapter(
 ) {
 
     fun getWeatherData(city: String): OpenWeatherWeatherDomain {
-        val weatherDataResponse = openWeatherApiClient.getWeatherData(city) ?: OpenWeatherWeatherResponse()
+        val weatherDataResponse = openWeatherApiClient.getWeatherData(city)
         return weatherDataResponse.toDomain()
     }
 
     fun getForecastData(city: String): OpenWeatherForecastDomain {
-        val forecastDataResponse = openWeatherApiClient.getForecastData(city) ?: OpenWeatherForecastResponse()
+        val forecastDataResponse = openWeatherApiClient.getForecastData(city)
         return forecastDataResponse.toDomain()
     }
 }

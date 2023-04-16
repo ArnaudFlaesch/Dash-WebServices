@@ -4,8 +4,6 @@ import com.dash.domain.model.stravaWidget.StravaActivityDomain
 import com.dash.domain.model.stravaWidget.StravaAthleteDomain
 import com.dash.domain.model.stravaWidget.StravaTokenDataDomain
 import com.dash.infra.apimodel.strava.StravaActivityResponse
-import com.dash.infra.apimodel.strava.StravaAthleteResponse
-import com.dash.infra.apimodel.strava.StravaTokenDataResponse
 import com.dash.infra.rest.StravaApiClient
 import org.springframework.stereotype.Component
 
@@ -15,22 +13,22 @@ class StravaWidgetAdapter(
 ) {
 
     fun getToken(apiCode: String): StravaTokenDataDomain {
-        val getTokenResponse = stravaApiClient.getToken(apiCode) ?: StravaTokenDataResponse()
+        val getTokenResponse = stravaApiClient.getToken(apiCode)
         return getTokenResponse.toDomain()
     }
 
     fun getRefreshToken(refreshToken: String): StravaTokenDataDomain {
-        val getRefreshTokenResponse = stravaApiClient.getRefreshToken(refreshToken) ?: StravaTokenDataResponse()
+        val getRefreshTokenResponse = stravaApiClient.getRefreshToken(refreshToken)
         return getRefreshTokenResponse.toDomain()
     }
 
     fun getAthleteData(token: String): StravaAthleteDomain {
-        val getAthleteResponse = stravaApiClient.getAthleteData(token) ?: StravaAthleteResponse()
+        val getAthleteResponse = stravaApiClient.getAthleteData(token)
         return getAthleteResponse.toDomain()
     }
 
     fun getAthleteActivities(token: String, numberOfActivities: Int): List<StravaActivityDomain> {
-        val getAthleteActiviesResponse = stravaApiClient.getAthleteActivities(token, numberOfActivities) ?: listOf()
-        return getAthleteActiviesResponse.map(StravaActivityResponse::toDomain)
+        val getAthleteActivitiesResponse = stravaApiClient.getAthleteActivities(token, numberOfActivities)
+        return getAthleteActivitiesResponse.map(StravaActivityResponse::toDomain)
     }
 }

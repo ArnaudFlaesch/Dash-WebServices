@@ -22,25 +22,25 @@ class StravaApiClient(
     private val stravaClientSecret: String
 ) {
 
-    fun getToken(apiCode: String): StravaTokenDataResponse? {
+    fun getToken(apiCode: String): StravaTokenDataResponse {
         val url = "$stravaApiUrl/oauth/token?client_id=$stravaClientId&client_secret=$stravaClientSecret" +
             "&code=$apiCode&grant_type=authorization_code"
         return restClient.postDataFromProxy(url, mapOf<String, Any>(), StravaTokenDataResponse::class)
     }
 
-    fun getRefreshToken(refreshToken: String): StravaTokenDataResponse? {
+    fun getRefreshToken(refreshToken: String): StravaTokenDataResponse {
         val url = "$stravaApiUrl/oauth/token?client_id=$stravaClientId&client_secret=$stravaClientSecret" +
             "&refresh_token=$refreshToken&grant_type=refresh_token"
         return restClient.postDataFromProxy(url, mapOf<String, Any>(), StravaTokenDataResponse::class)
     }
 
-    fun getAthleteData(token: String): StravaAthleteResponse? {
+    fun getAthleteData(token: String): StravaAthleteResponse {
         val url = "$stravaApiUrl/api/v3/athlete"
         val httpEntity = HttpEntity<StravaAthleteResponse>(getHeaders(token))
         return restClient.getDataFromProxy(url, StravaAthleteResponse::class, httpEntity)
     }
 
-    fun getAthleteActivities(token: String, numberOfActivities: Int): List<StravaActivityResponse>? {
+    fun getAthleteActivities(token: String, numberOfActivities: Int): List<StravaActivityResponse> {
         val url = "$stravaApiUrl/api/v3/athlete/activities?page=1&per_page=$numberOfActivities"
         val httpEntity = HttpEntity<List<StravaActivityResponse>>(getHeaders(token))
         val typeReference = object : ParameterizedTypeReference<List<StravaActivityResponse>>() {}

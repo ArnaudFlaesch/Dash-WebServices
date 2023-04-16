@@ -91,8 +91,7 @@ class RssWidgetControllerTests : AbstractIT() {
             .`when`()
             .get(rssWidgetEndpoint)
             .then().log().all()
-            .statusCode(200)
-            .body(equalTo(""))
+            .statusCode(404)
     }
 
     @Test

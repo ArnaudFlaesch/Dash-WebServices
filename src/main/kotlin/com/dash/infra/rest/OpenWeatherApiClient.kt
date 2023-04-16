@@ -20,12 +20,12 @@ class OpenWeatherApiClient(
         private const val apiOptions = "?units=metric&lang=fr&appid="
     }
 
-    fun getWeatherData(city: String): OpenWeatherWeatherResponse? {
+    fun getWeatherData(city: String): OpenWeatherWeatherResponse {
         val url = "$weatherApiUrl$weatherEndpoint$apiOptions$openWeatherMapKey&q=$city"
         return restClient.getDataFromProxy(url, OpenWeatherWeatherResponse::class)
     }
 
-    fun getForecastData(city: String): OpenWeatherForecastResponse? {
+    fun getForecastData(city: String): OpenWeatherForecastResponse {
         val url = "$weatherApiUrl$forecastEndpoint$apiOptions$openWeatherMapKey&q=$city"
         return restClient.getDataFromProxy(url, OpenWeatherForecastResponse::class)
     }
