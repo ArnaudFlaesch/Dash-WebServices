@@ -1,4 +1,4 @@
-FROM gradle:8.1.0-jdk17-alpine as build
+FROM gradle:8.1.1-jdk17-alpine as build
 
 WORKDIR /dash-webservices
 COPY build.gradle.kts .
