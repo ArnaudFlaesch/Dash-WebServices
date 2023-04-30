@@ -24,5 +24,6 @@ CREATE TABLE IF NOT EXISTS users (
     username character varying,
     password character varying,
     email character varying,
-    role_id integer REFERENCES roles (id)
+    role_id integer REFERENCES roles (id),
+    CONSTRAINT UK_username unique (username)
 );

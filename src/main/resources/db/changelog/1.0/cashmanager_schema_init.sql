@@ -9,7 +9,8 @@ CREATE SEQUENCE IF NOT EXISTS public.label_id_seq
 CREATE TABLE IF NOT EXISTS public.label (
     id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.label_id_seq'::regclass),
     label character varying,
-    user_id integer REFERENCES users (id)
+    user_id integer REFERENCES users (id),
+    CONSTRAINT UK_label unique (label)
 );
 
 CREATE SEQUENCE IF NOT EXISTS public.expense_id_seq
