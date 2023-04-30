@@ -13,7 +13,7 @@ data class LabelEntity(
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
 
-    @Column(name = "label")
+    @Column(name = "label", unique = true)
     val label: String = "",
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
