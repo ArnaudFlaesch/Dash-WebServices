@@ -36,7 +36,6 @@ data class StravaActivityDomain(
     val private: Boolean,
     val visibility: String,
     val flagged: Boolean,
-    val gearId: String,
     val fromAcceptedTag: Boolean,
     val uploadIdStr: Double,
     val averageSpeed: Float,
