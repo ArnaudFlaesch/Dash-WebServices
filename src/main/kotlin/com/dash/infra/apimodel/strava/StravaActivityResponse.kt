@@ -61,8 +61,6 @@ data class StravaActivityResponse(
     val private: Boolean = false,
     val visibility: String = "",
     val flagged: Boolean = false,
-    @JsonProperty("gear_id")
-    val gearId: String = "",
     @JsonProperty("from_accepted_tag")
     val fromAcceptedTag: Boolean = false,
     @JsonProperty("upload_id_str")
@@ -125,7 +123,6 @@ data class StravaActivityResponse(
             private = this.private,
             visibility = this.visibility,
             flagged = this.flagged,
-            gearId = this.gearId,
             fromAcceptedTag = this.fromAcceptedTag,
             uploadIdStr = this.uploadIdStr,
             averageSpeed = this.averageSpeed,
