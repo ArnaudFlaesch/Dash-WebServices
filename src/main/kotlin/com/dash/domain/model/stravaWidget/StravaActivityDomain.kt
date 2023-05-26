@@ -21,7 +21,6 @@ data class StravaActivityDomain(
     val endLatlng: IntArray,
     val locationCity: String?,
     val locationState: String?,
-    val locationCountry: String,
     val startLatitude: Int,
     val startLongitude: Int,
     val achievementCount: Int,
