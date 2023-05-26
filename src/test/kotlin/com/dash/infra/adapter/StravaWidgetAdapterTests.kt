@@ -22,11 +22,12 @@ class StravaWidgetAdapterTests {
     @Test
     fun should_return_strava_activities_data() {
         val token = "token"
+        val pageNumber = 1
         val numberOfActivities = 25
         val activitiesDataList = listOf(StravaActivityResponse(name = "Evening run"), StravaActivityResponse(name = "Lunch run"))
-        given(stravaApiClient.getAthleteActivities(token, numberOfActivities)).willReturn(activitiesDataList)
+        given(stravaApiClient.getAthleteActivities(token, pageNumber, numberOfActivities)).willReturn(activitiesDataList)
 
-        val response = stravaWidgetAdapter.getAthleteActivities(token, numberOfActivities)
+        val response = stravaWidgetAdapter.getAthleteActivities(token, pageNumber, numberOfActivities)
 
         assertEquals(2, response.size)
         assertEquals("Evening run", response[0].name)
