@@ -38,8 +38,6 @@ data class StravaActivityResponse(
     val locationCity: String? = "",
     @JsonProperty("location_state")
     val locationState: String? = "",
-    @JsonProperty("location_country")
-    val locationCountry: String = "",
     @JsonProperty("start_latitude")
     val startLatitude: Int = 0,
     @JsonProperty("start_longitude")
@@ -108,7 +106,6 @@ data class StravaActivityResponse(
             endLatlng = this.endLatlng,
             locationCity = this.locationCity,
             locationState = this.locationState,
-            locationCountry = this.locationCountry,
             startLatitude = this.startLatitude,
             startLongitude = this.startLongitude,
             achievementCount = this.achievementCount,
