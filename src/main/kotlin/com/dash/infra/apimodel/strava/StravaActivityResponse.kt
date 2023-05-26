@@ -1,8 +1,10 @@
 package com.dash.infra.apimodel.strava
 
 import com.dash.domain.model.stravaWidget.StravaActivityDomain
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class StravaActivityResponse(
     @JsonProperty("resource_state")
     val resourceState: Int = 0,
@@ -20,7 +22,7 @@ data class StravaActivityResponse(
     val workoutType: Int = 0,
     val id: Double = 0.0,
     @JsonProperty("external_id")
-    val externalId: String = "",
+    val externalId: String? = "",
     @JsonProperty("upload_id")
     val uploadId: Double = 0.0,
     @JsonProperty("start_date")

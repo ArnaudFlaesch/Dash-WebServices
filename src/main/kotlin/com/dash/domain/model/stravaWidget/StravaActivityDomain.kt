@@ -11,7 +11,7 @@ data class StravaActivityDomain(
     val type: String,
     val workoutType: Int,
     val id: Double,
-    val externalId: String,
+    val externalId: String?,
     val uploadId: Double,
     val startDate: String,
     val startDateLocal: String,
