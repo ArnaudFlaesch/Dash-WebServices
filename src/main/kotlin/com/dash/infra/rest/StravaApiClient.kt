@@ -40,8 +40,8 @@ class StravaApiClient(
         return restClient.getDataFromProxy(url, StravaAthleteResponse::class, httpEntity)
     }
 
-    fun getAthleteActivities(token: String, numberOfActivities: Int): List<StravaActivityResponse> {
-        val url = "$stravaApiUrl/api/v3/athlete/activities?page=1&per_page=$numberOfActivities"
+    fun getAthleteActivities(token: String, pageNumber: Int, numberOfActivities: Int): List<StravaActivityResponse> {
+        val url = "$stravaApiUrl/api/v3/athlete/activities?page=$pageNumber&per_page=$numberOfActivities"
         val httpEntity = HttpEntity<List<StravaActivityResponse>>(getHeaders(token))
         val typeReference = object : ParameterizedTypeReference<List<StravaActivityResponse>>() {}
         return restClient.getDataFromProxy(url, typeReference, httpEntity)

@@ -27,8 +27,8 @@ class StravaWidgetAdapter(
         return getAthleteResponse.toDomain()
     }
 
-    fun getAthleteActivities(token: String, numberOfActivities: Int): List<StravaActivityDomain> {
-        val getAthleteActivitiesResponse = stravaApiClient.getAthleteActivities(token, numberOfActivities)
+    fun getAthleteActivities(token: String, pageNumber: Int, numberOfActivities: Int): List<StravaActivityDomain> {
+        val getAthleteActivitiesResponse = stravaApiClient.getAthleteActivities(token, pageNumber, numberOfActivities)
         return getAthleteActivitiesResponse.map(StravaActivityResponse::toDomain)
     }
 }
