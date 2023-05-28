@@ -1,5 +1,6 @@
 package com.dash.app.controller
 
+import com.common.app.security.SecurityConditions
 import com.common.domain.event.DashEvent
 import com.common.infra.utils.JsonExporter.export
 import com.dash.domain.model.TabDomain
@@ -15,6 +16,7 @@ import org.springframework.context.ApplicationEventPublisher
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDate
@@ -23,6 +25,7 @@ import java.time.format.DateTimeFormatter
 @RestController
 @CrossOrigin(origins = ["*"])
 @RequestMapping("/dashConfig")
+@PreAuthorize(SecurityConditions.isUserAdmin)
 class DashConfigController(
     private val applicationEventPublisher: ApplicationEventPublisher,
     private val tabService: TabService,
