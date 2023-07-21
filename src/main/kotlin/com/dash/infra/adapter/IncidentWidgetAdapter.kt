@@ -1,6 +1,7 @@
 package com.dash.infra.adapter
 
 import com.dash.domain.model.incidentWidget.IncidentDomain
+import com.dash.domain.model.incidentWidget.IncidentStreakDomain
 import com.dash.infra.entity.incidentwidget.IncidentStreakEntity
 import com.dash.infra.repository.IncidentStreakRepository
 import com.dash.infra.repository.IncidentWidgetRepository
@@ -10,7 +11,7 @@ import java.time.OffsetDateTime
 @Component
 class IncidentWidgetAdapter(
     private val incidentWidgetRepository: IncidentWidgetRepository,
-    private val incidentStreakRepository: IncidentStreakRepository,
+    private val incidentStreakRepository: IncidentStreakRepository
 ) {
 
     fun getIncidentConfigForWidget(widgetId: Int): IncidentDomain =
@@ -33,6 +34,8 @@ class IncidentWidgetAdapter(
         } else {
             oldIncidentConfig
         }.toDomain()
-
     }
+
+    fun getIncidentStreaks(incidentId: Int): List<IncidentStreakDomain> =
+        incidentStreakRepository.findByIncidentId(incidentId).map(IncidentStreakEntity::toDomain)
 }

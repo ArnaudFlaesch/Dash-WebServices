@@ -2,6 +2,7 @@ package com.dash.domain.service
 
 import com.common.app.security.SecurityConditions
 import com.dash.domain.model.incidentWidget.IncidentDomain
+import com.dash.domain.model.incidentWidget.IncidentStreakDomain
 import com.dash.infra.adapter.IncidentWidgetAdapter
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service
@@ -19,4 +20,6 @@ class IncidentWidgetService(
 
     @PreAuthorize("${SecurityConditions.doesWidgetBelongToAuthenticatedUser}")
     fun endStreak(widgetId: Int): IncidentDomain = incidentWidgetAdapter.endStreak(widgetId)
+
+    fun getIncidentStreaks(incidentId: Int): List<IncidentStreakDomain> = incidentWidgetAdapter.getIncidentStreaks(incidentId)
 }
