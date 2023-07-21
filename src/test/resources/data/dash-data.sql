@@ -1,4 +1,4 @@
-truncate table widget, tab;
+truncate widget, tab cascade;
 
 alter sequence tab_id_seq RESTART with 1;
 alter sequence widget_id_seq RESTART with 1;

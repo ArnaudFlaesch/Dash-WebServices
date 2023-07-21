@@ -21,7 +21,7 @@ data class IncidentEntity(
 
     @Column(name = "incident_name") val incidentName: String,
 
-    @Column(name = "last_incident_date") val lastIncidentDate: OffsetDateTime?,
+    @Column(name = "last_incident_date") val lastIncidentDate: OffsetDateTime,
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "widgetId")
