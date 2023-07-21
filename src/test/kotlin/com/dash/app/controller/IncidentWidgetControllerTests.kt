@@ -3,10 +3,13 @@ package com.dash.app.controller
 import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
+import com.dash.app.controller.requests.incidentWidget.IncidentWidgetPayload
 import com.dash.domain.model.incidentWidget.IncidentDomain
+import com.dash.domain.model.incidentWidget.IncidentStreakDomain
 import com.dash.domain.model.workoutwidget.*
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
+import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -28,6 +31,7 @@ class IncidentWidgetControllerTests : AbstractIT() {
     private val port: Int = 0
     private lateinit var jwtToken: String
     private val incidentWidgetEndpoint = "/incidentWidget"
+    private val widgetId = 55
 
     @BeforeAll
     fun setup() {
@@ -42,7 +46,7 @@ class IncidentWidgetControllerTests : AbstractIT() {
             .header(createAuthenticationHeader(jwtToken))
             .contentType(ContentType.JSON)
             .`when`()
-            .param("widgetId", "55")
+            .param("widgetId", widgetId.toString())
             .get("$incidentWidgetEndpoint/incidentWidgetConfig")
             .then().log().all()
             .statusCode(HttpStatus.OK.value())
@@ -50,5 +54,47 @@ class IncidentWidgetControllerTests : AbstractIT() {
             .extract().`as`(IncidentDomain::class.java)
 
         assertEquals("Incident name", incidentConfig.incidentName)
+
+        val updatedIncidentConfig = given()
+            .port(port)
+            .header(createAuthenticationHeader(jwtToken))
+            .contentType(ContentType.JSON)
+            .`when`()
+            .body(IncidentWidgetPayload(widgetId = widgetId))
+            .post("$incidentWidgetEndpoint/startFirstStreak")
+            .then().log().all()
+            .statusCode(HttpStatus.OK.value())
+            .log().all()
+            .extract().`as`(IncidentDomain::class.java)
+
+        assertEquals("Incident name", updatedIncidentConfig.incidentName)
+
+        val streakEndedIncidentConfig = given()
+            .port(port)
+            .header(createAuthenticationHeader(jwtToken))
+            .contentType(ContentType.JSON)
+            .`when`()
+            .body(IncidentWidgetPayload(widgetId = widgetId))
+            .post("$incidentWidgetEndpoint/endStreak")
+            .then().log().all()
+            .statusCode(HttpStatus.OK.value())
+            .log().all()
+            .extract().`as`(IncidentDomain::class.java)
+
+        assertEquals("Incident name", streakEndedIncidentConfig.incidentName)
+
+        val streaks = given()
+            .port(port)
+            .header(createAuthenticationHeader(jwtToken))
+            .contentType(ContentType.JSON)
+            .`when`()
+            .param("incidentId", incidentConfig.id)
+            .get("$incidentWidgetEndpoint/streaks")
+            .then().log().all()
+            .statusCode(HttpStatus.OK.value())
+            .log().all()
+            .extract().`as`(object : TypeRef<List<IncidentStreakDomain>>() {})
+
+        assertEquals(1, streaks.size)
     }
 }
