@@ -3,9 +3,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
 val kotlinVersion = "1.9.0"
-val springBootVersion = "3.1.1"
+val springBootVersion = "3.1.2"
 val jwtVersion = "0.9.1"
-val ical4jVersion = "3.2.11"
+val ical4jVersion = "3.2.12"
 
 val springDocVersion = "1.7.0"
 val jacksonVersion = "2.15.2"
@@ -15,7 +15,7 @@ val liquibaseVersion = "4.23.0"
 val postgresqlVersion = "42.6.0"
 val gsonVersion = "2.10.1"
 
-val springSecurityVersion = "6.1.1"
+val springSecurityVersion = "6.1.2"
 val restAssuredVersion = "5.3.1"
 val mockitoKotlinVersion = "5.0.0"
 val junitVersion = "5.9.3"
@@ -26,8 +26,8 @@ val detektVersion = "1.22.0"
 
 plugins {
     val kotlinPluginVersion = "1.8.21"
-    val springBootPluginVersion = "3.1.1"
-    val springDependencyManagementPluginVersion = "1.1.1"
+    val springBootPluginVersion = "3.1.2"
+    val springDependencyManagementPluginVersion = "1.1.2"
     val detektPluginVersion = "1.23.0"
     val kotlinterPluginVersion = "3.15.0"
     val springDocGradlePluginVersion = "1.5.0"
