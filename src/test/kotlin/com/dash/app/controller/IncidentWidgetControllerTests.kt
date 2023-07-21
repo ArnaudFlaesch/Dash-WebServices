@@ -43,6 +43,8 @@ class IncidentWidgetControllerTests : AbstractIT() {
 
     @Test
     fun getIncidentWidgetConfigTest() {
+        val incidentName = "Incident name"
+
         val incidentConfig = given()
             .port(port)
             .header(createAuthenticationHeader(jwtToken))
@@ -55,7 +57,7 @@ class IncidentWidgetControllerTests : AbstractIT() {
             .log().all()
             .extract().`as`(IncidentDomain::class.java)
 
-        assertEquals("Incident name", incidentConfig.incidentName)
+        assertEquals(incidentName, incidentConfig.incidentName)
 
         val updatedIncidentConfig = given()
             .port(port)
@@ -69,7 +71,7 @@ class IncidentWidgetControllerTests : AbstractIT() {
             .log().all()
             .extract().`as`(IncidentDomain::class.java)
 
-        assertEquals("Incident name", updatedIncidentConfig.incidentName)
+        assertEquals(incidentName, updatedIncidentConfig.incidentName)
 
         val streakEndedIncidentConfig = given()
             .port(port)
@@ -85,7 +87,7 @@ class IncidentWidgetControllerTests : AbstractIT() {
 
         assertNotNull(streakEndedIncidentConfig.id)
         assertEquals(widgetId, streakEndedIncidentConfig.widgetId)
-        assertEquals("Incident name", streakEndedIncidentConfig.incidentName)
+        assertEquals(incidentName, streakEndedIncidentConfig.incidentName)
 
         val streaks = given()
             .port(port)
