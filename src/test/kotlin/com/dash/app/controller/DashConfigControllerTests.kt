@@ -52,7 +52,7 @@ class DashConfigControllerTests : AbstractIT() {
             .body("$", Matchers.notNullValue())
             .extract().`as`(ImportData::class.java)
         assertEquals(2, exportData.tabs.size)
-        assertEquals(1, exportData.widgets.size)
+        assertEquals(2, exportData.widgets.size)
 
         val exportedWidget = exportData.widgets[0]
         assertEquals(1, exportedWidget.type)
