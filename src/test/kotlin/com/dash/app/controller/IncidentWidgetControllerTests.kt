@@ -13,6 +13,7 @@ import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -21,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.time.OffsetDateTime
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
@@ -81,6 +83,8 @@ class IncidentWidgetControllerTests : AbstractIT() {
             .log().all()
             .extract().`as`(IncidentDomain::class.java)
 
+        assertNotNull(streakEndedIncidentConfig.id)
+        assertEquals(widgetId, streakEndedIncidentConfig.widgetId)
         assertEquals("Incident name", streakEndedIncidentConfig.incidentName)
 
         val streaks = given()
@@ -96,5 +100,7 @@ class IncidentWidgetControllerTests : AbstractIT() {
             .extract().`as`(object : TypeRef<List<IncidentStreakDomain>>() {})
 
         assertEquals(1, streaks.size)
+        assertEquals(OffsetDateTime.now().dayOfMonth, streaks[0].streakStartDate.dayOfMonth)
+        assertEquals(OffsetDateTime.now().dayOfMonth, streaks[0].streakEndDate.dayOfMonth)
     }
 }
