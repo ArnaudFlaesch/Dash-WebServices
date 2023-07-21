@@ -100,6 +100,8 @@ class IncidentWidgetControllerTests : AbstractIT() {
             .extract().`as`(object : TypeRef<List<IncidentStreakDomain>>() {})
 
         assertEquals(1, streaks.size)
+        assertNotNull(streaks[0].id)
+        assertEquals(incidentConfig.id, streaks[0].incidentId)
         assertEquals(OffsetDateTime.now().dayOfMonth, streaks[0].streakStartDate.dayOfMonth)
         assertEquals(OffsetDateTime.now().dayOfMonth, streaks[0].streakEndDate.dayOfMonth)
     }
