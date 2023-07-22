@@ -21,5 +21,6 @@ class IncidentWidgetService(
     @PreAuthorize("${SecurityConditions.doesWidgetBelongToAuthenticatedUser}")
     fun endStreak(widgetId: Int): IncidentDomain = incidentWidgetAdapter.endStreak(widgetId)
 
+    @PreAuthorize("${SecurityConditions.doesIncidentBelongToAuthenticatedUser}")
     fun getIncidentStreaks(incidentId: Int): List<IncidentStreakDomain> = incidentWidgetAdapter.getIncidentStreaks(incidentId)
 }

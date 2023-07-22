@@ -9,4 +9,7 @@ object SecurityConditions {
 
     // Widgets
     const val doesWidgetBelongToAuthenticatedUser = "@widgetSecurityService.doesWidgetBelongToUser(#widgetId)"
+
+    // Incident widget
+    const val doesIncidentBelongToAuthenticatedUser = "@incidentWidgetSecurityService.doesIncidentBelongToAuthenticatedUser(#incidentId)"
 }
