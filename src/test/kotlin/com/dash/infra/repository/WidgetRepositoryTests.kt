@@ -27,12 +27,12 @@ class WidgetRepositoryTests : AbstractIT() {
         widgetRepository.saveAll(listOf(w1, w2))
 
         val listWidgets = widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabIdToInsertInto)
-        assertThat(listWidgets).hasSize(3)
+        assertThat(listWidgets).hasSize(4)
         assertNotNull(listWidgets[0].id)
         assertThat(listWidgets[0].type).isEqualTo(1)
         assertThat(listWidgets[0].widgetOrder).isEqualTo(1)
         assertThat(listWidgets[0].tab.id).isEqualTo(tabIdToInsertInto)
-        assertThat(listWidgets[1].type).isEqualTo(2)
-        assertThat(listWidgets[1].data).isEqualTo(LinkedHashMap<String, String>())
+        assertThat(listWidgets[1].type).isEqualTo(10)
+        assertThat(listWidgets[1].data).isEqualTo(mapOf("incidentName" to "Incident name"))
     }
 }

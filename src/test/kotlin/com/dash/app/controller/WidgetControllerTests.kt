@@ -51,7 +51,7 @@ class WidgetControllerTests : AbstractIT() {
                 .statusCode(200)
                 .log().all()
                 .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
-            assertEquals(1, widgetDomainList.size)
+            assertEquals(2, widgetDomainList.size)
         }
 
         @Test
@@ -78,7 +78,7 @@ class WidgetControllerTests : AbstractIT() {
                 .`when`().get(WIDGET_ENDPOINT).then().log().all()
                 .statusCode(200).log().all()
                 .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
-            assertEquals(2, widgetDomainList.size)
+            assertEquals(3, widgetDomainList.size)
 
             val updatedWidgetDomain: WidgetDomain = given()
                 .header(createAuthenticationHeader(jwtToken))
@@ -107,7 +107,7 @@ class WidgetControllerTests : AbstractIT() {
                 .`when`().get(WIDGET_ENDPOINT).then().log().all()
                 .statusCode(200).log().all()
                 .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
-            assertEquals(1, updatedWidgetListDomain.size)
+            assertEquals(2, updatedWidgetListDomain.size)
         }
 
         @Test
