@@ -12,7 +12,6 @@ create sequence IF NOT EXISTS public.incident_id_seq
 
 create table if not exists public.incident (
     id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.incident_id_seq'::regclass),
-    incident_name character varying,
     last_incident_date date,
     widget_id integer REFERENCES widget (id)
 );

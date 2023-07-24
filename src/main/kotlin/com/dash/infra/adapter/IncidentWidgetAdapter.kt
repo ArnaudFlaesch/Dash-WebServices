@@ -24,9 +24,8 @@ class IncidentWidgetAdapter(
             incidentConfig
         } else {
             val widgetConfig = widgetRepository.getReferenceById(widgetId)
-            val incidentName = (widgetConfig.data as Map<String, String>)["incidentName"] ?: ""
             incidentWidgetRepository.save(
-                IncidentEntity(0, incidentName, OffsetDateTime.now(), widgetConfig)
+                IncidentEntity(0, OffsetDateTime.now(), widgetConfig)
             )
         }
     }
