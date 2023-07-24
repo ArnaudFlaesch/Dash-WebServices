@@ -43,7 +43,6 @@ class IncidentWidgetControllerTests : AbstractIT() {
 
     @Test
     fun getIncidentWidgetConfigTest() {
-        val incidentName = "Incident name"
 
         val incidentConfig = given()
             .port(port)
@@ -57,7 +56,7 @@ class IncidentWidgetControllerTests : AbstractIT() {
             .log().all()
             .extract().`as`(IncidentDomain::class.java)
 
-        assertEquals(incidentName, incidentConfig.incidentName)
+        assertNotNull(incidentConfig.lastIncidentDate)
 
         val updatedIncidentConfig = given()
             .port(port)
@@ -71,7 +70,7 @@ class IncidentWidgetControllerTests : AbstractIT() {
             .log().all()
             .extract().`as`(IncidentDomain::class.java)
 
-        assertEquals(incidentName, updatedIncidentConfig.incidentName)
+        assertNotNull(updatedIncidentConfig.lastIncidentDate)
 
         val streakEndedIncidentConfig = given()
             .port(port)
@@ -87,7 +86,6 @@ class IncidentWidgetControllerTests : AbstractIT() {
 
         assertNotNull(streakEndedIncidentConfig.id)
         assertEquals(widgetId, streakEndedIncidentConfig.widgetId)
-        assertEquals(incidentName, streakEndedIncidentConfig.incidentName)
 
         val streaks = given()
             .port(port)

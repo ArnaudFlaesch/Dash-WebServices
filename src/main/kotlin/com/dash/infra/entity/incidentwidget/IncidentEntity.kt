@@ -19,8 +19,6 @@ data class IncidentEntity(
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
 
-    @Column(name = "incident_name") val incidentName: String,
-
     @Column(name = "last_incident_date") val lastIncidentDate: OffsetDateTime,
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -29,7 +27,6 @@ data class IncidentEntity(
 ) {
     fun toDomain(): IncidentDomain = IncidentDomain(
         id = id,
-        incidentName = incidentName,
         lastIncidentDate = lastIncidentDate,
         widgetId = widget.id
     )
