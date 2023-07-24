@@ -43,7 +43,6 @@ class IncidentWidgetControllerTests : AbstractIT() {
 
     @Test
     fun getIncidentWidgetConfigTest() {
-
         val incidentConfig = given()
             .port(port)
             .header(createAuthenticationHeader(jwtToken))
