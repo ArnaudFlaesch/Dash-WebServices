@@ -18,7 +18,9 @@ class TabController(private val tabService: TabService) {
     fun addTab(@RequestBody createTabPayload: CreateTabPayload): TabDomain = tabService.addTab(createTabPayload.label)
 
     @PostMapping("/updateTab")
-    fun updateTab(@RequestBody updatePayload: UpdateTabPayload): TabDomain = tabService.updateTab(updatePayload.id, updatePayload.label, updatePayload.tabOrder)
+    fun updateTab(
+        @RequestBody updatePayload: UpdateTabPayload
+    ): TabDomain = tabService.updateTab(updatePayload.id, updatePayload.label, updatePayload.tabOrder)
 
     @PostMapping("/updateTabs")
     fun updateTabs(@RequestBody tabList: List<TabDomain>): List<TabDomain> = tabService.saveTabs(tabList)

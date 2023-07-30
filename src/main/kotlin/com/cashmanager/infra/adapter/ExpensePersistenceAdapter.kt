@@ -30,7 +30,8 @@ class ExpensePersistenceAdapter(
 
     fun insertExpense(expense: ExpenseDomain): ExpenseDomain {
         val labelEntity = labelRepository.getReferenceById(expense.labelId)
-        val expenseToCreate = ExpenseEntity(id = 0, amount = expense.amount, expenseDate = expense.expenseDate, label = labelEntity)
+        val expenseToCreate =
+            ExpenseEntity(id = 0, amount = expense.amount, expenseDate = expense.expenseDate, label = labelEntity)
         return expenseRepository.save(expenseToCreate).toDomain()
     }
 

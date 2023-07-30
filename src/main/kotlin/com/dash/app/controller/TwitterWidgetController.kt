@@ -27,5 +27,7 @@ class TwitterWidgetController(
         twitterWidgetService.addFollowedUser(addUserToFollowPayload.userHandle)
 
     @DeleteMapping("/deleteFollowedUser")
-    fun deleteFollowedUser(@RequestParam("followedUserId") followedUserId: Int) = twitterWidgetService.deleteFollowedUser(followedUserId)
+    fun deleteFollowedUser(
+        @RequestParam("followedUserId") followedUserId: Int
+    ) = twitterWidgetService.deleteFollowedUser(followedUserId)
 }
