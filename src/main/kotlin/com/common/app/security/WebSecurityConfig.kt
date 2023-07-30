@@ -53,7 +53,6 @@ class WebSecurityConfig(
             .exceptionHandling { auth -> auth.authenticationEntryPoint(unauthorizedHandler) }
             .sessionManagement { sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
 
-
         return http.build()
     }
 }
