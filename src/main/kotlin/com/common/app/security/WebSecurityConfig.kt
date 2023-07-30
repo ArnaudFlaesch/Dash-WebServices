@@ -3,6 +3,7 @@ package com.common.app.security
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
@@ -43,13 +44,15 @@ class WebSecurityConfig(
         val authenticationManager = authenticationManagerBuilder.build()
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
-            .cors().and().csrf().disable()
-            .authorizeHttpRequests().requestMatchers("/auth/**", "/v3/api-docs/**", "/error")
-            .permitAll()
-            .anyRequest().authenticated().and()
+            .cors(Customizer.withDefaults()).csrf(Customizer.withDefaults())
+            .authorizeHttpRequests { authorizeRequests ->
+                authorizeRequests.requestMatchers("/auth/**", "/v3/api-docs/**", "/error").permitAll()
+                    .anyRequest().authenticated()
+            }
             .authenticationManager(authenticationManager)
-            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .exceptionHandling { auth -> auth.authenticationEntryPoint(unauthorizedHandler) }
+            .sessionManagement { sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+
 
         return http.build()
     }
