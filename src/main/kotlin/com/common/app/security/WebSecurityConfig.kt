@@ -46,7 +46,7 @@ class WebSecurityConfig(
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
             .cors(Customizer.withDefaults()).csrf(Customizer.withDefaults())
             .authorizeHttpRequests { authorizeRequests ->
-                authorizeRequests.requestMatchers("/auth/**", "/v3/api-docs/**", "/error").permitAll()
+                authorizeRequests.requestMatchers("/auth/**", "/v3/api-docs", "/error").permitAll()
                     .anyRequest().authenticated()
             }
             .authenticationManager(authenticationManager)
