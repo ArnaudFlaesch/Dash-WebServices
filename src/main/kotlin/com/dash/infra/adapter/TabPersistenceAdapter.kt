@@ -19,7 +19,8 @@ class TabPersistenceAdapter(
 
     fun addTab(tabLabel: String, userId: Int): TabDomain {
         val userEntity = userRepository.getReferenceById(userId)
-        val tabToInsert = TabEntity(id = 0, label = tabLabel, tabOrder = tabRepository.getNumberOfTabs(userId) + 1, user = userEntity)
+        val tabToInsert =
+            TabEntity(id = 0, label = tabLabel, tabOrder = tabRepository.getNumberOfTabs(userId) + 1, user = userEntity)
         return tabRepository.save(tabToInsert).toDomain()
     }
 

@@ -20,7 +20,8 @@ class MiniWidgetService(
 
     fun addMiniWidget(widgetType: Int): MiniWidgetDomain {
         val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUser().id
-        val newMiniWidget = MiniWidgetDomain(id = 0, type = widgetType, data = null, userId = currentAuthenticatedUserId)
+        val newMiniWidget =
+            MiniWidgetDomain(id = 0, type = widgetType, data = null, userId = currentAuthenticatedUserId)
         return saveMiniWidget(newMiniWidget)
     }
 

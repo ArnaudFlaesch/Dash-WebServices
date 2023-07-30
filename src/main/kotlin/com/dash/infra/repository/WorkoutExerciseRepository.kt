@@ -16,8 +16,16 @@ interface WorkoutExerciseRepository : JpaRepository<WorkoutExerciseEntity, Worko
     fun findAllByWorkoutSessionId(workoutSessionId: Int): List<WorkoutExerciseEntity>
 
     @Query(name = "getWorkoutStatsByInterval", nativeQuery = true)
-    fun getWorkoutStatsByInterval(dateIntervalStart: LocalDate, dateIntervalEnd: LocalDate, userId: Int): List<WorkoutStatsByIntervalEntity>
+    fun getWorkoutStatsByInterval(
+        dateIntervalStart: LocalDate,
+        dateIntervalEnd: LocalDate,
+        userId: Int
+    ): List<WorkoutStatsByIntervalEntity>
 
     @Query(name = "getWorkoutStatsByMonth", nativeQuery = true)
-    fun getWorkoutStatsByMonth(dateIntervalStart: LocalDate, dateIntervalEnd: LocalDate, userId: Int): List<WorkoutStatsByMonthEntity>
+    fun getWorkoutStatsByMonth(
+        dateIntervalStart: LocalDate,
+        dateIntervalEnd: LocalDate,
+        userId: Int
+    ): List<WorkoutStatsByMonthEntity>
 }

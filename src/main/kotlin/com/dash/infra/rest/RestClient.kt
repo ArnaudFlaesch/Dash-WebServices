@@ -23,7 +23,11 @@ class RestClient(private val restTemplate: RestTemplate) {
     }
 
     @Throws(RestClientException::class)
-    fun <T : Any> getDataFromProxy(url: String, responseClass: ParameterizedTypeReference<T>, httpEntity: HttpEntity<T>): T {
+    fun <T : Any> getDataFromProxy(
+        url: String,
+        responseClass: ParameterizedTypeReference<T>,
+        httpEntity: HttpEntity<T>
+    ): T {
         logger.info("Send GET request to url : $url")
         return restTemplate.exchange(URI.create(url), HttpMethod.GET, httpEntity, responseClass).body ?: throw ErrorHandler.Companion.NotFoundException()
     }

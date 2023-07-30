@@ -13,7 +13,9 @@ class IncidentWidgetService(
 ) {
 
     @PreAuthorize("${SecurityConditions.doesWidgetBelongToAuthenticatedUser}")
-    fun getIncidentConfigForWidget(widgetId: Int): IncidentDomain = incidentWidgetAdapter.getIncidentConfigForWidget(widgetId)
+    fun getIncidentConfigForWidget(
+        widgetId: Int
+    ): IncidentDomain = incidentWidgetAdapter.getIncidentConfigForWidget(widgetId)
 
     @PreAuthorize("${SecurityConditions.doesWidgetBelongToAuthenticatedUser}")
     fun startFirstStreak(widgetId: Int): IncidentDomain = incidentWidgetAdapter.startStreak(widgetId)
@@ -22,5 +24,7 @@ class IncidentWidgetService(
     fun endStreak(widgetId: Int): IncidentDomain = incidentWidgetAdapter.endStreak(widgetId)
 
     @PreAuthorize("${SecurityConditions.doesIncidentBelongToAuthenticatedUser}")
-    fun getIncidentStreaks(incidentId: Int): List<IncidentStreakDomain> = incidentWidgetAdapter.getIncidentStreaks(incidentId)
+    fun getIncidentStreaks(
+        incidentId: Int
+    ): List<IncidentStreakDomain> = incidentWidgetAdapter.getIncidentStreaks(incidentId)
 }
