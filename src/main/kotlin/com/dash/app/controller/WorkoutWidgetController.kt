@@ -32,7 +32,9 @@ class WorkoutWidgetController(
         workoutWidgetService.getWorkoutSessions(dateIntervalStart, dateIntervalEnd)
 
     @GetMapping("/workoutExercises")
-    fun getWorkoutsExercisesByWorkoutSessionId(@RequestParam("workoutSessionId") workoutSessionId: Int): List<WorkoutExerciseDomain> =
+    fun getWorkoutsExercisesByWorkoutSessionId(
+        @RequestParam("workoutSessionId") workoutSessionId: Int
+    ): List<WorkoutExerciseDomain> =
         workoutWidgetService.getWorkoutsExercisesByWorkoutSessionId(workoutSessionId)
 
     @GetMapping("/workoutStatsByPeriod")
@@ -50,7 +52,9 @@ class WorkoutWidgetController(
         workoutWidgetService.getWorkoutStatsByMonth(dateIntervalStart, dateIntervalEnd)
 
     @PostMapping("/updateWorkoutExercise")
-    fun updateWorkoutExercise(@RequestBody updateWorkoutExercisePayload: UpdateWorkoutExercisePayload): WorkoutExerciseDomain =
+    fun updateWorkoutExercise(
+        @RequestBody updateWorkoutExercisePayload: UpdateWorkoutExercisePayload
+    ): WorkoutExerciseDomain =
         workoutWidgetService.updateWorkoutExercise(
             updateWorkoutExercisePayload.workoutSessionId,
             updateWorkoutExercisePayload.workoutTypeId,
@@ -62,6 +66,8 @@ class WorkoutWidgetController(
         workoutWidgetService.addWorkoutType(addWorkoutTypePayload.workoutType)
 
     @PostMapping("/createWorkoutSession")
-    fun createWorkoutSession(@RequestBody createWorkoutSessionPayload: CreateWorkoutSessionPayload): WorkoutSessionDomain =
+    fun createWorkoutSession(
+        @RequestBody createWorkoutSessionPayload: CreateWorkoutSessionPayload
+    ): WorkoutSessionDomain =
         workoutWidgetService.createWorkoutSession(createWorkoutSessionPayload.workoutDate)
 }

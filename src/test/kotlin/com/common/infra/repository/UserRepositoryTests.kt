@@ -28,7 +28,8 @@ class UserRepositoryTests : AbstractIT() {
     @Test
     fun testAddUser() {
         val roleUser = roleRepository.getReferenceById(1)
-        val newUserEntity = UserEntity(id = 0, email = "test@email.com", username = "testusername", password = "testpassword", role = roleUser)
+        val newUserEntity =
+            UserEntity(id = 0, email = "test@email.com", username = "testusername", password = "testpassword", role = roleUser)
 
         val insertedUser = userRepository.save(newUserEntity)
         assertNotNull(insertedUser.id)

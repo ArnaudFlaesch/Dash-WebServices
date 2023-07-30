@@ -20,7 +20,9 @@ class StravaWidgetController(
         stravaWidgetService.getToken(getStravaTokenPayload.apiCode)
 
     @PostMapping("/getRefreshToken")
-    fun getRefreshToken(@RequestBody getStravaRefreshTokenPayload: GetStravaRefreshTokenPayload): StravaTokenDataDomain =
+    fun getRefreshToken(
+        @RequestBody getStravaRefreshTokenPayload: GetStravaRefreshTokenPayload
+    ): StravaTokenDataDomain =
         stravaWidgetService.getRefreshToken(getStravaRefreshTokenPayload.refreshToken)
 
     @GetMapping("/getAthleteData")

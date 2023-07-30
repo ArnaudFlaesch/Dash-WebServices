@@ -24,7 +24,8 @@ class StravaWidgetAdapterTests {
         val token = "token"
         val pageNumber = 1
         val numberOfActivities = 25
-        val activitiesDataList = listOf(StravaActivityResponse(name = "Evening run"), StravaActivityResponse(name = "Lunch run"))
+        val activitiesDataList =
+            listOf(StravaActivityResponse(name = "Evening run"), StravaActivityResponse(name = "Lunch run"))
         given(stravaApiClient.getAthleteActivities(token, pageNumber, numberOfActivities)).willReturn(activitiesDataList)
 
         val response = stravaWidgetAdapter.getAthleteActivities(token, pageNumber, numberOfActivities)

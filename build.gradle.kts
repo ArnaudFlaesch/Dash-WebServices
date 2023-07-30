@@ -22,7 +22,7 @@ val junitVersion = "5.10.0"
 val hibernateTypesVersion = "2.21.1"
 val testContainersVersion = "1.18.3"
 
-val detektVersion = "1.22.0"
+val detektVersion = "1.23.1"
 
 plugins {
     val kotlinPluginVersion = "1.8.21"

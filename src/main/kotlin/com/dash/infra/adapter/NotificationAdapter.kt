@@ -25,7 +25,9 @@ class NotificationAdapter(private val notificationRepository: NotificationReposi
     }
 
     fun markNotificationsAsRead(notificationIds: List<Int>): List<NotificationDomain> {
-        val updatedNotificationEntities = notificationIds.map { notificationRepository.getReferenceById(it).copy(isRead = true) }
+        val updatedNotificationEntities = notificationIds.map {
+            notificationRepository.getReferenceById(it).copy(isRead = true)
+        }
         return notificationRepository.saveAll(updatedNotificationEntities).map(NotificationEntity::toDomain)
     }
 }

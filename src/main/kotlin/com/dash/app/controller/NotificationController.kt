@@ -20,6 +20,8 @@ class NotificationController(private val notificationService: NotificationServic
         PageMapper.mapPageToPageResponse(notificationService.getNotifications(pageNumber, pageSize))
 
     @PutMapping("/markNotificationAsRead")
-    fun markNotificationAsRead(@RequestBody markNotificationsAsReadPayload: MarkNotificationsAsReadPayload): List<NotificationDomain> =
+    fun markNotificationAsRead(
+        @RequestBody markNotificationsAsReadPayload: MarkNotificationsAsReadPayload
+    ): List<NotificationDomain> =
         notificationService.markNotificationsAsRead(markNotificationsAsReadPayload.notificationIds)
 }
