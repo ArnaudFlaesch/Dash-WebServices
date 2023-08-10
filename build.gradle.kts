@@ -27,7 +27,7 @@ val detektVersion = "1.23.1"
 plugins {
     val kotlinPluginVersion = "1.9.0"
     val springBootPluginVersion = "3.1.2"
-    val springDependencyManagementPluginVersion = "1.1.2"
+    val springDependencyManagementPluginVersion = "1.1.3"
     val detektPluginVersion = "1.23.1"
     val kotlinterPluginVersion = "3.15.0"
     val springDocGradlePluginVersion = "1.5.0"
