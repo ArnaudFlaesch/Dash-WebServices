@@ -82,7 +82,7 @@ jobs:
           path: build/reports/tests/test
 
       - name: Report coverage for Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
