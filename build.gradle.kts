@@ -29,7 +29,7 @@ plugins {
     val springBootPluginVersion = "3.1.4"
     val springDependencyManagementPluginVersion = "1.1.3"
     val detektPluginVersion = "1.23.1"
-    val kotlinterPluginVersion = "3.16.0"
+    val kotlinterPluginVersion = "4.0.0"
     val springDocGradlePluginVersion = "1.5.0"
 
     jacoco
