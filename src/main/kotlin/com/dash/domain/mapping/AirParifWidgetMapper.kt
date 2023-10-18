@@ -20,9 +20,10 @@ class AirParifWidgetMapper {
     fun previsionsResponseToDomain(
         communeInseeCode: String,
         airParifPrevisionResponse: LinkedHashMap<String, List<LinkedHashMap<String, String>>>
-    ): List<Prevision> = airParifPrevisionResponse.getOrDefault(communeInseeCode, listOf(LinkedHashMap())).map {
-        previsionResponseToDomain(it)
-    }
+    ): List<Prevision> =
+        airParifPrevisionResponse.getOrDefault(communeInseeCode, listOf(LinkedHashMap())).map {
+            previsionResponseToDomain(it)
+        }
 
     private fun previsionResponseToDomain(previsionResponse: LinkedHashMap<String, String>): Prevision =
         Prevision(

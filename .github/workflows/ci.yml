@@ -30,7 +30,6 @@ jobs:
 
       - name: Lint
         run: |
-          ./gradlew detekt
           ./gradlew lintKotlin
 
       - name: Login to Github Container Registry

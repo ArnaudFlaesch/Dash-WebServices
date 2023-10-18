@@ -11,9 +11,7 @@ class WidgetPersistenceAdapter(
     private val widgetRepository: WidgetRepository,
     private val tabRepository: TabRepository
 ) {
-    fun findByTabIdOrderByWidgetOrderAsc(
-        tabId: Int
-    ): List<WidgetDomain> = widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId).map(WidgetEntity::toDomain)
+    fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<WidgetDomain> = widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId).map(WidgetEntity::toDomain)
 
     fun getUserWidgets(userId: Int): List<WidgetDomain> = widgetRepository.getUsersWidget(userId).map(WidgetEntity::toDomain)
 

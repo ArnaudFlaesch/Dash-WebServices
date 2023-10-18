@@ -54,8 +54,6 @@ des services externes.
 
 > ./gradlew lintKotlin
 
-> ./gradlew detekt
-
 ### Coverage
 
 ![Coverage](https://codecov.io/gh/ArnaudFlaesch/Dash-WebServices/branch/master/graphs/sunburst.svg)

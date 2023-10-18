@@ -13,9 +13,7 @@ class WidgetService(
     private val widgetPersistenceAdapter: WidgetPersistenceAdapter
 ) {
     @PreAuthorize(SecurityConditions.DOES_TAB_BELONG_TO_AUTHENTICATED_USER)
-    fun findByTabIdOrderByWidgetOrderAsc(
-        tabId: Int
-    ): List<WidgetDomain> = widgetPersistenceAdapter.findByTabIdOrderByWidgetOrderAsc(tabId)
+    fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<WidgetDomain> = widgetPersistenceAdapter.findByTabIdOrderByWidgetOrderAsc(tabId)
 
     fun getUserWidgets(): List<WidgetDomain> {
         val userId = userService.getCurrentAuthenticatedUser().id
