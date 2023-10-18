@@ -11,11 +11,12 @@ class LabelPersistenceAdapter(
     private val labelRepository: LabelRepository,
     private val userRepository: UserRepository
 ) {
+    fun getLabels(authenticatedUserId: Int): List<LabelDomain> = labelRepository.findByUserIdOrderByLabel(authenticatedUserId).map(LabelEntity::toDomain)
 
-    fun getLabels(authenticatedUserId: Int): List<LabelDomain> =
-        labelRepository.findByUserIdOrderByLabel(authenticatedUserId).map(LabelEntity::toDomain)
-
-    fun addLabel(labelToAdd: String, authenticatedUserId: Int): LabelDomain {
+    fun addLabel(
+        labelToAdd: String,
+        authenticatedUserId: Int
+    ): LabelDomain {
         val userEntity = userRepository.getReferenceById(authenticatedUserId)
         val newLabel = LabelEntity(0, labelToAdd, userEntity)
         return labelRepository.save(newLabel).toDomain()

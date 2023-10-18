@@ -14,7 +14,6 @@ import org.mockito.kotlin.given
 
 @ExtendWith(MockitoExtension::class)
 class SteamWidgetAdapterTests {
-
     @Mock
     private lateinit var steamApiClient: SteamApiClient
 
@@ -41,30 +40,35 @@ class SteamWidgetAdapterTests {
         given(steamApiClient.getOwnedGames(steamUserId)).willReturn(gameInfoResponseMock)
 
         val actualFirstPage = steamWidgetAdapter.getOwnedGames(steamUserId, "", 0)
-        val expectedFirstPage = Page(
-            totalElements = 50,
-            last = false,
-            totalPages = 2,
-            size = 25,
-            number = 0,
-            content = gamesListMock.subList(0, 25).map(GameInfoApi::toDomain)
-        )
+        val expectedFirstPage =
+            Page(
+                totalElements = 50,
+                last = false,
+                totalPages = 2,
+                size = 25,
+                number = 0,
+                content = gamesListMock.subList(0, 25).map(GameInfoApi::toDomain)
+            )
         assertEquals(expectedFirstPage, actualFirstPage)
 
         val actualSecondPage = steamWidgetAdapter.getOwnedGames(steamUserId, "", 1)
 
-        val expectedSecondPage = Page(
-            totalElements = 50,
-            last = true,
-            totalPages = 2,
-            size = 25,
-            number = 1,
-            content = gamesListMock.subList(25, 50).map(GameInfoApi::toDomain)
-        )
+        val expectedSecondPage =
+            Page(
+                totalElements = 50,
+                last = true,
+                totalPages = 2,
+                size = 25,
+                number = 1,
+                content = gamesListMock.subList(25, 50).map(GameInfoApi::toDomain)
+            )
         assertEquals(expectedSecondPage, actualSecondPage)
     }
 
-    private fun createGameListFromApi(startIndex: Int, size: Int): List<GameInfoApi> {
+    private fun createGameListFromApi(
+        startIndex: Int,
+        size: Int
+    ): List<GameInfoApi> {
         return (startIndex until size).map { index ->
             GameInfoApi(appid = index.toString(), name = "Call of Duty $index")
         }.sortedBy(GameInfoApi::name)

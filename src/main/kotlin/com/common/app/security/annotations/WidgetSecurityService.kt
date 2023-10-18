@@ -10,7 +10,6 @@ class WidgetSecurityService(
     val userService: UserService,
     val widgetPersistenceAdapter: WidgetPersistenceAdapter
 ) {
-
     fun doesWidgetBelongToUser(widgetId: Int): Boolean {
         val authUser = userService.getCurrentAuthenticatedUser()
         val userWidgets = widgetPersistenceAdapter.getUserWidgets(authUser.id)

@@ -34,7 +34,6 @@ import java.util.stream.Stream
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class LabelControllerTests : AbstractIT() {
-
     @LocalServerPort
     private val port: Int = 0
 
@@ -48,14 +47,15 @@ class LabelControllerTests : AbstractIT() {
 
     @Test
     fun testAllLabels() {
-        val labels: List<LabelDomain> = given().port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .`when`().get(LABEL_ENDPOINT)
-            .then().log().all()
-            .statusCode(200)
-            .log().all()
-            .extract()
-            .`as`(object : TypeRef<List<LabelDomain>>() {})
+        val labels: List<LabelDomain> =
+            given().port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .`when`().get(LABEL_ENDPOINT)
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .extract()
+                .`as`(object : TypeRef<List<LabelDomain>>() {})
         assertEquals(2, labels.size)
         assertThat(labels.map(LabelDomain::label), containsInAnyOrder("Courses", "Restaurant"))
     }
@@ -63,32 +63,34 @@ class LabelControllerTests : AbstractIT() {
     @Test
     fun labelCrudTests() {
         val labelToInsert = InsertLabelPayload(newLabel = "Vacances")
-        val insertedLabel: LabelDomain = given()
-            .port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .contentType(ContentType.JSON)
-            .body(labelToInsert)
-            .`when`().post(ADD_LABEL_ENDPOINT)
-            .then().log().all()
-            .statusCode(200)
-            .log().all()
-            .extract()
-            .`as`(LabelDomain::class.java)
+        val insertedLabel: LabelDomain =
+            given()
+                .port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .contentType(ContentType.JSON)
+                .body(labelToInsert)
+                .`when`().post(ADD_LABEL_ENDPOINT)
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .extract()
+                .`as`(LabelDomain::class.java)
         assertNotNull(insertedLabel.id)
         assertEquals(labelToInsert.newLabel, insertedLabel.label)
 
         val labelToUpdate = insertedLabel.copy(label = "Vacances d'été")
-        val updatedLabel: LabelDomain = given()
-            .port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .contentType(ContentType.JSON)
-            .body(labelToUpdate)
-            .`when`().patch(UPDATE_LABEL_ENDPOINT)
-            .then().log().all()
-            .statusCode(200)
-            .log().all()
-            .extract()
-            .`as`(LabelDomain::class.java)
+        val updatedLabel: LabelDomain =
+            given()
+                .port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .contentType(ContentType.JSON)
+                .body(labelToUpdate)
+                .`when`().patch(UPDATE_LABEL_ENDPOINT)
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .extract()
+                .`as`(LabelDomain::class.java)
         assertNotNull(insertedLabel.id)
         assertEquals(labelToUpdate.label, updatedLabel.label)
 

@@ -25,7 +25,6 @@ import java.util.stream.Stream
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class WeatherWidgetControllerTests : AbstractIT() {
-
     @LocalServerPort
     private val port: Int = 0
 
@@ -45,7 +44,10 @@ class WeatherWidgetControllerTests : AbstractIT() {
     inner class GetWeatherTests {
         @ParameterizedTest
         @MethodSource("testGetTokenArguments")
-        fun testGetWeatherData(token: String, statusCode: Int) {
+        fun testGetWeatherData(
+            token: String,
+            statusCode: Int
+        ) {
             given()
                 .port(port)
                 .header(createAuthenticationHeader(token))
@@ -61,16 +63,17 @@ class WeatherWidgetControllerTests : AbstractIT() {
 
         @Test
         fun should_get_weather_data() {
-            val actual = given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .param("city", "Paris")
-                .`when`()
-                .get("$weatherWidgetEndpoint/weather")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .log().all()
-                .extract().`as`(OpenWeatherWeatherDomain::class.java)
+            val actual =
+                given()
+                    .port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .param("city", "Paris")
+                    .`when`()
+                    .get("$weatherWidgetEndpoint/weather")
+                    .then().log().all()
+                    .statusCode(HttpStatus.OK.value())
+                    .log().all()
+                    .extract().`as`(OpenWeatherWeatherDomain::class.java)
 
             assertEquals("Paris", actual.name)
         }
@@ -80,19 +83,19 @@ class WeatherWidgetControllerTests : AbstractIT() {
     @DisplayName("Get forecast tests")
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class GetForecastTests {
-
         @Test
         fun should_get_forecast_data() {
-            val actual = given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .param("city", "Paris")
-                .`when`()
-                .get("$weatherWidgetEndpoint/forecast")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .log().all()
-                .extract().`as`(OpenWeatherForecastDomain::class.java)
+            val actual =
+                given()
+                    .port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .param("city", "Paris")
+                    .`when`()
+                    .get("$weatherWidgetEndpoint/forecast")
+                    .then().log().all()
+                    .statusCode(HttpStatus.OK.value())
+                    .log().all()
+                    .extract().`as`(OpenWeatherForecastDomain::class.java)
 
             assertEquals(15, actual.list.size)
         }

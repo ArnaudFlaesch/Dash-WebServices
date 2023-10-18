@@ -15,20 +15,22 @@ import java.time.LocalDate
     ]
 )
 @NamedNativeQuery(
-    query = "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
-        "FROM Expense E " +
-        "WHERE E.label_id IN (SELECT id FROM label L WHERE L.user_id = :userId)" +
-        "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
+    query =
+        "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
+            "FROM Expense E " +
+            "WHERE E.label_id IN (SELECT id FROM label L WHERE L.user_id = :userId)" +
+            "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
     name = "getExpensesByMonth",
     resultClass = TotalExpenseByMonthEntity::class,
     resultSetMapping = "totalExpensesByMonth"
 )
 @NamedNativeQuery(
-    query = "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
-        "FROM Expense E " +
-        "WHERE label_id = :labelId " +
-        "AND E.label_id IN (SELECT id FROM label L WHERE L.user_id = :userId)" +
-        "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
+    query =
+        "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
+            "FROM Expense E " +
+            "WHERE label_id = :labelId " +
+            "AND E.label_id IN (SELECT id FROM label L WHERE L.user_id = :userId)" +
+            "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
     name = "getExpensesByMonthByLabelId",
     resultClass = TotalExpenseByMonthEntity::class,
     resultSetMapping = "totalExpensesByMonth"
@@ -41,13 +43,10 @@ data class ExpenseEntity(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "expense-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
-
     @Column
     val amount: Float,
-
     @Column(name = "expense_date")
     val expenseDate: LocalDate,
-
     @ManyToOne(optional = true)
     @JoinColumn(name = "labelId")
     val label: LabelEntity

@@ -11,8 +11,7 @@ class WidgetPersistenceAdapter(
     private val widgetRepository: WidgetRepository,
     private val tabRepository: TabRepository
 ) {
-    fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<WidgetDomain> =
-        widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId).map(WidgetEntity::toDomain)
+    fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<WidgetDomain> = widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId).map(WidgetEntity::toDomain)
 
     fun getUserWidgets(userId: Int): List<WidgetDomain> = widgetRepository.getUsersWidget(userId).map(WidgetEntity::toDomain)
 
@@ -20,17 +19,21 @@ class WidgetPersistenceAdapter(
 
     fun saveWidget(widgetData: WidgetDomain): WidgetDomain {
         val tabEntity = tabRepository.getReferenceById(widgetData.tabId)
-        val widgetToSave = WidgetEntity(
-            id = widgetData.id,
-            type = widgetData.type,
-            data = widgetData.data,
-            widgetOrder = widgetData.widgetOrder,
-            tab = tabEntity
-        )
+        val widgetToSave =
+            WidgetEntity(
+                id = widgetData.id,
+                type = widgetData.type,
+                data = widgetData.data,
+                widgetOrder = widgetData.widgetOrder,
+                tab = tabEntity
+            )
         return widgetRepository.save(widgetToSave).toDomain()
     }
 
-    fun updateWidgetData(widgetId: Int, updatedData: Any): WidgetDomain {
+    fun updateWidgetData(
+        widgetId: Int,
+        updatedData: Any
+    ): WidgetDomain {
         val oldWidget = widgetRepository.getReferenceById(widgetId)
         return widgetRepository.save(oldWidget.copy(data = updatedData)).toDomain()
     }

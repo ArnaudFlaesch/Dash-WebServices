@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component
 
 @Component
 class EventListener(private val notificationService: NotificationService) : ApplicationListener<DashEvent> {
-
     override fun onApplicationEvent(event: DashEvent) {
         notificationService.saveNotification(event.messageContent, event.notificationType)
     }

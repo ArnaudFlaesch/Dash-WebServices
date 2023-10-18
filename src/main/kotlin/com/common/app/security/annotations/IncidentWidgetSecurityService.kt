@@ -12,7 +12,6 @@ class IncidentWidgetSecurityService(
     val widgetPersistenceAdapter: WidgetPersistenceAdapter,
     val incidentWidgetRepository: IncidentWidgetRepository
 ) {
-
     fun doesIncidentBelongToAuthenticatedUser(incidentId: Int): Boolean {
         val authUser = userService.getCurrentAuthenticatedUser()
         val incidentConfig = incidentWidgetRepository.getReferenceById(incidentId)

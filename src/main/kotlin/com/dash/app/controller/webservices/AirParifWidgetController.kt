@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.*
 class AirParifWidgetController(
     private val airParifWidgetService: AirParifWidgetService
 ) {
-
     @GetMapping("/previsionCommune")
-    fun getPrevisionCommune(@RequestParam(value = "commune") commune: String): List<Prevision> =
-        airParifWidgetService.getPrevisionCommune(commune)
+    fun getPrevisionCommune(
+        @RequestParam(value = "commune") commune: String
+    ): List<Prevision> = airParifWidgetService.getPrevisionCommune(commune)
 
     @GetMapping("/couleurs")
-    fun getAirParifCouleurs(): List<AirParifColor> =
-        airParifWidgetService.getColors()
+    fun getAirParifCouleurs(): List<AirParifColor> = airParifWidgetService.getColors()
 }

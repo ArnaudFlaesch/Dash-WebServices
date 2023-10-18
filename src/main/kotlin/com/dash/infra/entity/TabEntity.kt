@@ -12,19 +12,17 @@ data class TabEntity(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tab-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
-
     val label: String = "",
-
     val tabOrder: Int,
-
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
     val user: UserEntity
 ) {
-    fun toDomain(): TabDomain = TabDomain(
-        this.id,
-        this.label,
-        this.tabOrder,
-        this.user.id
-    )
+    fun toDomain(): TabDomain =
+        TabDomain(
+            this.id,
+            this.label,
+            this.tabOrder,
+            this.user.id
+        )
 }

@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class WorkoutTypeRepositoryTests : AbstractIT() {
-
     @Autowired
     private lateinit var workoutTypeRepository: WorkoutTypeRepository
 
@@ -22,10 +21,11 @@ class WorkoutTypeRepositoryTests : AbstractIT() {
     @Test
     fun testInsertWorkoutTypes() {
         val authenticatedUser = userRepository.getReferenceById(1)
-        val workoutTypes = listOf(
-            WorkoutTypeEntity(0, "Running", authenticatedUser),
-            WorkoutTypeEntity(0, "Swimming", authenticatedUser)
-        )
+        val workoutTypes =
+            listOf(
+                WorkoutTypeEntity(0, "Running", authenticatedUser),
+                WorkoutTypeEntity(0, "Swimming", authenticatedUser)
+            )
 
         workoutTypeRepository.saveAll(workoutTypes)
 

@@ -10,13 +10,15 @@ import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 @Service
-@PreAuthorize(SecurityConditions.isUserAdmin)
+@PreAuthorize(SecurityConditions.IS_USER_ADMIN)
 class ExpenseService(
     private val expensePersistenceAdapter: ExpensePersistenceAdapter,
     private val userService: UserService
 ) {
-
-    fun getExpensesByInterval(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<ExpenseDomain> {
+    fun getExpensesByInterval(
+        startIntervalDate: LocalDate,
+        endIntervalDate: LocalDate
+    ): List<ExpenseDomain> {
         val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return expensePersistenceAdapter.getExpensesByInterval(startIntervalDate, endIntervalDate, currentAuthenticatedUserId)
     }
@@ -36,7 +38,11 @@ class ExpenseService(
         return expensePersistenceAdapter.getUserTotalExpensesByMonthByLabelId(labelId, currentAuthenticatedUserId)
     }
 
-    fun addExpense(amount: Float, expenseDate: LocalDate, labelId: Int): ExpenseDomain {
+    fun addExpense(
+        amount: Float,
+        expenseDate: LocalDate,
+        labelId: Int
+    ): ExpenseDomain {
         val expenseToCreate = ExpenseDomain(0, amount, expenseDate, labelId)
         return insertExpense(expenseToCreate)
     }

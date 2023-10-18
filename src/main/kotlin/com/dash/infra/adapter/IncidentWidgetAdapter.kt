@@ -16,19 +16,19 @@ class IncidentWidgetAdapter(
     private val incidentStreakRepository: IncidentStreakRepository,
     private val widgetRepository: WidgetRepository
 ) {
-
     fun getIncidentConfigForWidget(widgetId: Int): IncidentDomain = this.getIncidentConfigEntityForWidget(widgetId).toDomain()
 
-    private fun getIncidentConfigEntityForWidget(widgetId: Int): IncidentEntity = incidentWidgetRepository.findByWidgetId(widgetId).let { incidentConfig ->
-        return if (incidentConfig != null) {
-            incidentConfig
-        } else {
-            val widgetConfig = widgetRepository.getReferenceById(widgetId)
-            incidentWidgetRepository.save(
-                IncidentEntity(0, OffsetDateTime.now(), widgetConfig)
-            )
+    private fun getIncidentConfigEntityForWidget(widgetId: Int): IncidentEntity =
+        incidentWidgetRepository.findByWidgetId(widgetId).let { incidentConfig ->
+            return if (incidentConfig != null) {
+                incidentConfig
+            } else {
+                val widgetConfig = widgetRepository.getReferenceById(widgetId)
+                incidentWidgetRepository.save(
+                    IncidentEntity(0, OffsetDateTime.now(), widgetConfig)
+                )
+            }
         }
-    }
 
     fun startStreak(widgetId: Int): IncidentDomain {
         val oldIncidentConfig = getIncidentConfigEntityForWidget(widgetId)

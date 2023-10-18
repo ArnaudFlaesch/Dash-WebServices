@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class WidgetRepositoryTests : AbstractIT() {
-
     @Autowired
     private lateinit var widgetRepository: WidgetRepository
 

@@ -10,7 +10,6 @@ import java.time.LocalDate
 
 @SpringBootTest
 class ExpenseRepositoryTests : AbstractIT() {
-
     @Autowired
     private lateinit var expenseRepository: ExpenseRepository
 

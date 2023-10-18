@@ -28,13 +28,14 @@ import java.time.LocalDate
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ExpenseControllerTests : AbstractIT() {
-
     @LocalServerPort
     private val port: Int = 0
 
     private lateinit var jwtToken: String
 
-    private val EXPENSE_ENDPOINT = "/expense/"
+    companion object {
+        const val EXPENSE_ENDPOINT = "/expense/"
+    }
 
     private var authorizationHeader: Header? = null
 
@@ -49,55 +50,59 @@ class ExpenseControllerTests : AbstractIT() {
     fun testAllExpenses() {
         val startIntervalDate = "2022-02-01"
         val endIntervalDate = "2022-05-25"
-        val expenses: List<ExpenseDomain> = given().port(port)
-            .header(authorizationHeader)
-            .param("startIntervalDate", startIntervalDate)
-            .param("endIntervalDate", endIntervalDate)
-            .`when`().get(EXPENSE_ENDPOINT)
-            .then().log().all()
-            .statusCode(200)
-            .log().all()
-            .extract()
-            .`as`(object : TypeRef<List<ExpenseDomain>>() {})
+        val expenses: List<ExpenseDomain> =
+            given().port(port)
+                .header(authorizationHeader)
+                .param("startIntervalDate", startIntervalDate)
+                .param("endIntervalDate", endIntervalDate)
+                .`when`().get(EXPENSE_ENDPOINT)
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .extract()
+                .`as`(object : TypeRef<List<ExpenseDomain>>() {})
         assertEquals(4, expenses.size)
     }
 
     @Test
     fun testGetTotalExpensesByMonth() {
-        val totalExpensesByMonth: List<TotalExpenseByMonthDomain> = given().port(port)
-            .header(authorizationHeader)
-            .`when`().get("${EXPENSE_ENDPOINT}getTotalExpensesByMonth")
-            .then().log().all()
-            .statusCode(200)
-            .log().all()
-            .extract()
-            .`as`(object : TypeRef<List<TotalExpenseByMonthDomain>>() {})
+        val totalExpensesByMonth: List<TotalExpenseByMonthDomain> =
+            given().port(port)
+                .header(authorizationHeader)
+                .`when`().get("${EXPENSE_ENDPOINT}getTotalExpensesByMonth")
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .extract()
+                .`as`(object : TypeRef<List<TotalExpenseByMonthDomain>>() {})
         assertEquals(3, totalExpensesByMonth.size)
         assertThat(totalExpensesByMonth.map(TotalExpenseByMonthDomain::total), containsInAnyOrder(55.0F, 32.0F, 137.0F))
     }
 
     @Test
     fun testGetTotalExpensesByMonthByLabelId() {
-        val labels: List<LabelDomain> = given().port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .`when`().get(Constants.LABEL_ENDPOINT)
-            .then().log().all()
-            .statusCode(200)
-            .log().all()
-            .extract().`as`(object : TypeRef<List<LabelDomain>>() {})
+        val labels: List<LabelDomain> =
+            given().port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .`when`().get(Constants.LABEL_ENDPOINT)
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .extract().`as`(object : TypeRef<List<LabelDomain>>() {})
 
         assertEquals(2, labels.size)
         val labelId = labels.filter { label: LabelDomain -> label.label == "Courses" }[0].id
 
-        val totalExpensesByMonth: List<TotalExpenseByMonthDomain> = given().port(port)
-            .header(authorizationHeader)
-            .param("labelId", labelId)
-            .`when`().get("${EXPENSE_ENDPOINT}getTotalExpensesByMonthByLabelId")
-            .then().log().all()
-            .statusCode(200)
-            .log().all()
-            .extract()
-            .`as`(object : TypeRef<List<TotalExpenseByMonthDomain>>() {})
+        val totalExpensesByMonth: List<TotalExpenseByMonthDomain> =
+            given().port(port)
+                .header(authorizationHeader)
+                .param("labelId", labelId)
+                .`when`().get("${EXPENSE_ENDPOINT}getTotalExpensesByMonthByLabelId")
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .extract()
+                .`as`(object : TypeRef<List<TotalExpenseByMonthDomain>>() {})
         assertEquals(2, totalExpensesByMonth.size)
         assertThat(totalExpensesByMonth.map(TotalExpenseByMonthDomain::total), containsInAnyOrder(32.0F, 137.0F))
     }
@@ -105,32 +110,34 @@ class ExpenseControllerTests : AbstractIT() {
     @Test
     fun expenseCrudTests() {
         val expenseToInsert = InsertExpensePayload(140F, LocalDate.parse("2022-03-03"), 1)
-        val insertedExpense: ExpenseDomain = given()
-            .port(port)
-            .header(authorizationHeader)
-            .contentType(ContentType.JSON)
-            .body(expenseToInsert)
-            .`when`().post("${EXPENSE_ENDPOINT}addExpense")
-            .then().log().all()
-            .statusCode(200)
-            .log().all()
-            .extract()
-            .`as`(ExpenseDomain::class.java)
+        val insertedExpense: ExpenseDomain =
+            given()
+                .port(port)
+                .header(authorizationHeader)
+                .contentType(ContentType.JSON)
+                .body(expenseToInsert)
+                .`when`().post("${EXPENSE_ENDPOINT}addExpense")
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .extract()
+                .`as`(ExpenseDomain::class.java)
         assertNotNull(insertedExpense.id)
         assertEquals(expenseToInsert.amount, insertedExpense.amount)
 
         val expenseToUpdate = insertedExpense.copy(amount = 2000F)
-        val updatedExpense: ExpenseDomain = given()
-            .port(port)
-            .header(authorizationHeader)
-            .contentType(ContentType.JSON)
-            .body(expenseToUpdate)
-            .`when`().patch("${EXPENSE_ENDPOINT}updateExpense")
-            .then().log().all()
-            .statusCode(200)
-            .log().all()
-            .extract()
-            .`as`(ExpenseDomain::class.java)
+        val updatedExpense: ExpenseDomain =
+            given()
+                .port(port)
+                .header(authorizationHeader)
+                .contentType(ContentType.JSON)
+                .body(expenseToUpdate)
+                .`when`().patch("${EXPENSE_ENDPOINT}updateExpense")
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .extract()
+                .`as`(ExpenseDomain::class.java)
         assertEquals(expenseToUpdate.amount, updatedExpense.amount)
 
         given()

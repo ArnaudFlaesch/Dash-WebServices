@@ -8,13 +8,12 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service
 
 @Service
-@PreAuthorize(SecurityConditions.isUserAdmin)
+@PreAuthorize(SecurityConditions.IS_USER_ADMIN)
 class LabelService(
     private val labelPersistenceAdapter: LabelPersistenceAdapter,
     private val expenseService: ExpenseService,
     private val userService: UserService
 ) {
-
     fun getUserLabels(): List<LabelDomain> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return labelPersistenceAdapter.getLabels(authenticatedUserId)
@@ -25,8 +24,7 @@ class LabelService(
         return labelPersistenceAdapter.addLabel(labelToAdd, currentAuthenticatedUserId)
     }
 
-    fun updateLabel(labelToUpdate: LabelDomain): LabelDomain =
-        labelPersistenceAdapter.updateLabel(labelToUpdate)
+    fun updateLabel(labelToUpdate: LabelDomain): LabelDomain = labelPersistenceAdapter.updateLabel(labelToUpdate)
 
     fun deleteLabel(labelId: Int) {
         expenseService.deleteExpensesByLabelId(labelId)

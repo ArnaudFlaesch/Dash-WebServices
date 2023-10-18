@@ -27,7 +27,6 @@ import java.util.stream.Stream
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class SteamWidgetControllerTests : AbstractIT() {
-
     @LocalServerPort
     private val port: Int = 0
 
@@ -64,21 +63,24 @@ class SteamWidgetControllerTests : AbstractIT() {
     @DisplayName("Get owned games tests")
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class GetOwnedGamesTests {
-
         @ParameterizedTest
         @MethodSource("getOwnedGamesArguments")
-        fun testGetOwnedGames(search: String?, expectedNumberOfResults: Int) {
-            val ownedGamesData = given()
-                .port(port)
-                .param("steamUserId", steamUserIdParam)
-                .header(createAuthenticationHeader(jwtToken))
-                .`when`()
-                .param("search", search)
-                .get("$steamWidgetEndpoint/ownedGames")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value())
-                .log().all()
-                .extract().`as`(object : TypeRef<Page<GameInfoDomain>>() {})
+        fun testGetOwnedGames(
+            search: String?,
+            expectedNumberOfResults: Int
+        ) {
+            val ownedGamesData =
+                given()
+                    .port(port)
+                    .param("steamUserId", steamUserIdParam)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .`when`()
+                    .param("search", search)
+                    .get("$steamWidgetEndpoint/ownedGames")
+                    .then().log().all()
+                    .statusCode(HttpStatus.OK.value())
+                    .log().all()
+                    .extract().`as`(object : TypeRef<Page<GameInfoDomain>>() {})
 
             assertEquals(expectedNumberOfResults, ownedGamesData.totalElements.toInt())
         }
@@ -95,20 +97,20 @@ class SteamWidgetControllerTests : AbstractIT() {
     @DisplayName("Get achievements tests")
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class GetAchievementsTests {
-
         @Test
         fun testGetAchievementList() {
-            val actual = given()
-                .port(port)
-                .param("steamUserId", steamUserIdParam)
-                .param("appId", 1337)
-                .header(Header("Authorization", "Bearer $jwtToken"))
-                .`when`()
-                .get("$steamWidgetEndpoint/achievementList")
-                .then().log().all()
-                .statusCode(200)
-                .log().all()
-                .extract().`as`(AchievementDataDomain::class.java)
+            val actual =
+                given()
+                    .port(port)
+                    .param("steamUserId", steamUserIdParam)
+                    .param("appId", 1337)
+                    .header(Header("Authorization", "Bearer $jwtToken"))
+                    .`when`()
+                    .get("$steamWidgetEndpoint/achievementList")
+                    .then().log().all()
+                    .statusCode(200)
+                    .log().all()
+                    .extract().`as`(AchievementDataDomain::class.java)
 
             assertEquals(23, actual.playerstats.achievements.size)
         }

@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/tab")
 @CrossOrigin(origins = ["*"])
 class TabController(private val tabService: TabService) {
-
     @GetMapping("/")
     fun getTabs(): List<TabDomain> = tabService.getUserTabs()
 
     @PostMapping("/addTab")
-    fun addTab(@RequestBody createTabPayload: CreateTabPayload): TabDomain = tabService.addTab(createTabPayload.label)
+    fun addTab(
+        @RequestBody createTabPayload: CreateTabPayload
+    ): TabDomain = tabService.addTab(createTabPayload.label)
 
     @PostMapping("/updateTab")
     fun updateTab(
@@ -23,8 +24,12 @@ class TabController(private val tabService: TabService) {
     ): TabDomain = tabService.updateTab(updatePayload.id, updatePayload.label, updatePayload.tabOrder)
 
     @PostMapping("/updateTabs")
-    fun updateTabs(@RequestBody tabList: List<TabDomain>): List<TabDomain> = tabService.saveTabs(tabList)
+    fun updateTabs(
+        @RequestBody tabList: List<TabDomain>
+    ): List<TabDomain> = tabService.saveTabs(tabList)
 
     @DeleteMapping("/deleteTab")
-    fun deleteTab(@RequestParam(value = "id") id: Int) = tabService.deleteTab(id)
+    fun deleteTab(
+        @RequestParam(value = "id") id: Int
+    ) = tabService.deleteTab(id)
 }

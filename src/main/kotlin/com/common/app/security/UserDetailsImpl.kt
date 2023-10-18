@@ -13,9 +13,9 @@ data class UserDetailsImpl(
     @field:JsonIgnore private val password: String?,
     private val authorities: Collection<GrantedAuthority>
 ) : UserDetails {
-
     companion object {
         private const val serialVersionUID = 1L
+
         fun build(userEntity: UserEntity): UserDetailsImpl {
             val authorities: List<GrantedAuthority> = listOf(SimpleGrantedAuthority(userEntity.role.name))
 

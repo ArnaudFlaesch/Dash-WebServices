@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component
 
 @Component
 class AirParifWidgetMapper {
-
     fun colorsResponseToDomain(colorsResponse: LinkedHashMap<String, String>): List<AirParifColor> =
         listOf(
             AirParifColor(AirParifPrevisionEnum.BON, colorsResponse.getOrDefault(AirParifPrevisionEnum.BON.prevision, "")),
@@ -22,7 +21,9 @@ class AirParifWidgetMapper {
         communeInseeCode: String,
         airParifPrevisionResponse: LinkedHashMap<String, List<LinkedHashMap<String, String>>>
     ): List<Prevision> =
-        airParifPrevisionResponse.getOrDefault(communeInseeCode, listOf(LinkedHashMap())).map { previsionResponseToDomain(it) }
+        airParifPrevisionResponse.getOrDefault(communeInseeCode, listOf(LinkedHashMap())).map {
+            previsionResponseToDomain(it)
+        }
 
     private fun previsionResponseToDomain(previsionResponse: LinkedHashMap<String, String>): Prevision =
         Prevision(

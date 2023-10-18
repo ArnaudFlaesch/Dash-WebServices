@@ -16,7 +16,6 @@ class AirParifApiClient(
     @Value("\${dash.app.AIRPARIF_API_TOKEN}")
     private val airParifToken: String
 ) {
-
     companion object {
         private const val AIRPARIF_API_INSEE_ENDPOINTS = "/commune"
         private const val AIRPARIF_API_COLORS_ENDPOINTS = "/couleurs"

@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AirParifWidgetServiceTest : AbstractIT() {
-
     @Autowired
     private lateinit var airParifWidgetService: AirParifWidgetService
 

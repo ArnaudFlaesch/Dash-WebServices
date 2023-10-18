@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*
 class CalendarWidgetController(
     private val calendarWidgetService: CalendarWidgetService
 ) {
-
     @PostMapping("/")
-    fun getCalendarEvents(@RequestBody calendarUrlPayload: CalendarUrlPayload): List<CalendarEvent>? =
-        calendarWidgetService.getIcalDataFromUrl(calendarUrlPayload.calendarUrl)
+    fun getCalendarEvents(
+        @RequestBody calendarUrlPayload: CalendarUrlPayload
+    ): List<CalendarEvent>? = calendarWidgetService.getIcalDataFromUrl(calendarUrlPayload.calendarUrl)
 }
