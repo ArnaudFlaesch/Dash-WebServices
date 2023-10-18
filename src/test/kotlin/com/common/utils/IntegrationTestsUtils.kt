@@ -8,12 +8,15 @@ import io.restassured.http.Header
 import org.hamcrest.Matchers
 
 object IntegrationTestsUtils {
-
     fun authenticateAdminRole(port: Int): JwtResponse = authenticate("admintest", "adminpassword", port)
 
     fun authenticateUserRole(port: Int): JwtResponse = authenticate("usertest", "userpassword", port)
 
-    private fun authenticate(username: String, password: String, port: Int): JwtResponse {
+    private fun authenticate(
+        username: String,
+        password: String,
+        port: Int
+    ): JwtResponse {
         return given()
             .port(port)
             .contentType(ContentType.JSON)

@@ -31,7 +31,9 @@ class NotificationService(
     }
 
     @PreAuthorize(SecurityConditions.IS_USER_ADMIN)
-    fun markNotificationsAsRead(notificationIds: List<Int>): List<NotificationDomain> = notificationAdapter.markNotificationsAsRead(notificationIds)
+    fun markNotificationsAsRead(
+        notificationIds: List<Int>
+    ): List<NotificationDomain> = notificationAdapter.markNotificationsAsRead(notificationIds)
 
     private fun createNotification(
         message: String,

@@ -13,7 +13,9 @@ class TabPersistenceAdapter(
     private val tabRepository: TabRepository,
     private val widgetRepository: WidgetRepository
 ) {
-    fun getUserTabs(userId: Int): List<TabDomain> = tabRepository.findByUserIdOrderByTabOrderAsc(userId).map(TabEntity::toDomain)
+    fun getUserTabs(
+        userId: Int
+    ): List<TabDomain> = tabRepository.findByUserIdOrderByTabOrderAsc(userId).map(TabEntity::toDomain)
 
     fun addTab(
         tabLabel: String,

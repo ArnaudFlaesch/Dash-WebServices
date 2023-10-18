@@ -25,13 +25,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class DashConfigControllerTests : AbstractIT() {
-
     @LocalServerPort
     private val port: Int = 0
 
     private lateinit var jwtToken: String
 
-    private val CONFIG_ENDPOINT = "/dashConfig/"
+    companion object {
+        const val CONFIG_ENDPOINT = "/dashConfig/"
+    }
 
     @BeforeAll
     fun testUp() {
@@ -41,16 +42,17 @@ class DashConfigControllerTests : AbstractIT() {
 
     @Test
     fun testExportConfig() {
-        val exportData = given()
-            .port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .`when`()
-            .get("${CONFIG_ENDPOINT}export")
-            .then().log().all()
-            .statusCode(200)
-            .log().all()
-            .body("$", Matchers.notNullValue())
-            .extract().`as`(ImportData::class.java)
+        val exportData =
+            given()
+                .port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .`when`()
+                .get("${CONFIG_ENDPOINT}export")
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .body("$", Matchers.notNullValue())
+                .extract().`as`(ImportData::class.java)
         assertEquals(2, exportData.tabs.size)
         assertEquals(2, exportData.widgets.size)
 
@@ -61,14 +63,15 @@ class DashConfigControllerTests : AbstractIT() {
 
     @Test
     fun testImportConfig() {
-        val response = given()
-            .multiPart("file", ClassPathResource("./files/dashboardConfigTest.json").file)
-            .port(port)
-            .headers(Headers(createAuthenticationHeader(jwtToken), Header("content-type", "multipart/form-data")))
-            .`when`()
-            .post("${CONFIG_ENDPOINT}import").then().log().all()
-            .statusCode(200)
-            .extract().`as`(Boolean::class.java)
+        val response =
+            given()
+                .multiPart("file", ClassPathResource("./files/dashboardConfigTest.json").file)
+                .port(port)
+                .headers(Headers(createAuthenticationHeader(jwtToken), Header("content-type", "multipart/form-data")))
+                .`when`()
+                .post("${CONFIG_ENDPOINT}import").then().log().all()
+                .statusCode(200)
+                .extract().`as`(Boolean::class.java)
         assertTrue(response)
     }
 }

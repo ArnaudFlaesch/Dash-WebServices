@@ -29,7 +29,6 @@ import java.net.URI
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CalendarWidgetControllerTests : AbstractIT() {
-
     @LocalServerPort
     private val port: Int = 0
 
@@ -40,7 +39,8 @@ class CalendarWidgetControllerTests : AbstractIT() {
 
     private val calendarWidgetEndpoint = "/calendarWidget/"
 
-    private val mockedCalendarDataResponse = """
+    private val mockedCalendarDataResponse =
+        """
         BEGIN:VCALENDAR
         PRODID:-//Google Inc//Google Calendar 70.9054//EN
         VERSION:2.0
@@ -106,7 +106,7 @@ class CalendarWidgetControllerTests : AbstractIT() {
         TRANSP:TRANSPARENT
         END:VEVENT
         END:VCALENDAR
-    """.trimIndent()
+        """.trimIndent()
 
     @BeforeAll
     fun setup() {
@@ -122,18 +122,19 @@ class CalendarWidgetControllerTests : AbstractIT() {
         Mockito.`when`(restTemplate.exchange(URI.create(calendarUrl), HttpMethod.GET, null, String::class.java))
             .thenReturn(ResponseEntity(mockedCalendarDataResponse, HttpStatus.OK))
 
-        val getCalendarDataResponse = given()
-            .port(port)
-            .contentType(ContentType.JSON)
-            .accept(MediaType.APPLICATION_JSON_VALUE)
-            .body(CalendarUrlPayload(calendarUrl))
-            .header(createAuthenticationHeader(jwtToken))
-            .`when`()
-            .post(calendarWidgetEndpoint)
-            .then().log().all()
-            .statusCode(200)
-            .contentType(ContentType.JSON)
-            .extract().`as`(List::class.java)
+        val getCalendarDataResponse =
+            given()
+                .port(port)
+                .contentType(ContentType.JSON)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .body(CalendarUrlPayload(calendarUrl))
+                .header(createAuthenticationHeader(jwtToken))
+                .`when`()
+                .post(calendarWidgetEndpoint)
+                .then().log().all()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .extract().`as`(List::class.java)
 
         assertEquals(getCalendarDataResponse.size, 4)
     }

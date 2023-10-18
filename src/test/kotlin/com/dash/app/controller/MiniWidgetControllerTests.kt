@@ -24,13 +24,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MiniWidgetControllerTests : AbstractIT() {
-
     @LocalServerPort
     private val port: Int = 0
 
     private lateinit var jwtToken: String
 
-    private val MINI_WIDGET_ENDPOINT = "/miniWidget/"
+    companion object {
+        const val MINI_WIDGET_ENDPOINT = "/miniWidget/"
+    }
 
     @BeforeAll
     fun testUp() {
@@ -42,47 +43,51 @@ class MiniWidgetControllerTests : AbstractIT() {
     fun insertWidgetToDatabase() {
         val widget = CreateMiniWidgetPayload(1)
 
-        val insertedMiniWidgetDomain: MiniWidgetDomain = given()
-            .contentType(ContentType.JSON)
-            .header(createAuthenticationHeader(jwtToken))
-            .port(port)
-            .body(widget)
-            .`when`()
-            .post("${MINI_WIDGET_ENDPOINT}addMiniWidget")
-            .then().log().all()
-            .statusCode(200)
-            .extract().`as`(MiniWidgetDomain::class.java)
+        val insertedMiniWidgetDomain: MiniWidgetDomain =
+            given()
+                .contentType(ContentType.JSON)
+                .header(createAuthenticationHeader(jwtToken))
+                .port(port)
+                .body(widget)
+                .`when`()
+                .post("${MINI_WIDGET_ENDPOINT}addMiniWidget")
+                .then().log().all()
+                .statusCode(200)
+                .extract().`as`(MiniWidgetDomain::class.java)
 
         assertNotNull(insertedMiniWidgetDomain.id)
         assertEquals(insertedMiniWidgetDomain.type, widget.type)
 
-        val widgetDomainList = given().port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .`when`().get(MINI_WIDGET_ENDPOINT).then().log().all()
-            .statusCode(200).log().all()
-            .extract().`as`(object : TypeRef<List<MiniWidgetDomain>>() {})
+        val widgetDomainList =
+            given().port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .`when`().get(MINI_WIDGET_ENDPOINT).then().log().all()
+                .statusCode(200).log().all()
+                .extract().`as`(object : TypeRef<List<MiniWidgetDomain>>() {})
         assertEquals(1, widgetDomainList.size)
 
-        val updatedMiniWidgetDomain: MiniWidgetDomain = given()
-            .header(createAuthenticationHeader(jwtToken))
-            .contentType(ContentType.JSON)
-            .port(port)
-            .body(insertedMiniWidgetDomain.copy(data = "{}")).`when`()
-            .patch("${MINI_WIDGET_ENDPOINT}updateWidgetData/${insertedMiniWidgetDomain.id}")
-            .then().log().all()
-            .statusCode(200)
-            .extract().`as`(MiniWidgetDomain::class.java)
+        val updatedMiniWidgetDomain: MiniWidgetDomain =
+            given()
+                .header(createAuthenticationHeader(jwtToken))
+                .contentType(ContentType.JSON)
+                .port(port)
+                .body(insertedMiniWidgetDomain.copy(data = "{}")).`when`()
+                .patch("${MINI_WIDGET_ENDPOINT}updateWidgetData/${insertedMiniWidgetDomain.id}")
+                .then().log().all()
+                .statusCode(200)
+                .extract().`as`(MiniWidgetDomain::class.java)
 
         assertNotNull(updatedMiniWidgetDomain.id)
         assertEquals("{}", updatedMiniWidgetDomain.data)
         assertNotNull(updatedMiniWidgetDomain.userId)
 
-        val updatedWidgetListDomain = given()
-            .header(createAuthenticationHeader(jwtToken))
-            .port(port)
-            .`when`().get(MINI_WIDGET_ENDPOINT).then().log().all()
-            .statusCode(200).log().all()
-            .extract().`as`(object : TypeRef<List<MiniWidgetDomain>>() {})
+        val updatedWidgetListDomain =
+            given()
+                .header(createAuthenticationHeader(jwtToken))
+                .port(port)
+                .`when`().get(MINI_WIDGET_ENDPOINT).then().log().all()
+                .statusCode(200).log().all()
+                .extract().`as`(object : TypeRef<List<MiniWidgetDomain>>() {})
         assertEquals(1, updatedWidgetListDomain.size)
 
         given()
@@ -93,11 +98,12 @@ class MiniWidgetControllerTests : AbstractIT() {
             .then().log().all()
             .statusCode(200).log().all()
 
-        val updatedMiniWidgetList = given().port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .`when`().get(MINI_WIDGET_ENDPOINT).then().log().all()
-            .statusCode(200).log().all()
-            .extract().`as`(object : TypeRef<List<MiniWidgetDomain>>() {})
+        val updatedMiniWidgetList =
+            given().port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .`when`().get(MINI_WIDGET_ENDPOINT).then().log().all()
+                .statusCode(200).log().all()
+                .extract().`as`(object : TypeRef<List<MiniWidgetDomain>>() {})
         assertEquals(0, updatedMiniWidgetList.size)
     }
 }

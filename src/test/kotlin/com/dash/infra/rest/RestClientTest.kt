@@ -25,7 +25,6 @@ import java.util.stream.Stream
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RestClientTest : AbstractIT() {
-
     @Autowired
     private lateinit var restClient: RestClient
 
@@ -63,7 +62,10 @@ class RestClientTest : AbstractIT() {
 
     @ParameterizedTest
     @MethodSource("requestErrorsParams")
-    fun testGetRequestErrors(statusCode: HttpStatus, exceptionClass: Class<Exception>) {
+    fun testGetRequestErrors(
+        statusCode: HttpStatus,
+        exceptionClass: Class<Exception>
+    ) {
         mockServer.expect(ExpectedCount.once(), requestTo(URI(testUrl)))
             .andExpect(method(HttpMethod.GET))
             .andRespond(
@@ -92,7 +94,10 @@ class RestClientTest : AbstractIT() {
 
     @ParameterizedTest
     @MethodSource("requestErrorsParams")
-    fun testPostRequestErrors(statusCode: HttpStatus, exceptionClass: Class<Exception>) {
+    fun testPostRequestErrors(
+        statusCode: HttpStatus,
+        exceptionClass: Class<Exception>
+    ) {
         mockServer.expect(ExpectedCount.once(), requestTo(URI(testUrl)))
             .andExpect(method(HttpMethod.POST))
             .andRespond(

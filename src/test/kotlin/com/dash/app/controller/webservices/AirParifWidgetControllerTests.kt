@@ -22,7 +22,6 @@ import org.springframework.http.HttpStatus
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AirParifWidgetControllerTests : AbstractIT() {
-
     @LocalServerPort
     private val port: Int = 0
 
@@ -40,40 +39,43 @@ class AirParifWidgetControllerTests : AbstractIT() {
     fun testGetPrevisionsData() {
         val communeInseeCode = "75112"
 
-        val getPrevisionsDataResponse = given()
-            .port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .accept(ContentType.JSON)
-            .`when`()
-            .param("commune", communeInseeCode)
-            .get("$airParifWidgetEndpoint/previsionCommune")
-            .then().log().all()
-            .statusCode(HttpStatus.OK.value())
-            .extract().`as`(object : TypeRef<List<Prevision>>() {})
+        val getPrevisionsDataResponse =
+            given()
+                .port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .accept(ContentType.JSON)
+                .`when`()
+                .param("commune", communeInseeCode)
+                .get("$airParifWidgetEndpoint/previsionCommune")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().`as`(object : TypeRef<List<Prevision>>() {})
 
         assertEquals(getPrevisionsDataResponse.size, 2)
     }
 
     @Test
     fun testGetColorsData() {
-        val getColorsResponse = given()
-            .port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .accept(ContentType.JSON)
-            .`when`()
-            .get("$airParifWidgetEndpoint/couleurs")
-            .then().log().all()
-            .statusCode(HttpStatus.OK.value())
-            .extract().`as`(object : TypeRef<List<AirParifColor>>() {})
+        val getColorsResponse =
+            given()
+                .port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .accept(ContentType.JSON)
+                .`when`()
+                .get("$airParifWidgetEndpoint/couleurs")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().`as`(object : TypeRef<List<AirParifColor>>() {})
 
-        val expected = listOf(
-            AirParifColor(AirParifPrevisionEnum.BON, "#50f0e6"),
-            AirParifColor(AirParifPrevisionEnum.MOYEN, "#50ccaa"),
-            AirParifColor(AirParifPrevisionEnum.DEGRADE, "#f0e641"),
-            AirParifColor(AirParifPrevisionEnum.MAUVAIS, "#ff5050"),
-            AirParifColor(AirParifPrevisionEnum.TRES_MAUVAIS, "#960032"),
-            AirParifColor(AirParifPrevisionEnum.EXTREMEMENT_MAUVAIS, "#7d2181")
-        )
+        val expected =
+            listOf(
+                AirParifColor(AirParifPrevisionEnum.BON, "#50f0e6"),
+                AirParifColor(AirParifPrevisionEnum.MOYEN, "#50ccaa"),
+                AirParifColor(AirParifPrevisionEnum.DEGRADE, "#f0e641"),
+                AirParifColor(AirParifPrevisionEnum.MAUVAIS, "#ff5050"),
+                AirParifColor(AirParifPrevisionEnum.TRES_MAUVAIS, "#960032"),
+                AirParifColor(AirParifPrevisionEnum.EXTREMEMENT_MAUVAIS, "#7d2181")
+            )
 
         assertEquals(expected, getColorsResponse)
     }

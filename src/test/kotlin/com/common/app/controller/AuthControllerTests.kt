@@ -19,7 +19,6 @@ import org.springframework.boot.test.web.server.LocalServerPort
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AuthControllerTests : AbstractIT() {
-
     @LocalServerPort
     private val port: Int = 0
 
@@ -30,16 +29,17 @@ class AuthControllerTests : AbstractIT() {
 
     @Test
     fun testGetAdmin() {
-        val jwtResponse = given()
-            .port(port)
-            .contentType(ContentType.JSON)
-            .`when`()
-            .body(LoginRequest("admintest", "adminpassword"))
-            .post("/auth/login")
-            .then().log().all()
-            .statusCode(200)
-            .log().all()
-            .extract().`as`(JwtResponse::class.java)
+        val jwtResponse =
+            given()
+                .port(port)
+                .contentType(ContentType.JSON)
+                .`when`()
+                .body(LoginRequest("admintest", "adminpassword"))
+                .post("/auth/login")
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .extract().`as`(JwtResponse::class.java)
         assertEquals(RoleEnum.ROLE_ADMIN.roleName, jwtResponse.roles[0])
     }
 

@@ -16,7 +16,9 @@ class IncidentWidgetAdapter(
     private val incidentStreakRepository: IncidentStreakRepository,
     private val widgetRepository: WidgetRepository
 ) {
-    fun getIncidentConfigForWidget(widgetId: Int): IncidentDomain = this.getIncidentConfigEntityForWidget(widgetId).toDomain()
+    fun getIncidentConfigForWidget(
+        widgetId: Int
+    ): IncidentDomain = this.getIncidentConfigEntityForWidget(widgetId).toDomain()
 
     private fun getIncidentConfigEntityForWidget(widgetId: Int): IncidentEntity =
         incidentWidgetRepository.findByWidgetId(widgetId).let { incidentConfig ->

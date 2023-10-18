@@ -17,7 +17,6 @@ import java.time.OffsetDateTime
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class NotificationRepositoryTests : AbstractIT() {
-
     @Autowired
     private lateinit var notificationRepository: NotificationRepository
 
@@ -29,10 +28,11 @@ class NotificationRepositoryTests : AbstractIT() {
 
     @Test
     fun testCreateNotifications() {
-        val notifications = listOf(
-            NotificationEntity(0, "Test notif", OffsetDateTime.now(), NotificationType.WARN.name, false),
-            NotificationEntity(0, "Test notif 2", OffsetDateTime.now(), NotificationType.INFO.name, true)
-        )
+        val notifications =
+            listOf(
+                NotificationEntity(0, "Test notif", OffsetDateTime.now(), NotificationType.WARN.name, false),
+                NotificationEntity(0, "Test notif 2", OffsetDateTime.now(), NotificationType.INFO.name, true)
+            )
         notificationRepository.saveAll(notifications)
 
         val listNotifications = notificationRepository.findAllByOrderByNotificationDateDesc(Pageable.ofSize(10))

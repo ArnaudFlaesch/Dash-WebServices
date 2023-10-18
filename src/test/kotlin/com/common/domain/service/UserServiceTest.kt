@@ -13,7 +13,6 @@ import org.springframework.security.test.context.support.WithMockUser
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserServiceTest : AbstractIT() {
-
     @Autowired
     private lateinit var userService: UserService
 
