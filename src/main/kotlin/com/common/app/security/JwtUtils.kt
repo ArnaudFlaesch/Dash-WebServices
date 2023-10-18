@@ -1,11 +1,16 @@
 package com.common.app.security
 
 import io.jsonwebtoken.*
+import io.jsonwebtoken.io.Decoders
+import io.jsonwebtoken.security.Keys
+import io.jsonwebtoken.security.SignatureException
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import java.util.*
+import javax.crypto.SecretKey
+
 
 @Component
 class JwtUtils {
@@ -21,11 +26,17 @@ class JwtUtils {
             .compact()
     }
 
-    fun getUserNameFromJwtToken(token: String): String = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).body.subject
+    fun getUserNameFromJwtToken(token: String): String {
+        val bytes = Decoders.BASE64.decode(jwtSecret)
+        val key: SecretKey = Keys.hmacShaKeyFor(bytes)
+        return Jwts.parser().verifyWith(key).build().parseUnsecuredClaims(token).payload.subject
+    }
 
     fun validateJwtToken(authToken: String?): Boolean {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken)
+            val bytes = Decoders.BASE64.decode(jwtSecret)
+            val key: SecretKey = Keys.hmacShaKeyFor(bytes)
+            Jwts.parser().verifyWith(key).build().parseUnsecuredClaims(authToken)
             return true
         } catch (e: SignatureException) {
             logger.error("Invalid JWT signature: {}", e.message)
