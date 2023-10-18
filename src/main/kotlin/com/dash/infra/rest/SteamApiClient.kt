@@ -14,25 +14,27 @@ class SteamApiClient(
     @Value("\${dash.app.STEAM_API_KEY}")
     private val steamApiKey: String
 ) {
-
     companion object {
-        private const val getPlayerSummariesUrl = "/ISteamUser/GetPlayerSummaries/v0002/"
-        private const val getOwnedGamesUrl = "/IPlayerService/GetOwnedGames/v0001/"
-        private const val getAchievementsUrl = "/ISteamUserStats/GetPlayerAchievements/v0001"
+        private const val GET_PLAYER_SUMMARIES_URL = "/ISteamUser/GetPlayerSummaries/v0002/"
+        private const val GET_OWNED_GAMES_URL = "/IPlayerService/GetOwnedGames/v0001/"
+        private const val GET_ACHIEVEMENTS_URL = "/ISteamUserStats/GetPlayerAchievements/v0001"
     }
 
     fun getPlayerData(steamUserId: String): PlayersDataApiResponse {
-        val getPlayerDataUrl = "${steamApiUrl}$getPlayerSummariesUrl?key=$steamApiKey&steamids=$steamUserId"
+        val getPlayerDataUrl = "${steamApiUrl}$GET_PLAYER_SUMMARIES_URL?key=$steamApiKey&steamids=$steamUserId"
         return restClient.getDataFromProxy(getPlayerDataUrl, PlayersDataApiResponse::class)
     }
 
     fun getOwnedGames(steamUserId: String): GameInfoResponse {
-        val getOwnedGamesUrl = "${steamApiUrl}$getOwnedGamesUrl?key=$steamApiKey&steamid=$steamUserId&format=json&include_appinfo=true"
+        val getOwnedGamesUrl = "${steamApiUrl}$GET_OWNED_GAMES_URL?key=$steamApiKey&steamid=$steamUserId&format=json&include_appinfo=true"
         return restClient.getDataFromProxy(getOwnedGamesUrl, GameInfoResponse::class)
     }
 
-    fun getAchievementList(appId: String, steamUserId: String): AchievementDataResponse {
-        val getAchievementsUrl = "${steamApiUrl}$getAchievementsUrl/?appid=$appId&key=$steamApiKey&steamid=$steamUserId"
+    fun getAchievementList(
+        appId: String,
+        steamUserId: String
+    ): AchievementDataResponse {
+        val getAchievementsUrl = "${steamApiUrl}$GET_ACHIEVEMENTS_URL/?appid=$appId&key=$steamApiKey&steamid=$steamUserId"
         return restClient.getDataFromProxy(getAchievementsUrl, AchievementDataResponse::class)
     }
 }

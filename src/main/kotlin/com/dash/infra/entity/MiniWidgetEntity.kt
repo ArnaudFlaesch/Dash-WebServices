@@ -15,13 +15,10 @@ data class MiniWidgetEntity(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mini-widget-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
-
     val type: Int,
-
     @Type(JsonBinaryType::class)
     @Column(columnDefinition = "json")
     val data: Any? = null,
-
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
     val user: UserEntity
@@ -30,10 +27,11 @@ data class MiniWidgetEntity(
         private const val serialVersionUID: Long = 1
     }
 
-    fun toDomain() = MiniWidgetDomain(
-        id = this.id,
-        type = this.type,
-        data = this.data,
-        userId = this.user.id
-    )
+    fun toDomain() =
+        MiniWidgetDomain(
+            id = this.id,
+            type = this.type,
+            data = this.data,
+            userId = this.user.id
+        )
 }

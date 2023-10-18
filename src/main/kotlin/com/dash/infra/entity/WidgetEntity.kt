@@ -14,15 +14,11 @@ data class WidgetEntity(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "widget-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
-
     val type: Int,
-
     @Type(JsonBinaryType::class)
     @Column(columnDefinition = "json")
     val data: Any? = null,
-
     val widgetOrder: Int,
-
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "tabId")
     val tab: TabEntity
@@ -31,11 +27,12 @@ data class WidgetEntity(
         private const val serialVersionUID: Long = 1
     }
 
-    fun toDomain() = WidgetDomain(
-        id = this.id,
-        type = this.type,
-        data = this.data,
-        widgetOrder = this.widgetOrder,
-        tabId = this.tab.id
-    )
+    fun toDomain() =
+        WidgetDomain(
+            id = this.id,
+            type = this.type,
+            data = this.data,
+            widgetOrder = this.widgetOrder,
+            tabId = this.tab.id
+        )
 }

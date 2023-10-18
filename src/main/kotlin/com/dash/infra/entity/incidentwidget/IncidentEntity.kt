@@ -18,16 +18,15 @@ data class IncidentEntity(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "incident-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
-
     @Column(name = "last_incident_date") val lastIncidentDate: OffsetDateTime,
-
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "widgetId")
     val widget: WidgetEntity
 ) {
-    fun toDomain(): IncidentDomain = IncidentDomain(
-        id = id,
-        lastIncidentDate = lastIncidentDate,
-        widgetId = widget.id
-    )
+    fun toDomain(): IncidentDomain =
+        IncidentDomain(
+            id = id,
+            lastIncidentDate = lastIncidentDate,
+            widgetId = widget.id
+        )
 }

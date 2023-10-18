@@ -15,7 +15,6 @@ class UserService(
     private val userRepository: UserRepository,
     private val userMapper: UserMapper
 ) {
-
     fun getCurrentAuthenticatedUserUsername(): String {
         val authentication = SecurityContextHolder.getContext().authentication as UsernamePasswordAuthenticationToken
         val userDetails = authentication.principal as UserDetails

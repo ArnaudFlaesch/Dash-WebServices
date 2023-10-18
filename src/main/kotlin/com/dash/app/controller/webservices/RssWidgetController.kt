@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*
 class RssWidgetController(
     private val rssWidgetService: RssWidgetService
 ) {
-
     @GetMapping("/")
-    fun getRssFeed(@RequestParam(value = "url") url: String): String =
-        rssWidgetService.getJsonFeedFromUrl(url)
+    fun getRssFeed(
+        @RequestParam(value = "url") url: String
+    ): String = rssWidgetService.getJsonFeedFromUrl(url)
 }

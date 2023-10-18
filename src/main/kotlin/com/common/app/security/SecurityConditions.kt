@@ -1,15 +1,15 @@
 package com.common.app.security
 
 object SecurityConditions {
-    const val isUserAdmin = "hasRole('ROLE_ADMIN')"
+    const val IS_USER_ADMIN = "hasRole('ROLE_ADMIN')"
 
     // Tabs
-    const val doesTabsBelongToAuthenticatedUser = "filterObject != authentication.principal.id"
-    const val doesTabBelongToAuthenticatedUser = "@tabSecurityService.doesTabBelongToUser(#tabId)"
+    const val DOES_TABS_BELONG_TO_AUTHENTICATED_USER = "filterObject != authentication.principal.id"
+    const val DOES_TAB_BELONG_TO_AUTHENTICATED_USER = "@tabSecurityService.doesTabBelongToUser(#tabId)"
 
     // Widgets
-    const val doesWidgetBelongToAuthenticatedUser = "@widgetSecurityService.doesWidgetBelongToUser(#widgetId)"
+    const val DOES_WIDGET_BELONG_TO_AUTHENTICATED_USER = "@widgetSecurityService.doesWidgetBelongToUser(#widgetId)"
 
     // Incident widget
-    const val doesIncidentBelongToAuthenticatedUser = "@incidentWidgetSecurityService.doesIncidentBelongToAuthenticatedUser(#incidentId)"
+    const val DOES_INCIDENT_BELONG_TO_AUTHENTICATED_USER = "@incidentWidgetSecurityService.doesIncidentBelongToAuthenticatedUser(#incidentId)"
 }

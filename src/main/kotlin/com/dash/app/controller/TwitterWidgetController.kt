@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*
 class TwitterWidgetController(
     private val twitterWidgetService: TwitterWidgetService
 ) {
-
     @GetMapping("/followed")
     fun getFollowedUsers(
         @RequestParam(value = "search", defaultValue = "") searchParam: String,
@@ -23,8 +22,9 @@ class TwitterWidgetController(
     ): Page<FollowedUser> = PageMapper.mapPageToPageResponse(twitterWidgetService.getFollowedUsers(searchParam, pageNumber, pageSize))
 
     @PostMapping("/addFollowedUser")
-    fun addFollowedUser(@RequestBody addUserToFollowPayload: AddUserToFollowPayload): FollowedUser =
-        twitterWidgetService.addFollowedUser(addUserToFollowPayload.userHandle)
+    fun addFollowedUser(
+        @RequestBody addUserToFollowPayload: AddUserToFollowPayload
+    ): FollowedUser = twitterWidgetService.addFollowedUser(addUserToFollowPayload.userHandle)
 
     @DeleteMapping("/deleteFollowedUser")
     fun deleteFollowedUser(

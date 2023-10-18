@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface IncidentWidgetRepository : JpaRepository<IncidentEntity, Int> {
-
     fun findByWidgetId(widgetId: Int): IncidentEntity?
 }

@@ -13,8 +13,7 @@ class TabService(
     private val tabPersistenceAdapter: TabPersistenceAdapter,
     private val userService: UserService
 ) {
-
-    @PostFilter(SecurityConditions.doesTabsBelongToAuthenticatedUser)
+    @PostFilter(SecurityConditions.DOES_TABS_BELONG_TO_AUTHENTICATED_USER)
     fun getUserTabs(): List<TabDomain> {
         val userId = userService.getCurrentAuthenticatedUser().id
         return tabPersistenceAdapter.getUserTabs(userId)
@@ -25,18 +24,23 @@ class TabService(
         return tabPersistenceAdapter.addTab(tabLabel, currentAuthenticatedUserId)
     }
 
-    fun saveTabs(tabList: List<TabDomain>): List<TabDomain> =
-        tabPersistenceAdapter.saveTabs(tabList)
+    fun saveTabs(tabList: List<TabDomain>): List<TabDomain> = tabPersistenceAdapter.saveTabs(tabList)
 
-    fun importTab(tabLabel: String, tabOrder: Int): TabDomain {
+    fun importTab(
+        tabLabel: String,
+        tabOrder: Int
+    ): TabDomain {
         val user = userService.getCurrentAuthenticatedUser()
         val tabToInsert = TabDomain(0, tabLabel, tabOrder, userId = user.id)
         return tabPersistenceAdapter.importTab(tabToInsert)
     }
 
-    fun updateTab(tabId: Int, label: String, tabOrder: Int): TabDomain =
-        tabPersistenceAdapter.updateTab(tabId, label, tabOrder)
+    fun updateTab(
+        tabId: Int,
+        label: String,
+        tabOrder: Int
+    ): TabDomain = tabPersistenceAdapter.updateTab(tabId, label, tabOrder)
 
-    @PreAuthorize("${SecurityConditions.doesTabBelongToAuthenticatedUser} and ${SecurityConditions.isUserAdmin}")
+    @PreAuthorize("${SecurityConditions.DOES_TAB_BELONG_TO_AUTHENTICATED_USER} and ${SecurityConditions.IS_USER_ADMIN}")
     fun deleteTab(tabId: Int) = tabPersistenceAdapter.deleteTab(tabId)
 }
