@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component
 import java.util.*
 import javax.crypto.SecretKey
 
-
 @Component
 class JwtUtils {
     @Value("\${dash.app.jwtSecret}")
