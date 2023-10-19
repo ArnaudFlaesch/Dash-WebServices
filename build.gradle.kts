@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
 val kotlinVersion = "1.9.10"
-val springBootVersion = "3.1.4"
+val springBootVersion = "3.1.5"
 val jwtVersion = "0.9.1"
 val ical4jVersion = "3.2.13"
 
@@ -23,7 +23,7 @@ val testContainersVersion = "1.19.1"
 
 plugins {
     val kotlinPluginVersion = "1.9.10"
-    val springBootPluginVersion = "3.1.4"
+    val springBootPluginVersion = "3.1.5"
     val springDependencyManagementPluginVersion = "1.1.3"
     val kotlinterPluginVersion = "4.0.0"
     val springDocGradlePluginVersion = "1.5.0"
