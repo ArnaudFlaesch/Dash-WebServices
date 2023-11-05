@@ -29,7 +29,6 @@ import java.util.stream.Stream
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class StravaWidgetControllerTests : AbstractIT() {
-
     @LocalServerPort
     private val port: Int = 0
 
@@ -47,10 +46,12 @@ class StravaWidgetControllerTests : AbstractIT() {
     @DisplayName("Get token tests")
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class GetTokenTests {
-
         @ParameterizedTest
         @MethodSource("testGetTokenArguments")
-        fun should_get_token(token: String, statusCode: Int) {
+        fun should_get_token(
+            token: String,
+            statusCode: Int
+        ) {
             val getStravaTokenPayload = GetStravaTokenPayload("api_code")
 
             given()
@@ -72,10 +73,12 @@ class StravaWidgetControllerTests : AbstractIT() {
     @DisplayName("Get refresh token tests")
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class GetRefreshTokenTests {
-
         @ParameterizedTest
         @MethodSource("testGetRefreshTokenArguments")
-        fun should_get_refresh_token(token: String, statusCode: Int) {
+        fun should_get_refresh_token(
+            token: String,
+            statusCode: Int
+        ) {
             val getStravaRefreshTokenPayload = GetStravaRefreshTokenPayload("refresh_token")
 
             given()
@@ -97,20 +100,20 @@ class StravaWidgetControllerTests : AbstractIT() {
     @DisplayName("Get athlete data tests")
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class GetAthleteDataTests {
-
         @Test
         fun should_get_athlete_data() {
-            val actual = given()
-                .port(port)
-                .contentType(ContentType.JSON)
-                .header(createAuthenticationHeader(jwtToken))
-                .param("token", "VALID_TOKEN")
-                .`when`()
-                .get("$stravaWidgetEndpoint/getAthleteData")
-                .then().log().all()
-                .statusCode(200)
-                .log().all()
-                .extract().`as`(StravaAthleteDomain::class.java)
+            val actual =
+                given()
+                    .port(port)
+                    .contentType(ContentType.JSON)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .param("token", "VALID_TOKEN")
+                    .`when`()
+                    .get("$stravaWidgetEndpoint/getAthleteData")
+                    .then().log().all()
+                    .statusCode(200)
+                    .log().all()
+                    .extract().`as`(StravaAthleteDomain::class.java)
 
             assertEquals("Paris", actual.city)
         }
@@ -120,21 +123,24 @@ class StravaWidgetControllerTests : AbstractIT() {
     @DisplayName("Get athlete activities tests")
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class GetAthleteActivitiesTests {
-
         @ParameterizedTest
         @MethodSource("getActivitiesArguments")
-        fun should_get_athlete_activities(params: Map<String, Any>, expectedSize: Int) {
-            val actual = given()
-                .port(port)
-                .contentType(ContentType.JSON)
-                .header(createAuthenticationHeader(jwtToken))
-                .params(params)
-                .`when`()
-                .get("$stravaWidgetEndpoint/getAthleteActivities")
-                .then().log().all()
-                .statusCode(200)
-                .log().all()
-                .extract().`as`(object : TypeRef<List<StravaActivityDomain>>() {})
+        fun should_get_athlete_activities(
+            params: Map<String, Any>,
+            expectedSize: Int
+        ) {
+            val actual =
+                given()
+                    .port(port)
+                    .contentType(ContentType.JSON)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .params(params)
+                    .`when`()
+                    .get("$stravaWidgetEndpoint/getAthleteActivities")
+                    .then().log().all()
+                    .statusCode(200)
+                    .log().all()
+                    .extract().`as`(object : TypeRef<List<StravaActivityDomain>>() {})
 
             assertEquals(expectedSize, actual.size)
         }
@@ -143,7 +149,6 @@ class StravaWidgetControllerTests : AbstractIT() {
             Stream.of(
                 Arguments.arguments(mapOf("token" to "VALID_TOKEN"), 6),
                 Arguments.arguments(mapOf("token" to "VALID_TOKEN", "numberOfActivities" to 25), 6)
-
             )
     }
 }

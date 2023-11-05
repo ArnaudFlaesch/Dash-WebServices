@@ -13,21 +13,23 @@ import org.springframework.web.bind.annotation.*
 class IncidentWidgetController(
     private val incidentWidgetService: IncidentWidgetService
 ) {
-
     @GetMapping("/incidentWidgetConfig")
     fun getIncidentConfigForWidget(
         @RequestParam(value = "widgetId") widgetId: Int
     ): IncidentDomain = incidentWidgetService.getIncidentConfigForWidget(widgetId)
 
     @PostMapping("/startFirstStreak")
-    fun startFirstStreak(@RequestBody incidentWidgetPayload: IncidentWidgetPayload): IncidentDomain =
-        incidentWidgetService.startFirstStreak(incidentWidgetPayload.widgetId)
+    fun startFirstStreak(
+        @RequestBody incidentWidgetPayload: IncidentWidgetPayload
+    ): IncidentDomain = incidentWidgetService.startFirstStreak(incidentWidgetPayload.widgetId)
 
     @PostMapping("/endStreak")
-    fun endStreak(@RequestBody incidentWidgetPayload: IncidentWidgetPayload): IncidentDomain =
-        incidentWidgetService.endStreak(incidentWidgetPayload.widgetId)
+    fun endStreak(
+        @RequestBody incidentWidgetPayload: IncidentWidgetPayload
+    ): IncidentDomain = incidentWidgetService.endStreak(incidentWidgetPayload.widgetId)
 
     @GetMapping("/streaks")
-    fun getPastStreaks(@RequestParam(value = "incidentId") incidentId: Int): List<IncidentStreakDomain> =
-        incidentWidgetService.getIncidentStreaks(incidentId)
+    fun getPastStreaks(
+        @RequestParam(value = "incidentId") incidentId: Int
+    ): List<IncidentStreakDomain> = incidentWidgetService.getIncidentStreaks(incidentId)
 }

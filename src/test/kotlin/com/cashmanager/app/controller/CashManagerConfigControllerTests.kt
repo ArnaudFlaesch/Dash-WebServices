@@ -19,13 +19,14 @@ import org.springframework.core.io.ClassPathResource
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CashManagerConfigControllerTests : AbstractIT() {
-
     @LocalServerPort
     private val port: Int = 0
 
     private lateinit var jwtToken: String
 
-    private val CASH_MANAGER_CONFIG_ENDPOINT = "/cashManagerConfig/"
+    companion object {
+        const val CASH_MANAGER_CONFIG_ENDPOINT = "/cashManagerConfig/"
+    }
 
     @BeforeAll
     fun testUp() {
@@ -35,16 +36,17 @@ class CashManagerConfigControllerTests : AbstractIT() {
 
     @Test
     fun testExportConfig() {
-        val exportData = given()
-            .port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .`when`()
-            .get("${CASH_MANAGER_CONFIG_ENDPOINT}export")
-            .then().log().all()
-            .statusCode(200)
-            .log().all()
-            .body("$", Matchers.notNullValue())
-            .extract().`as`(CashManagerImportData::class.java)
+        val exportData =
+            given()
+                .port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .`when`()
+                .get("${CASH_MANAGER_CONFIG_ENDPOINT}export")
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .body("$", Matchers.notNullValue())
+                .extract().`as`(CashManagerImportData::class.java)
         assertEquals(2, exportData.labels.size)
         assertEquals(4, exportData.expenses.size)
 
@@ -55,14 +57,15 @@ class CashManagerConfigControllerTests : AbstractIT() {
 
     @Test
     fun testImportConfig() {
-        val response = given()
-            .multiPart("file", ClassPathResource("./files/cashManagerData.json").file)
-            .port(port)
-            .headers(Headers(createAuthenticationHeader(jwtToken), Header("content-type", "multipart/form-data")))
-            .`when`()
-            .post("${CASH_MANAGER_CONFIG_ENDPOINT}import").then().log().all()
-            .statusCode(200)
-            .extract().`as`(Boolean::class.java)
+        val response =
+            given()
+                .multiPart("file", ClassPathResource("./files/cashManagerData.json").file)
+                .port(port)
+                .headers(Headers(createAuthenticationHeader(jwtToken), Header("content-type", "multipart/form-data")))
+                .`when`()
+                .post("${CASH_MANAGER_CONFIG_ENDPOINT}import").then().log().all()
+                .statusCode(200)
+                .extract().`as`(Boolean::class.java)
         assertTrue(response)
     }
 }

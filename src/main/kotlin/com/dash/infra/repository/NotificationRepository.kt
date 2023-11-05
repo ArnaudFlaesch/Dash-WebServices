@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface NotificationRepository : JpaRepository<NotificationEntity, Int> {
-
     fun findAllByOrderByNotificationDateDesc(pageRequest: Pageable): Page<NotificationEntity>
 }

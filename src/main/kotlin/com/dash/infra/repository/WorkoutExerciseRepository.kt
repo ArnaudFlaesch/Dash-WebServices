@@ -11,7 +11,6 @@ import java.time.LocalDate
 
 @Repository
 interface WorkoutExerciseRepository : JpaRepository<WorkoutExerciseEntity, WorkoutExerciseEntityId> {
-
     @Query("SELECT * FROM workout_exercise WHERE workout_session_id = :workoutSessionId", nativeQuery = true)
     fun findAllByWorkoutSessionId(workoutSessionId: Int): List<WorkoutExerciseEntity>
 

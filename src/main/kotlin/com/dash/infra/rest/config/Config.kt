@@ -10,16 +10,15 @@ import java.nio.charset.StandardCharsets
 
 @Configuration
 class Config {
-
     companion object {
-        const val timeout = 3000
+        const val TIMEOUT = 3000
     }
 
     @Bean
     fun restTemplate(): RestTemplate {
         val factory = SimpleClientHttpRequestFactory()
-        factory.setConnectTimeout(timeout)
-        factory.setReadTimeout(timeout)
+        factory.setConnectTimeout(TIMEOUT)
+        factory.setReadTimeout(TIMEOUT)
         val restTemplate = RestTemplate(factory)
         restTemplate.messageConverters
             .add(0, StringHttpMessageConverter(StandardCharsets.UTF_8))

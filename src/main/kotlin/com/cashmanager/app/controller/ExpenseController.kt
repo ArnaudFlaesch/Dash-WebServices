@@ -12,7 +12,6 @@ import java.time.LocalDate
 @RequestMapping("/expense")
 @CrossOrigin(origins = ["*"])
 class ExpenseController(private val expenseService: ExpenseService) {
-
     @GetMapping("/")
     fun getExpenses(
         @RequestParam("startIntervalDate")
@@ -27,16 +26,22 @@ class ExpenseController(private val expenseService: ExpenseService) {
     fun getTotalExpensesByMonth(): List<TotalExpenseByMonthDomain> = expenseService.getTotalExpensesByMonth()
 
     @GetMapping("/getTotalExpensesByMonthByLabelId")
-    fun getTotalExpensesByMonthByLabelId(@RequestParam("labelId") labelId: Int): List<TotalExpenseByMonthDomain> =
-        expenseService.getTotalExpensesByMonthByLabelId(labelId)
+    fun getTotalExpensesByMonthByLabelId(
+        @RequestParam("labelId") labelId: Int
+    ): List<TotalExpenseByMonthDomain> = expenseService.getTotalExpensesByMonthByLabelId(labelId)
 
     @PostMapping("/addExpense")
-    fun addExpense(@RequestBody expensePayload: InsertExpensePayload): ExpenseDomain =
-        expenseService.addExpense(expensePayload.amount, expensePayload.expenseDate, expensePayload.labelId)
+    fun addExpense(
+        @RequestBody expensePayload: InsertExpensePayload
+    ): ExpenseDomain = expenseService.addExpense(expensePayload.amount, expensePayload.expenseDate, expensePayload.labelId)
 
     @PatchMapping("/updateExpense")
-    fun updateExpense(@RequestBody expense: ExpenseDomain): ExpenseDomain = expenseService.insertExpense(expense)
+    fun updateExpense(
+        @RequestBody expense: ExpenseDomain
+    ): ExpenseDomain = expenseService.insertExpense(expense)
 
     @DeleteMapping("/deleteExpense")
-    fun deleteExpense(@RequestParam(value = "expenseId") id: Int) = expenseService.deleteExpense(id)
+    fun deleteExpense(
+        @RequestParam(value = "expenseId") id: Int
+    ) = expenseService.deleteExpense(id)
 }

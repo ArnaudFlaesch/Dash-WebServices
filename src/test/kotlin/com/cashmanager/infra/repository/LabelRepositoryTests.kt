@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class LabelRepositoryTests : AbstractIT() {
-
     @Autowired
     private lateinit var labelRepository: LabelRepository
 

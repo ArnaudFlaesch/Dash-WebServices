@@ -5,7 +5,6 @@ import org.junit.jupiter.params.provider.Arguments.arguments
 import java.util.stream.Stream
 
 object TestEndpointsArguments {
-
     fun testTokenArguments(validJwtToken: String): Stream<Arguments> {
         return Stream.of(
             arguments(validJwtToken, 200),

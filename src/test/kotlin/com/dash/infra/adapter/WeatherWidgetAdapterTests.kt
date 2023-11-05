@@ -12,7 +12,6 @@ import org.mockito.kotlin.given
 
 @ExtendWith(MockitoExtension::class)
 class WeatherWidgetAdapterTests {
-
     @Mock
     private lateinit var weatherApiClient: OpenWeatherApiClient
 

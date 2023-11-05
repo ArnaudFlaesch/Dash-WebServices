@@ -11,7 +11,6 @@ class AirParifWidgetAdapter(
     private val airParifApiClient: AirParifApiClient,
     private val airParifWidgetMapper: AirParifWidgetMapper
 ) {
-
     fun getPrevisionCommune(communeInseeCode: String): List<Prevision> {
         val previsionResponse = airParifApiClient.getPrevisionCommune(communeInseeCode)
         return airParifWidgetMapper.previsionsResponseToDomain(communeInseeCode, previsionResponse)

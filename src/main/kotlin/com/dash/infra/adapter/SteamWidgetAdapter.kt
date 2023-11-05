@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component
 class SteamWidgetAdapter(
     private val steamApiClient: SteamApiClient
 ) {
-
     companion object {
         private const val PAGE_SIZE = 25
     }
@@ -22,22 +21,28 @@ class SteamWidgetAdapter(
         return playerDataResponse.toDomain()
     }
 
-    fun getOwnedGames(steamUserId: String, search: String, pageNumber: Int): Page<GameInfoDomain> {
+    fun getOwnedGames(
+        steamUserId: String,
+        search: String,
+        pageNumber: Int
+    ): Page<GameInfoDomain> {
         val ownedGamesResponse = steamApiClient.getOwnedGames(steamUserId)
 
         val gamesList =
             ownedGamesResponse.response.games.sortedBy(GameInfoApi::name).filter { gameInfo -> gameInfo.name.lowercase().contains(search.lowercase()) }
 
-        val paginatedGames = if (gamesList.isEmpty() || gamesList.size <= PAGE_SIZE) {
-            gamesList
-        } else {
-            val limit = if ((pageNumber + 1) * PAGE_SIZE < gamesList.size) {
-                (pageNumber + 1) * PAGE_SIZE - 1
+        val paginatedGames =
+            if (gamesList.isEmpty() || gamesList.size <= PAGE_SIZE) {
+                gamesList
             } else {
-                gamesList.size - 1
+                val limit =
+                    if ((pageNumber + 1) * PAGE_SIZE < gamesList.size) {
+                        (pageNumber + 1) * PAGE_SIZE - 1
+                    } else {
+                        gamesList.size - 1
+                    }
+                gamesList.slice(pageNumber * PAGE_SIZE..limit)
             }
-            gamesList.slice(pageNumber * PAGE_SIZE..limit)
-        }
 
         val totalPages = gamesList.size / PAGE_SIZE
         return Page(
@@ -50,7 +55,10 @@ class SteamWidgetAdapter(
         )
     }
 
-    fun getAchievementList(appId: String, steamUserId: String): AchievementDataDomain {
+    fun getAchievementList(
+        appId: String,
+        steamUserId: String
+    ): AchievementDataDomain {
         val achievementsDataResponse = steamApiClient.getAchievementList(appId, steamUserId)
         return achievementsDataResponse.toDomain()
     }

@@ -11,14 +11,17 @@ import org.springframework.web.bind.annotation.*
 class WeatherWidgetController(
     private val weatherWidgetService: WeatherWidgetService
 ) {
-
     @GetMapping("/weather")
-    fun getWeatherData(@RequestParam(value = "city") city: String): OpenWeatherWeatherDomain {
+    fun getWeatherData(
+        @RequestParam(value = "city") city: String
+    ): OpenWeatherWeatherDomain {
         return weatherWidgetService.getWeatherData(city)
     }
 
     @GetMapping("/forecast")
-    fun getForecastData(@RequestParam(value = "city") city: String): OpenWeatherForecastDomain {
+    fun getForecastData(
+        @RequestParam(value = "city") city: String
+    ): OpenWeatherForecastDomain {
         return weatherWidgetService.getForecastData(city)
     }
 }

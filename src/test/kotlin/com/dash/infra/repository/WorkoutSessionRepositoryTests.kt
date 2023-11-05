@@ -13,7 +13,6 @@ import java.time.LocalDate
 
 @SpringBootTest
 class WorkoutSessionRepositoryTests : AbstractIT() {
-
     @Autowired
     private lateinit var workoutSessionRepository: WorkoutSessionRepository
 
@@ -23,18 +22,20 @@ class WorkoutSessionRepositoryTests : AbstractIT() {
     @Test
     fun testInsertWorkoutSessions() {
         val authenticatedUser = userRepository.getReferenceById(1)
-        val workoutSessions = listOf(
-            WorkoutSessionEntity(0, LocalDate.of(2023, 1, 1), authenticatedUser),
-            WorkoutSessionEntity(0, LocalDate.of(2023, 1, 5), authenticatedUser)
-        )
+        val workoutSessions =
+            listOf(
+                WorkoutSessionEntity(0, LocalDate.of(2023, 1, 1), authenticatedUser),
+                WorkoutSessionEntity(0, LocalDate.of(2023, 1, 5), authenticatedUser)
+            )
 
         workoutSessionRepository.saveAll(workoutSessions)
 
-        val listWorkoutSessions = workoutSessionRepository.findByUserIdAndWorkoutDateBetweenOrderByWorkoutDateAsc(
-            authenticatedUser.id,
-            LocalDate.of(2023, 1, 1),
-            LocalDate.now()
-        )
+        val listWorkoutSessions =
+            workoutSessionRepository.findByUserIdAndWorkoutDateBetweenOrderByWorkoutDateAsc(
+                authenticatedUser.id,
+                LocalDate.of(2023, 1, 1),
+                LocalDate.now()
+            )
         assertThat(listWorkoutSessions).hasSize(2)
 
         Assertions.assertNotNull(listWorkoutSessions[0].id)

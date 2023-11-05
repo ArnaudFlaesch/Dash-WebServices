@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*
 class SteamWidgetController(
     private val steamWidgetService: SteamWidgetService
 ) {
-
     @GetMapping("/playerData")
     fun getPlayerData(
         @RequestParam(value = "steamUserId") steamUserId: String

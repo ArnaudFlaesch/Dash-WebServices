@@ -12,7 +12,6 @@ import org.mockito.kotlin.given
 
 @ExtendWith(MockitoExtension::class)
 class StravaWidgetAdapterTests {
-
     @Mock
     private lateinit var stravaApiClient: StravaApiClient
 

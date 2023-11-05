@@ -1,4 +1,4 @@
-FROM gradle:8.2.1-jdk17-alpine AS build
+FROM gradle:8.4.0-jdk17-alpine AS build
 
 WORKDIR /dash-webservices
 COPY build.gradle.kts .
@@ -6,7 +6,7 @@ COPY ./src ./src
 RUN gradle assemble
 
 
-FROM eclipse-temurin:17.0.8_7-jre-alpine
+FROM eclipse-temurin:17.0.9_9-jre-alpine
 WORKDIR /dash-webservices
 EXPOSE 8080
 RUN adduser --system --no-create-home dockeruser

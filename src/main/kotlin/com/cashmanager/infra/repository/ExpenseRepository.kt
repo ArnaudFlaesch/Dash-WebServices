@@ -11,7 +11,6 @@ import java.time.LocalDate
 
 @Repository
 interface ExpenseRepository : JpaRepository<ExpenseEntity, Int> {
-
     fun findAllByLabelUserIdAndExpenseDateBetweenOrderByExpenseDateAsc(
         userId: Int,
         startIntervalDate: LocalDate,
@@ -24,7 +23,10 @@ interface ExpenseRepository : JpaRepository<ExpenseEntity, Int> {
     fun getTotalExpensesByMonth(userId: Int): List<TotalExpenseByMonthEntity>
 
     @Query(name = "getExpensesByMonthByLabelId", nativeQuery = true)
-    fun getTotalExpensesByMonthByLabelId(labelId: Int, userId: Int): List<TotalExpenseByMonthEntity>
+    fun getTotalExpensesByMonthByLabelId(
+        labelId: Int,
+        userId: Int
+    ): List<TotalExpenseByMonthEntity>
 
     @Transactional
     @Modifying

@@ -12,10 +12,11 @@ data class WorkoutStatsByMonthEntity(
 ) {
     constructor() : this(0, 0, 0.0, 0.0, "")
 
-    fun toDomain() = WorkoutStatsByMonthDomain(
-        totalNumberOfReps = this.totalNumberOfReps,
-        workoutTypeId = this.workoutTypeId,
-        monthPeriod = LocalDate.of(yearPeriod.toInt(), monthPeriod.toInt(), 1),
-        workoutTypeName = this.workoutTypeName
-    )
+    fun toDomain() =
+        WorkoutStatsByMonthDomain(
+            totalNumberOfReps = this.totalNumberOfReps,
+            workoutTypeId = this.workoutTypeId,
+            monthPeriod = LocalDate.of(yearPeriod.toInt(), monthPeriod.toInt(), 1),
+            workoutTypeName = this.workoutTypeName
+        )
 }

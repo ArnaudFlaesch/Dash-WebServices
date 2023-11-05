@@ -18,10 +18,11 @@ class AbstractIT {
     internal constructor()
 
     companion object {
-        private var postgresDBContainer: PostgreSQLContainer<*> = PostgreSQLContainer("postgres:13.2-alpine")
-            .withDatabaseName("dash_test")
-            .withUsername("postgres")
-            .withPassword("postgres")
+        private var postgresDBContainer: PostgreSQLContainer<*> =
+            PostgreSQLContainer("postgres:13.2-alpine")
+                .withDatabaseName("dash_test")
+                .withUsername("postgres")
+                .withPassword("postgres")
 
         @DynamicPropertySource
         @JvmStatic

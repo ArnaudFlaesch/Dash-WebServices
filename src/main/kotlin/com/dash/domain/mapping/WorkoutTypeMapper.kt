@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component
 
 @Component
 class WorkoutTypeMapper(private val userService: UserService) {
-
     fun mapDomainToEntity(workoutTypeDomain: WorkoutTypeDomain): WorkoutTypeEntity =
         WorkoutTypeEntity(
             id = workoutTypeDomain.id,

@@ -12,10 +12,8 @@ data class FollowedUserEntity(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "followed-user-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
-
     @Column(name = "user_handle")
     val userHandle: String,
-
     @ManyToOne(optional = true)
     @JoinColumn(name = "userId")
     val user: UserEntity

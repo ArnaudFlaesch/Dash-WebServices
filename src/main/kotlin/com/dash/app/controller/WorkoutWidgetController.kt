@@ -15,10 +15,8 @@ import java.time.LocalDate
 class WorkoutWidgetController(
     private val workoutWidgetService: WorkoutWidgetService
 ) {
-
     @GetMapping("/workoutTypes")
-    fun getWorkoutTypes(): List<WorkoutTypeDomain> =
-        workoutWidgetService.getWorkoutTypes()
+    fun getWorkoutTypes(): List<WorkoutTypeDomain> = workoutWidgetService.getWorkoutTypes()
 
     @GetMapping("/workoutSessions")
     fun getWorkoutsSessions(
@@ -28,28 +26,24 @@ class WorkoutWidgetController(
         @RequestParam("dateIntervalEnd")
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
         dateIntervalEnd: LocalDate
-    ): List<WorkoutSessionDomain> =
-        workoutWidgetService.getWorkoutSessions(dateIntervalStart, dateIntervalEnd)
+    ): List<WorkoutSessionDomain> = workoutWidgetService.getWorkoutSessions(dateIntervalStart, dateIntervalEnd)
 
     @GetMapping("/workoutExercises")
     fun getWorkoutsExercisesByWorkoutSessionId(
         @RequestParam("workoutSessionId") workoutSessionId: Int
-    ): List<WorkoutExerciseDomain> =
-        workoutWidgetService.getWorkoutsExercisesByWorkoutSessionId(workoutSessionId)
+    ): List<WorkoutExerciseDomain> = workoutWidgetService.getWorkoutsExercisesByWorkoutSessionId(workoutSessionId)
 
     @GetMapping("/workoutStatsByPeriod")
     fun getWorkoutStatsByPeriod(
         @RequestParam("dateIntervalStart") dateIntervalStart: LocalDate,
         @RequestParam("dateIntervalEnd") dateIntervalEnd: LocalDate
-    ): List<WorkoutStatsByIntervalDomain> =
-        workoutWidgetService.getWorkoutStatsByPeriod(dateIntervalStart, dateIntervalEnd)
+    ): List<WorkoutStatsByIntervalDomain> = workoutWidgetService.getWorkoutStatsByPeriod(dateIntervalStart, dateIntervalEnd)
 
     @GetMapping("/workoutStatsByMonth")
     fun workoutStatsByMonth(
         @RequestParam("dateIntervalStart") dateIntervalStart: LocalDate,
         @RequestParam("dateIntervalEnd") dateIntervalEnd: LocalDate
-    ): List<WorkoutStatsByMonthDomain> =
-        workoutWidgetService.getWorkoutStatsByMonth(dateIntervalStart, dateIntervalEnd)
+    ): List<WorkoutStatsByMonthDomain> = workoutWidgetService.getWorkoutStatsByMonth(dateIntervalStart, dateIntervalEnd)
 
     @PostMapping("/updateWorkoutExercise")
     fun updateWorkoutExercise(
@@ -62,12 +56,12 @@ class WorkoutWidgetController(
         )
 
     @PostMapping("/addWorkoutType")
-    fun addWorkoutType(@RequestBody addWorkoutTypePayload: AddWorkoutTypePayload): WorkoutTypeDomain =
-        workoutWidgetService.addWorkoutType(addWorkoutTypePayload.workoutType)
+    fun addWorkoutType(
+        @RequestBody addWorkoutTypePayload: AddWorkoutTypePayload
+    ): WorkoutTypeDomain = workoutWidgetService.addWorkoutType(addWorkoutTypePayload.workoutType)
 
     @PostMapping("/createWorkoutSession")
     fun createWorkoutSession(
         @RequestBody createWorkoutSessionPayload: CreateWorkoutSessionPayload
-    ): WorkoutSessionDomain =
-        workoutWidgetService.createWorkoutSession(createWorkoutSessionPayload.workoutDate)
+    ): WorkoutSessionDomain = workoutWidgetService.createWorkoutSession(createWorkoutSessionPayload.workoutDate)
 }

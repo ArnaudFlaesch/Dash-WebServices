@@ -25,15 +25,15 @@ class CashManagerConfigController(
     private val labelService: LabelService,
     private val expenseService: ExpenseService
 ) {
-
     private val logger = LoggerFactory.getLogger(this::class.java.name)
 
     @GetMapping("/export")
     fun downloadJsonFile(): ResponseEntity<ByteArray?>? {
         val expenses: List<ExpenseDomain> = expenseService.getUserExpenses()
-        val expensesToExport = expenses.map { expense: ExpenseDomain ->
-            ExpenseExportDomain(expense.id, expense.amount, expense.expenseDate.toString(), expense.labelId)
-        }
+        val expensesToExport =
+            expenses.map { expense: ExpenseDomain ->
+                ExpenseExportDomain(expense.id, expense.amount, expense.expenseDate.toString(), expense.labelId)
+            }
         val labels: List<LabelDomain> = labelService.getUserLabels()
         val dataJsonString: String = export(mapOf("expenses" to expensesToExport, "labels" to labels))
         val dataJsonBytes = dataJsonString.toByteArray()
@@ -46,7 +46,9 @@ class CashManagerConfigController(
     }
 
     @PostMapping("/import")
-    fun importConfig(@RequestParam("file") file: MultipartFile): Boolean {
+    fun importConfig(
+        @RequestParam("file") file: MultipartFile
+    ): Boolean {
         logger.info("Import commencé")
         val importData = ObjectMapper().registerModule(JavaTimeModule()).readValue(file.bytes, CashManagerImportData::class.java)
         importData.labels.forEach { label ->

@@ -20,25 +20,33 @@ class WorkoutWidgetService(
     private val workoutTypeMapper: WorkoutTypeMapper,
     private val userService: UserService
 ) {
-
     fun getWorkoutTypes(): List<WorkoutTypeDomain> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return workoutTypeRepository.findByUserIdOrderByNameAsc(authenticatedUserId).map(WorkoutTypeEntity::toDomain)
     }
 
-    fun getWorkoutSessions(dateIntervalStart: LocalDate, dateIntervalEnd: LocalDate): List<WorkoutSessionDomain> {
+    fun getWorkoutSessions(
+        dateIntervalStart: LocalDate,
+        dateIntervalEnd: LocalDate
+    ): List<WorkoutSessionDomain> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return workoutSessionRepository.findByUserIdAndWorkoutDateBetweenOrderByWorkoutDateAsc(authenticatedUserId, dateIntervalStart, dateIntervalEnd)
             .map(WorkoutSessionEntity::toDomain)
     }
 
-    fun getWorkoutStatsByPeriod(dateIntervalStart: LocalDate, dateIntervalEnd: LocalDate): List<WorkoutStatsByIntervalDomain> {
+    fun getWorkoutStatsByPeriod(
+        dateIntervalStart: LocalDate,
+        dateIntervalEnd: LocalDate
+    ): List<WorkoutStatsByIntervalDomain> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return workoutExerciseRepository.getWorkoutStatsByInterval(dateIntervalStart, dateIntervalEnd, authenticatedUserId)
             .map(WorkoutStatsByIntervalEntity::toDomain)
     }
 
-    fun getWorkoutStatsByMonth(dateIntervalStart: LocalDate, dateIntervalEnd: LocalDate): List<WorkoutStatsByMonthDomain> {
+    fun getWorkoutStatsByMonth(
+        dateIntervalStart: LocalDate,
+        dateIntervalEnd: LocalDate
+    ): List<WorkoutStatsByMonthDomain> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return workoutExerciseRepository.getWorkoutStatsByMonth(dateIntervalStart, dateIntervalEnd, authenticatedUserId)
             .map(WorkoutStatsByMonthEntity::toDomain)
@@ -53,7 +61,11 @@ class WorkoutWidgetService(
     fun getWorkoutsExercisesByWorkoutSessionId(workoutSessionId: Int): List<WorkoutExerciseDomain> =
         workoutExerciseRepository.findAllByWorkoutSessionId(workoutSessionId).map(WorkoutExerciseEntity::toDomain)
 
-    fun updateWorkoutExercise(workoutSessionId: Int, workoutTypeId: Int, numberOfReps: Int): WorkoutExerciseDomain {
+    fun updateWorkoutExercise(
+        workoutSessionId: Int,
+        workoutTypeId: Int,
+        numberOfReps: Int
+    ): WorkoutExerciseDomain {
         val workoutExerciseToInsert =
             WorkoutExerciseEntity(WorkoutExerciseEntityId(workoutSessionId, workoutTypeId), numberOfReps)
         return workoutExerciseRepository.save(workoutExerciseToInsert).toDomain()

@@ -133,8 +133,7 @@ data class OpenWeatherWeatherResponse(
         @JsonProperty("all")
         val all: String = ""
     ) {
-        fun toDomain(): OpenWeatherWeatherDomain.WeatherCloudDomain =
-            OpenWeatherWeatherDomain.WeatherCloudDomain(all = this.all)
+        fun toDomain(): OpenWeatherWeatherDomain.WeatherCloudDomain = OpenWeatherWeatherDomain.WeatherCloudDomain(all = this.all)
     }
 }
 
@@ -206,8 +205,7 @@ data class ForecastResponse(
         @JsonProperty("all")
         val all: Int = 0
     ) {
-        fun toDomain(): ForecastDomain.ForecastDataCloudsDomain =
-            ForecastDomain.ForecastDataCloudsDomain(all = this.all)
+        fun toDomain(): ForecastDomain.ForecastDataCloudsDomain = ForecastDomain.ForecastDataCloudsDomain(all = this.all)
     }
 
     data class ForecastDataWind(
@@ -227,8 +225,7 @@ data class ForecastResponse(
         @JsonProperty("pod")
         val pod: String = ""
     ) {
-        fun toDomain(): ForecastDomain.ForecastDataSysDomain =
-            ForecastDomain.ForecastDataSysDomain(pod = this.pod)
+        fun toDomain(): ForecastDomain.ForecastDataSysDomain = ForecastDomain.ForecastDataSysDomain(pod = this.pod)
     }
 }
 
@@ -269,8 +266,7 @@ data class LatLng(
     @JsonProperty("lon")
     val lon: Int = 0
 ) {
-    fun toDomain(): LatLngDomain =
-        LatLngDomain(lat = this.lat, lon = this.lon)
+    fun toDomain(): LatLngDomain = LatLngDomain(lat = this.lat, lon = this.lon)
 }
 
 data class Weather(

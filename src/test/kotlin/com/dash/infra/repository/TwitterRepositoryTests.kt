@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable
 
 @SpringBootTest
 class TwitterRepositoryTests : AbstractIT() {
-
     @Autowired
     private lateinit var twitterWidgetRepository: TwitterWidgetRepository
 

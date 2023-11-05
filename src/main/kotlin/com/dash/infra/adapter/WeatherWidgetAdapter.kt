@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component
 class WeatherWidgetAdapter(
     private val openWeatherApiClient: OpenWeatherApiClient
 ) {
-
     fun getWeatherData(city: String): OpenWeatherWeatherDomain {
         val weatherDataResponse = openWeatherApiClient.getWeatherData(city)
         return weatherDataResponse.toDomain()

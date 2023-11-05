@@ -1,7 +1,6 @@
 package com.dash.domain.model.airParif
 
 enum class AirParifPrevisionEnum(val prevision: String) {
-
     BON("Bon"),
     MOYEN("Moyen"),
     DEGRADE("Dégradé"),

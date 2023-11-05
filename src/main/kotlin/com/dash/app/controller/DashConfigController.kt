@@ -25,13 +25,12 @@ import java.time.format.DateTimeFormatter
 @RestController
 @CrossOrigin(origins = ["*"])
 @RequestMapping("/dashConfig")
-@PreAuthorize(SecurityConditions.isUserAdmin)
+@PreAuthorize(SecurityConditions.IS_USER_ADMIN)
 class DashConfigController(
     private val applicationEventPublisher: ApplicationEventPublisher,
     private val tabService: TabService,
     private val widgetService: WidgetService
 ) {
-
     private val logger = LoggerFactory.getLogger(this::class.java.name)
 
     @GetMapping("/export")
@@ -50,7 +49,9 @@ class DashConfigController(
     }
 
     @PostMapping("/import")
-    fun importConfig(@RequestParam("file") file: MultipartFile): Boolean {
+    fun importConfig(
+        @RequestParam("file") file: MultipartFile
+    ): Boolean {
         logger.info("Import commencé")
         val importData = ObjectMapper().readValue(file.bytes, ImportData::class.java)
         importData.tabs.forEach { tab ->

@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.*
 class MiniWidgetController(
     private val miniWidgetService: MiniWidgetService
 ) {
-
     @GetMapping("/")
     fun getWidgets(): List<MiniWidgetDomain> = miniWidgetService.findAuthenticatedUserMiniWidgets()
 
     @PostMapping("/addMiniWidget")
-    fun addWidget(@RequestBody widgetConfig: CreateMiniWidgetPayload): MiniWidgetDomain =
-        miniWidgetService.addMiniWidget(widgetConfig.type)
+    fun addWidget(
+        @RequestBody widgetConfig: CreateMiniWidgetPayload
+    ): MiniWidgetDomain = miniWidgetService.addMiniWidget(widgetConfig.type)
 
     @PatchMapping("/updateWidgetData/{widgetId}")
     fun updateWidgetData(
@@ -27,5 +27,7 @@ class MiniWidgetController(
     ): MiniWidgetDomain = miniWidgetService.updateWidgetData(widgetId, updateWidgetDataPayload.data)
 
     @DeleteMapping("/deleteMiniWidget")
-    fun deleteMiniWidget(@RequestParam(value = "widgetId") widgetId: Int) = miniWidgetService.deleteMiniWidget(widgetId)
+    fun deleteMiniWidget(
+        @RequestParam(value = "widgetId") widgetId: Int
+    ) = miniWidgetService.deleteMiniWidget(widgetId)
 }
