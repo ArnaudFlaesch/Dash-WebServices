@@ -26,17 +26,13 @@ class JwtUtils {
             .compact()
     }
 
-    fun getUserNameFromJwtToken(token: String): String {
-        val bytes = Decoders.BASE64.decode(jwtSecret)
-        val key: SecretKey = Keys.hmacShaKeyFor(bytes)
-        return Jwts.parser().verifyWith(key).build().parseUnsecuredClaims(token).payload.subject
-    }
+    fun getUserNameFromJwtToken(token: String): String =
+        Jwts.parser().setSigningKey(jwtSecret).build().parseSignedClaims(token).payload.subject
+
 
     fun validateJwtToken(authToken: String?): Boolean {
         try {
-            val bytes = Decoders.BASE64.decode(jwtSecret)
-            val key: SecretKey = Keys.hmacShaKeyFor(bytes)
-            Jwts.parser().verifyWith(key).build().parseUnsecuredClaims(authToken)
+            Jwts.parser().setSigningKey(jwtSecret).build().parseSignedClaims(authToken)
             return true
         } catch (e: SignatureException) {
             logger.error("Invalid JWT signature: {}", e.message)
