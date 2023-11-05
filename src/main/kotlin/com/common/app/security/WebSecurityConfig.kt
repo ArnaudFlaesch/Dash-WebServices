@@ -15,6 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import java.util.*
 
 @Configuration
 @EnableWebSecurity
@@ -36,6 +40,7 @@ class WebSecurityConfig(
     @Bean
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
+
     @Bean
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
@@ -44,7 +49,8 @@ class WebSecurityConfig(
         val authenticationManager = authenticationManagerBuilder.build()
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
-            .cors(Customizer.withDefaults()).csrf(Customizer.withDefaults())
+            .cors(Customizer.withDefaults())
+            .csrf { csrf -> csrf.disable() }
             .authorizeHttpRequests { authorizeRequests ->
                 authorizeRequests.requestMatchers("/auth/**", "/v3/api-docs", "/error").permitAll()
                     .anyRequest().authenticated()
@@ -52,7 +58,18 @@ class WebSecurityConfig(
             .authenticationManager(authenticationManager)
             .exceptionHandling { auth -> auth.authenticationEntryPoint(unauthorizedHandler) }
             .sessionManagement { sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-
         return http.build()
+    }
+
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource {
+        val config = CorsConfiguration()
+        config.allowedOriginPatterns = listOf("*")
+        config.setAllowedMethods(listOf("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"))
+        config.allowCredentials = true
+        config.allowedHeaders = listOf("Authorization", "Cache-Control", "Content-Type")
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", config)
+        return source
     }
 }
