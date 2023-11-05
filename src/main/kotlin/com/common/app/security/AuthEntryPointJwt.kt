@@ -11,7 +11,6 @@ import java.io.IOException
 
 @Component
 class AuthEntryPointJwt : AuthenticationEntryPoint {
-
     companion object {
         private val logger = LoggerFactory.getLogger(this::class.java.name)
     }

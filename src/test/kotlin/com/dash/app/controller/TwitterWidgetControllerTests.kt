@@ -26,7 +26,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TwitterWidgetControllerTests : AbstractIT() {
-
     @LocalServerPort
     private val port: Int = 0
 
@@ -44,48 +43,51 @@ class TwitterWidgetControllerTests : AbstractIT() {
 
     @Test
     fun getFollowedUsers() {
-        val followedUsersEmptyList = given()
-            .port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .contentType(ContentType.JSON)
-            .`when`()
-            .get("$twitterWidgetEndpoint/followed")
-            .then().log().all()
-            .statusCode(HttpStatus.OK.value())
-            .log().all()
-            .extract().`as`(object : TypeRef<Page<FollowedUser>>() {})
+        val followedUsersEmptyList =
+            given()
+                .port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .contentType(ContentType.JSON)
+                .`when`()
+                .get("$twitterWidgetEndpoint/followed")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .log().all()
+                .extract().`as`(object : TypeRef<Page<FollowedUser>>() {})
 
         assertEquals(0, followedUsersEmptyList.content.size)
 
         val userHandleToAdd = "Nono"
         val addUserToFollowPayload = AddUserToFollowPayload(userHandleToAdd)
 
-        val addedUserToFollow = given()
-            .port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .contentType(ContentType.JSON)
-            .`when`()
-            .body(addUserToFollowPayload)
-            .post("$twitterWidgetEndpoint/addFollowedUser")
-            .then().log().all()
-            .statusCode(HttpStatus.OK.value())
-            .log().all()
-            .extract().`as`(FollowedUser::class.java)
+        val addedUserToFollow =
+            given()
+                .port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .contentType(ContentType.JSON)
+                .`when`()
+                .body(addUserToFollowPayload)
+                .post("$twitterWidgetEndpoint/addFollowedUser")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .log().all()
+                .extract().`as`(FollowedUser::class.java)
 
         assertNotNull(addedUserToFollow.id)
         assertNotNull(addedUserToFollow.userId)
         assertEquals(userHandleToAdd, addedUserToFollow.userHandle)
 
-        val followedUsers = given()
-            .port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .contentType(ContentType.JSON)
-            .`when`()
-            .get("$twitterWidgetEndpoint/followed")
-            .then().log().all()
-            .statusCode(HttpStatus.OK.value())
-            .log().all()
-            .extract().`as`(object : TypeRef<Page<FollowedUser>>() {})
+        val followedUsers =
+            given()
+                .port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .contentType(ContentType.JSON)
+                .`when`()
+                .get("$twitterWidgetEndpoint/followed")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .log().all()
+                .extract().`as`(object : TypeRef<Page<FollowedUser>>() {})
 
         assertEquals(1, followedUsers.content.size)
         assertEquals(userHandleToAdd, followedUsers.content[0].userHandle)
@@ -101,16 +103,17 @@ class TwitterWidgetControllerTests : AbstractIT() {
             .statusCode(HttpStatus.OK.value())
             .log().all()
 
-        val followedUsersAfterDeletion = given()
-            .port(port)
-            .header(createAuthenticationHeader(jwtToken))
-            .contentType(ContentType.JSON)
-            .`when`()
-            .get("$twitterWidgetEndpoint/followed")
-            .then().log().all()
-            .statusCode(HttpStatus.OK.value())
-            .log().all()
-            .extract().`as`(object : TypeRef<Page<FollowedUser>>() {})
+        val followedUsersAfterDeletion =
+            given()
+                .port(port)
+                .header(createAuthenticationHeader(jwtToken))
+                .contentType(ContentType.JSON)
+                .`when`()
+                .get("$twitterWidgetEndpoint/followed")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .log().all()
+                .extract().`as`(object : TypeRef<Page<FollowedUser>>() {})
 
         assertEquals(0, followedUsersAfterDeletion.content.size)
     }

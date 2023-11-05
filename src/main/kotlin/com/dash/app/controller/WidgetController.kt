@@ -12,14 +12,15 @@ import org.springframework.web.bind.annotation.*
 class WidgetController(
     private val widgetService: WidgetService
 ) {
-
     @GetMapping("/")
-    fun getWidgets(@RequestParam(value = "tabId") tabId: Int): List<WidgetDomain> =
-        widgetService.findByTabIdOrderByWidgetOrderAsc(tabId)
+    fun getWidgets(
+        @RequestParam(value = "tabId") tabId: Int
+    ): List<WidgetDomain> = widgetService.findByTabIdOrderByWidgetOrderAsc(tabId)
 
     @PostMapping("/addWidget")
-    fun addWidget(@RequestBody widgetConfig: CreateWidgetPayload): WidgetDomain =
-        widgetService.addWidget(widgetConfig.type, widgetConfig.tabId)
+    fun addWidget(
+        @RequestBody widgetConfig: CreateWidgetPayload
+    ): WidgetDomain = widgetService.addWidget(widgetConfig.type, widgetConfig.tabId)
 
     @PatchMapping("/updateWidgetData/{widgetId}")
     fun updateWidgetData(
@@ -28,9 +29,12 @@ class WidgetController(
     ): WidgetDomain = widgetService.updateWidgetData(widgetId, updateWidgetDataPayload.data)
 
     @PostMapping("/updateWidgetsOrder")
-    fun updateWidgetsOrder(@RequestBody widgetsData: List<WidgetDomain>): List<WidgetDomain> =
-        widgetService.updateWidgetsOrder(widgetsData)
+    fun updateWidgetsOrder(
+        @RequestBody widgetsData: List<WidgetDomain>
+    ): List<WidgetDomain> = widgetService.updateWidgetsOrder(widgetsData)
 
     @DeleteMapping("/deleteWidget")
-    fun deleteWidget(@RequestParam(value = "id") widgetId: Int) = widgetService.deleteWidget(widgetId)
+    fun deleteWidget(
+        @RequestParam(value = "id") widgetId: Int
+    ) = widgetService.deleteWidget(widgetId)
 }

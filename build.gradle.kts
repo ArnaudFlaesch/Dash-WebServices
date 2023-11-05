@@ -1,15 +1,14 @@
-import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
-val kotlinVersion = "1.9.10"
-val springBootVersion = "3.1.4"
+val kotlinVersion = "1.9.20"
+val springBootVersion = "3.1.5"
 val jwtVersion = "0.12.3"
-val ical4jVersion = "3.2.13"
+val ical4jVersion = "3.2.14"
 
 val springDocVersion = "1.7.0"
 val jacksonVersion = "2.15.3"
-val log4jVersion = "2.21.0"
+val log4jVersion = "2.21.1"
 
 val liquibaseVersion = "4.24.0"
 val postgresqlVersion = "42.6.0"
@@ -22,21 +21,17 @@ val junitVersion = "5.10.0"
 val hibernateTypesVersion = "2.21.1"
 val testContainersVersion = "1.19.1"
 
-val detektVersion = "1.23.1"
-
 plugins {
-    val kotlinPluginVersion = "1.9.0"
-    val springBootPluginVersion = "3.1.4"
+    val kotlinPluginVersion = "1.9.20"
+    val springBootPluginVersion = "3.1.5"
     val springDependencyManagementPluginVersion = "1.1.3"
-    val detektPluginVersion = "1.23.1"
-    val kotlinterPluginVersion = "3.16.0"
+    val kotlinterPluginVersion = "4.0.0"
     val springDocGradlePluginVersion = "1.5.0"
 
     jacoco
     id("org.springframework.boot") version springBootPluginVersion
     id("io.spring.dependency-management") version springDependencyManagementPluginVersion
     // id("org.springdoc.openapi-gradle-plugin") version springDocGradlePluginVersion
-    id("io.gitlab.arturbosch.detekt") version detektPluginVersion
     id("org.jmailen.kotlinter") version kotlinterPluginVersion
     kotlin("jvm") version kotlinPluginVersion
     kotlin("plugin.spring") version kotlinPluginVersion
@@ -94,7 +89,6 @@ dependencies {
     }
     testImplementation("org.testcontainers:junit-jupiter:$testContainersVersion")
     testImplementation("org.testcontainers:postgresql:$testContainersVersion")
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
 }
 
 tasks.jacocoTestReport {
@@ -128,23 +122,6 @@ tasks.withType<KotlinCompile> {
 
 tasks.getByName<Jar>("jar") {
     isEnabled = false
-}
-
-tasks.withType<Detekt>().configureEach {
-    jvmTarget = "17"
-    reports {
-        html.required.set(true) // observe findings in your browser with structure and code snippets
-        xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins
-        txt.required.set(true) // similar to the console output, contains issue signature to manually edit baseline files
-        sarif.required.set(true) // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
-    }
-}
-
-detekt {
-    buildUponDefaultConfig = true // preconfigure defaults
-    allRules = false // activate all available (even unstable) rules.
-    config = files(file("$projectDir/detekt.yml"))
-    autoCorrect = true
 }
 
 /*

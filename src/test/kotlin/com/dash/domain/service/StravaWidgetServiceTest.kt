@@ -16,7 +16,6 @@ import java.net.URI
 
 @SpringBootTest
 class StravaWidgetServiceTest : AbstractIT() {
-
     @MockBean
     private lateinit var restTemplate: RestTemplate
 

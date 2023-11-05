@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class UserRepositoryTests : AbstractIT() {
-
     @Autowired
     private lateinit var userRepository: UserRepository
 

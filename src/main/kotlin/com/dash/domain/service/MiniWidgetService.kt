@@ -12,7 +12,6 @@ class MiniWidgetService(
     private val miniWidgetPersistenceAdapter: MiniWidgetPersistenceAdapter,
     private val userService: UserService
 ) {
-
     fun findAuthenticatedUserMiniWidgets(): List<MiniWidgetDomain> {
         val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUser().id
         return miniWidgetPersistenceAdapter.findAuthenticatedUserMiniWidgets(currentAuthenticatedUserId)
@@ -27,9 +26,11 @@ class MiniWidgetService(
 
     fun saveMiniWidget(miniWidget: MiniWidgetDomain): MiniWidgetDomain = miniWidgetPersistenceAdapter.saveMiniWidget(miniWidget)
 
-    fun updateWidgetData(widgetId: Int, updatedData: Any): MiniWidgetDomain =
-        miniWidgetPersistenceAdapter.updateWidgetData(widgetId, updatedData)
+    fun updateWidgetData(
+        widgetId: Int,
+        updatedData: Any
+    ): MiniWidgetDomain = miniWidgetPersistenceAdapter.updateWidgetData(widgetId, updatedData)
 
-    @PreAuthorize(SecurityConditions.isUserAdmin)
+    @PreAuthorize(SecurityConditions.IS_USER_ADMIN)
     fun deleteMiniWidget(widgetId: Int) = miniWidgetPersistenceAdapter.deleteMiniWidget(widgetId)
 }

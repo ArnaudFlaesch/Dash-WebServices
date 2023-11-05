@@ -17,19 +17,17 @@ data class IncidentStreakEntity(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "incident-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
-
     @Column(name = "streak_start_date") val streakStartDate: OffsetDateTime,
-
     @Column(name = "streak_end_date") val streakEndDate: OffsetDateTime,
-
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "incidentId")
     val incident: IncidentEntity
 ) {
-    fun toDomain(): IncidentStreakDomain = IncidentStreakDomain(
-        id = id,
-        streakStartDate = streakStartDate,
-        streakEndDate = streakEndDate,
-        incidentId = incident.id
-    )
+    fun toDomain(): IncidentStreakDomain =
+        IncidentStreakDomain(
+            id = id,
+            streakStartDate = streakStartDate,
+            streakEndDate = streakEndDate,
+            incidentId = incident.id
+        )
 }

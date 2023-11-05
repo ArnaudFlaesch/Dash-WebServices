@@ -14,26 +14,25 @@ import org.springframework.web.bind.annotation.*
 class StravaWidgetController(
     private val stravaWidgetService: StravaWidgetService
 ) {
-
     @PostMapping("/getToken")
-    fun getToken(@RequestBody getStravaTokenPayload: GetStravaTokenPayload): StravaTokenDataDomain =
-        stravaWidgetService.getToken(getStravaTokenPayload.apiCode)
+    fun getToken(
+        @RequestBody getStravaTokenPayload: GetStravaTokenPayload
+    ): StravaTokenDataDomain = stravaWidgetService.getToken(getStravaTokenPayload.apiCode)
 
     @PostMapping("/getRefreshToken")
     fun getRefreshToken(
         @RequestBody getStravaRefreshTokenPayload: GetStravaRefreshTokenPayload
-    ): StravaTokenDataDomain =
-        stravaWidgetService.getRefreshToken(getStravaRefreshTokenPayload.refreshToken)
+    ): StravaTokenDataDomain = stravaWidgetService.getRefreshToken(getStravaRefreshTokenPayload.refreshToken)
 
     @GetMapping("/getAthleteData")
-    fun getAthleteData(@RequestParam("token") token: String): StravaAthleteDomain =
-        stravaWidgetService.getAthleteData(token)
+    fun getAthleteData(
+        @RequestParam("token") token: String
+    ): StravaAthleteDomain = stravaWidgetService.getAthleteData(token)
 
     @GetMapping("/getAthleteActivities")
     fun getAthleteActivities(
         @RequestParam("token") token: String,
         @RequestParam(name = "pageNumber", required = false) pageNumber: Int?,
         @RequestParam(name = "numberOfActivities", required = false) numberOfActivities: Int?
-    ): List<StravaActivityDomain> =
-        stravaWidgetService.getAthleteActivities(token, pageNumber, numberOfActivities)
+    ): List<StravaActivityDomain> = stravaWidgetService.getAthleteActivities(token, pageNumber, numberOfActivities)
 }

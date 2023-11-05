@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface LabelRepository : JpaRepository<LabelEntity, Int> {
-
     fun findByUserIdOrderByLabel(userId: Int): List<LabelEntity>
 }

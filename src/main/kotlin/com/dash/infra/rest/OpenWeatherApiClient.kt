@@ -13,20 +13,19 @@ class OpenWeatherApiClient(
     @Value("\${dash.app.OPENWEATHERMAP_KEY}")
     private val openWeatherMapKey: String
 ) {
-
     companion object {
-        private const val weatherEndpoint = "/weather"
-        private const val forecastEndpoint = "/forecast"
-        private const val apiOptions = "?units=metric&lang=fr&appid="
+        private const val WEATHER_ENDPOINT = "/weather"
+        private const val FORECAST_ENDPOINT = "/forecast"
+        private const val API_OPTIONS = "?units=metric&lang=fr&appid="
     }
 
     fun getWeatherData(city: String): OpenWeatherWeatherResponse {
-        val url = "$weatherApiUrl$weatherEndpoint$apiOptions$openWeatherMapKey&q=$city"
+        val url = "$weatherApiUrl$WEATHER_ENDPOINT$API_OPTIONS$openWeatherMapKey&q=$city"
         return restClient.getDataFromProxy(url, OpenWeatherWeatherResponse::class)
     }
 
     fun getForecastData(city: String): OpenWeatherForecastResponse {
-        val url = "$weatherApiUrl$forecastEndpoint$apiOptions$openWeatherMapKey&q=$city"
+        val url = "$weatherApiUrl$FORECAST_ENDPOINT$API_OPTIONS$openWeatherMapKey&q=$city"
         return restClient.getDataFromProxy(url, OpenWeatherForecastResponse::class)
     }
 }

@@ -14,8 +14,11 @@ class ExpensePersistenceAdapter(
     private val expenseRepository: ExpenseRepository,
     private val labelRepository: LabelRepository
 ) {
-
-    fun getExpensesByInterval(startIntervalDate: LocalDate, endIntervalDate: LocalDate, authenticatedUserId: Int): List<ExpenseDomain> =
+    fun getExpensesByInterval(
+        startIntervalDate: LocalDate,
+        endIntervalDate: LocalDate,
+        authenticatedUserId: Int
+    ): List<ExpenseDomain> =
         expenseRepository.findAllByLabelUserIdAndExpenseDateBetweenOrderByExpenseDateAsc(authenticatedUserId, startIntervalDate, endIntervalDate)
             .map(ExpenseEntity::toDomain)
 
@@ -25,7 +28,10 @@ class ExpensePersistenceAdapter(
     fun getUserTotalExpensesByMonth(authenticatedUserId: Int): List<TotalExpenseByMonthDomain> =
         expenseRepository.getTotalExpensesByMonth(authenticatedUserId).map(TotalExpenseByMonthEntity::toDomain)
 
-    fun getUserTotalExpensesByMonthByLabelId(labelId: Int, authenticatedUserId: Int): List<TotalExpenseByMonthDomain> =
+    fun getUserTotalExpensesByMonthByLabelId(
+        labelId: Int,
+        authenticatedUserId: Int
+    ): List<TotalExpenseByMonthDomain> =
         expenseRepository.getTotalExpensesByMonthByLabelId(labelId, authenticatedUserId).map(TotalExpenseByMonthEntity::toDomain)
 
     fun insertExpense(expense: ExpenseDomain): ExpenseDomain {

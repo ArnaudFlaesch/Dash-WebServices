@@ -8,7 +8,6 @@ import org.springframework.web.client.RestClientException
 import java.io.IOException
 
 class ErrorHandler : ResponseErrorHandler {
-
     companion object {
         @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Bad request")
         class BadRequestException : Exception()

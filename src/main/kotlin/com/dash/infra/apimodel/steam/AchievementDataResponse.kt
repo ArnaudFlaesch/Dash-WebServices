@@ -10,9 +10,10 @@ data class AchievementDataResponse(
 ) {
     fun toDomain(): AchievementDataDomain =
         AchievementDataDomain(
-            playerstats = PlayerStatsDomain(
-                achievements = this.playerstats.achievements.map(AchievementResponse::toDomain)
-            )
+            playerstats =
+                PlayerStatsDomain(
+                    achievements = this.playerstats.achievements.map(AchievementResponse::toDomain)
+                )
         )
 }
 

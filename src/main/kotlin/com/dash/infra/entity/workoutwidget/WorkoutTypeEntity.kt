@@ -12,10 +12,8 @@ data class WorkoutTypeEntity(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "workout-type-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
-
     @Column(name = "name")
     val name: String,
-
     @ManyToOne(optional = true)
     @JoinColumn(name = "userId")
     val user: UserEntity

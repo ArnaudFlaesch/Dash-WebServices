@@ -19,6 +19,5 @@ data class PlayerDataApi(
     val profileurl: String = "",
     val avatar: String = ""
 ) {
-    fun toDomain(): PlayerDataDomain =
-        PlayerDataDomain(personaname = this.personaname, avatar = this.avatar, profileurl = this.profileurl)
+    fun toDomain(): PlayerDataDomain = PlayerDataDomain(personaname = this.personaname, avatar = this.avatar, profileurl = this.profileurl)
 }

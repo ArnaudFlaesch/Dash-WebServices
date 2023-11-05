@@ -24,25 +24,26 @@ class AuthController(
     private val authenticationManager: AuthenticationManager,
     private val jwtUtils: JwtUtils
 ) {
-
     @PostMapping("/login")
     fun authenticateUser(
         @Valid
         @RequestBody
         loginRequest: LoginRequest
     ): JwtResponse {
-        val authentication = authenticationManager.authenticate(
-            UsernamePasswordAuthenticationToken(loginRequest.username, loginRequest.password)
-        )
+        val authentication =
+            authenticationManager.authenticate(
+                UsernamePasswordAuthenticationToken(loginRequest.username, loginRequest.password)
+            )
 
         SecurityContextHolder.getContext().authentication = authentication
         val jwt = jwtUtils.generateJwtToken(authentication)
         val userDetails = authentication.principal as UserDetailsImpl
 
         applicationEventPublisher.publishEvent(DashEvent(this, Constants.USER_LOGGED_IN_EVENT, NotificationType.WARN))
-        val roles = userDetails.authorities.stream()
-            .map { item: GrantedAuthority -> item.authority }
-            .collect(Collectors.toList())
+        val roles =
+            userDetails.authorities.stream()
+                .map { item: GrantedAuthority -> item.authority }
+                .collect(Collectors.toList())
 
         return JwtResponse(jwt, userDetails.id, userDetails.username, userDetails.email, roles)
     }

@@ -18,7 +18,6 @@ class AuthTokenFilter(
     private val jwtUtils: JwtUtils,
     private val userDetailsService: UserDetailsService
 ) : OncePerRequestFilter() {
-
     companion object {
         private val logger = LoggerFactory.getLogger(this::class.java.name)
     }
@@ -34,11 +33,12 @@ class AuthTokenFilter(
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 val username: String = jwtUtils.getUserNameFromJwtToken(jwt)
                 val userDetails = userDetailsService.loadUserByUsername(username)
-                val authentication = UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    null,
-                    userDetails.authorities
-                )
+                val authentication =
+                    UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.authorities
+                    )
                 authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
                 SecurityContextHolder.getContext().authentication = authentication
             }

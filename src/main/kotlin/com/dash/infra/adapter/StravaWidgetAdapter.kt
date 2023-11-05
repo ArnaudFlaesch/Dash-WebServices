@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component
 class StravaWidgetAdapter(
     private val stravaApiClient: StravaApiClient
 ) {
-
     fun getToken(apiCode: String): StravaTokenDataDomain {
         val getTokenResponse = stravaApiClient.getToken(apiCode)
         return getTokenResponse.toDomain()
@@ -27,7 +26,11 @@ class StravaWidgetAdapter(
         return getAthleteResponse.toDomain()
     }
 
-    fun getAthleteActivities(token: String, pageNumber: Int, numberOfActivities: Int): List<StravaActivityDomain> {
+    fun getAthleteActivities(
+        token: String,
+        pageNumber: Int,
+        numberOfActivities: Int
+    ): List<StravaActivityDomain> {
         val getAthleteActivitiesResponse = stravaApiClient.getAthleteActivities(token, pageNumber, numberOfActivities)
         return getAthleteActivitiesResponse.map(StravaActivityResponse::toDomain)
     }

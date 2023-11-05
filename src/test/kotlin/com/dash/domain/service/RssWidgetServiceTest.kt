@@ -17,7 +17,6 @@ import java.net.URI
 
 @SpringBootTest
 class RssWidgetServiceTest : AbstractIT() {
-
     @Autowired
     private lateinit var rssWidgetService: RssWidgetService
 
@@ -28,10 +27,11 @@ class RssWidgetServiceTest : AbstractIT() {
     fun testGetRequest() {
         val url = "http://thelastpictureshow.over-blog.com/rss"
 
-        val mockedResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-            "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:media=\"http://search.yahoo.com/mrss/\">\n" +
-            "    <channel></channel>\n" +
-            "</rss>"
+        val mockedResponse =
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:media=\"http://search.yahoo.com/mrss/\">\n" +
+                "    <channel></channel>\n" +
+                "</rss>"
 
         Mockito.`when`(restTemplate.exchange(URI.create(url), HttpMethod.GET, null, String::class.java))
             .thenReturn(ResponseEntity(mockedResponse, HttpStatus.OK))

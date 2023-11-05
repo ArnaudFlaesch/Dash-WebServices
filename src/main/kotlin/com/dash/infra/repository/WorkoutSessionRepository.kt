@@ -7,7 +7,6 @@ import java.time.LocalDate
 
 @Repository
 interface WorkoutSessionRepository : JpaRepository<WorkoutSessionEntity, Int> {
-
     fun findByUserIdAndWorkoutDateBetweenOrderByWorkoutDateAsc(
         userId: Int,
         dateIntervalStart: LocalDate,

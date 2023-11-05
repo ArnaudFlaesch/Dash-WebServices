@@ -22,19 +22,19 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class WidgetControllerTests : AbstractIT() {
-
     @LocalServerPort
     private val port: Int = 0
 
     private lateinit var jwtToken: String
 
-    private val WIDGET_ENDPOINT = "/widget/"
+    companion object {
+        const val WIDGET_ENDPOINT = "/widget/"
+    }
 
     @Nested
     @DisplayName("Widget normal cases tests")
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class WidgetNormalCases {
-
         @BeforeAll
         fun testUp() {
             defaultParser = Parser.JSON
@@ -43,14 +43,15 @@ class WidgetControllerTests : AbstractIT() {
 
         @Test
         fun testGetAllWidgetsByTabId() {
-            val widgetDomainList = given().port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .param("tabId", 1)
-                .`when`().get(WIDGET_ENDPOINT)
-                .then().log().all()
-                .statusCode(200)
-                .log().all()
-                .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
+            val widgetDomainList =
+                given().port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .param("tabId", 1)
+                    .`when`().get(WIDGET_ENDPOINT)
+                    .then().log().all()
+                    .statusCode(200)
+                    .log().all()
+                    .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
             assertEquals(2, widgetDomainList.size)
         }
 
@@ -58,37 +59,40 @@ class WidgetControllerTests : AbstractIT() {
         fun insertWidgetToDatabase() {
             val widget = CreateWidgetPayload(2, 1)
 
-            val insertedWidgetDomain: WidgetDomain = given()
-                .contentType(ContentType.JSON)
-                .header(createAuthenticationHeader(jwtToken))
-                .port(port)
-                .body(widget)
-                .`when`()
-                .post("${WIDGET_ENDPOINT}addWidget")
-                .then().log().all()
-                .statusCode(200)
-                .extract().`as`(WidgetDomain::class.java)
+            val insertedWidgetDomain: WidgetDomain =
+                given()
+                    .contentType(ContentType.JSON)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .port(port)
+                    .body(widget)
+                    .`when`()
+                    .post("${WIDGET_ENDPOINT}addWidget")
+                    .then().log().all()
+                    .statusCode(200)
+                    .extract().`as`(WidgetDomain::class.java)
 
             assertNotNull(insertedWidgetDomain.id)
             assertEquals(insertedWidgetDomain.type, widget.type)
 
-            val widgetDomainList = given().port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .param("tabId", 1)
-                .`when`().get(WIDGET_ENDPOINT).then().log().all()
-                .statusCode(200).log().all()
-                .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
+            val widgetDomainList =
+                given().port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .param("tabId", 1)
+                    .`when`().get(WIDGET_ENDPOINT).then().log().all()
+                    .statusCode(200).log().all()
+                    .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
             assertEquals(3, widgetDomainList.size)
 
-            val updatedWidgetDomain: WidgetDomain = given()
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .port(port)
-                .body(insertedWidgetDomain.copy(widgetOrder = 0, data = "{}")).`when`()
-                .patch("${WIDGET_ENDPOINT}updateWidgetData/${insertedWidgetDomain.id}")
-                .then().log().all()
-                .statusCode(200)
-                .extract().`as`(WidgetDomain::class.java)
+            val updatedWidgetDomain: WidgetDomain =
+                given()
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .port(port)
+                    .body(insertedWidgetDomain.copy(widgetOrder = 0, data = "{}")).`when`()
+                    .patch("${WIDGET_ENDPOINT}updateWidgetData/${insertedWidgetDomain.id}")
+                    .then().log().all()
+                    .statusCode(200)
+                    .extract().`as`(WidgetDomain::class.java)
 
             assertEquals("{}", updatedWidgetDomain.data)
 
@@ -100,13 +104,14 @@ class WidgetControllerTests : AbstractIT() {
                 .then().log().all()
                 .statusCode(200)
 
-            val updatedWidgetListDomain = given()
-                .header(createAuthenticationHeader(jwtToken))
-                .port(port)
-                .param("tabId", 1)
-                .`when`().get(WIDGET_ENDPOINT).then().log().all()
-                .statusCode(200).log().all()
-                .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
+            val updatedWidgetListDomain =
+                given()
+                    .header(createAuthenticationHeader(jwtToken))
+                    .port(port)
+                    .param("tabId", 1)
+                    .`when`().get(WIDGET_ENDPOINT).then().log().all()
+                    .statusCode(200).log().all()
+                    .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
             assertEquals(2, updatedWidgetListDomain.size)
         }
 
@@ -115,23 +120,25 @@ class WidgetControllerTests : AbstractIT() {
             val firstWidget = CreateWidgetPayload(2, 1)
             val secondWidget = CreateWidgetPayload(3, 1)
 
-            val firstInsertedWidgetDomain: WidgetDomain = given()
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .port(port)
-                .body(firstWidget).`when`().post("${WIDGET_ENDPOINT}addWidget")
-                .then().log().all()
-                .statusCode(200)
-                .extract().`as`(WidgetDomain::class.java)
+            val firstInsertedWidgetDomain: WidgetDomain =
+                given()
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .port(port)
+                    .body(firstWidget).`when`().post("${WIDGET_ENDPOINT}addWidget")
+                    .then().log().all()
+                    .statusCode(200)
+                    .extract().`as`(WidgetDomain::class.java)
 
-            val secondInsertedWidgetDomain: WidgetDomain = given()
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .port(port)
-                .body(secondWidget).`when`().post("${WIDGET_ENDPOINT}addWidget")
-                .then().log().all()
-                .statusCode(200)
-                .extract().`as`(WidgetDomain::class.java)
+            val secondInsertedWidgetDomain: WidgetDomain =
+                given()
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .port(port)
+                    .body(secondWidget).`when`().post("${WIDGET_ENDPOINT}addWidget")
+                    .then().log().all()
+                    .statusCode(200)
+                    .extract().`as`(WidgetDomain::class.java)
 
             assertNotNull(firstInsertedWidgetDomain.id)
             assertEquals(firstInsertedWidgetDomain.type, firstWidget.type)
@@ -139,20 +146,21 @@ class WidgetControllerTests : AbstractIT() {
             assertNotNull(secondInsertedWidgetDomain.id)
             assertEquals(secondInsertedWidgetDomain.type, secondWidget.type)
 
-            val updatedWidgetList: List<WidgetDomain> = given()
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .port(port)
-                .body(
-                    listOf(
-                        firstInsertedWidgetDomain.copy(widgetOrder = 2),
-                        secondInsertedWidgetDomain.copy(widgetOrder = 3)
+            val updatedWidgetList: List<WidgetDomain> =
+                given()
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .port(port)
+                    .body(
+                        listOf(
+                            firstInsertedWidgetDomain.copy(widgetOrder = 2),
+                            secondInsertedWidgetDomain.copy(widgetOrder = 3)
+                        )
                     )
-                )
-                .`when`().post("${WIDGET_ENDPOINT}updateWidgetsOrder")
-                .then().log().all()
-                .statusCode(200)
-                .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
+                    .`when`().post("${WIDGET_ENDPOINT}updateWidgetsOrder")
+                    .then().log().all()
+                    .statusCode(200)
+                    .extract().`as`(object : TypeRef<List<WidgetDomain>>() {})
 
             assertEquals(2, updatedWidgetList.size)
             assertEquals(2, updatedWidgetList[0].widgetOrder)
@@ -166,7 +174,6 @@ class WidgetControllerTests : AbstractIT() {
     @DisplayName("Widget edge cases tests")
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class WidgetEdgeCases {
-
         @BeforeAll
         fun testUp() {
             defaultParser = Parser.JSON
