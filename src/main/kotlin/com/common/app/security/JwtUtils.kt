@@ -1,6 +1,7 @@
 package com.common.app.security
 
 import io.jsonwebtoken.*
+import io.jsonwebtoken.security.SignatureException
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
@@ -22,11 +23,11 @@ class JwtUtils {
             .compact()
     }
 
-    fun getUserNameFromJwtToken(token: String): String = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).body.subject
+    fun getUserNameFromJwtToken(token: String): String = Jwts.parser().setSigningKey(jwtSecret).build().parseSignedClaims(token).payload.subject
 
     fun validateJwtToken(authToken: String?): Boolean {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken)
+            Jwts.parser().setSigningKey(jwtSecret).build().parseSignedClaims(authToken)
             return true
         } catch (e: SignatureException) {
             logger.error("Invalid JWT signature: {}", e.message)
