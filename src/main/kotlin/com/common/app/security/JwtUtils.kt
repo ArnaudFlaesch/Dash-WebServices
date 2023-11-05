@@ -1,15 +1,12 @@
 package com.common.app.security
 
 import io.jsonwebtoken.*
-import io.jsonwebtoken.io.Decoders
-import io.jsonwebtoken.security.Keys
 import io.jsonwebtoken.security.SignatureException
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import java.util.*
-import javax.crypto.SecretKey
 
 @Component
 class JwtUtils {
@@ -26,9 +23,7 @@ class JwtUtils {
             .compact()
     }
 
-    fun getUserNameFromJwtToken(token: String): String =
-        Jwts.parser().setSigningKey(jwtSecret).build().parseSignedClaims(token).payload.subject
-
+    fun getUserNameFromJwtToken(token: String): String = Jwts.parser().setSigningKey(jwtSecret).build().parseSignedClaims(token).payload.subject
 
     fun validateJwtToken(authToken: String?): Boolean {
         try {
