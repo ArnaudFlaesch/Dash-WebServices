@@ -6,6 +6,7 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ArnaudFlaesch_Dash-WebServices&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ArnaudFlaesch_Dash-WebServices)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ArnaudFlaesch_Dash-WebServices&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=ArnaudFlaesch_Dash-WebServices)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ArnaudFlaesch_Dash-WebServices&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ArnaudFlaesch_Dash-WebServices)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/a596f0ee2ba346fe8fdce1381476f078)](https://app.codacy.com/gh/ArnaudFlaesch/Dash-WebServices/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 ## Description
 
