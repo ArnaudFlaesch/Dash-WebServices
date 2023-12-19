@@ -57,7 +57,7 @@ jobs:
 
       # Re enable when new version of plugin is released
       - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         if: failure() #success() && github.ref == 'refs/heads/master'
         with:
           path: ./swagger-ui
