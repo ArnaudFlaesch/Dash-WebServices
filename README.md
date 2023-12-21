@@ -45,17 +45,17 @@ principalement des clés d'API pour accéder à des services externes.
 | STRAVA_CLIENT_SECRET               | <https://www.strava.com/settings/api>                                 |
 | AIRPARIF_API_TOKEN                 | <https://www.airparif.asso.fr/interface-de-programmation-applicative> |
 
-  - Démarrage du projet
+- Démarrage du projet
 
   > ./gradlew bootRun
 
 ## Commandes utiles
 
-  - Exécution des tests
+- Exécution des tests
 
 > ./gradlew test
 
-  - Lint des fichiers sources
+- Lint des fichiers sources
 
 > ./gradlew lintKotlin
 
