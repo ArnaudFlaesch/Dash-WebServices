@@ -10,5 +10,5 @@ INSERT INTO public.widget_type (description, config) VALUES ('ECOWATT', '[]');
 
 INSERT INTO public.mini_widget_type (description, config) VALUES ('WEATHER', '["weather_api_key", "city"]');
 
-INSERT INTO public.roles(name) values('ROLE_USER');
-INSERT INTO public.roles(name) values('ROLE_ADMIN');
+INSERT INTO public.roles (name) values('ROLE_USER');
+INSERT INTO public.roles (name) values('ROLE_ADMIN');
