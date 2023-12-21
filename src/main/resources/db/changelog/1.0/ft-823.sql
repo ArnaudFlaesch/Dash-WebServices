@@ -1,6 +1,6 @@
 -- FT 823 Incident Widget
 
-insert into widget_type (description, config) values ('INCIDENT', '["incidentName"]');
+INSERT INTO public.widget_type (description, config) VALUES ('INCIDENT', '["incidentName"]');
 
 create sequence IF NOT EXISTS public.incident_id_seq
     AS integer

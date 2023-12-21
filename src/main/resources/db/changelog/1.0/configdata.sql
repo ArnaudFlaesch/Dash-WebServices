@@ -1,14 +1,14 @@
-insert into widget_type (description, config) values ('WEATHER', '["weather_api_key", "city"]');
-insert into widget_type (description, config) values ('RSS', '["url"]');
-insert into widget_type (description, config) values ('CALENDAR', '[{"calendars": "list"}]');
-insert into widget_type (description, config) values ('STRAVA', '["clientId", "clientSecret"]');
-insert into widget_type (description, config) values ('STEAM', '["steamUserId"]');
-insert into widget_type (description, config) values ('WORKOUT', '{}');
-insert into widget_type (description, config) values ('AIRPARIF', '["airParifApiKey", "communeInseeCode"]');
-insert into widget_type (description, config) values ('TWITTER', '["twitterHandle"]');
-insert into widget_type (description, config) values ('ECOWATT', '[]');
+INSERT INTO public.widget_type (description, config) VALUES ('WEATHER', '["weather_api_key", "city"]');
+INSERT INTO public.widget_type (description, config) VALUES ('RSS', '["url"]');
+INSERT INTO public.widget_type (description, config) VALUES ('CALENDAR', '[{"calendars": "list"}]');
+INSERT INTO public.widget_type (description, config) VALUES ('STRAVA', '["clientId", "clientSecret"]');
+INSERT INTO public.widget_type (description, config) VALUES ('STEAM', '["steamUserId"]');
+INSERT INTO public.widget_type (description, config) VALUES ('WORKOUT', '{}');
+INSERT INTO public.widget_type (description, config) VALUES ('AIRPARIF', '["airParifApiKey", "communeInseeCode"]');
+INSERT INTO public.widget_type (description, config) VALUES ('TWITTER', '["twitterHandle"]');
+INSERT INTO public.widget_type (description, config) VALUES ('ECOWATT', '[]');
 
-insert into mini_widget_type (description, config) values ('WEATHER', '["weather_api_key", "city"]');
+INSERT INTO public.mini_widget_type (description, config) VALUES ('WEATHER', '["weather_api_key", "city"]');
 
-insert into roles(name) values('ROLE_USER');
-insert into roles(name) values('ROLE_ADMIN');
+INSERT INTO public.roles (name) values('ROLE_USER');
+INSERT INTO public.roles (name) values('ROLE_ADMIN');
