@@ -22,7 +22,7 @@ val hibernateTypesVersion = "2.21.1"
 val testContainersVersion = "1.19.3"
 
 plugins {
-    val kotlinPluginVersion = "1.9.21"
+    val kotlinPluginVersion = "1.9.22"
     val springBootPluginVersion = "3.2.0"
     val springDependencyManagementPluginVersion = "1.1.4"
     val kotlinterPluginVersion = "4.1.0"
