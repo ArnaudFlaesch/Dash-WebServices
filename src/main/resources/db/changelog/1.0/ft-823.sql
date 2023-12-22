@@ -12,7 +12,7 @@ create sequence IF NOT EXISTS PUBLIC.incident_id_seq
 
 create table if not exists PUBLIC.incident (
     id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('PUBLIC.incident_id_seq'::regclass),
-    last_incident_date date,
+    last_incident_date DATE,
     widget_id INTEGER REFERENCES widget (id)
 );
 
@@ -26,7 +26,7 @@ create sequence IF NOT EXISTS PUBLIC.incident_streak_id_seq
 
 create table if not exists PUBLIC.incident_streak (
     id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('PUBLIC.incident_streak_id_seq'::regclass),
-    streak_start_date date,
-    streak_end_date date,
+    streak_start_date DATE,
+    streak_end_date DATE,
     incident_id INTEGER REFERENCES incident (id)
 );
