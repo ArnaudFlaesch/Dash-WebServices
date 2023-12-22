@@ -1,5 +1,5 @@
 CREATE SEQUENCE IF NOT EXISTS public.role_id_seq
-    AS integer
+    AS INTEGER
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -7,12 +7,12 @@ CREATE SEQUENCE IF NOT EXISTS public.role_id_seq
     CACHE 1;
 
 CREATE TABLE IF NOT EXISTS roles (
-    id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.role_id_seq'::regclass),
-    name character varying
+    id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('public.role_id_seq'::regclass),
+    name CHARACTER VARYING
 );
 
 CREATE SEQUENCE IF NOT EXISTS public.user_id_seq
-    AS integer
+    AS INTEGER
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -20,10 +20,10 @@ CREATE SEQUENCE IF NOT EXISTS public.user_id_seq
     CACHE 1;
 
 CREATE TABLE IF NOT EXISTS users (
-    id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.user_id_seq'::regclass),
-    username character varying,
-    password character varying,
-    email character varying,
-    role_id integer REFERENCES roles (id),
+    id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('public.user_id_seq'::regclass),
+    username CHARACTER VARYING,
+    password CHARACTER VARYING,
+    email CHARACTER VARYING,
+    role_id INTEGER REFERENCES roles (id),
     CONSTRAINT UK_username UNIQUE (username)
 );
