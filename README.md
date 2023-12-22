@@ -30,7 +30,7 @@ accessible à l'addresse : <https://dash-webservices.herokuapp.com/>.
 - Démarrage de la base de données
 
   > docker run -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash
-  postgres:13.2-alpine
+  > postgres:13.2-alpine
 
 - Variables d'environnement
 
