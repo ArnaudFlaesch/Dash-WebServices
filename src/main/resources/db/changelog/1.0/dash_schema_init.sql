@@ -1,7 +1,7 @@
 -- Database structure and widgets config
 
 CREATE SEQUENCE IF NOT EXISTS public.widget_type_id_seq
-    AS integer
+    AS INTEGER
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -15,7 +15,7 @@ CREATE TABLE widget_type (
 );
 
 CREATE SEQUENCE IF NOT EXISTS public.mini_widget_type_id_seq
-    AS integer
+    AS INTEGER
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -29,7 +29,7 @@ CREATE TABLE mini_widget_type (
 );
 
 CREATE SEQUENCE IF NOT EXISTS public.tab_id_seq
-    AS integer
+    AS INTEGER
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -37,14 +37,14 @@ CREATE SEQUENCE IF NOT EXISTS public.tab_id_seq
     CACHE 1;
 
 CREATE TABLE IF NOT EXISTS public.tab (
-    id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.tab_id_seq'::regclass),
-    label character varying,
-    tab_order integer,
-    user_id integer REFERENCES users (id)
+    id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('public.tab_id_seq'::regclass),
+    label CHARACTER VARYING,
+    tab_order INTEGER,
+    user_id INTEGER REFERENCES users (id)
 );
 
 CREATE SEQUENCE IF NOT EXISTS public.widget_id_seq
-    AS integer
+    AS INTEGER
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -52,15 +52,15 @@ CREATE SEQUENCE IF NOT EXISTS public.widget_id_seq
     CACHE 1;
 
 CREATE TABLE IF NOT EXISTS public.widget (
-    id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.widget_id_seq'::regclass),
-    type integer REFERENCES widget_type (id),
+    id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('public.widget_id_seq'::regclass),
+    type INTEGER REFERENCES widget_type (id),
     data jsonb,
-    widget_order integer,
-    tab_id integer REFERENCES tab (id)
+    widget_order INTEGER,
+    tab_id INTEGER REFERENCES tab (id)
 );
 
 CREATE SEQUENCE IF NOT EXISTS public.mini_widget_id_seq
-    AS integer
+    AS INTEGER
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -68,16 +68,16 @@ CREATE SEQUENCE IF NOT EXISTS public.mini_widget_id_seq
     CACHE 1;
 
 CREATE TABLE IF NOT EXISTS public.mini_widget (
-    id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.mini_widget_id_seq'::regclass),
-    type integer REFERENCES mini_widget_type (id),
+    id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('public.mini_widget_id_seq'::regclass),
+    type INTEGER REFERENCES mini_widget_type (id),
     data jsonb,
-    user_id integer REFERENCES users (id)
+    user_id INTEGER REFERENCES users (id)
 );
 
 -- Workout Widget
 
 CREATE SEQUENCE IF NOT EXISTS public.workout_type_id_seq
-    AS integer
+    AS INTEGER
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -85,13 +85,13 @@ CREATE SEQUENCE IF NOT EXISTS public.workout_type_id_seq
     CACHE 1;
 
 CREATE TABLE IF NOT EXISTS public.workout_type (
-    id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.workout_type_id_seq'::regclass),
-    name character varying,
-    user_id integer REFERENCES users (id)
+    id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('public.workout_type_id_seq'::regclass),
+    name CHARACTER VARYING,
+    user_id INTEGER REFERENCES users (id)
 );
 
 CREATE SEQUENCE IF NOT EXISTS public.workout_session_id_seq
-    AS integer
+    AS INTEGER
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -99,21 +99,21 @@ CREATE SEQUENCE IF NOT EXISTS public.workout_session_id_seq
     CACHE 1;
 
 CREATE TABLE IF NOT EXISTS public.workout_session (
-    id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.workout_session_id_seq'::regclass),
+    id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('public.workout_session_id_seq'::regclass),
     workout_date timestamp,
-    user_id integer REFERENCES users (id)
+    user_id INTEGER REFERENCES users (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.workout_exercise (
-    workout_session_id integer REFERENCES public.workout_session (id),
-    workout_type_id integer REFERENCES public.workout_type (id),
-    number_of_reps integer NOT NULL DEFAULT 0
+    workout_session_id INTEGER REFERENCES public.workout_session (id),
+    workout_type_id INTEGER REFERENCES public.workout_type (id),
+    number_of_reps INTEGER NOT NULL DEFAULT 0
 );
 
 -- Twitter Widget
 
 CREATE SEQUENCE IF NOT EXISTS public.followed_user_id_seq
-    AS integer
+    AS INTEGER
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -121,15 +121,15 @@ CREATE SEQUENCE IF NOT EXISTS public.followed_user_id_seq
     CACHE 1;
 
 CREATE TABLE IF NOT EXISTS public.followed_user (
-    id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.followed_user_id_seq'::regclass),
-    user_handle character varying,
-    user_id integer REFERENCES users (id)
+    id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('public.followed_user_id_seq'::regclass),
+    user_handle CHARACTER VARYING,
+    user_id INTEGER REFERENCES users (id)
 );
 
 -- Notifications
 
 CREATE SEQUENCE IF NOT EXISTS public.notification_id_seq
-    AS integer
+    AS INTEGER
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -137,9 +137,9 @@ CREATE SEQUENCE IF NOT EXISTS public.notification_id_seq
     CACHE 1;
 
 CREATE TABLE IF NOT EXISTS public.notification (
-    id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.notification_id_seq'::regclass),
-    message character varying,
+    id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('public.notification_id_seq'::regclass),
+    message CHARACTER VARYING,
     notification_date timestamptz,
-    notification_type character varying,
+    notification_type CHARACTER VARYING,
     is_read boolean DEFAULT false
 );
