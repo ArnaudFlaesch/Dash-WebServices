@@ -83,6 +83,12 @@ jobs:
       - name: Report coverage for Codecov
         uses: codecov/codecov-action@v3
 
+      - name : Report coverage for Codacy
+        run: |
+          bash <(curl -Ls https://coverage.codacy.com/get.sh)
+        env:
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:

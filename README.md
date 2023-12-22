@@ -7,6 +7,7 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ArnaudFlaesch_Dash-WebServices&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=ArnaudFlaesch_Dash-WebServices)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ArnaudFlaesch_Dash-WebServices&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ArnaudFlaesch_Dash-WebServices)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/a596f0ee2ba346fe8fdce1381476f078)](https://app.codacy.com/gh/ArnaudFlaesch/Dash-WebServices/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/a596f0ee2ba346fe8fdce1381476f078)](https://app.codacy.com/gh/ArnaudFlaesch/Dash-WebServices/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 
 ## Description
 
@@ -25,12 +26,12 @@ accessible à l'addresse : <https://dash-webservices.herokuapp.com/>.
 
 - Récupération de l'image Docker de la base de données
 
-  > docker pull postgres:13.2-alpine
+> docker pull postgres:13.2-alpine
 
 - Démarrage de la base de données
 
-  > docker run -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash
-  > postgres:13.2-alpine
+> docker run -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash
+> postgres:13.2-alpine
 
 - Variables d'environnement
 
@@ -47,7 +48,7 @@ principalement des clés d'API pour accéder à des services externes.
 
 - Démarrage du projet
 
-  > ./gradlew bootRun
+> ./gradlew bootRun
 
 ## Commandes utiles
 
