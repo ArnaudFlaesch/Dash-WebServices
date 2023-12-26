@@ -19,7 +19,7 @@ class WeatherWidgetAdapterTests {
     private lateinit var weatherWidgetAdapter: WeatherWidgetAdapter
 
     @Test
-    fun should_return_weather_data() {
+    fun shouldReturnWeatherData() {
         val city = "Paris"
 
         val weatherListResponse = listOf(Weather(icon = "sunny"), Weather(icon = "cloudy"))
@@ -32,7 +32,7 @@ class WeatherWidgetAdapterTests {
     }
 
     @Test
-    fun should_return_forecast_data() {
+    fun shouldReturnForecastData() {
         val city = "Paris"
 
         val cityResponse = CityResponse(name = city, country = "France")

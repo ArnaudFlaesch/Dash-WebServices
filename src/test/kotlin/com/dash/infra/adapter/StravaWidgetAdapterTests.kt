@@ -19,7 +19,7 @@ class StravaWidgetAdapterTests {
     private lateinit var stravaWidgetAdapter: StravaWidgetAdapter
 
     @Test
-    fun should_return_strava_activities_data() {
+    fun shouldReturnStravaActivitiesData() {
         val token = "token"
         val pageNumber = 1
         val numberOfActivities = 25

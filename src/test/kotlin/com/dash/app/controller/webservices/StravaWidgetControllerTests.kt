@@ -48,7 +48,7 @@ class StravaWidgetControllerTests : AbstractIT() {
     inner class GetTokenTests {
         @ParameterizedTest
         @MethodSource("testGetTokenArguments")
-        fun should_get_token(
+        fun shouldGetToken(
             token: String,
             statusCode: Int
         ) {
@@ -75,7 +75,7 @@ class StravaWidgetControllerTests : AbstractIT() {
     inner class GetRefreshTokenTests {
         @ParameterizedTest
         @MethodSource("testGetRefreshTokenArguments")
-        fun should_get_refresh_token(
+        fun shouldGetRefreshToken(
             token: String,
             statusCode: Int
         ) {
@@ -101,7 +101,7 @@ class StravaWidgetControllerTests : AbstractIT() {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class GetAthleteDataTests {
         @Test
-        fun should_get_athlete_data() {
+        fun shouldGetAthleteData() {
             val actual =
                 given()
                     .port(port)
@@ -125,7 +125,7 @@ class StravaWidgetControllerTests : AbstractIT() {
     inner class GetAthleteActivitiesTests {
         @ParameterizedTest
         @MethodSource("getActivitiesArguments")
-        fun should_get_athlete_activities(
+        fun shouldGetAthleteActivities(
             params: Map<String, Any>,
             expectedSize: Int
         ) {

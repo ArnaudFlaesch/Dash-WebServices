@@ -47,7 +47,7 @@ class NotificationControllerTests : AbstractIT() {
     }
 
     @Test
-    fun should_get_notifications_and_marked_as_read() {
+    fun shouldGetNotificationsAndMarkAsRead() {
         val actualNotifications =
             given()
                 .port(port)
