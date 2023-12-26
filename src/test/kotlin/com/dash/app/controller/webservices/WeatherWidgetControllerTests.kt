@@ -62,7 +62,7 @@ class WeatherWidgetControllerTests : AbstractIT() {
         fun testGetTokenArguments(): Stream<Arguments> = testTokenArguments(jwtToken)
 
         @Test
-        fun should_get_weather_data() {
+        fun shouldGetWeatherData() {
             val actual =
                 given()
                     .port(port)
@@ -84,7 +84,7 @@ class WeatherWidgetControllerTests : AbstractIT() {
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class GetForecastTests {
         @Test
-        fun should_get_forecast_data() {
+        fun shouldGetForecastData() {
             val actual =
                 given()
                     .port(port)

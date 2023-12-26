@@ -21,7 +21,7 @@ class SteamWidgetAdapterTests {
     private lateinit var steamWidgetAdapter: SteamWidgetAdapter
 
     @Test
-    fun should_get_player_data() {
+    fun shouldGetPlayerData() {
         val steamUserId = "1337"
         val playerDataResponse = PlayerDataApi(personaname = "Nono", profileurl = "steam/nono", avatar = "profile.png")
         given(steamApiClient.getPlayerData(steamUserId)).willReturn(
@@ -33,7 +33,7 @@ class SteamWidgetAdapterTests {
     }
 
     @Test
-    fun should_paginate_results() {
+    fun shouldPaginateResults() {
         val steamUserId = "1337"
         val gamesListMock = createGameListFromApi(0, 50)
         val gameInfoResponseMock = GameInfoResponse(GameDataApi(50, gamesListMock))
