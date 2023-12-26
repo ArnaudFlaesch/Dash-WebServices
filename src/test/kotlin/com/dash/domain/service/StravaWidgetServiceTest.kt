@@ -1,4 +1,4 @@
-package com.dash.domain.service
+thépackage com.dash.domain.service
 
 import com.common.utils.AbstractIT
 import com.dash.app.controller.ErrorHandler
@@ -23,7 +23,7 @@ class StravaWidgetServiceTest : AbstractIT() {
     private lateinit var stravaWidgetService: StravaWidgetService
 
     @Test
-    fun should_return_empty_strava_refresh_token_data() {
+    fun shouldReturnEmptyStravaRefreshTokenData() {
         Mockito.`when`(restTemplate.exchange(URI.create("url"), HttpMethod.POST, null, String::class.java))
             .thenReturn(ResponseEntity(HttpStatus.OK))
 
