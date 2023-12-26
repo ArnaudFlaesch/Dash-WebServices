@@ -23,7 +23,7 @@ class StravaWidgetServiceTest : AbstractIT() {
     private lateinit var stravaWidgetService: StravaWidgetService
 
     @Test
-    fun should_return_empty_strava_refresh_token_data() {
+    fun shouldReturnEmptyStravaRefreshTokenData() {
         Mockito.`when`(restTemplate.exchange(URI.create("url"), HttpMethod.POST, null, String::class.java))
             .thenReturn(ResponseEntity(HttpStatus.OK))
 
