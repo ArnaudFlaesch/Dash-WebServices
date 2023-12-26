@@ -1,4 +1,4 @@
-thépackage com.dash.domain.service
+package com.dash.domain.service
 
 import com.common.utils.AbstractIT
 import com.dash.app.controller.ErrorHandler
