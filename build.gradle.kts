@@ -25,7 +25,7 @@ plugins {
     val kotlinPluginVersion = "1.9.22"
     val springBootPluginVersion = "3.2.1"
     val springDependencyManagementPluginVersion = "1.1.4"
-    val kotlinterPluginVersion = "4.1.0"
+    val kotlinterPluginVersion = "4.1.1"
     val springDocGradlePluginVersion = "1.5.0"
 
     jacoco
