@@ -6,7 +6,7 @@ COPY ./src ./src
 RUN gradle assemble
 
 
-FROM eclipse-temurin:17.0.9_9-jre-alpine
+FROM eclipse-temurin:17.0.10_7-jre-alpine
 WORKDIR /dash-webservices
 EXPOSE 8080
 RUN adduser --system --no-create-home dockeruser
