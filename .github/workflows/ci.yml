@@ -81,7 +81,9 @@ jobs:
           path: build/reports/tests/test
 
       - name: Report coverage for Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name : Report coverage for Codacy
         run: |
