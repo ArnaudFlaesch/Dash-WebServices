@@ -1,10 +1,12 @@
 name: Health check
-on: [ "push" ]
+on:
+  schedule:
+    - cron: "*/15 * * * *"
 
 jobs:
-  stale:
+  health-check:
     runs-on: ubuntu-latest
     steps:
-      - name: REST API with curl
+      - name: Check that app is up
         run: |
           curl -X GET ${{ secrets.BACKEND_PROD_URL }}/actuator/health/
