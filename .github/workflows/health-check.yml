@@ -1,7 +1,5 @@
 name: Health check
-on:
-  schedule:
-    - cron: "*/15 * * * *"
+on: [ "push" ]
 
 jobs:
   stale:
