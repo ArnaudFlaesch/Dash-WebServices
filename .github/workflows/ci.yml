@@ -64,11 +64,8 @@ jobs:
 
       - name: Start mock server
         run: |
-          if [[ "$(git ls-remote --heads https://github.com/ArnaudFlaesch/Dash-MockServer ${GITHUB_REF#refs/*/} | wc -l)" == 1 && ${GITHUB_REF#refs/*/} != 'master' ]]; then
-            docker run -p 5000:5000 -d ghcr.io/arnaudflaesch/dash-mockserver:${GITHUB_REF#refs/*/}
-          else
-            docker run -p 5000:5000 -d ghcr.io/arnaudflaesch/dash-mockserver:latest
-          fi
+          [[ "$(git ls-remote --heads https://github.com/ArnaudFlaesch/Dash-MockServer ${{github.ref_name}} | wc -l)" == 1 && ${{github.ref_name}} != 'master' ]] && tagName=${{github.ref_name}} || tagName=latest
+          docker run -p 5000:5000 -d ghcr.io/arnaudflaesch/dash-mockserver:$tagName
 
       - name: Build with Gradle
         run: ./gradlew clean build -Dspring.profiles.active=test -Dspring.config.location=src/test/resources/application-test.properties
@@ -113,17 +110,17 @@ jobs:
       - name: Set Docker tag for release
         run: |
           echo "DOCKER_TAG_NAME=latest" >> $GITHUB_ENV
-        if: github.ref == 'refs/heads/master'
+        if: github.ref_name == 'master'
 
       - name: Set Docker tag for test
         run: |
           echo "DOCKER_TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-        if: github.ref != 'refs/heads/master' && !contains(github.ref, 'renovate/')
+        if: github.ref_name != 'master' && !contains(github.ref, 'renovate/')
 
       - name: Set Docker tag for Renovate branches
         run: |
           echo "DOCKER_TAG_NAME=renovate" >> $GITHUB_ENV
-        if: github.ref != 'refs/heads/master' && contains(github.ref, 'renovate/')
+        if: github.ref_name != 'master' && contains(github.ref, 'renovate/')
 
       - name: Lowercase the repo name and username
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
@@ -193,7 +190,7 @@ jobs:
     needs: [ "test", "build" ]
     runs-on: ubuntu-latest
     # Re enable when new version of plugin is released
-    if: failure() && github.ref != 'refs/heads/master' # success() && github.ref == 'refs/heads/master'
+    if: failure() && github.ref_name != 'master' # success() && github.ref == 'refs/heads/master'
 
     environment:
       name: github-pages
