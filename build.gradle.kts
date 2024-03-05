@@ -19,7 +19,7 @@ val restAssuredVersion = "5.4.0"
 val mockitoKotlinVersion = "5.2.1"
 val junitVersion = "5.10.2"
 val hibernateTypesVersion = "2.21.1"
-val testContainersVersion = "1.19.6"
+val testContainersVersion = "1.19.7"
 
 plugins {
     val kotlinPluginVersion = "1.9.22"
