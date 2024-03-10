@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
-val kotlinVersion = "1.9.22"
+val kotlinVersion = "1.9.23"
 val springBootVersion = "3.2.3"
 val jwtVersion = "0.12.5"
 val ical4jVersion = "3.2.16"
@@ -19,10 +19,10 @@ val restAssuredVersion = "5.4.0"
 val mockitoKotlinVersion = "5.2.1"
 val junitVersion = "5.10.2"
 val hibernateTypesVersion = "2.21.1"
-val testContainersVersion = "1.19.6"
+val testContainersVersion = "1.19.7"
 
 plugins {
-    val kotlinPluginVersion = "1.9.22"
+    val kotlinPluginVersion = "1.9.23"
     val springBootPluginVersion = "3.2.3"
     val springDependencyManagementPluginVersion = "1.1.4"
     val kotlinterPluginVersion = "4.2.0"
