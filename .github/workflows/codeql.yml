@@ -53,7 +53,7 @@ jobs:
         cache: gradle
 
     - name: Build sources
-      run: codeql database create java-database --language=java-kotlin --command='gradle --no-daemon clean build -x test'
+      run: gradle --no-daemon clean build -x test
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
