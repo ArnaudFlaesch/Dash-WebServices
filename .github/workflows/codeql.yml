@@ -53,7 +53,7 @@ jobs:
         cache: gradle
 
     - name: Build sources
-      run: ./gradlew assemble --no-build-cache --no-configuration-cache --rerun-tasks
+      run: ./gradlew assemble --no-build-cache --no-configuration-cache
       env:
         GRADLE_OPTS: -Dorg.gradle.daemon=false -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx4g -Xms512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=1024m"
 
