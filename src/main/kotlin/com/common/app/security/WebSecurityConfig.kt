@@ -51,7 +51,7 @@ class WebSecurityConfig(
             .cors(Customizer.withDefaults())
             .csrf { csrf -> csrf.disable() }
             .authorizeHttpRequests { authorizeRequests ->
-                authorizeRequests.requestMatchers("/auth/**", "/actuator/**", "/v3/api-docs", "/error").permitAll()
+                authorizeRequests.requestMatchers("/auth/**", "/actuator/**", "/swagger-ui/*", "/api-docs/**", "/error").permitAll()
                     .anyRequest().authenticated()
             }
             .authenticationManager(authenticationManager)
