@@ -6,7 +6,7 @@ val springBootVersion = "3.2.3"
 val jwtVersion = "0.12.5"
 val ical4jVersion = "3.2.16"
 
-val springDocVersion = "1.8.0"
+val springDocVersion = "2.4.0"
 val jacksonVersion = "2.16.2"
 val log4jVersion = "2.23.1"
 
@@ -26,7 +26,6 @@ plugins {
     val springBootPluginVersion = "3.2.3"
     val springDependencyManagementPluginVersion = "1.1.4"
     val kotlinterPluginVersion = "4.2.0"
-    val springDocGradlePluginVersion = "1.5.0"
 
     jacoco
     id("org.springframework.boot") version springBootPluginVersion
@@ -56,8 +55,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
-
-    implementation("org.springdoc:springdoc-openapi-ui:$springDocVersion")
 
     implementation("io.jsonwebtoken:jjwt:$jwtVersion")
     implementation("org.mnode.ical4j:ical4j:$ical4jVersion") {
@@ -92,6 +89,7 @@ dependencies {
     }
     testImplementation("org.testcontainers:junit-jupiter:$testContainersVersion")
     testImplementation("org.testcontainers:postgresql:$testContainersVersion")
+    testImplementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
 }
 
 tasks.jacocoTestReport {
@@ -100,11 +98,6 @@ tasks.jacocoTestReport {
         html.required.set(true)
     }
 }
-/**
-tasks.create("bootRunMainClassName") {
-dependsOn(tasks.resolveMainClassName)
-}
- */
 
 tasks.withType<BootRun> {
     systemProperties(System.getProperties().mapKeys { it.key as String })
@@ -126,11 +119,3 @@ tasks.withType<KotlinCompile> {
 tasks.getByName<Jar>("jar") {
     isEnabled = false
 }
-
-/*
-openApi {
-    customBootRun {
-        args.set(listOf("--spring.config.location=src/test/resources/application-test.properties"))
-    }
-}
-*/

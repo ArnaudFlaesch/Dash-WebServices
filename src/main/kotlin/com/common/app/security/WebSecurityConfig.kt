@@ -3,7 +3,6 @@ package com.common.app.security
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
@@ -51,7 +50,7 @@ class WebSecurityConfig(
             .cors(Customizer.withDefaults())
             .csrf { csrf -> csrf.disable() }
             .authorizeHttpRequests { authorizeRequests ->
-                authorizeRequests.requestMatchers("/auth/**", "/actuator/**", "/v3/api-docs", "/error").permitAll()
+                authorizeRequests.requestMatchers("/auth/**", "/actuator/**", "/swagger-ui/*", "/api-docs/**", "/error").permitAll()
                     .anyRequest().authenticated()
             }
             .authenticationManager(authenticationManager)
