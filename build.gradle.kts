@@ -11,7 +11,7 @@ val jacksonVersion = "2.17.0"
 val log4jVersion = "2.23.1"
 
 val liquibaseVersion = "4.26.0"
-val postgresqlVersion = "42.7.2"
+val postgresqlVersion = "42.7.3"
 val gsonVersion = "2.10.1"
 
 val springSecurityVersion = "6.2.2"
