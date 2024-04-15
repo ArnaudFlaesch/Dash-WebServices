@@ -14,7 +14,7 @@ val liquibaseVersion = "4.27.0"
 val postgresqlVersion = "42.7.3"
 val gsonVersion = "2.10.1"
 
-val springSecurityVersion = "6.2.3"
+val springSecurityVersion = "6.2.4"
 val restAssuredVersion = "5.4.0"
 val mockitoKotlinVersion = "5.3.1"
 val junitVersion = "5.10.2"
