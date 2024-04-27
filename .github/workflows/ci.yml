@@ -170,19 +170,19 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
-          args: --file=Dockerfile --sarif-file-output=snyk.sarif
+          args: --file=Dockerfile --sarif-file-output=snyk-docker.sarif
           
       # Replace any "undefined" security severity values with 0. The undefined value is used in the case
       # of license-related findings, which do not do not indicate a security vulnerability.
       # See https://github.com/github/codeql-action/issues/2187 for more context.
       - name: Post-process sarif output
         run: |
-          sed -i 's/"security-severity": "undefined"/"security-severity": "0"/g' snyk.sarif
+          sed -i 's/"security-severity": "undefined"/"security-severity": "0"/g' snyk-docker.sarif
 
       - name: Upload Snyk container scan result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: snyk.sarif
+          sarif_file: snyk-docker.sarif
 
       - name: Push container image to registry
         if: success() && !contains(github.ref, 'renovate/')
