@@ -4,7 +4,7 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 val kotlinVersion = "1.9.23"
 val springBootVersion = "3.2.5"
 val jwtVersion = "0.12.5"
-val ical4jVersion = "3.2.17"
+val ical4jVersion = "3.2.18"
 
 val springDocVersion = "2.5.0"
 val jacksonVersion = "2.17.0"
