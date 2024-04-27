@@ -170,9 +170,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
-          args: |
-            --file=Dockerfile
-            --sarif-file-output=snyk-docker.sarif
+          args: --sarif-file-output=snyk-docker.sarif
           
       # Replace any "undefined" security severity values with 0. The undefined value is used in the case
       # of license-related findings, which do not do not indicate a security vulnerability.
