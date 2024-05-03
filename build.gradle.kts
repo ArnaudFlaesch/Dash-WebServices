@@ -24,7 +24,7 @@ val testContainersVersion = "1.19.7"
 plugins {
     val kotlinPluginVersion = "1.9.23"
     val springBootPluginVersion = "3.2.5"
-    val springDependencyManagementPluginVersion = "1.1.4"
+    val springDependencyManagementPluginVersion = "1.1.5"
     val kotlinterPluginVersion = "4.3.0"
 
     jacoco
