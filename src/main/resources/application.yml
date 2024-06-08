@@ -1,0 +1,84 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gcp:
+      secretmanager:
+        enabled: false
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    platform: postgresql
+    url: jdbc:postgresql://localhost:5432/dash
+    username: postgres
+    password: ${POSTGRES_PASSWORD}
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
+    show-sql: true
+  liquibase:
+    contexts: dev
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type: trace
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+dash:
+  app:
+    AIRPARIF_API_URL: http://localhost:5000/airParif
+    OPENWEATHERMAP_API_URL: http://localhost:5000/openweatherapi
+    STEAM_API_URL: http://localhost:5000/steam
+    STRAVA_API_URL: http://localhost:5000/strava
+    AIRPARIF_API_TOKEN: test
+    OPENWEATHERMAP_KEY: test
+    STEAM_API_KEY: test
+    STRAVA_CLIENT_ID: test
+    STRAVA_CLIENT_SECRET: test
+    jwtExpirationMs: 86400000
+    jwtSecret: dashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKey
+
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+    import: sm://
+  datasource:
+    url: ${sm://projects/32508443606/secrets/DATABASE_URL}
+    username: ${sm://projects/32508443606/secrets/DATABASE_USERNAME}
+    password: ${sm://projects/32508443606/secrets/DATABASE_PASSWORD}
+  jpa:
+    show-sql: true
+  liquibase:
+    contexts: prod
+dash:
+  app:
+    AIRPARIF_API_URL: https://api.airparif.asso.fr/indices/prevision
+    OPENWEATHERMAP_API_URL: https://api.openweathermap.org/data/2.5
+    STEAM_API_URL: https://api.steampowered.com
+    STRAVA_API_URL: https://www.strava.com
+    STRAVA_CLIENT_ID: ${sm://projects/32508443606/secrets/STRAVA_CLIENT_ID}
+    STRAVA_CLIENT_SECRET: ${sm://projects/32508443606/secrets/STRAVA_CLIENT_SECRET}
+    OPENWEATHERMAP_KEY: ${sm://projects/32508443606/secrets/OPENWEATHERMAP_KEY}
+    AIRPARIF_API_TOKEN: ${sm://projects/32508443606/secrets/AIRPARIF_API_TOKEN}
+    STEAM_API_KEY: ${sm://projects/32508443606/secrets/STEAM_API_KEY}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dash_test
+    username: postgres
+    password: postgres
+  liquibase:
+    contexts: test
