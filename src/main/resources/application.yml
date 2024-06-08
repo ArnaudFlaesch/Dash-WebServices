@@ -78,7 +78,5 @@ spring:
       on-profile: test
   datasource:
     url: jdbc:postgresql://localhost:5432/dash_test
-    username: postgres
-    password: postgres
   liquibase:
     contexts: test

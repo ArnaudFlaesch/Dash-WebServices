@@ -16,4 +16,4 @@ ARG SPRING_PROFILE
 COPY ./src/main/resources/application.yml application.yml
 
 USER dockeruser
-ENTRYPOINT ["java","-Dspring.profiles.active=${SPRING_PROFILE:dev}", "-jar", "dash-webservices.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=${SPRING_PROFILE:default}", "-jar", "dash-webservices.jar"]
