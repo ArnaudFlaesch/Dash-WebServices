@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
 val kotlinVersion = "2.0.0"
-val springBootVersion = "3.3.0"
+val springBootVersion = "3.1.0"
 val jwtVersion = "0.12.5"
 val ical4jVersion = "3.2.18"
 
@@ -23,10 +23,10 @@ val testContainersVersion = "1.19.8"
 
 plugins {
     val kotlinPluginVersion = "1.9.24"
-    val springBootPluginVersion = "3.3.0"
+    val springBootPluginVersion = "3.1.0"
     val springDependencyManagementPluginVersion = "1.1.5"
     val kotlinterPluginVersion = "4.3.0"
-
+	
     jacoco
     id("org.springframework.boot") version springBootPluginVersion
     id("io.spring.dependency-management") version springDependencyManagementPluginVersion
@@ -48,6 +48,9 @@ repositories {
     }
 }
 
+extra["springCloudGcpVersion"] = "5.4.1"
+extra["springCloudVersion"] = "2023.0.2"
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
@@ -55,6 +58,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
+
+    implementation("com.google.cloud:spring-cloud-gcp-starter-secretmanager")
 
     implementation("io.jsonwebtoken:jjwt:$jwtVersion")
     implementation("org.mnode.ical4j:ical4j:$ical4jVersion") {
@@ -90,6 +95,13 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter:$testContainersVersion")
     testImplementation("org.testcontainers:postgresql:$testContainersVersion")
     testImplementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("com.google.cloud:spring-cloud-gcp-dependencies:${property("springCloudGcpVersion")}")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    }
 }
 
 tasks.jacocoTestReport {

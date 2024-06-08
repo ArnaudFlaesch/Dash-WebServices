@@ -1,6 +1,6 @@
 name: Gradle CI
 
-on: [ "push", "workflow_dispatch"]
+on: [ "push", "workflow_dispatch" ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -83,7 +83,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-      - name : Report coverage for Codacy
+      - name: Report coverage for Codacy
         run: |
           bash <(curl -Ls https://coverage.codacy.com/get.sh)
         env:
@@ -171,7 +171,7 @@ jobs:
         with:
           image: ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
           args: --file=Dockerfile
-          
+
       # Replace any "undefined" security severity values with 0. The undefined value is used in the case
       # of license-related findings, which do not do not indicate a security vulnerability.
       # See https://github.com/github/codeql-action/issues/2187 for more context.
@@ -191,14 +191,15 @@ jobs:
           echo ${{ github.token }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           docker push ghcr.io/${{ env.REPO }}:${{env.DOCKER_TAG_NAME}}
 
-  deploy:
+
+  deploy-pages:
     permissions:
       pages: write # to deploy to Pages
       id-token: write # to verify the deployment originates from an appropriate source
 
-    needs: [ "test", "build" ]
+    needs: [ "test" ]
     runs-on: ubuntu-latest
-    if: success() && github.ref_name == 'master'
+    if: github.ref_name == 'master'
 
     environment:
       name: github-pages
@@ -209,6 +210,51 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+  deploy-gcp:
+    needs: [ "test", "build" ]
+    if: github.ref_name == 'master'
+    runs-on: ubuntu-latest
+
+    env:
+      TAG: europe-docker.pkg.dev/${{ secrets.PROJECT_ID }}/eu.gcr.io/${{ secrets.SERVICE }}
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to GCP
+        id: auth
+        uses: 'google-github-actions/auth@v2.1.3'
+        with:
+          token_format: 'access_token'
+          project_id: ${{ secrets.PROJECT_ID }}
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+
+      - name: Docker Auth
+        id: docker-auth
+        uses: 'docker/login-action@v1'
+        with:
+          username: 'oauth2accesstoken'
+          password: '${{ steps.auth.outputs.access_token }}'
+          registry: '${{ secrets.GAR_LOCATION }}-docker.pkg.dev'
+
+      - name: Build and Push Container
+        run: |-
+          docker build -t dash-webservices .
+          docker tag dash-webservices ${{ env.TAG }}
+          docker push ${{ env.TAG }}
+
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v2.6.0
+        with:
+          service: ${{ secrets.SERVICE }}
+          region: ${{ secrets.REGION }}
+          image: ${{ env.TAG }}:latest
 
   codacy-security-scan:
     permissions:
