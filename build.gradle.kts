@@ -116,7 +116,7 @@ tasks.withType<BootRun> {
 }
 
 tasks.withType<Test> {
-    environment("spring.config.location", "src/test/resources/application-test.properties")
+    environment("spring.profiles.active", "test")
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
 }
