@@ -19,7 +19,7 @@ class AbstractIT {
 
     companion object {
         private var postgresDBContainer: PostgreSQLContainer<*> =
-            PostgreSQLContainer("postgres:13.2-alpine")
+            PostgreSQLContainer("postgres:16.3-alpine3.20")
                 .withDatabaseName("dash_test")
                 .withUsername("postgres")
                 .withPassword("postgres")

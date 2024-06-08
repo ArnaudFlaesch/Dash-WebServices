@@ -46,7 +46,7 @@ jobs:
       - name: Generate OpenAPI docs
         if: success() && github.ref_name == 'master'
         run: |
-          docker run --name db -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash_test postgres:13.2-alpine
+          docker run --name db -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash_test postgres:16.3-alpine3.20
           ./gradlew bootRun -Dspring.config.location=src/test/resources/application-test.properties &
           docker stop db
 
