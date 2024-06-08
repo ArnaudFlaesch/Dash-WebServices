@@ -47,6 +47,10 @@ dash:
 
 ---
 spring:
+  cloud:
+    gcp:
+      secretmanager:
+        enabled: true
   config:
     activate:
       on-profile: production
