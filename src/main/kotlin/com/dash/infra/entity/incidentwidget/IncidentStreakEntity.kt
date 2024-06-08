@@ -14,7 +14,7 @@ data class IncidentStreakEntity(
         initialValue = 1,
         allocationSize = 1
     )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "incident-seq-gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "incident-streak-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
     @Column(name = "streak_start_date") val streakStartDate: OffsetDateTime,
