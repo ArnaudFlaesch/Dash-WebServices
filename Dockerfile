@@ -1,4 +1,4 @@
-FROM gradle:8.8.0-jdk17-alpine AS build
+FROM gradle:8.8.0-jdk21-alpine AS build
 
 WORKDIR /dash-webservices
 COPY build.gradle.kts .
@@ -11,8 +11,8 @@ WORKDIR /dash-webservices
 EXPOSE 8080
 RUN adduser --system --no-create-home dockeruser
 
-COPY --from=build /dash-webservices/build/libs/dash-webservices-*.jar /dash-webservices/dash-webservices.jar
 ARG SPRING_PROFILE
+COPY --from=build /dash-webservices/build/libs/dash-webservices-*.jar /dash-webservices/dash-webservices.jar
 COPY ./src/main/resources/application.yml application.yml
 
 USER dockeruser

@@ -26,7 +26,7 @@ plugins {
     val springBootPluginVersion = "3.3.0"
     val springDependencyManagementPluginVersion = "1.1.5"
     val kotlinterPluginVersion = "4.3.0"
-	
+
     jacoco
     id("org.springframework.boot") version springBootPluginVersion
     id("io.spring.dependency-management") version springDependencyManagementPluginVersion
@@ -39,7 +39,7 @@ plugins {
 
 group = "com.dash"
 version = "1.0.0"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 repositories {
     mavenCentral()
@@ -48,8 +48,8 @@ repositories {
     }
 }
 
-extra["springCloudGcpVersion"] = "5.4.1"
-extra["springCloudVersion"] = "2023.0.2"
+val springCloudGcpVersion = "5.4.1"
+val springCloudVersion = "2023.0.2"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter:$springBootVersion")
@@ -99,8 +99,8 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom("com.google.cloud:spring-cloud-gcp-dependencies:${property("springCloudGcpVersion")}")
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        mavenBom("com.google.cloud:spring-cloud-gcp-dependencies:$springCloudGcpVersion")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
     }
 }
 
@@ -124,7 +124,7 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
 }
 
