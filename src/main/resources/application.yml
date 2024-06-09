@@ -47,14 +47,14 @@ dash:
 
 ---
 spring:
+  config:
+    activate:
+      on-profile: production
+      import: sm://
   cloud:
     gcp:
       secretmanager:
         enabled: true
-  config:
-    activate:
-      on-profile: production
-    import: sm://
   datasource:
     url: ${sm://projects/32508443606/secrets/DATABASE_URL}
     username: ${sm://projects/32508443606/secrets/DATABASE_USERNAME}
