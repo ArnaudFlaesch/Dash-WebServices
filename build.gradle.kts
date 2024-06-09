@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.springframework.boot.gradle.tasks.run.BootRun
-
 val kotlinVersion = "2.0.0"
 val springBootVersion = "3.3.0"
 val jwtVersion = "0.12.5"
@@ -17,12 +14,12 @@ val gsonVersion = "2.11.0"
 val springSecurityVersion = "6.3.0"
 val restAssuredVersion = "5.4.0"
 val mockitoKotlinVersion = "5.3.1"
-val junitVersion = "5.10.2"
+val junitPlatformLauncherVersion = "1.10.2"
 val hibernateTypesVersion = "2.21.1"
 val testContainersVersion = "1.19.8"
 
 plugins {
-    val kotlinPluginVersion = "1.9.24"
+    val kotlinPluginVersion = "2.0.0"
     val springBootPluginVersion = "3.3.0"
     val springDependencyManagementPluginVersion = "1.1.5"
     val kotlinterPluginVersion = "4.3.0"
@@ -39,7 +36,12 @@ plugins {
 
 group = "com.dash"
 version = "1.0.0"
-java.sourceCompatibility = JavaVersion.VERSION_21
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
 
 repositories {
     mavenCentral()
@@ -59,14 +61,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
 
-    implementation("com.google.cloud:spring-cloud-gcp-starter-secretmanager")
+    implementation("com.google.cloud:spring-cloud-gcp-starter-secretmanager:$springCloudGcpVersion")
 
     implementation("io.jsonwebtoken:jjwt:$jwtVersion")
-    implementation("org.mnode.ical4j:ical4j:$ical4jVersion") {
-        exclude("org.codehaus.groovy", "groovy")
-    }
+    implementation("org.mnode.ical4j:ical4j:$ical4jVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 
     implementation("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
@@ -85,13 +84,14 @@ dependencies {
     testImplementation("io.rest-assured:json-path:$restAssuredVersion")
     testImplementation("io.rest-assured:xml-path:$restAssuredVersion")
 
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("org.springframework.security:spring-security-test:$springSecurityVersion")
+
     testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
-    testImplementation(platform("org.junit:junit-bom:$junitVersion"))
-    testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
-        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
-    }
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformLauncherVersion")
+
+    testImplementation("org.springframework.boot:spring-boot-testcontainers:$springBootVersion")
     testImplementation("org.testcontainers:junit-jupiter:$testContainersVersion")
     testImplementation("org.testcontainers:postgresql:$testContainersVersion")
     testImplementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
@@ -104,6 +104,12 @@ dependencyManagement {
     }
 }
 
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
+    }
+}
+
 tasks.jacocoTestReport {
     reports {
         xml.required.set(true)
@@ -111,23 +117,8 @@ tasks.jacocoTestReport {
     }
 }
 
-tasks.withType<BootRun> {
-    systemProperties(System.getProperties().mapKeys { it.key as String })
-}
-
 tasks.withType<Test> {
     environment("spring.profiles.active", "test")
     useJUnitPlatform()
-    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "21"
-    }
-}
-
-tasks.getByName<Jar>("jar") {
-    isEnabled = false
+    finalizedBy(tasks.jacocoTestReport)
 }
