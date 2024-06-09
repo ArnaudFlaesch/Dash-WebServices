@@ -133,14 +133,14 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Snyk monitor
-        uses: snyk/actions/gradle-jdk17@0.4.0
+        uses: snyk/actions/gradle@0.4.0
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: monitor
 
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/gradle-jdk17@0.4.0
+        uses: snyk/actions/gradle@0.4.0
         continue-on-error: true # To make sure that SARIF upload gets called
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}

@@ -50,7 +50,7 @@ spring:
   config:
     activate:
       on-profile: production
-      import: sm://
+    import: sm://
   cloud:
     gcp:
       secretmanager:
