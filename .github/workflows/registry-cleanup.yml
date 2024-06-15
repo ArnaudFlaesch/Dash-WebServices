@@ -1,0 +1,15 @@
+name: Registry cleanup
+on:
+  schedule:
+    - cron: "0 0 * * 0"
+
+jobs:
+  registry-cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/delete-package-versions@v5.0.0
+      with:
+        package-name: 'dash-webservices'
+        package-type: 'container'
+        min-versions-to-keep: 5
