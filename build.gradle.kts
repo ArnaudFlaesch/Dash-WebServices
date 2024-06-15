@@ -80,18 +80,18 @@ dependencies {
     implementation("com.vladmihalcea:hibernate-types-60:$hibernateTypesVersion")
     implementation("com.google.code.gson:gson:$gsonVersion")
 
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformLauncherVersion")
+
+    testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinVersion")
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("io.rest-assured:json-path:$restAssuredVersion")
     testImplementation("io.rest-assured:xml-path:$restAssuredVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("org.springframework.security:spring-security-test:$springSecurityVersion")
-
-    testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinVersion")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformLauncherVersion")
-
     testImplementation("org.springframework.boot:spring-boot-testcontainers:$springBootVersion")
+
     testImplementation("org.testcontainers:junit-jupiter:$testContainersVersion")
     testImplementation("org.testcontainers:postgresql:$testContainersVersion")
     testImplementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
