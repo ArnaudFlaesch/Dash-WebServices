@@ -55,7 +55,7 @@ class StravaApiClient(
     private fun getHeaders(token: String): HttpHeaders {
         val requestHeaders = HttpHeaders()
         requestHeaders.accept = Collections.singletonList(MediaType.APPLICATION_JSON)
-        requestHeaders.set(HttpHeaders.AUTHORIZATION, "Bearer $token")
+        requestHeaders.setBearerAuth(token)
         return requestHeaders
     }
 }

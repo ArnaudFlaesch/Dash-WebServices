@@ -38,7 +38,7 @@ class AirParifApiClient(
     private fun getHeaders(): HttpHeaders {
         val requestHeaders = HttpHeaders()
         requestHeaders.accept = Collections.singletonList(MediaType.APPLICATION_JSON)
-        requestHeaders.set("X-Api-Key", airParifToken)
+        requestHeaders["X-Api-Key"] = airParifToken
         return requestHeaders
     }
 }
