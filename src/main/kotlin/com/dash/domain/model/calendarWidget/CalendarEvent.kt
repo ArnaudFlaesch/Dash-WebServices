@@ -1,9 +1,9 @@
 package com.dash.domain.model.calendarWidget
 
-import net.fortuna.ical4j.model.Date
+import java.time.LocalDate
 
 data class CalendarEvent(
-    val startDate: Date,
-    val endDate: Date,
+    val startDate: LocalDate,
+    val endDate: LocalDate,
     val description: String
 )
