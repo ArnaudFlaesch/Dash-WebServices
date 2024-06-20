@@ -1,9 +1,9 @@
 package com.dash.domain.model.calendarWidget
 
-import java.time.LocalDate
+import java.time.temporal.Temporal
 
 data class CalendarEvent(
-    val startDate: LocalDate,
-    val endDate: LocalDate,
+    val startDate: Temporal,
+    val endDate: Temporal,
     val description: String
 )
