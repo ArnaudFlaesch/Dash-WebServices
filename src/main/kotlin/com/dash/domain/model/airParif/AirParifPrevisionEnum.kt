@@ -10,6 +10,6 @@ enum class AirParifPrevisionEnum(val prevision: String) {
     MISSING("Missing");
 
     companion object {
-        fun getEnumFromValue(value: String): AirParifPrevisionEnum = values().find { it.prevision == value } ?: MISSING
+        fun getEnumFromValue(value: String): AirParifPrevisionEnum = entries.find { it.prevision == value } ?: MISSING
     }
 }
