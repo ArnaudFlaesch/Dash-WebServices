@@ -29,7 +29,9 @@ class SteamWidgetAdapter(
         val ownedGamesResponse = steamApiClient.getOwnedGames(steamUserId)
 
         val gamesList =
-            ownedGamesResponse.response.games.sortedBy(GameInfoApi::name).filter { gameInfo -> gameInfo.name.lowercase().contains(search.lowercase()) }
+            ownedGamesResponse.response.games
+                .sortedBy(GameInfoApi::name)
+                .filter { gameInfo -> gameInfo.name.lowercase().contains(search.lowercase()) }
 
         val paginatedGames =
             if (gamesList.isEmpty() || gamesList.size <= PAGE_SIZE) {

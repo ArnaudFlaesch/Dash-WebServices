@@ -33,7 +33,8 @@ class RssWidgetServiceTest : AbstractIT() {
                 "    <channel></channel>\n" +
                 "</rss>"
 
-        Mockito.`when`(restTemplate.exchange(URI.create(url), HttpMethod.GET, null, String::class.java))
+        Mockito
+            .`when`(restTemplate.exchange(URI.create(url), HttpMethod.GET, null, String::class.java))
             .thenReturn(ResponseEntity(mockedResponse, HttpStatus.OK))
 
         val actualResponse = rssWidgetService.getJsonFeedFromUrl(url)
@@ -44,7 +45,8 @@ class RssWidgetServiceTest : AbstractIT() {
     fun testGetRequestNullResponse() {
         val url = "http://thelastpictureshow.over-blog.com/rss"
 
-        Mockito.`when`(restTemplate.exchange(URI.create(url), HttpMethod.GET, null, String::class.java))
+        Mockito
+            .`when`(restTemplate.exchange(URI.create(url), HttpMethod.GET, null, String::class.java))
             .thenReturn(ResponseEntity(HttpStatus.OK))
 
         assertThrows<ErrorHandler.Companion.NotFoundException> { rssWidgetService.getJsonFeedFromUrl(url) }

@@ -41,7 +41,8 @@ class AuthController(
 
         applicationEventPublisher.publishEvent(DashEvent(this, Constants.USER_LOGGED_IN_EVENT, NotificationType.WARN))
         val roles =
-            userDetails.authorities.stream()
+            userDetails.authorities
+                .stream()
                 .map { item: GrantedAuthority -> item.authority }
                 .collect(Collectors.toList())
 

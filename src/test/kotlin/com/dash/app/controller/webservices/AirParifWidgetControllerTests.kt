@@ -47,9 +47,12 @@ class AirParifWidgetControllerTests : AbstractIT() {
                 .`when`()
                 .param("commune", communeInseeCode)
                 .get("$airParifWidgetEndpoint/previsionCommune")
-                .then().log().all()
+                .then()
+                .log()
+                .all()
                 .statusCode(HttpStatus.OK.value())
-                .extract().`as`(object : TypeRef<List<Prevision>>() {})
+                .extract()
+                .`as`(object : TypeRef<List<Prevision>>() {})
 
         assertEquals(getPrevisionsDataResponse.size, 2)
     }
@@ -63,9 +66,12 @@ class AirParifWidgetControllerTests : AbstractIT() {
                 .accept(ContentType.JSON)
                 .`when`()
                 .get("$airParifWidgetEndpoint/couleurs")
-                .then().log().all()
+                .then()
+                .log()
+                .all()
                 .statusCode(HttpStatus.OK.value())
-                .extract().`as`(object : TypeRef<List<AirParifColor>>() {})
+                .extract()
+                .`as`(object : TypeRef<List<AirParifColor>>() {})
 
         val expected =
             listOf(

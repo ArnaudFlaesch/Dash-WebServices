@@ -24,7 +24,8 @@ class StravaWidgetServiceTest : AbstractIT() {
 
     @Test
     fun shouldReturnEmptyStravaRefreshTokenData() {
-        Mockito.`when`(restTemplate.exchange(URI.create("url"), HttpMethod.POST, null, String::class.java))
+        Mockito
+            .`when`(restTemplate.exchange(URI.create("url"), HttpMethod.POST, null, String::class.java))
             .thenReturn(ResponseEntity(HttpStatus.OK))
 
         assertThrows<ErrorHandler.Companion.NotFoundException> { stravaWidgetService.getToken("apiCode") }

@@ -55,15 +55,15 @@ class RssWidgetControllerTests : AbstractIT() {
                 "    <channel></channel>\n" +
                 "</rss>"
 
-        Mockito.`when`(
-            restTemplate.exchange(
-                URI.create(url),
-                HttpMethod.GET,
-                null,
-                String::class.java
-            )
-        )
-            .thenReturn(ResponseEntity(mockedResponse, HttpStatus.OK))
+        Mockito
+            .`when`(
+                restTemplate.exchange(
+                    URI.create(url),
+                    HttpMethod.GET,
+                    null,
+                    String::class.java
+                )
+            ).thenReturn(ResponseEntity(mockedResponse, HttpStatus.OK))
 
         given()
             .port(port)
@@ -72,10 +72,13 @@ class RssWidgetControllerTests : AbstractIT() {
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .get(rssWidgetEndpoint)
-            .then().log().all()
+            .then()
+            .log()
+            .all()
             .statusCode(200)
             .body(equalTo(Gson().toJson(mapOf("version" to "2.0", "channel" to ""))))
-            .log().all()
+            .log()
+            .all()
     }
 
     @Test
@@ -90,19 +93,25 @@ class RssWidgetControllerTests : AbstractIT() {
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .get(rssWidgetEndpoint)
-            .then().log().all()
+            .then()
+            .log()
+            .all()
             .statusCode(404)
     }
 
     @Test
     fun testEndpointNotAuthenticated() {
-        given().port(port)
+        given()
+            .port(port)
             .param("url", "http://testwrongurl.com")
             .`when`()
             .get(rssWidgetEndpoint)
-            .then().log().all()
+            .then()
+            .log()
+            .all()
             .statusCode(401)
-            .log().all()
+            .log()
+            .all()
             .body("error", equalTo(UNAUTHORIZED_ERROR))
     }
 }

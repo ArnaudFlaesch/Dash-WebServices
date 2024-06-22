@@ -12,7 +12,9 @@ import java.net.URI
 import kotlin.reflect.KClass
 
 @Service
-class RestClient(private val restTemplate: RestTemplate) {
+class RestClient(
+    private val restTemplate: RestTemplate
+) {
     private val logger = LoggerFactory.getLogger(this::class.java.name)
 
     @Throws(RestClientException::class)

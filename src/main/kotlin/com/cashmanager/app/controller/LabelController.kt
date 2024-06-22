@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/label")
 @CrossOrigin(origins = ["*"])
-class LabelController(private val labelService: LabelService) {
+class LabelController(
+    private val labelService: LabelService
+) {
     @GetMapping("/")
     fun getLabels(): List<LabelDomain> = labelService.getUserLabels()
 

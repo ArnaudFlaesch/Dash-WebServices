@@ -8,7 +8,9 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
 
 @Component
-class NotificationAdapter(private val notificationRepository: NotificationRepository) {
+class NotificationAdapter(
+    private val notificationRepository: NotificationRepository
+) {
     fun getNotifications(
         pageNumber: Int,
         pageSize: Int

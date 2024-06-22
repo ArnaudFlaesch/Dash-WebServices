@@ -27,16 +27,30 @@ class JwtUtils {
     fun generateJwtToken(authentication: Authentication): String {
         val userPrincipal = authentication.principal as UserDetailsImpl
 
-        return Jwts.builder().subject(userPrincipal.username).issuedAt(Date())
-            .expiration(Date(Date().time + jwtExpirationMs)).signWith(getSigningKey())
+        return Jwts
+            .builder()
+            .subject(userPrincipal.username)
+            .issuedAt(Date())
+            .expiration(Date(Date().time + jwtExpirationMs))
+            .signWith(getSigningKey())
             .compact()
     }
 
-    fun getUserNameFromJwtToken(token: String): String = Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(token).payload.subject
+    fun getUserNameFromJwtToken(token: String): String =
+        Jwts
+            .parser()
+            .verifyWith(getSigningKey())
+            .build()
+            .parseSignedClaims(token)
+            .payload.subject
 
     fun validateJwtToken(authToken: String?): Boolean {
         try {
-            Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(authToken)
+            Jwts
+                .parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(authToken)
             return true
         } catch (e: MalformedJwtException) {
             logger.error("Invalid JWT token: {}", e.message)

@@ -16,19 +16,22 @@ object IntegrationTestsUtils {
         username: String,
         password: String,
         port: Int
-    ): JwtResponse {
-        return given()
+    ): JwtResponse =
+        given()
             .port(port)
             .contentType(ContentType.JSON)
             .`when`()
             .body(LoginRequest(username, password))
             .post("/auth/login")
-            .then().log().all()
+            .then()
+            .log()
+            .all()
             .statusCode(200)
-            .log().all()
+            .log()
+            .all()
             .body("$", Matchers.notNullValue())
-            .extract().`as`(JwtResponse::class.java)
-    }
+            .extract()
+            .`as`(JwtResponse::class.java)
 
     fun createAuthenticationHeader(jwtToken: String): Header = Header("Authorization", "Bearer $jwtToken")
 }
