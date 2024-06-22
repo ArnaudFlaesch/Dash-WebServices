@@ -7,7 +7,9 @@ import com.dash.infra.adapter.StravaWidgetAdapter
 import org.springframework.stereotype.Service
 
 @Service
-class StravaWidgetService(private val stravaWidgetAdapter: StravaWidgetAdapter) {
+class StravaWidgetService(
+    private val stravaWidgetAdapter: StravaWidgetAdapter
+) {
     companion object {
         private const val PAGE_NUMBER = 1
         private const val NUMBER_OF_ACTIVITIES_PER_PAGE = 25

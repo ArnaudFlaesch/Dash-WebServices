@@ -53,9 +53,12 @@ class SteamWidgetControllerTests : AbstractIT() {
                 .header(createAuthenticationHeader(jwtToken))
                 .`when`()
                 .get("$steamWidgetEndpoint/playerData")
-                .then().log().all()
+                .then()
+                .log()
+                .all()
                 .statusCode(200)
-                .log().all()
+                .log()
+                .all()
         }
     }
 
@@ -77,10 +80,14 @@ class SteamWidgetControllerTests : AbstractIT() {
                     .`when`()
                     .param("search", search)
                     .get("$steamWidgetEndpoint/ownedGames")
-                    .then().log().all()
+                    .then()
+                    .log()
+                    .all()
                     .statusCode(HttpStatus.OK.value())
-                    .log().all()
-                    .extract().`as`(object : TypeRef<Page<GameInfoDomain>>() {})
+                    .log()
+                    .all()
+                    .extract()
+                    .`as`(object : TypeRef<Page<GameInfoDomain>>() {})
 
             assertEquals(expectedNumberOfResults, ownedGamesData.totalElements.toInt())
         }
@@ -107,10 +114,14 @@ class SteamWidgetControllerTests : AbstractIT() {
                     .header(Header("Authorization", "Bearer $jwtToken"))
                     .`when`()
                     .get("$steamWidgetEndpoint/achievementList")
-                    .then().log().all()
+                    .then()
+                    .log()
+                    .all()
                     .statusCode(200)
-                    .log().all()
-                    .extract().`as`(AchievementDataDomain::class.java)
+                    .log()
+                    .all()
+                    .extract()
+                    .`as`(AchievementDataDomain::class.java)
 
             assertEquals(23, actual.playerstats.achievements.size)
         }

@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/notifications")
 @CrossOrigin(origins = ["*"])
-class NotificationController(private val notificationService: NotificationService) {
+class NotificationController(
+    private val notificationService: NotificationService
+) {
     @GetMapping("/")
     fun getNotifications(
         @RequestParam(value = "pageNumber", defaultValue = "0") pageNumber: Int,

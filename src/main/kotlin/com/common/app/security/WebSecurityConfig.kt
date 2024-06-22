@@ -33,9 +33,8 @@ class WebSecurityConfig(
 
     @Bean
     @Throws(java.lang.Exception::class)
-    fun authenticationManager(authenticationConfiguration: AuthenticationConfiguration): AuthenticationManager {
-        return authenticationConfiguration.authenticationManager
-    }
+    fun authenticationManager(authenticationConfiguration: AuthenticationConfiguration): AuthenticationManager =
+        authenticationConfiguration.authenticationManager
 
     @Bean
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
@@ -47,14 +46,17 @@ class WebSecurityConfig(
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder())
         val authenticationManager = authenticationManagerBuilder.build()
 
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
+        http
+            .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
             .cors(Customizer.withDefaults())
             .csrf { csrf -> csrf.disable() }
             .authorizeHttpRequests { authorizeRequests ->
-                authorizeRequests.requestMatchers("/auth/**", "/actuator/**", "/swagger-ui/*", "/api-docs/**", "/error").permitAll()
-                    .anyRequest().authenticated()
-            }
-            .authenticationManager(authenticationManager)
+                authorizeRequests
+                    .requestMatchers("/auth/**", "/actuator/**", "/swagger-ui/*", "/api-docs/**", "/error")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+            }.authenticationManager(authenticationManager)
             .exceptionHandling { auth -> auth.authenticationEntryPoint(unauthorizedHandler) }
             .sessionManagement { sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
         return http.build()

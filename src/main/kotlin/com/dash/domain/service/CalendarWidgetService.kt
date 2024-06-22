@@ -14,9 +14,11 @@ import java.time.temporal.Temporal
 import kotlin.jvm.optionals.getOrNull
 
 @Service
-class CalendarWidgetService(private val proxyService: RestClient) {
-    fun getIcalDataFromUrl(url: String): List<CalendarEvent>? {
-        return proxyService.getDataFromProxy(url, String::class).let { calendarData ->
+class CalendarWidgetService(
+    private val proxyService: RestClient
+) {
+    fun getIcalDataFromUrl(url: String): List<CalendarEvent>? =
+        proxyService.getDataFromProxy(url, String::class).let { calendarData ->
             val stream = calendarData.byteInputStream(StandardCharsets.ISO_8859_1)
             val reader: Reader = InputStreamReader(stream, StandardCharsets.ISO_8859_1)
             CalendarBuilder().build(reader).getComponents<VEvent>(Component.VEVENT).map {
@@ -27,5 +29,4 @@ class CalendarWidgetService(private val proxyService: RestClient) {
                 )
             }
         }
-    }
 }

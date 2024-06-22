@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/tab")
 @CrossOrigin(origins = ["*"])
-class TabController(private val tabService: TabService) {
+class TabController(
+    private val tabService: TabService
+) {
     @GetMapping("/")
     fun getTabs(): List<TabDomain> = tabService.getUserTabs()
 

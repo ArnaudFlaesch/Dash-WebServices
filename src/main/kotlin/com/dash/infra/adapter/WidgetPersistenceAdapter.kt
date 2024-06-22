@@ -39,12 +39,13 @@ class WidgetPersistenceAdapter(
     }
 
     fun updateWidgetsOrder(widgetList: List<WidgetDomain>): List<WidgetDomain> {
-        return widgetRepository.saveAll(
-            widgetList.map { widget ->
-                val oldWidget = widgetRepository.getReferenceById(widget.id)
-                return@map oldWidget.copy(widgetOrder = widget.widgetOrder)
-            }
-        ).map(WidgetEntity::toDomain)
+        return widgetRepository
+            .saveAll(
+                widgetList.map { widget ->
+                    val oldWidget = widgetRepository.getReferenceById(widget.id)
+                    return@map oldWidget.copy(widgetOrder = widget.widgetOrder)
+                }
+            ).map(WidgetEntity::toDomain)
     }
 
     fun deleteWidget(id: Int) = widgetRepository.deleteById(id)

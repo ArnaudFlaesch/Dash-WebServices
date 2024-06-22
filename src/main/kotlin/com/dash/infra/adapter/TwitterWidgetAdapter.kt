@@ -24,15 +24,15 @@ class TwitterWidgetAdapter(
     fun addFollowedUser(
         followedUserHandle: String,
         userId: Int
-    ): FollowedUser {
-        return twitterWidgetRepository.save(
-            FollowedUserEntity(
-                id = 0,
-                userHandle = followedUserHandle,
-                user = userRepository.getReferenceById(userId)
-            )
-        ).toDomain()
-    }
+    ): FollowedUser =
+        twitterWidgetRepository
+            .save(
+                FollowedUserEntity(
+                    id = 0,
+                    userHandle = followedUserHandle,
+                    user = userRepository.getReferenceById(userId)
+                )
+            ).toDomain()
 
     fun deleteFollowedUser(followedUserId: Int) = twitterWidgetRepository.delete(twitterWidgetRepository.getReferenceById(followedUserId))
 }

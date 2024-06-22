@@ -49,11 +49,13 @@ class RestClientTest : AbstractIT() {
     fun testGetRequest() {
         val response = "response"
 
-        mockServer.expect(ExpectedCount.once(), requestTo(URI(testUrl)))
+        mockServer
+            .expect(ExpectedCount.once(), requestTo(URI(testUrl)))
             .andExpect(method(HttpMethod.GET))
             .andRespond(
                 withStatus(HttpStatus.OK)
-                    .contentType(MediaType.APPLICATION_JSON).body(response)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response)
             )
         val actualResponse = restClient.getDataFromProxy(testUrl, String::class)
         assertEquals(response, actualResponse)
@@ -66,7 +68,8 @@ class RestClientTest : AbstractIT() {
         statusCode: HttpStatus,
         exceptionClass: Class<Exception>
     ) {
-        mockServer.expect(ExpectedCount.once(), requestTo(URI(testUrl)))
+        mockServer
+            .expect(ExpectedCount.once(), requestTo(URI(testUrl)))
             .andExpect(method(HttpMethod.GET))
             .andRespond(
                 withStatus(statusCode)
@@ -80,7 +83,8 @@ class RestClientTest : AbstractIT() {
 
     @Test
     fun testGetRequestNullResponse() {
-        mockServer.expect(ExpectedCount.once(), requestTo(URI(testUrl)))
+        mockServer
+            .expect(ExpectedCount.once(), requestTo(URI(testUrl)))
             .andExpect(method(HttpMethod.GET))
             .andRespond(
                 withStatus(HttpStatus.OK)
@@ -98,7 +102,8 @@ class RestClientTest : AbstractIT() {
         statusCode: HttpStatus,
         exceptionClass: Class<Exception>
     ) {
-        mockServer.expect(ExpectedCount.once(), requestTo(URI(testUrl)))
+        mockServer
+            .expect(ExpectedCount.once(), requestTo(URI(testUrl)))
             .andExpect(method(HttpMethod.POST))
             .andRespond(
                 withStatus(statusCode)
@@ -110,11 +115,10 @@ class RestClientTest : AbstractIT() {
         mockServer.verify()
     }
 
-    fun requestErrorsParams(): Stream<Arguments> {
-        return Stream.of(
+    fun requestErrorsParams(): Stream<Arguments> =
+        Stream.of(
             arguments(HttpStatus.BAD_REQUEST, ErrorHandler.Companion.BadRequestException::class.java),
             arguments(HttpStatus.NOT_FOUND, ErrorHandler.Companion.NotFoundException::class.java),
             arguments(HttpStatus.INTERNAL_SERVER_ERROR, ErrorHandler.Companion.InternalServerErrorException::class.java)
         )
-    }
 }

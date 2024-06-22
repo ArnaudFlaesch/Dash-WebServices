@@ -30,7 +30,8 @@ class WorkoutWidgetService(
         dateIntervalEnd: LocalDate
     ): List<WorkoutSessionDomain> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
-        return workoutSessionRepository.findByUserIdAndWorkoutDateBetweenOrderByWorkoutDateAsc(authenticatedUserId, dateIntervalStart, dateIntervalEnd)
+        return workoutSessionRepository
+            .findByUserIdAndWorkoutDateBetweenOrderByWorkoutDateAsc(authenticatedUserId, dateIntervalStart, dateIntervalEnd)
             .map(WorkoutSessionEntity::toDomain)
     }
 
@@ -39,7 +40,8 @@ class WorkoutWidgetService(
         dateIntervalEnd: LocalDate
     ): List<WorkoutStatsByIntervalDomain> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
-        return workoutExerciseRepository.getWorkoutStatsByInterval(dateIntervalStart, dateIntervalEnd, authenticatedUserId)
+        return workoutExerciseRepository
+            .getWorkoutStatsByInterval(dateIntervalStart, dateIntervalEnd, authenticatedUserId)
             .map(WorkoutStatsByIntervalEntity::toDomain)
     }
 
@@ -48,7 +50,8 @@ class WorkoutWidgetService(
         dateIntervalEnd: LocalDate
     ): List<WorkoutStatsByMonthDomain> {
         val authenticatedUserId = userService.getCurrentAuthenticatedUser().id
-        return workoutExerciseRepository.getWorkoutStatsByMonth(dateIntervalStart, dateIntervalEnd, authenticatedUserId)
+        return workoutExerciseRepository
+            .getWorkoutStatsByMonth(dateIntervalStart, dateIntervalEnd, authenticatedUserId)
             .map(WorkoutStatsByMonthEntity::toDomain)
     }
 

@@ -6,7 +6,9 @@ import com.dash.infra.entity.workoutwidget.WorkoutSessionEntity
 import org.springframework.stereotype.Component
 
 @Component
-class WorkoutSessionMapper(private val userService: UserService) {
+class WorkoutSessionMapper(
+    private val userService: UserService
+) {
     fun mapDomainToEntity(workoutSessionDomain: WorkoutSessionDomain): WorkoutSessionEntity =
         WorkoutSessionEntity(
             id = workoutSessionDomain.id,

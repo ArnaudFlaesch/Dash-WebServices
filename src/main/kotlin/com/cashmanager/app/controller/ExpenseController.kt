@@ -11,7 +11,9 @@ import java.time.LocalDate
 @RestController
 @RequestMapping("/expense")
 @CrossOrigin(origins = ["*"])
-class ExpenseController(private val expenseService: ExpenseService) {
+class ExpenseController(
+    private val expenseService: ExpenseService
+) {
     @GetMapping("/")
     fun getExpenses(
         @RequestParam("startIntervalDate")

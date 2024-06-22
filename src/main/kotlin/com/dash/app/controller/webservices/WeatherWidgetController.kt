@@ -14,14 +14,10 @@ class WeatherWidgetController(
     @GetMapping("/weather")
     fun getWeatherData(
         @RequestParam(value = "city") city: String
-    ): OpenWeatherWeatherDomain {
-        return weatherWidgetService.getWeatherData(city)
-    }
+    ): OpenWeatherWeatherDomain = weatherWidgetService.getWeatherData(city)
 
     @GetMapping("/forecast")
     fun getForecastData(
         @RequestParam(value = "city") city: String
-    ): OpenWeatherForecastDomain {
-        return weatherWidgetService.getForecastData(city)
-    }
+    ): OpenWeatherForecastDomain = weatherWidgetService.getForecastData(city)
 }

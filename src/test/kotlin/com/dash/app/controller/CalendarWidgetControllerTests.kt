@@ -119,7 +119,8 @@ class CalendarWidgetControllerTests : AbstractIT() {
         val calendarUrl =
             "https://calendar.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics"
 
-        Mockito.`when`(restTemplate.exchange(URI.create(calendarUrl), HttpMethod.GET, null, String::class.java))
+        Mockito
+            .`when`(restTemplate.exchange(URI.create(calendarUrl), HttpMethod.GET, null, String::class.java))
             .thenReturn(ResponseEntity(mockedCalendarDataResponse, HttpStatus.OK))
 
         val getCalendarDataResponse =
@@ -131,10 +132,13 @@ class CalendarWidgetControllerTests : AbstractIT() {
                 .header(createAuthenticationHeader(jwtToken))
                 .`when`()
                 .post(calendarWidgetEndpoint)
-                .then().log().all()
+                .then()
+                .log()
+                .all()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .extract().`as`(List::class.java)
+                .extract()
+                .`as`(List::class.java)
 
         assertEquals(getCalendarDataResponse.size, 4)
     }
@@ -143,7 +147,8 @@ class CalendarWidgetControllerTests : AbstractIT() {
     fun testGetCalendarDataNullResponse() {
         val calendarUrl = "http://wrong_calendar_url.com"
 
-        Mockito.`when`(restTemplate.exchange(URI.create(calendarUrl), HttpMethod.GET, null, String::class.java))
+        Mockito
+            .`when`(restTemplate.exchange(URI.create(calendarUrl), HttpMethod.GET, null, String::class.java))
             .thenReturn(ResponseEntity(HttpStatus.OK))
 
         given()
@@ -153,18 +158,24 @@ class CalendarWidgetControllerTests : AbstractIT() {
             .header(createAuthenticationHeader(jwtToken))
             .`when`()
             .post(calendarWidgetEndpoint)
-            .then().log().all()
+            .then()
+            .log()
+            .all()
             .statusCode(404)
     }
 
     @Test
     fun testEndpointNotAuthenticated() {
-        given().port(port)
+        given()
+            .port(port)
             .`when`()
             .post(calendarWidgetEndpoint)
-            .then().log().all()
+            .then()
+            .log()
+            .all()
             .statusCode(401)
-            .log().all()
+            .log()
+            .all()
             .body("error", equalTo(UNAUTHORIZED_ERROR))
     }
 }
