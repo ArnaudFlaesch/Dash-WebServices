@@ -44,6 +44,22 @@ class AuthControllerTests : AbstractIT() {
     }
 
     @Test
+    fun testGetUser() {
+        val jwtResponse =
+            given()
+                .port(port)
+                .contentType(ContentType.JSON)
+                .`when`()
+                .body(LoginRequest("usertest", "userpassword"))
+                .post("/auth/login")
+                .then().log().all()
+                .statusCode(200)
+                .log().all()
+                .extract().`as`(JwtResponse::class.java)
+        assertEquals(RoleEnum.ROLE_USER.roleName, jwtResponse.roles[0])
+    }
+
+    @Test
     fun testGetUserWrongUsername() {
         given()
             .port(port)
