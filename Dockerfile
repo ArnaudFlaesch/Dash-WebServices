@@ -1,20 +1,23 @@
 FROM gradle:8.8.0-jdk21-alpine AS build
 
-WORKDIR /dash-webservices
 ENV GRADLE_OPTS="-Xmx512m"
-COPY build.gradle.kts .
+
+WORKDIR /build-step
+
 COPY ./src ./src
+COPY gradlew gradlew
+COPY build.gradle.kts build.gradle.kts
+COPY settings.gradle.kts settings.gradle.kts
 RUN gradle assemble --no-daemon
 
 
 FROM eclipse-temurin:21.0.3_9-jre-alpine AS run
-WORKDIR /dash-webservices
-EXPOSE 8080
+
+COPY --from=build /build-step/build/libs/dash-webservices-*.jar dash-webservices.jar
+
 RUN adduser --system --no-create-home dockeruser
-
-ARG SPRING_PROFILE
-COPY --from=build /dash-webservices/build/libs/dash-webservices-*.jar /dash-webservices/dash-webservices.jar
-COPY --from=build /dash-webservices/src/main/resources/application.yml /dash-webservices/application.yml
-
 USER dockeruser
+
+EXPOSE 8080
+ARG SPRING_PROFILE
 ENTRYPOINT ["java","-Dspring.profiles.active=${SPRING_PROFILE:default}", "-jar", "dash-webservices.jar"]
