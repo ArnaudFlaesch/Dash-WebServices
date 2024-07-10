@@ -51,7 +51,7 @@ repositories {
 }
 
 val springCloudGcpVersion = "5.5.0"
-val springCloudVersion = "2023.0.2"
+val springCloudVersion = "2023.0.3"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter:$springBootVersion")
