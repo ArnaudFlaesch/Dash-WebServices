@@ -22,7 +22,7 @@ plugins {
     val kotlinPluginVersion = "2.0.0"
     val springBootPluginVersion = "3.3.1"
     val springDependencyManagementPluginVersion = "1.1.6"
-    val kotlinterPluginVersion = "4.4.0"
+    val kotlinterPluginVersion = "4.4.1"
 
     jacoco
     id("org.springframework.boot") version springBootPluginVersion
