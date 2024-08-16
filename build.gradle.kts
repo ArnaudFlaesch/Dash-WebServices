@@ -50,7 +50,7 @@ repositories {
     }
 }
 
-val springCloudGcpVersion = "5.5.0"
+val springCloudGcpVersion = "5.5.1"
 val springCloudVersion = "2023.0.3"
 
 dependencies {
