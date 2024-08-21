@@ -33,7 +33,6 @@ class AuthTokenFilter(
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 jwtUtils
                     .getUserNameFromJwtToken(jwt)
-                    .let(jwtUtils::getUserNameFromJwtToken)
                     .let(userDetailsService::loadUserByUsername)
                     .let { userDetails ->
                         UsernamePasswordAuthenticationToken(
@@ -47,7 +46,7 @@ class AuthTokenFilter(
                     }
             }
         } catch (e: UsernameNotFoundException) {
-            logger.error("Cannot set user authentication: ${e.message}", e)
+            Companion.logger.error("Cannot set user authentication: ${e.message}", e)
         }
         filterChain.doFilter(request, response)
     }
