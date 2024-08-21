@@ -16,11 +16,10 @@ class LabelPersistenceAdapter(
     fun addLabel(
         labelToAdd: String,
         authenticatedUserId: Int
-    ): LabelDomain {
-        val userEntity = userRepository.getReferenceById(authenticatedUserId)
-        val newLabel = LabelEntity(0, labelToAdd, userEntity)
-        return labelRepository.save(newLabel).toDomain()
-    }
+    ): LabelDomain =
+        LabelEntity(0, labelToAdd, userRepository.getReferenceById(authenticatedUserId))
+            .let(labelRepository::save)
+            .let(LabelEntity::toDomain)
 
     fun updateLabel(labelToUpdate: LabelDomain): LabelDomain {
         val oldLabel = labelRepository.getReferenceById(labelToUpdate.id)

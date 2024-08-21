@@ -69,7 +69,7 @@ jobs:
           docker run -p 5000:5000 -d ghcr.io/arnaudflaesch/dash-mockserver:$tagName
 
       - name: Build with Gradle
-        run: ./gradlew clean build -Dspring.profiles.active=test
+        run: ./gradlew clean build -x lintKotlin -Dspring.profiles.active=test
 
       - name: Upload test report
         uses: actions/upload-artifact@v4

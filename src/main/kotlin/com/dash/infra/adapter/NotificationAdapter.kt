@@ -29,11 +29,10 @@ class NotificationAdapter(
         return notificationRepository.save(notificationEntity).toDomain()
     }
 
-    fun markNotificationsAsRead(notificationIds: List<Int>): List<NotificationDomain> {
-        val updatedNotificationEntities =
-            notificationIds.map {
+    fun markNotificationsAsRead(notificationIds: List<Int>): List<NotificationDomain> =
+        notificationIds
+            .map {
                 notificationRepository.getReferenceById(it).copy(isRead = true)
-            }
-        return notificationRepository.saveAll(updatedNotificationEntities).map(NotificationEntity::toDomain)
-    }
+            }.let(notificationRepository::saveAll)
+            .map(NotificationEntity::toDomain)
 }
