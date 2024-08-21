@@ -90,7 +90,7 @@ jobs:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2.3.0
+        uses: SonarSource/sonarcloud-github-action@v3.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -227,7 +227,7 @@ jobs:
 
       - name: Login to GCP
         id: auth
-        uses: 'google-github-actions/auth@v2.1.4'
+        uses: 'google-github-actions/auth@v2.1.5'
         with:
           token_format: 'access_token'
           project_id: ${{ secrets.PROJECT_ID }}
@@ -250,7 +250,7 @@ jobs:
 
       - name: Deploy to Cloud Run
         id: deploy
-        uses: google-github-actions/deploy-cloudrun@v2.6.1
+        uses: google-github-actions/deploy-cloudrun@v2.7.0
         with:
           service: ${{ secrets.SERVICE }}
           region: ${{ secrets.REGION }}
