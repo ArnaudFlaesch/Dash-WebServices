@@ -29,20 +29,23 @@ class CashManagerConfigController(
 
     @GetMapping("/export")
     fun downloadJsonFile(): ResponseEntity<ByteArray?>? {
-        val expenses: List<ExpenseDomain> = expenseService.getUserExpenses()
         val expensesToExport =
-            expenses.map { expense: ExpenseDomain ->
+            expenseService.getUserExpenses().map { expense: ExpenseDomain ->
                 ExpenseExportDomain(expense.id, expense.amount, expense.expenseDate.toString(), expense.labelId)
             }
         val labels: List<LabelDomain> = labelService.getUserLabels()
-        val dataJsonString: String = export(mapOf("expenses" to expensesToExport, "labels" to labels))
-        val dataJsonBytes = dataJsonString.toByteArray()
-        return ResponseEntity
-            .ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=cashManagerData_${LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)}.json")
-            .contentType(MediaType.APPLICATION_JSON)
-            .contentLength(dataJsonBytes.size.toLong())
-            .body(dataJsonBytes)
+        return export(mapOf("expenses" to expensesToExport, "labels" to labels))
+            .toByteArray()
+            .let { dataJsonBytes ->
+                ResponseEntity
+                    .ok()
+                    .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment;filename=cashManagerData_${LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)}.json"
+                    ).contentType(MediaType.APPLICATION_JSON)
+                    .contentLength(dataJsonBytes.size.toLong())
+                    .body(dataJsonBytes)
+            }
     }
 
     @PostMapping("/import")

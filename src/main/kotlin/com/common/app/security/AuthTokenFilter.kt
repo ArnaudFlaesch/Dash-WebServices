@@ -31,19 +31,22 @@ class AuthTokenFilter(
         try {
             val jwt = parseJwt(request)
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                val username: String = jwtUtils.getUserNameFromJwtToken(jwt)
-                val userDetails = userDetailsService.loadUserByUsername(username)
-                val authentication =
-                    UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.authorities
-                    )
-                authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
-                SecurityContextHolder.getContext().authentication = authentication
+                jwtUtils
+                    .getUserNameFromJwtToken(jwt)
+                    .let(userDetailsService::loadUserByUsername)
+                    .let { userDetails ->
+                        UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.authorities
+                        )
+                    }.let { authentication ->
+                        authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
+                        SecurityContextHolder.getContext().authentication = authentication
+                    }
             }
         } catch (e: UsernameNotFoundException) {
-            Companion.logger.error("Cannot set user authentication: {}", e.message)
+            Companion.logger.error("Cannot set user authentication: ${e.message}", e)
         }
         filterChain.doFilter(request, response)
     }

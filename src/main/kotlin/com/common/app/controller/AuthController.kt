@@ -14,7 +14,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
-import java.util.stream.Collectors
 
 @CrossOrigin(origins = ["*"], maxAge = 3600)
 @RestController
@@ -40,12 +39,7 @@ class AuthController(
         val userDetails = authentication.principal as UserDetailsImpl
 
         applicationEventPublisher.publishEvent(DashEvent(this, Constants.USER_LOGGED_IN_EVENT, NotificationType.WARN))
-        val roles =
-            userDetails.authorities
-                .stream()
-                .map { item: GrantedAuthority -> item.authority }
-                .collect(Collectors.toList())
-
+        val roles = userDetails.authorities.map(GrantedAuthority::getAuthority)
         return JwtResponse(jwt, userDetails.id, userDetails.username, userDetails.email, roles)
     }
 }

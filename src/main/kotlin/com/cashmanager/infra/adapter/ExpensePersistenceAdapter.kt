@@ -35,12 +35,10 @@ class ExpensePersistenceAdapter(
     ): List<TotalExpenseByMonthDomain> =
         expenseRepository.getTotalExpensesByMonthByLabelId(labelId, authenticatedUserId).map(TotalExpenseByMonthEntity::toDomain)
 
-    fun insertExpense(expense: ExpenseDomain): ExpenseDomain {
-        val labelEntity = labelRepository.getReferenceById(expense.labelId)
-        val expenseToCreate =
-            ExpenseEntity(id = 0, amount = expense.amount, expenseDate = expense.expenseDate, label = labelEntity)
-        return expenseRepository.save(expenseToCreate).toDomain()
-    }
+    fun insertExpense(expense: ExpenseDomain): ExpenseDomain =
+        ExpenseEntity(id = 0, amount = expense.amount, expenseDate = expense.expenseDate, label = labelRepository.getReferenceById(expense.labelId))
+            .let(expenseRepository::save)
+            .let(ExpenseEntity::toDomain)
 
     fun deleteExpense(expenseId: Int) {
         val expense = expenseRepository.getReferenceById(expenseId)

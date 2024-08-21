@@ -20,29 +20,30 @@ class IncidentWidgetAdapter(
 
     private fun getIncidentConfigEntityForWidget(widgetId: Int): IncidentEntity =
         incidentWidgetRepository.findByWidgetId(widgetId).let { incidentConfig ->
-            return if (incidentConfig != null) {
-                incidentConfig
-            } else {
-                val widgetConfig = widgetRepository.getReferenceById(widgetId)
-                incidentWidgetRepository.save(
-                    IncidentEntity(0, OffsetDateTime.now(), widgetConfig)
-                )
-            }
+            return incidentConfig ?: widgetRepository
+                .getReferenceById(widgetId)
+                .let { widgetConfig ->
+                    incidentWidgetRepository.save(
+                        IncidentEntity(0, OffsetDateTime.now(), widgetConfig)
+                    )
+                }
         }
 
-    fun startStreak(widgetId: Int): IncidentDomain {
-        val oldIncidentConfig = getIncidentConfigEntityForWidget(widgetId)
-        val updatedConfig = oldIncidentConfig.copy(lastIncidentDate = OffsetDateTime.now())
-        return incidentWidgetRepository.save(updatedConfig).toDomain()
-    }
+    fun startStreak(widgetId: Int): IncidentDomain =
+        getIncidentConfigEntityForWidget(widgetId)
+            .copy(lastIncidentDate = OffsetDateTime.now())
+            .let(incidentWidgetRepository::save)
+            .let(IncidentEntity::toDomain)
 
     fun endStreak(widgetId: Int): IncidentDomain {
         val oldIncidentConfig = getIncidentConfigEntityForWidget(widgetId)
         val lastIncidentDate = oldIncidentConfig.lastIncidentDate
-        val oldStreak = IncidentStreakEntity(0, lastIncidentDate, OffsetDateTime.now(), oldIncidentConfig)
-        this.incidentStreakRepository.save(oldStreak)
-        val updatedConfig = oldIncidentConfig.copy(lastIncidentDate = OffsetDateTime.now())
-        return incidentWidgetRepository.save(updatedConfig).toDomain()
+
+        return IncidentStreakEntity(0, lastIncidentDate, OffsetDateTime.now(), oldIncidentConfig)
+            .let(incidentStreakRepository::save)
+            .let { oldIncidentConfig.copy(lastIncidentDate = OffsetDateTime.now()) }
+            .let(incidentWidgetRepository::save)
+            .let(IncidentEntity::toDomain)
     }
 
     fun getIncidentStreaks(incidentId: Int): List<IncidentStreakDomain> =

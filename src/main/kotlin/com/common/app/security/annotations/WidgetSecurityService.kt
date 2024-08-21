@@ -10,9 +10,10 @@ class WidgetSecurityService(
     val userService: UserService,
     val widgetPersistenceAdapter: WidgetPersistenceAdapter
 ) {
-    fun doesWidgetBelongToUser(widgetId: Int): Boolean {
-        val authUser = userService.getCurrentAuthenticatedUser()
-        val userWidgets = widgetPersistenceAdapter.getUserWidgets(authUser.id)
-        return userWidgets.map(WidgetDomain::id).contains(widgetId)
-    }
+    fun doesWidgetBelongToUser(widgetId: Int): Boolean =
+        userService
+            .getCurrentAuthenticatedUser()
+            .let { authUser -> widgetPersistenceAdapter.getUserWidgets(authUser.id) }
+            .map(WidgetDomain::id)
+            .contains(widgetId)
 }

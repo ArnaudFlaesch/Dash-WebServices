@@ -1,6 +1,5 @@
 package com.common.app.security
 
-import com.common.infra.entity.UserEntity
 import com.common.infra.repository.UserRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -14,11 +13,9 @@ class UserDetailsServiceImpl(
 ) : UserDetailsService {
     @Transactional
     @Throws(UsernameNotFoundException::class)
-    override fun loadUserByUsername(username: String): UserDetails {
-        val userEntity: UserEntity =
-            userRepository
-                .findByUsername(username)
-                .orElseThrow { UsernameNotFoundException("User Not Found with username: $username") }
-        return UserDetailsImpl.build(userEntity)
-    }
+    override fun loadUserByUsername(username: String): UserDetails =
+        userRepository
+            .findByUsername(username)
+            .orElseThrow { UsernameNotFoundException("User Not Found with username: $username") }
+            .let(UserDetailsImpl::build)
 }

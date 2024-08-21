@@ -13,17 +13,14 @@ class MiniWidgetPersistenceAdapter(
 ) {
     fun findAuthenticatedUserMiniWidgets(userId: Int): List<MiniWidgetDomain> = miniWidgetRepository.findByUserId(userId).map(MiniWidgetEntity::toDomain)
 
-    fun saveMiniWidget(widgetData: MiniWidgetDomain): MiniWidgetDomain {
-        val userEntity = userRepository.getReferenceById(widgetData.userId)
-        val widgetToSave =
-            MiniWidgetEntity(
-                id = widgetData.id,
-                type = widgetData.type,
-                data = widgetData.data,
-                user = userEntity
-            )
-        return miniWidgetRepository.save(widgetToSave).toDomain()
-    }
+    fun saveMiniWidget(widgetData: MiniWidgetDomain): MiniWidgetDomain =
+        MiniWidgetEntity(
+            id = widgetData.id,
+            type = widgetData.type,
+            data = widgetData.data,
+            user = userRepository.getReferenceById(widgetData.userId)
+        ).let(miniWidgetRepository::save)
+            .let(MiniWidgetEntity::toDomain)
 
     fun updateWidgetData(
         widgetId: Int,
