@@ -37,15 +37,19 @@ class DashConfigController(
     fun downloadJsonFile(): ResponseEntity<ByteArray?>? {
         val widgets: List<WidgetDomain> = widgetService.getUserWidgets()
         val tabs: List<TabDomain> = tabService.getUserTabs()
-        val configJsonString: String = export(mapOf("widgets" to widgets, "tabs" to tabs))
-        val configJsonBytes = configJsonString.toByteArray()
         applicationEventPublisher.publishEvent(DashEvent(this, Constants.EXPORT_CONFIG_EVENT, NotificationType.WARN))
-        return ResponseEntity
-            .ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=dashboardConfig_${LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)}.json")
-            .contentType(MediaType.APPLICATION_JSON)
-            .contentLength(configJsonBytes.size.toLong())
-            .body(configJsonBytes)
+        return export(mapOf("widgets" to widgets, "tabs" to tabs))
+            .toByteArray()
+            .let { configJsonBytes ->
+                ResponseEntity
+                    .ok()
+                    .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment;filename=dashboardConfig_${LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)}.json"
+                    ).contentType(MediaType.APPLICATION_JSON)
+                    .contentLength(configJsonBytes.size.toLong())
+                    .body(configJsonBytes)
+            }
     }
 
     @PostMapping("/import")
@@ -55,9 +59,10 @@ class DashConfigController(
         logger.info("Import commencé")
         val importData = ObjectMapper().readValue(file.bytes, ImportData::class.java)
         importData.tabs.forEach { tab ->
-            val widgets = importData.widgets.filter { widget -> widget.tabId == tab.id }
             val insertedTab = tabService.importTab(tab.label, tab.tabOrder)
-            widgets.forEach { widget -> widgetService.importWidget(widget.type, widget.widgetOrder, widget.data, insertedTab.id) }
+            importData.widgets
+                .filter { widget -> widget.tabId == tab.id }
+                .forEach { widget -> widgetService.importWidget(widget.type, widget.widgetOrder, widget.data, insertedTab.id) }
         }
         logger.info("Import terminé")
         return true

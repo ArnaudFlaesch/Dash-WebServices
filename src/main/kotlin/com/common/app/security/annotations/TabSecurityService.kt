@@ -10,9 +10,10 @@ class TabSecurityService(
     val userService: UserService,
     val tabPersistenceAdapter: TabPersistenceAdapter
 ) {
-    fun doesTabBelongToUser(tabId: Int): Boolean {
-        val authUser = userService.getCurrentAuthenticatedUser()
-        val tabs = tabPersistenceAdapter.getUserTabs(authUser.id)
-        return tabs.map(TabDomain::id).contains(tabId)
-    }
+    fun doesTabBelongToUser(tabId: Int): Boolean =
+        userService
+            .getCurrentAuthenticatedUser()
+            .let { authUser -> tabPersistenceAdapter.getUserTabs(authUser.id) }
+            .map(TabDomain::id)
+            .contains(tabId)
 }

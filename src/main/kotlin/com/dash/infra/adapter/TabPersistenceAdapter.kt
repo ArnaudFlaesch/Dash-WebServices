@@ -18,12 +18,10 @@ class TabPersistenceAdapter(
     fun addTab(
         tabLabel: String,
         userId: Int
-    ): TabDomain {
-        val userEntity = userRepository.getReferenceById(userId)
-        val tabToInsert =
-            TabEntity(id = 0, label = tabLabel, tabOrder = tabRepository.getNumberOfTabs(userId) + 1, user = userEntity)
-        return tabRepository.save(tabToInsert).toDomain()
-    }
+    ): TabDomain =
+        TabEntity(id = 0, label = tabLabel, tabOrder = tabRepository.getNumberOfTabs(userId) + 1, user = userRepository.getReferenceById(userId))
+            .let(tabRepository::save)
+            .let(TabEntity::toDomain)
 
     fun saveTabs(tabList: List<TabDomain>): List<TabDomain> =
         tabList
@@ -31,27 +29,27 @@ class TabPersistenceAdapter(
             .map(tabRepository::save)
             .map(TabEntity::toDomain)
 
-    fun importTab(newTab: TabDomain): TabDomain {
-        val userEntity = userRepository.getReferenceById(newTab.userId)
-        val tabToInsert = TabEntity(id = 0, label = newTab.label, tabOrder = newTab.tabOrder, user = userEntity)
-        return tabRepository.save(tabToInsert).toDomain()
-    }
+    fun importTab(newTab: TabDomain): TabDomain =
+        TabEntity(id = 0, label = newTab.label, tabOrder = newTab.tabOrder, user = userRepository.getReferenceById(newTab.userId))
+            .let(tabRepository::save)
+            .let(TabEntity::toDomain)
 
     fun updateTab(
         tabId: Int,
         label: String,
         tabOrder: Int
-    ): TabDomain {
-        val oldTabToUpdate = tabRepository.getReferenceById(tabId)
-        val updatedTab = oldTabToUpdate.copy(label = label, tabOrder = tabOrder)
-        return tabRepository.save(updatedTab).toDomain()
-    }
+    ): TabDomain =
+        tabRepository
+            .getReferenceById(tabId)
+            .copy(label = label, tabOrder = tabOrder)
+            .let(tabRepository::save)
+            .let(TabEntity::toDomain)
 
-    fun deleteTab(tabId: Int) {
-        widgetRepository.deleteWidgetsByTabId(tabId)
-        val tab = tabRepository.getReferenceById(tabId)
-        return tabRepository.delete(tab)
-    }
+    fun deleteTab(tabId: Int) =
+        widgetRepository
+            .deleteWidgetsByTabId(tabId)
+            .let { _ -> tabRepository.getReferenceById(tabId) }
+            .let(tabRepository::delete)
 
     private fun mapTabDomainToTabEntity(tabDomain: TabDomain): TabEntity =
         TabEntity(
