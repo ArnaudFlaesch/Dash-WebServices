@@ -10,9 +10,11 @@ trim_trailing_whitespace = false
 
 [*.kt]
 indent_size = 4
-max_line_length = 160
+max_line_length = 120
 
 ktlint_standard_no-wildcard-imports = disabled
+ktlint_standard_chain-wrapping = enabled
+ktlint_function_signature_rule_force_multiline_when_parameter_count_greater_or_equal_than = unset
 ij_kotlin_allow_trailing_comma_on_call_site = false
 ij_kotlin_allow_trailing_comma = false
 

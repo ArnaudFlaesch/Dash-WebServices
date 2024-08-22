@@ -19,7 +19,10 @@ class TwitterWidgetController(
         @RequestParam(value = "search", defaultValue = "") searchParam: String,
         @RequestParam(value = "pageNumber", defaultValue = "0") pageNumber: Int,
         @RequestParam(value = "pageSize", defaultValue = "10") pageSize: Int
-    ): Page<FollowedUser> = PageMapper.mapPageToPageResponse(twitterWidgetService.getFollowedUsers(searchParam, pageNumber, pageSize))
+    ): Page<FollowedUser> =
+        PageMapper.mapPageToPageResponse(
+            twitterWidgetService.getFollowedUsers(searchParam, pageNumber, pageSize)
+        )
 
     @PostMapping("/addFollowedUser")
     fun addFollowedUser(

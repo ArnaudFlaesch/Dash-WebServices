@@ -21,10 +21,10 @@ class StravaWidgetService(
 
     fun getAthleteData(token: String): StravaAthleteDomain = stravaWidgetAdapter.getAthleteData(token)
 
-    fun getAthleteActivities(
-        token: String,
-        pageNumber: Int?,
-        numberOfActivities: Int?
-    ): List<StravaActivityDomain> =
-        stravaWidgetAdapter.getAthleteActivities(token, pageNumber ?: PAGE_NUMBER, numberOfActivities ?: NUMBER_OF_ACTIVITIES_PER_PAGE)
+    fun getAthleteActivities(token: String, pageNumber: Int?, numberOfActivities: Int?): List<StravaActivityDomain> =
+        stravaWidgetAdapter.getAthleteActivities(
+            token,
+            pageNumber ?: PAGE_NUMBER,
+            numberOfActivities ?: NUMBER_OF_ACTIVITIES_PER_PAGE
+        )
 }

@@ -29,7 +29,10 @@ class WorkoutTypeRepositoryTests : AbstractIT() {
 
         workoutTypeRepository.saveAll(workoutTypes)
 
-        val listWorkoutTypes = workoutTypeRepository.findByUserIdOrderByNameAsc(authenticatedUser.id)
+        val listWorkoutTypes =
+            workoutTypeRepository.findByUserIdOrderByNameAsc(
+                authenticatedUser.id
+            )
         assertThat(listWorkoutTypes).hasSize(2)
 
         assertNotNull(listWorkoutTypes[0].id)

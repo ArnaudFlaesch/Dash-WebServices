@@ -8,7 +8,12 @@ import jakarta.persistence.*
 @Table(name = "followed_user")
 data class FollowedUserEntity(
     @Id
-    @SequenceGenerator(name = "followed-user-seq-gen", sequenceName = "followed_user_id_seq", initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(
+        name = "followed-user-seq-gen",
+        sequenceName = "followed_user_id_seq",
+        initialValue = 1,
+        allocationSize = 1
+    )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "followed-user-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,

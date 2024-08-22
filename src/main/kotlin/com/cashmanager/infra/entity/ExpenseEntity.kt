@@ -18,7 +18,7 @@ import java.time.LocalDate
     query =
         "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
             "FROM Expense E " +
-            "WHERE E.label_id IN (SELECT id from PUBLIC.label L WHERE L.user_id = :userId)" +
+            "WHERE E.label_id IN (SELECT id from public.label L WHERE L.user_id = :userId)" +
             "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
     name = "getExpensesByMonth",
     resultClass = TotalExpenseByMonthEntity::class,
@@ -29,7 +29,7 @@ import java.time.LocalDate
         "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
             "FROM Expense E " +
             "WHERE label_id = :labelId " +
-            "AND E.label_id IN (SELECT id from PUBLIC.label L WHERE L.user_id = :userId)" +
+            "AND E.label_id IN (SELECT id from public.label L WHERE L.user_id = :userId)" +
             "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
     name = "getExpensesByMonthByLabelId",
     resultClass = TotalExpenseByMonthEntity::class,
@@ -39,7 +39,12 @@ import java.time.LocalDate
 @Table(name = "expense")
 data class ExpenseEntity(
     @Id
-    @SequenceGenerator(name = "expense-seq-gen", sequenceName = "expense_id_seq", initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(
+        name = "expense-seq-gen",
+        sequenceName = "expense_id_seq",
+        initialValue = 1,
+        allocationSize = 1
+    )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "expense-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
@@ -55,5 +60,11 @@ data class ExpenseEntity(
         private const val serialVersionUID: Long = 1
     }
 
-    fun toDomain() = ExpenseDomain(id = this.id, amount = this.amount, expenseDate = this.expenseDate, labelId = label.id)
+    fun toDomain() =
+        ExpenseDomain(
+            id = this.id,
+            amount = this.amount,
+            expenseDate = this.expenseDate,
+            labelId = label.id
+        )
 }

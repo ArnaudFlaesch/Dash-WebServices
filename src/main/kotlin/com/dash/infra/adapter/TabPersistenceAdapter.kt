@@ -13,14 +13,18 @@ class TabPersistenceAdapter(
     private val tabRepository: TabRepository,
     private val widgetRepository: WidgetRepository
 ) {
-    fun getUserTabs(userId: Int): List<TabDomain> = tabRepository.findByUserIdOrderByTabOrderAsc(userId).map(TabEntity::toDomain)
+    fun getUserTabs(userId: Int): List<TabDomain> =
+        tabRepository
+            .findByUserIdOrderByTabOrderAsc(userId)
+            .map(TabEntity::toDomain)
 
-    fun addTab(
-        tabLabel: String,
-        userId: Int
-    ): TabDomain =
-        TabEntity(id = 0, label = tabLabel, tabOrder = tabRepository.getNumberOfTabs(userId) + 1, user = userRepository.getReferenceById(userId))
-            .let(tabRepository::save)
+    fun addTab(tabLabel: String, userId: Int): TabDomain =
+        TabEntity(
+            id = 0,
+            label = tabLabel,
+            tabOrder = tabRepository.getNumberOfTabs(userId) + 1,
+            user = userRepository.getReferenceById(userId)
+        ).let(tabRepository::save)
             .let(TabEntity::toDomain)
 
     fun saveTabs(tabList: List<TabDomain>): List<TabDomain> =
@@ -30,15 +34,15 @@ class TabPersistenceAdapter(
             .map(TabEntity::toDomain)
 
     fun importTab(newTab: TabDomain): TabDomain =
-        TabEntity(id = 0, label = newTab.label, tabOrder = newTab.tabOrder, user = userRepository.getReferenceById(newTab.userId))
-            .let(tabRepository::save)
+        TabEntity(
+            id = 0,
+            label = newTab.label,
+            tabOrder = newTab.tabOrder,
+            user = userRepository.getReferenceById(newTab.userId)
+        ).let(tabRepository::save)
             .let(TabEntity::toDomain)
 
-    fun updateTab(
-        tabId: Int,
-        label: String,
-        tabOrder: Int
-    ): TabDomain =
+    fun updateTab(tabId: Int, label: String, tabOrder: Int): TabDomain =
         tabRepository
             .getReferenceById(tabId)
             .copy(label = label, tabOrder = tabOrder)

@@ -21,13 +21,26 @@ class TwitterRepositoryTests : AbstractIT() {
     fun testInsertFollowedUsers() {
         val userId = 1
         val followedUser1 =
-            FollowedUserEntity(id = 0, userHandle = "Nono", user = userRepository.getReferenceById(userId))
+            FollowedUserEntity(
+                id = 0,
+                userHandle = "Nono",
+                user = userRepository.getReferenceById(userId)
+            )
         val followedUser2 =
-            FollowedUserEntity(id = 0, userHandle = "Nono2", user = userRepository.getReferenceById(userId))
+            FollowedUserEntity(
+                id = 0,
+                userHandle = "Nono2",
+                user = userRepository.getReferenceById(userId)
+            )
         twitterWidgetRepository.save(followedUser1)
         twitterWidgetRepository.save(followedUser2)
 
-        val followedUsersList = twitterWidgetRepository.searchFollowedUsers("", userId, Pageable.ofSize(10))
+        val followedUsersList =
+            twitterWidgetRepository.searchFollowedUsers(
+                "",
+                userId,
+                Pageable.ofSize(10)
+            )
         assertThat(followedUsersList.content).hasSize(2)
         assertThat(followedUsersList.content[0].id).isNotNull
         assertThat(followedUsersList.content[0].userHandle).isEqualTo("Nono")

@@ -141,7 +141,10 @@ data class StravaActivityResponse(
         val resourceState: Int = 0
     ) {
         fun toDomain(): StravaActivityDomain.ActivityAthleteDomain =
-            StravaActivityDomain.ActivityAthleteDomain(id = this.id, resourceState = this.resourceState)
+            StravaActivityDomain.ActivityAthleteDomain(
+                id = this.id,
+                resourceState = this.resourceState
+            )
     }
 
     data class ActivityMap(

@@ -18,13 +18,16 @@ class RestClient(
     private val logger = LoggerFactory.getLogger(this::class.java.name)
 
     @Throws(RestClientException::class)
-    fun <T : Any> getDataFromProxy(
-        url: String,
-        responseClass: KClass<T>,
-        httpEntity: HttpEntity<T>? = null
-    ): T {
+    fun <T : Any> getDataFromProxy(url: String, responseClass: KClass<T>, httpEntity: HttpEntity<T>? = null): T {
         logger.info("Send GET request to url : $url")
-        return restTemplate.exchange(URI.create(url), HttpMethod.GET, httpEntity, responseClass.java).body ?: throw ErrorHandler.Companion.NotFoundException()
+        return restTemplate
+            .exchange(
+                URI.create(url),
+                HttpMethod.GET,
+                httpEntity,
+                responseClass.java
+            ).body
+            ?: throw ErrorHandler.Companion.NotFoundException()
     }
 
     @Throws(RestClientException::class)
@@ -34,16 +37,20 @@ class RestClient(
         httpEntity: HttpEntity<T>
     ): T {
         logger.info("Send GET request to url : $url")
-        return restTemplate.exchange(URI.create(url), HttpMethod.GET, httpEntity, responseClass).body ?: throw ErrorHandler.Companion.NotFoundException()
+        return restTemplate
+            .exchange(
+                URI.create(url),
+                HttpMethod.GET,
+                httpEntity,
+                responseClass
+            ).body
+            ?: throw ErrorHandler.Companion.NotFoundException()
     }
 
     @Throws(RestClientException::class)
-    fun <T : Any> postDataFromProxy(
-        url: String,
-        data: Any,
-        expectedResponseType: KClass<T>
-    ): T {
+    fun <T : Any> postDataFromProxy(url: String, data: Any, expectedResponseType: KClass<T>): T {
         logger.info("Send POST request to url : $url")
-        return restTemplate.postForObject(url, data, expectedResponseType.java) ?: throw ErrorHandler.Companion.NotFoundException()
+        return restTemplate.postForObject(url, data, expectedResponseType.java)
+            ?: throw ErrorHandler.Companion.NotFoundException()
     }
 }

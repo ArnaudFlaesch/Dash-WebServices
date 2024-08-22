@@ -65,8 +65,12 @@ class CashManagerConfigControllerTests : AbstractIT() {
             given()
                 .multiPart("file", ClassPathResource("./files/cashManagerData.json").file)
                 .port(port)
-                .headers(Headers(createAuthenticationHeader(jwtToken), Header("content-type", "multipart/form-data")))
-                .`when`()
+                .headers(
+                    Headers(
+                        createAuthenticationHeader(jwtToken),
+                        Header("content-type", "multipart/form-data")
+                    )
+                ).`when`()
                 .post("${CASH_MANAGER_CONFIG_ENDPOINT}import")
                 .then()
                 .log()

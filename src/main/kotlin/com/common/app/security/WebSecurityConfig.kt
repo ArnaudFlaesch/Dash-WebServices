@@ -42,23 +42,38 @@ class WebSecurityConfig(
     @Bean
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        val authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder::class.java)
-        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder())
+        val authenticationManagerBuilder =
+            http.getSharedObject(
+                AuthenticationManagerBuilder::class.java
+            )
+        authenticationManagerBuilder
+            .userDetailsService(
+                userDetailsService
+            ).passwordEncoder(passwordEncoder())
         val authenticationManager = authenticationManagerBuilder.build()
 
         http
-            .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
-            .cors(Customizer.withDefaults())
+            .addFilterBefore(
+                authenticationJwtTokenFilter(),
+                UsernamePasswordAuthenticationFilter::class.java
+            ).cors(Customizer.withDefaults())
             .csrf { csrf -> csrf.disable() }
             .authorizeHttpRequests { authorizeRequests ->
                 authorizeRequests
-                    .requestMatchers("/auth/**", "/actuator/**", "/swagger-ui/*", "/api-docs/**", "/error")
-                    .permitAll()
+                    .requestMatchers(
+                        "/auth/**",
+                        "/actuator/**",
+                        "/swagger-ui/*",
+                        "/api-docs/**",
+                        "/error"
+                    ).permitAll()
                     .anyRequest()
                     .authenticated()
             }.authenticationManager(authenticationManager)
             .exceptionHandling { auth -> auth.authenticationEntryPoint(unauthorizedHandler) }
-            .sessionManagement { sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            .sessionManagement { sessionManagement ->
+                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            }
         return http.build()
     }
 

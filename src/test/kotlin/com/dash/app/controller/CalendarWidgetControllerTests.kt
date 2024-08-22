@@ -120,8 +120,14 @@ class CalendarWidgetControllerTests : AbstractIT() {
             "https://calendar.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics"
 
         Mockito
-            .`when`(restTemplate.exchange(URI.create(calendarUrl), HttpMethod.GET, null, String::class.java))
-            .thenReturn(ResponseEntity(mockedCalendarDataResponse, HttpStatus.OK))
+            .`when`(
+                restTemplate.exchange(
+                    URI.create(calendarUrl),
+                    HttpMethod.GET,
+                    null,
+                    String::class.java
+                )
+            ).thenReturn(ResponseEntity(mockedCalendarDataResponse, HttpStatus.OK))
 
         val getCalendarDataResponse =
             given()
@@ -148,8 +154,14 @@ class CalendarWidgetControllerTests : AbstractIT() {
         val calendarUrl = "http://wrong_calendar_url.com"
 
         Mockito
-            .`when`(restTemplate.exchange(URI.create(calendarUrl), HttpMethod.GET, null, String::class.java))
-            .thenReturn(ResponseEntity(HttpStatus.OK))
+            .`when`(
+                restTemplate.exchange(
+                    URI.create(calendarUrl),
+                    HttpMethod.GET,
+                    null,
+                    String::class.java
+                )
+            ).thenReturn(ResponseEntity(HttpStatus.OK))
 
         given()
             .port(port)

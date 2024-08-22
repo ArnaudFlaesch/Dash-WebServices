@@ -41,7 +41,8 @@ class AuthTokenFilter(
                             userDetails.authorities
                         )
                     }.let { authentication ->
-                        authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
+                        authentication.details =
+                            WebAuthenticationDetailsSource().buildDetails(request)
                         SecurityContextHolder.getContext().authentication = authentication
                     }
             }

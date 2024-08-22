@@ -13,14 +13,9 @@ class SteamWidgetService(
 ) {
     fun getPlayerData(steamUserId: String): List<PlayerDataDomain> = steamWidgetAdapter.getPlayerData(steamUserId)
 
-    fun getOwnedGames(
-        steamUserId: String,
-        search: String,
-        pageNumber: Int
-    ): Page<GameInfoDomain> = steamWidgetAdapter.getOwnedGames(steamUserId, search, pageNumber)
+    fun getOwnedGames(steamUserId: String, search: String, pageNumber: Int): Page<GameInfoDomain> =
+        steamWidgetAdapter.getOwnedGames(steamUserId, search, pageNumber)
 
-    fun getAchievementList(
-        appId: String,
-        steamUserId: String
-    ): AchievementDataDomain = steamWidgetAdapter.getAchievementList(appId, steamUserId)
+    fun getAchievementList(appId: String, steamUserId: String): AchievementDataDomain =
+        steamWidgetAdapter.getAchievementList(appId, steamUserId)
 }

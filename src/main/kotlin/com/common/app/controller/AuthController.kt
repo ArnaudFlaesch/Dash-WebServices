@@ -38,7 +38,9 @@ class AuthController(
         val jwt = jwtUtils.generateJwtToken(authentication)
         val userDetails = authentication.principal as UserDetailsImpl
 
-        applicationEventPublisher.publishEvent(DashEvent(this, Constants.USER_LOGGED_IN_EVENT, NotificationType.WARN))
+        applicationEventPublisher.publishEvent(
+            DashEvent(this, Constants.USER_LOGGED_IN_EVENT, NotificationType.WARN)
+        )
         val roles = userDetails.authorities.map(GrantedAuthority::getAuthority)
         return JwtResponse(jwt, userDetails.id, userDetails.username, userDetails.email, roles)
     }

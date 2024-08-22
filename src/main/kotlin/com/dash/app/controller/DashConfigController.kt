@@ -37,7 +37,9 @@ class DashConfigController(
     fun downloadJsonFile(): ResponseEntity<ByteArray?>? {
         val widgets: List<WidgetDomain> = widgetService.getUserWidgets()
         val tabs: List<TabDomain> = tabService.getUserTabs()
-        applicationEventPublisher.publishEvent(DashEvent(this, Constants.EXPORT_CONFIG_EVENT, NotificationType.WARN))
+        applicationEventPublisher.publishEvent(
+            DashEvent(this, Constants.EXPORT_CONFIG_EVENT, NotificationType.WARN)
+        )
         return export(mapOf("widgets" to widgets, "tabs" to tabs))
             .toByteArray()
             .let { configJsonBytes ->
@@ -45,7 +47,9 @@ class DashConfigController(
                     .ok()
                     .header(
                         HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment;filename=dashboardConfig_${LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)}.json"
+                        "attachment;filename=dashboardConfig_${LocalDate.now().format(
+                            DateTimeFormatter.BASIC_ISO_DATE
+                        )}.json"
                     ).contentType(MediaType.APPLICATION_JSON)
                     .contentLength(configJsonBytes.size.toLong())
                     .body(configJsonBytes)
@@ -62,7 +66,14 @@ class DashConfigController(
             val insertedTab = tabService.importTab(tab.label, tab.tabOrder)
             importData.widgets
                 .filter { widget -> widget.tabId == tab.id }
-                .forEach { widget -> widgetService.importWidget(widget.type, widget.widgetOrder, widget.data, insertedTab.id) }
+                .forEach { widget ->
+                    widgetService.importWidget(
+                        widget.type,
+                        widget.widgetOrder,
+                        widget.data,
+                        insertedTab.id
+                    )
+                }
         }
         logger.info("Import terminé")
         return true

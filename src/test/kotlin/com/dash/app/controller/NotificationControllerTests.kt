@@ -70,7 +70,8 @@ class NotificationControllerTests : AbstractIT() {
         assertEquals(actualNotifications.content[0].notificationType, NotificationType.WARN)
         assertEquals(actualNotifications.content[0].isRead, false)
 
-        val markNotificationsAsReadPayload = MarkNotificationsAsReadPayload(listOf(actualNotifications.content[0].id))
+        val markNotificationsAsReadPayload =
+            MarkNotificationsAsReadPayload(listOf(actualNotifications.content[0].id))
         val updatedNotifications =
             given()
                 .port(port)

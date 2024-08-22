@@ -31,7 +31,12 @@ class CashManagerConfigController(
     fun downloadJsonFile(): ResponseEntity<ByteArray?>? {
         val expensesToExport =
             expenseService.getUserExpenses().map { expense: ExpenseDomain ->
-                ExpenseExportDomain(expense.id, expense.amount, expense.expenseDate.toString(), expense.labelId)
+                ExpenseExportDomain(
+                    expense.id,
+                    expense.amount,
+                    expense.expenseDate.toString(),
+                    expense.labelId
+                )
             }
         val labels: List<LabelDomain> = labelService.getUserLabels()
         return export(mapOf("expenses" to expensesToExport, "labels" to labels))
@@ -41,7 +46,9 @@ class CashManagerConfigController(
                     .ok()
                     .header(
                         HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment;filename=cashManagerData_${LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)}.json"
+                        "attachment;filename=cashManagerData_${LocalDate.now().format(
+                            DateTimeFormatter.BASIC_ISO_DATE
+                        )}.json"
                     ).contentType(MediaType.APPLICATION_JSON)
                     .contentLength(dataJsonBytes.size.toLong())
                     .body(dataJsonBytes)
@@ -53,12 +60,20 @@ class CashManagerConfigController(
         @RequestParam("file") file: MultipartFile
     ): Boolean {
         logger.info("Import commencé")
-        val importData = ObjectMapper().registerModule(JavaTimeModule()).readValue(file.bytes, CashManagerImportData::class.java)
+        val importData =
+            ObjectMapper()
+                .registerModule(
+                    JavaTimeModule()
+                ).readValue(file.bytes, CashManagerImportData::class.java)
         importData.labels.forEach { label ->
             val expenses = importData.expenses.filter { expense -> expense.labelId == label.id }
             val insertedLabel = labelService.addLabel(label.label)
             expenses.forEach { expense ->
-                expenseService.addExpense(expense.amount, LocalDate.parse(expense.expenseDate), insertedLabel.id)
+                expenseService.addExpense(
+                    expense.amount,
+                    LocalDate.parse(expense.expenseDate),
+                    insertedLabel.id
+                )
             }
         }
         logger.info("Import terminé")

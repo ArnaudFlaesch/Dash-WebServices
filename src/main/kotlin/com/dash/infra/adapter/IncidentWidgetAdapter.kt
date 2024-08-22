@@ -16,18 +16,22 @@ class IncidentWidgetAdapter(
     private val incidentStreakRepository: IncidentStreakRepository,
     private val widgetRepository: WidgetRepository
 ) {
-    fun getIncidentConfigForWidget(widgetId: Int): IncidentDomain = this.getIncidentConfigEntityForWidget(widgetId).toDomain()
+    fun getIncidentConfigForWidget(widgetId: Int): IncidentDomain =
+        this.getIncidentConfigEntityForWidget(widgetId).toDomain()
 
     private fun getIncidentConfigEntityForWidget(widgetId: Int): IncidentEntity =
-        incidentWidgetRepository.findByWidgetId(widgetId).let { incidentConfig ->
-            return incidentConfig ?: widgetRepository
-                .getReferenceById(widgetId)
-                .let { widgetConfig ->
-                    incidentWidgetRepository.save(
-                        IncidentEntity(0, OffsetDateTime.now(), widgetConfig)
-                    )
-                }
-        }
+        incidentWidgetRepository
+            .findByWidgetId(widgetId)
+            .let { incidentConfig ->
+                incidentConfig
+                    ?: widgetRepository
+                        .getReferenceById(widgetId)
+                        .let { widgetConfig ->
+                            incidentWidgetRepository.save(
+                                IncidentEntity(0, OffsetDateTime.now(), widgetConfig)
+                            )
+                        }
+            }
 
     fun startStreak(widgetId: Int): IncidentDomain =
         getIncidentConfigEntityForWidget(widgetId)
@@ -47,5 +51,7 @@ class IncidentWidgetAdapter(
     }
 
     fun getIncidentStreaks(incidentId: Int): List<IncidentStreakDomain> =
-        incidentStreakRepository.findByIncidentId(incidentId).map(IncidentStreakEntity::toDomain)
+        incidentStreakRepository
+            .findByIncidentId(incidentId)
+            .map(IncidentStreakEntity::toDomain)
 }

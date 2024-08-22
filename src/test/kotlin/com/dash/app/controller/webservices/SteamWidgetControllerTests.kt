@@ -68,10 +68,7 @@ class SteamWidgetControllerTests : AbstractIT() {
     inner class GetOwnedGamesTests {
         @ParameterizedTest
         @MethodSource("getOwnedGamesArguments")
-        fun testGetOwnedGames(
-            search: String?,
-            expectedNumberOfResults: Int
-        ) {
+        fun testGetOwnedGames(search: String?, expectedNumberOfResults: Int) {
             val ownedGamesData =
                 given()
                     .port(port)

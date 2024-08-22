@@ -71,8 +71,12 @@ class DashConfigControllerTests : AbstractIT() {
             given()
                 .multiPart("file", ClassPathResource("./files/dashboardConfigTest.json").file)
                 .port(port)
-                .headers(Headers(createAuthenticationHeader(jwtToken), Header("content-type", "multipart/form-data")))
-                .`when`()
+                .headers(
+                    Headers(
+                        createAuthenticationHeader(jwtToken),
+                        Header("content-type", "multipart/form-data")
+                    )
+                ).`when`()
                 .post("${CONFIG_ENDPOINT}import")
                 .then()
                 .log()

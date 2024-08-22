@@ -37,7 +37,8 @@ class WorkoutWidgetController(
     fun getWorkoutStatsByPeriod(
         @RequestParam("dateIntervalStart") dateIntervalStart: LocalDate,
         @RequestParam("dateIntervalEnd") dateIntervalEnd: LocalDate
-    ): List<WorkoutStatsByIntervalDomain> = workoutWidgetService.getWorkoutStatsByPeriod(dateIntervalStart, dateIntervalEnd)
+    ): List<WorkoutStatsByIntervalDomain> =
+        workoutWidgetService.getWorkoutStatsByPeriod(dateIntervalStart, dateIntervalEnd)
 
     @GetMapping("/workoutStatsByMonth")
     fun workoutStatsByMonth(

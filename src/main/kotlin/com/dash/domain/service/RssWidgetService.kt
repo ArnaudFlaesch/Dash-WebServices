@@ -8,5 +8,6 @@ import org.springframework.stereotype.Service
 class RssWidgetService(
     private val restClient: RestClient
 ) {
-    fun getJsonFeedFromUrl(url: String): String = parseXmlDataToJsonString(restClient.getDataFromProxy(url, String::class))
+    fun getJsonFeedFromUrl(url: String): String =
+        parseXmlDataToJsonString(restClient.getDataFromProxy(url, String::class))
 }

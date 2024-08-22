@@ -86,7 +86,10 @@ class ExpenseControllerTests : AbstractIT() {
                 .extract()
                 .`as`(object : TypeRef<List<TotalExpenseByMonthDomain>>() {})
         assertEquals(3, totalExpensesByMonth.size)
-        assertThat(totalExpensesByMonth.map(TotalExpenseByMonthDomain::total), containsInAnyOrder(55.0F, 32.0F, 137.0F))
+        assertThat(
+            totalExpensesByMonth.map(TotalExpenseByMonthDomain::total),
+            containsInAnyOrder(55.0F, 32.0F, 137.0F)
+        )
     }
 
     @Test
@@ -125,7 +128,10 @@ class ExpenseControllerTests : AbstractIT() {
                 .extract()
                 .`as`(object : TypeRef<List<TotalExpenseByMonthDomain>>() {})
         assertEquals(2, totalExpensesByMonth.size)
-        assertThat(totalExpensesByMonth.map(TotalExpenseByMonthDomain::total), containsInAnyOrder(32.0F, 137.0F))
+        assertThat(
+            totalExpensesByMonth.map(TotalExpenseByMonthDomain::total),
+            containsInAnyOrder(32.0F, 137.0F)
+        )
     }
 
     @Test

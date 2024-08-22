@@ -12,11 +12,7 @@ object IntegrationTestsUtils {
 
     fun authenticateUserRole(port: Int): JwtResponse = authenticate("usertest", "userpassword", port)
 
-    private fun authenticate(
-        username: String,
-        password: String,
-        port: Int
-    ): JwtResponse =
+    private fun authenticate(username: String, password: String, port: Int): JwtResponse =
         given()
             .port(port)
             .contentType(ContentType.JSON)

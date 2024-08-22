@@ -64,10 +64,7 @@ class RestClientTest : AbstractIT() {
 
     @ParameterizedTest
     @MethodSource("requestErrorsParams")
-    fun testGetRequestErrors(
-        statusCode: HttpStatus,
-        exceptionClass: Class<Exception>
-    ) {
+    fun testGetRequestErrors(statusCode: HttpStatus, exceptionClass: Class<Exception>) {
         mockServer
             .expect(ExpectedCount.once(), requestTo(URI(testUrl)))
             .andExpect(method(HttpMethod.GET))
@@ -91,17 +88,18 @@ class RestClientTest : AbstractIT() {
                     .contentType(MediaType.APPLICATION_JSON)
             )
         assertThrows(ErrorHandler.Companion.NotFoundException::class.java) {
-            restClient.getDataFromProxy(testUrl, object : ParameterizedTypeReference<List<String>>() {}, HttpEntity<List<String>>(HttpHeaders()))
+            restClient.getDataFromProxy(
+                testUrl,
+                object : ParameterizedTypeReference<List<String>>() {},
+                HttpEntity<List<String>>(HttpHeaders())
+            )
         }
         mockServer.verify()
     }
 
     @ParameterizedTest
     @MethodSource("requestErrorsParams")
-    fun testPostRequestErrors(
-        statusCode: HttpStatus,
-        exceptionClass: Class<Exception>
-    ) {
+    fun testPostRequestErrors(statusCode: HttpStatus, exceptionClass: Class<Exception>) {
         mockServer
             .expect(ExpectedCount.once(), requestTo(URI(testUrl)))
             .andExpect(method(HttpMethod.POST))
@@ -117,8 +115,14 @@ class RestClientTest : AbstractIT() {
 
     fun requestErrorsParams(): Stream<Arguments> =
         Stream.of(
-            arguments(HttpStatus.BAD_REQUEST, ErrorHandler.Companion.BadRequestException::class.java),
+            arguments(
+                HttpStatus.BAD_REQUEST,
+                ErrorHandler.Companion.BadRequestException::class.java
+            ),
             arguments(HttpStatus.NOT_FOUND, ErrorHandler.Companion.NotFoundException::class.java),
-            arguments(HttpStatus.INTERNAL_SERVER_ERROR, ErrorHandler.Companion.InternalServerErrorException::class.java)
+            arguments(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ErrorHandler.Companion.InternalServerErrorException::class.java
+            )
         )
 }

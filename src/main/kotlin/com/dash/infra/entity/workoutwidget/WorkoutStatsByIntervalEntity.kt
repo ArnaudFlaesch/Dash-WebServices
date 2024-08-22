@@ -6,5 +6,9 @@ data class WorkoutStatsByIntervalEntity(
     val totalNumberOfReps: Long,
     val workoutTypeName: String
 ) {
-    fun toDomain() = WorkoutStatsByIntervalDomain(totalNumberOfReps = this.totalNumberOfReps, workoutTypeName = this.workoutTypeName)
+    fun toDomain() =
+        WorkoutStatsByIntervalDomain(
+            totalNumberOfReps = this.totalNumberOfReps,
+            workoutTypeName = this.workoutTypeName
+        )
 }
