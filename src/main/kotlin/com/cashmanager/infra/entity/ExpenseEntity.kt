@@ -18,7 +18,7 @@ import java.time.LocalDate
     query =
         "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
             "FROM Expense E " +
-            "WHERE E.label_id IN (SELECT id from PUBLIC.label L WHERE L.user_id = :userId)" +
+            "WHERE E.label_id IN (SELECT id from public.label L WHERE L.user_id = :userId)" +
             "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
     name = "getExpensesByMonth",
     resultClass = TotalExpenseByMonthEntity::class,
@@ -29,7 +29,7 @@ import java.time.LocalDate
         "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
             "FROM Expense E " +
             "WHERE label_id = :labelId " +
-            "AND E.label_id IN (SELECT id from PUBLIC.label L WHERE L.user_id = :userId)" +
+            "AND E.label_id IN (SELECT id from public.label L WHERE L.user_id = :userId)" +
             "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
     name = "getExpensesByMonthByLabelId",
     resultClass = TotalExpenseByMonthEntity::class,
