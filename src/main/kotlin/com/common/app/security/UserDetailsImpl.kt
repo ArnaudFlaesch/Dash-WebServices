@@ -17,7 +17,8 @@ data class UserDetailsImpl(
         private const val serialVersionUID = 1L
 
         fun build(userEntity: UserEntity): UserDetailsImpl {
-            val authorities: List<GrantedAuthority> = listOf(SimpleGrantedAuthority(userEntity.role.name))
+            val authorities: List<GrantedAuthority> =
+                listOf(SimpleGrantedAuthority(userEntity.role.name))
 
             return UserDetailsImpl(
                 userEntity.id,

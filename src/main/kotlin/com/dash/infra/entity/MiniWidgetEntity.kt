@@ -11,7 +11,12 @@ import java.io.Serializable
 @Table(name = "mini_widget")
 data class MiniWidgetEntity(
     @Id
-    @SequenceGenerator(name = "mini-widget-seq-gen", sequenceName = "mini_widget_id_seq", initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(
+        name = "mini-widget-seq-gen",
+        sequenceName = "mini_widget_id_seq",
+        initialValue = 1,
+        allocationSize = 1
+    )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mini-widget-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,

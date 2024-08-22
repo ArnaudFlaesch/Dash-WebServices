@@ -17,10 +17,12 @@ class NotificationController(
     fun getNotifications(
         @RequestParam(value = "pageNumber", defaultValue = "0") pageNumber: Int,
         @RequestParam(value = "pageSize", defaultValue = "10") pageSize: Int
-    ): Page<NotificationDomain> = PageMapper.mapPageToPageResponse(notificationService.getNotifications(pageNumber, pageSize))
+    ): Page<NotificationDomain> =
+        PageMapper.mapPageToPageResponse(notificationService.getNotifications(pageNumber, pageSize))
 
     @PutMapping("/markNotificationAsRead")
     fun markNotificationAsRead(
         @RequestBody markNotificationsAsReadPayload: MarkNotificationsAsReadPayload
-    ): List<NotificationDomain> = notificationService.markNotificationsAsRead(markNotificationsAsReadPayload.notificationIds)
+    ): List<NotificationDomain> =
+        notificationService.markNotificationsAsRead(markNotificationsAsReadPayload.notificationIds)
 }

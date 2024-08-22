@@ -10,7 +10,12 @@ import java.io.Serializable
 @Table(name = "widget")
 data class WidgetEntity(
     @Id
-    @SequenceGenerator(name = "widget-seq-gen", sequenceName = "widget_id_seq", initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(
+        name = "widget-seq-gen",
+        sequenceName = "widget_id_seq",
+        initialValue = 1,
+        allocationSize = 1
+    )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "widget-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,

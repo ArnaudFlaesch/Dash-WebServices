@@ -39,7 +39,12 @@ import java.time.LocalDate
 @Table(name = "expense")
 data class ExpenseEntity(
     @Id
-    @SequenceGenerator(name = "expense-seq-gen", sequenceName = "expense_id_seq", initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(
+        name = "expense-seq-gen",
+        sequenceName = "expense_id_seq",
+        initialValue = 1,
+        allocationSize = 1
+    )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "expense-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
@@ -55,5 +60,11 @@ data class ExpenseEntity(
         private const val serialVersionUID: Long = 1
     }
 
-    fun toDomain() = ExpenseDomain(id = this.id, amount = this.amount, expenseDate = this.expenseDate, labelId = label.id)
+    fun toDomain() =
+        ExpenseDomain(
+            id = this.id,
+            amount = this.amount,
+            expenseDate = this.expenseDate,
+            labelId = label.id
+        )
 }

@@ -13,20 +13,12 @@ class TwitterWidgetAdapter(
     private val twitterWidgetRepository: TwitterWidgetRepository,
     private val userRepository: UserRepository
 ) {
-    fun getFollowedUsers(
-        searchParam: String,
-        pageNumber: Int,
-        pageSize: Int,
-        userId: Int
-    ): Page<FollowedUser> =
+    fun getFollowedUsers(searchParam: String, pageNumber: Int, pageSize: Int, userId: Int): Page<FollowedUser> =
         twitterWidgetRepository
             .searchFollowedUsers(searchParam, userId, PageRequest.of(pageNumber, pageSize))
             .map(FollowedUserEntity::toDomain)
 
-    fun addFollowedUser(
-        followedUserHandle: String,
-        userId: Int
-    ): FollowedUser =
+    fun addFollowedUser(followedUserHandle: String, userId: Int): FollowedUser =
         FollowedUserEntity(
             id = 0,
             userHandle = followedUserHandle,
@@ -34,5 +26,6 @@ class TwitterWidgetAdapter(
         ).let(twitterWidgetRepository::save)
             .let(FollowedUserEntity::toDomain)
 
-    fun deleteFollowedUser(followedUserId: Int) = twitterWidgetRepository.delete(twitterWidgetRepository.getReferenceById(followedUserId))
+    fun deleteFollowedUser(followedUserId: Int) =
+        twitterWidgetRepository.delete(twitterWidgetRepository.getReferenceById(followedUserId))
 }

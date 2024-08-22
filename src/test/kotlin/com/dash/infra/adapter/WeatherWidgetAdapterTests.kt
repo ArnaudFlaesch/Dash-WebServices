@@ -23,7 +23,8 @@ class WeatherWidgetAdapterTests {
         val city = "Paris"
 
         val weatherListResponse = listOf(Weather(icon = "sunny"), Weather(icon = "cloudy"))
-        val weatherApiData = OpenWeatherWeatherResponse(name = city, id = 123, weather = weatherListResponse)
+        val weatherApiData =
+            OpenWeatherWeatherResponse(name = city, id = 123, weather = weatherListResponse)
 
         given(weatherApiClient.getWeatherData(city)).willReturn(weatherApiData)
         val response = weatherWidgetAdapter.getWeatherData(city)

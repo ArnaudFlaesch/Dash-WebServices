@@ -11,9 +11,11 @@ class WidgetPersistenceAdapter(
     private val widgetRepository: WidgetRepository,
     private val tabRepository: TabRepository
 ) {
-    fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<WidgetDomain> = widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId).map(WidgetEntity::toDomain)
+    fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<WidgetDomain> =
+        widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId).map(WidgetEntity::toDomain)
 
-    fun getUserWidgets(userId: Int): List<WidgetDomain> = widgetRepository.getUsersWidget(userId).map(WidgetEntity::toDomain)
+    fun getUserWidgets(userId: Int): List<WidgetDomain> =
+        widgetRepository.getUsersWidget(userId).map(WidgetEntity::toDomain)
 
     fun getNumberOfWidgetsByTab(tabId: Int) = widgetRepository.getNumberOfWidgetsByTab(tabId)
 
@@ -27,24 +29,20 @@ class WidgetPersistenceAdapter(
         ).let(widgetRepository::save)
             .let(WidgetEntity::toDomain)
 
-    fun updateWidgetData(
-        widgetId: Int,
-        updatedData: Any
-    ): WidgetDomain =
+    fun updateWidgetData(widgetId: Int, updatedData: Any): WidgetDomain =
         widgetRepository
             .getReferenceById(widgetId)
             .copy(data = updatedData)
             .let(widgetRepository::save)
             .let(WidgetEntity::toDomain)
 
-    fun updateWidgetsOrder(widgetList: List<WidgetDomain>): List<WidgetDomain> {
-        return widgetList
+    fun updateWidgetsOrder(widgetList: List<WidgetDomain>): List<WidgetDomain> =
+        widgetList
             .map { widget ->
                 val oldWidget = widgetRepository.getReferenceById(widget.id)
-                return@map oldWidget.copy(widgetOrder = widget.widgetOrder)
+                oldWidget.copy(widgetOrder = widget.widgetOrder)
             }.let(widgetRepository::saveAll)
             .map(WidgetEntity::toDomain)
-    }
 
     fun deleteWidget(id: Int) = widgetRepository.deleteById(id)
 }

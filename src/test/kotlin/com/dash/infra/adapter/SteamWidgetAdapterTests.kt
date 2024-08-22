@@ -23,12 +23,28 @@ class SteamWidgetAdapterTests {
     @Test
     fun shouldGetPlayerData() {
         val steamUserId = "1337"
-        val playerDataResponse = PlayerDataApi(personaname = "Nono", profileurl = "steam/nono", avatar = "profile.png")
+        val playerDataResponse =
+            PlayerDataApi(personaname = "Nono", profileurl = "steam/nono", avatar = "profile.png")
         given(steamApiClient.getPlayerData(steamUserId)).willReturn(
-            PlayersDataApiResponse(response = PlayersDataListResponse(players = listOf(playerDataResponse)))
+            PlayersDataApiResponse(
+                response =
+                    PlayersDataListResponse(
+                        players =
+                            listOf(
+                                playerDataResponse
+                            )
+                    )
+            )
         )
         val actual = steamWidgetAdapter.getPlayerData(steamUserId)
-        val expected = listOf(PlayerDataDomain(personaname = "Nono", profileurl = "steam/nono", avatar = "profile.png"))
+        val expected =
+            listOf(
+                PlayerDataDomain(
+                    personaname = "Nono",
+                    profileurl = "steam/nono",
+                    avatar = "profile.png"
+                )
+            )
         assertEquals(expected, actual)
     }
 
@@ -65,12 +81,8 @@ class SteamWidgetAdapterTests {
         assertEquals(expectedSecondPage, actualSecondPage)
     }
 
-    private fun createGameListFromApi(
-        startIndex: Int,
-        size: Int
-    ): List<GameInfoApi> =
+    private fun createGameListFromApi(startIndex: Int, size: Int): List<GameInfoApi> =
         (startIndex until size)
-            .map { index ->
-                GameInfoApi(appid = index.toString(), name = "Call of Duty $index")
-            }.sortedBy(GameInfoApi::name)
+            .map { index -> GameInfoApi(appid = index.toString(), name = "Call of Duty $index") }
+            .sortedBy(GameInfoApi::name)
 }

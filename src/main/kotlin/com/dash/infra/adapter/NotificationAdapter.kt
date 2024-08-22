@@ -11,23 +11,21 @@ import org.springframework.stereotype.Component
 class NotificationAdapter(
     private val notificationRepository: NotificationRepository
 ) {
-    fun getNotifications(
-        pageNumber: Int,
-        pageSize: Int
-    ): Page<NotificationDomain> =
-        notificationRepository.findAllByOrderByNotificationDateDesc(PageRequest.of(pageNumber, pageSize)).map(NotificationEntity::toDomain)
+    fun getNotifications(pageNumber: Int, pageSize: Int): Page<NotificationDomain> =
+        notificationRepository
+            .findAllByOrderByNotificationDateDesc(
+                PageRequest.of(pageNumber, pageSize)
+            ).map(NotificationEntity::toDomain)
 
-    fun saveNotification(notification: NotificationDomain): NotificationDomain {
-        val notificationEntity =
-            NotificationEntity(
-                id = notification.id,
-                message = notification.message,
-                notificationType = notification.notificationType.name,
-                notificationDate = notification.notificationDate,
-                isRead = notification.isRead
-            )
-        return notificationRepository.save(notificationEntity).toDomain()
-    }
+    fun saveNotification(notification: NotificationDomain): NotificationDomain =
+        NotificationEntity(
+            id = notification.id,
+            message = notification.message,
+            notificationType = notification.notificationType.name,
+            notificationDate = notification.notificationDate,
+            isRead = notification.isRead
+        ).let(notificationRepository::save)
+            .let(NotificationEntity::toDomain)
 
     fun markNotificationsAsRead(notificationIds: List<Int>): List<NotificationDomain> =
         notificationIds

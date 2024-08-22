@@ -8,7 +8,12 @@ import jakarta.persistence.*
 @Table(name = "label")
 data class LabelEntity(
     @Id
-    @SequenceGenerator(name = "label-seq-gen", sequenceName = "label_id_seq", initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(
+        name = "label-seq-gen",
+        sequenceName = "label_id_seq",
+        initialValue = 1,
+        allocationSize = 1
+    )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "label-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,

@@ -8,8 +8,10 @@ object SecurityConditions {
     const val DOES_TAB_BELONG_TO_AUTHENTICATED_USER = "@tabSecurityService.doesTabBelongToUser(#tabId)"
 
     // Widgets
-    const val DOES_WIDGET_BELONG_TO_AUTHENTICATED_USER = "@widgetSecurityService.doesWidgetBelongToUser(#widgetId)"
+    const val DOES_WIDGET_BELONG_TO_AUTHENTICATED_USER =
+        "@widgetSecurityService.doesWidgetBelongToUser(#widgetId)"
 
     // Incident widget
-    const val DOES_INCIDENT_BELONG_TO_AUTHENTICATED_USER = "@incidentWidgetSecurityService.doesIncidentBelongToAuthenticatedUser(#incidentId)"
+    const val DOES_INCIDENT_BELONG_TO_AUTHENTICATED_USER =
+        "@incidentWidgetSecurityService.doesIncidentBelongToAuthenticatedUser(#incidentId)"
 }

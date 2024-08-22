@@ -131,9 +131,13 @@ class WorkoutWidgetControllerTests : AbstractIT() {
                 .param("userId", userId)
                 .header(createAuthenticationHeader(jwtToken))
                 .`when`()
-                .param("dateIntervalStart", LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE))
-                .param("dateIntervalEnd", LocalDate.now().plusDays(1).format(DateTimeFormatter.ISO_DATE))
-                .get("$workoutWidgetEndpoint/workoutSessions")
+                .param(
+                    "dateIntervalStart",
+                    LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE)
+                ).param(
+                    "dateIntervalEnd",
+                    LocalDate.now().plusDays(1).format(DateTimeFormatter.ISO_DATE)
+                ).get("$workoutWidgetEndpoint/workoutSessions")
                 .then()
                 .log()
                 .all()
@@ -145,7 +149,8 @@ class WorkoutWidgetControllerTests : AbstractIT() {
 
         assertEquals(1, workoutSessions.size)
 
-        val workoutExercisePayload = UpdateWorkoutExercisePayload(workoutSession.id, workoutType.id, 5)
+        val workoutExercisePayload =
+            UpdateWorkoutExercisePayload(workoutSession.id, workoutType.id, 5)
         val workoutExercise =
             given()
                 .port(port)
@@ -188,9 +193,13 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             given()
                 .port(port)
                 .header(createAuthenticationHeader(jwtToken))
-                .param("dateIntervalStart", LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE))
-                .param("dateIntervalEnd", LocalDate.now().plusDays(1).format(DateTimeFormatter.ISO_DATE))
-                .`when`()
+                .param(
+                    "dateIntervalStart",
+                    LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE)
+                ).param(
+                    "dateIntervalEnd",
+                    LocalDate.now().plusDays(1).format(DateTimeFormatter.ISO_DATE)
+                ).`when`()
                 .get("$workoutWidgetEndpoint/workoutStatsByPeriod")
                 .then()
                 .log()
@@ -249,7 +258,8 @@ class WorkoutWidgetControllerTests : AbstractIT() {
 
         assertEquals(workoutSessionDate, workoutSession.workoutDate)
 
-        val workoutExercisePayload = UpdateWorkoutExercisePayload(workoutSession.id, workoutType.id, 5)
+        val workoutExercisePayload =
+            UpdateWorkoutExercisePayload(workoutSession.id, workoutType.id, 5)
         val workoutExercise =
             given()
                 .port(port)
@@ -274,9 +284,13 @@ class WorkoutWidgetControllerTests : AbstractIT() {
             given()
                 .port(port)
                 .header(createAuthenticationHeader(jwtToken))
-                .param("dateIntervalStart", workoutSessionDate.minusMonths(1).format(DateTimeFormatter.ISO_DATE))
-                .param("dateIntervalEnd", workoutSessionDate.plusMonths(1).format(DateTimeFormatter.ISO_DATE))
-                .`when`()
+                .param(
+                    "dateIntervalStart",
+                    workoutSessionDate.minusMonths(1).format(DateTimeFormatter.ISO_DATE)
+                ).param(
+                    "dateIntervalEnd",
+                    workoutSessionDate.plusMonths(1).format(DateTimeFormatter.ISO_DATE)
+                ).`when`()
                 .get("$workoutWidgetEndpoint/workoutStatsByMonth")
                 .then()
                 .log()

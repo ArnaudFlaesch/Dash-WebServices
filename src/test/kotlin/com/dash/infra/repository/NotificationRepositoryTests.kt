@@ -30,20 +30,41 @@ class NotificationRepositoryTests : AbstractIT() {
     fun testCreateNotifications() {
         val notifications =
             listOf(
-                NotificationEntity(0, "Test notif", OffsetDateTime.now(), NotificationType.WARN.name, false),
-                NotificationEntity(0, "Test notif 2", OffsetDateTime.now(), NotificationType.INFO.name, true)
+                NotificationEntity(
+                    0,
+                    "Test notif",
+                    OffsetDateTime.now(),
+                    NotificationType.WARN.name,
+                    false
+                ),
+                NotificationEntity(
+                    0,
+                    "Test notif 2",
+                    OffsetDateTime.now(),
+                    NotificationType.INFO.name,
+                    true
+                )
             )
         notificationRepository.saveAll(notifications)
 
-        val listNotifications = notificationRepository.findAllByOrderByNotificationDateDesc(Pageable.ofSize(10))
+        val listNotifications =
+            notificationRepository.findAllByOrderByNotificationDateDesc(
+                Pageable.ofSize(10)
+            )
 
         assertThat(listNotifications.content).hasSize(2)
         assertNotNull(listNotifications.content[0].id)
-        assertThat(listNotifications.content.map(NotificationEntity::message)).containsExactlyInAnyOrder("Test notif", "Test notif 2")
-        assertThat(listNotifications.content.map(NotificationEntity::notificationType)).containsExactlyInAnyOrder(
+        assertThat(
+            listNotifications.content.map(NotificationEntity::message)
+        ).containsExactlyInAnyOrder("Test notif", "Test notif 2")
+        assertThat(
+            listNotifications.content.map(NotificationEntity::notificationType)
+        ).containsExactlyInAnyOrder(
             NotificationType.WARN.name,
             NotificationType.INFO.name
         )
-        assertThat(listNotifications.content.map(NotificationEntity::isRead)).containsExactlyInAnyOrder(false, true)
+        assertThat(
+            listNotifications.content.map(NotificationEntity::isRead)
+        ).containsExactlyInAnyOrder(false, true)
     }
 }

@@ -29,13 +29,15 @@ class RssWidgetServiceTest : AbstractIT() {
 
         val mockedResponse =
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:media=\"http://search.yahoo.com/mrss/\">\n" +
+                "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\"" +
+                " xmlns:media=\"http://search.yahoo.com/mrss/\">\n" +
                 "    <channel></channel>\n" +
                 "</rss>"
 
         Mockito
-            .`when`(restTemplate.exchange(URI.create(url), HttpMethod.GET, null, String::class.java))
-            .thenReturn(ResponseEntity(mockedResponse, HttpStatus.OK))
+            .`when`(
+                restTemplate.exchange(URI.create(url), HttpMethod.GET, null, String::class.java)
+            ).thenReturn(ResponseEntity(mockedResponse, HttpStatus.OK))
 
         val actualResponse = rssWidgetService.getJsonFeedFromUrl(url)
         assertEquals("{\"version\":\"2.0\",\"channel\":\"\"}", actualResponse)
@@ -46,9 +48,15 @@ class RssWidgetServiceTest : AbstractIT() {
         val url = "http://thelastpictureshow.over-blog.com/rss"
 
         Mockito
-            .`when`(restTemplate.exchange(URI.create(url), HttpMethod.GET, null, String::class.java))
-            .thenReturn(ResponseEntity(HttpStatus.OK))
+            .`when`(
+                restTemplate.exchange(URI.create(url), HttpMethod.GET, null, String::class.java)
+            ).thenReturn(ResponseEntity(HttpStatus.OK))
 
-        assertThrows<ErrorHandler.Companion.NotFoundException> { rssWidgetService.getJsonFeedFromUrl(url) }
+        assertThrows<ErrorHandler.Companion.NotFoundException> {
+            rssWidgetService
+                .getJsonFeedFromUrl(
+                    url
+                )
+        }
     }
 }

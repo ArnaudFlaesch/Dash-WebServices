@@ -9,7 +9,12 @@ import java.time.LocalDate
 @Table(name = "workout_session")
 data class WorkoutSessionEntity(
     @Id
-    @SequenceGenerator(name = "workout-session-seq-gen", sequenceName = "workout_session_id_seq", initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(
+        name = "workout-session-seq-gen",
+        sequenceName = "workout_session_id_seq",
+        initialValue = 1,
+        allocationSize = 1
+    )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "workout-session-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,

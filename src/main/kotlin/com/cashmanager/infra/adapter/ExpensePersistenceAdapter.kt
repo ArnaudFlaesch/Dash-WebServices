@@ -20,24 +20,35 @@ class ExpensePersistenceAdapter(
         authenticatedUserId: Int
     ): List<ExpenseDomain> =
         expenseRepository
-            .findAllByLabelUserIdAndExpenseDateBetweenOrderByExpenseDateAsc(authenticatedUserId, startIntervalDate, endIntervalDate)
-            .map(ExpenseEntity::toDomain)
+            .findAllByLabelUserIdAndExpenseDateBetweenOrderByExpenseDateAsc(
+                authenticatedUserId,
+                startIntervalDate,
+                endIntervalDate
+            ).map(ExpenseEntity::toDomain)
 
     fun getAllUserExpenses(authenticatedUserId: Int): List<ExpenseDomain> =
         expenseRepository.findAllByLabelUserId(authenticatedUserId).map(ExpenseEntity::toDomain)
 
     fun getUserTotalExpensesByMonth(authenticatedUserId: Int): List<TotalExpenseByMonthDomain> =
-        expenseRepository.getTotalExpensesByMonth(authenticatedUserId).map(TotalExpenseByMonthEntity::toDomain)
+        expenseRepository
+            .getTotalExpensesByMonth(
+                authenticatedUserId
+            ).map(TotalExpenseByMonthEntity::toDomain)
 
-    fun getUserTotalExpensesByMonthByLabelId(
-        labelId: Int,
-        authenticatedUserId: Int
-    ): List<TotalExpenseByMonthDomain> =
-        expenseRepository.getTotalExpensesByMonthByLabelId(labelId, authenticatedUserId).map(TotalExpenseByMonthEntity::toDomain)
+    fun getUserTotalExpensesByMonthByLabelId(labelId: Int, authenticatedUserId: Int): List<TotalExpenseByMonthDomain> =
+        expenseRepository
+            .getTotalExpensesByMonthByLabelId(
+                labelId,
+                authenticatedUserId
+            ).map(TotalExpenseByMonthEntity::toDomain)
 
     fun insertExpense(expense: ExpenseDomain): ExpenseDomain =
-        ExpenseEntity(id = 0, amount = expense.amount, expenseDate = expense.expenseDate, label = labelRepository.getReferenceById(expense.labelId))
-            .let(expenseRepository::save)
+        ExpenseEntity(
+            id = 0,
+            amount = expense.amount,
+            expenseDate = expense.expenseDate,
+            label = labelRepository.getReferenceById(expense.labelId)
+        ).let(expenseRepository::save)
             .let(ExpenseEntity::toDomain)
 
     fun deleteExpense(expenseId: Int) {

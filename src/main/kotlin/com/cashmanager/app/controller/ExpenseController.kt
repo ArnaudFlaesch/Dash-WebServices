@@ -35,7 +35,12 @@ class ExpenseController(
     @PostMapping("/addExpense")
     fun addExpense(
         @RequestBody expensePayload: InsertExpensePayload
-    ): ExpenseDomain = expenseService.addExpense(expensePayload.amount, expensePayload.expenseDate, expensePayload.labelId)
+    ): ExpenseDomain =
+        expenseService.addExpense(
+            expensePayload.amount,
+            expensePayload.expenseDate,
+            expensePayload.labelId
+        )
 
     @PatchMapping("/updateExpense")
     fun updateExpense(

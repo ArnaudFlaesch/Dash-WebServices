@@ -22,9 +22,21 @@ class WidgetRepositoryTests : AbstractIT() {
     fun testInsertWidgets() {
         val tabIdToInsertInto = 1
         val w1 =
-            WidgetEntity(0, 2, "{}", 1, TabEntity(tabIdToInsertInto, "", 1, user = userRepository.getReferenceById(1)))
+            WidgetEntity(
+                0,
+                2,
+                "{}",
+                1,
+                TabEntity(tabIdToInsertInto, "", 1, user = userRepository.getReferenceById(1))
+            )
         val w2 =
-            WidgetEntity(0, 3, "{}", 2, TabEntity(tabIdToInsertInto, "", 2, user = userRepository.getReferenceById(1)))
+            WidgetEntity(
+                0,
+                3,
+                "{}",
+                2,
+                TabEntity(tabIdToInsertInto, "", 2, user = userRepository.getReferenceById(1))
+            )
         widgetRepository.saveAll(listOf(w1, w2))
 
         val listWidgets = widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabIdToInsertInto)

@@ -104,7 +104,11 @@ data class OpenWeatherWeatherResponse(
         val gust: Int = 0
     ) {
         fun toDomain(): OpenWeatherWeatherDomain.WeatherWindDomain =
-            OpenWeatherWeatherDomain.WeatherWindDomain(speed = this.speed, deg = this.deg, gust = this.gust)
+            OpenWeatherWeatherDomain.WeatherWindDomain(
+                speed = this.speed,
+                deg = this.deg,
+                gust = this.gust
+            )
     }
 
     data class WeatherSys(
@@ -133,7 +137,8 @@ data class OpenWeatherWeatherResponse(
         @JsonProperty("all")
         val all: String = ""
     ) {
-        fun toDomain(): OpenWeatherWeatherDomain.WeatherCloudDomain = OpenWeatherWeatherDomain.WeatherCloudDomain(all = this.all)
+        fun toDomain(): OpenWeatherWeatherDomain.WeatherCloudDomain =
+            OpenWeatherWeatherDomain.WeatherCloudDomain(all = this.all)
     }
 }
 
@@ -205,7 +210,8 @@ data class ForecastResponse(
         @JsonProperty("all")
         val all: Int = 0
     ) {
-        fun toDomain(): ForecastDomain.ForecastDataCloudsDomain = ForecastDomain.ForecastDataCloudsDomain(all = this.all)
+        fun toDomain(): ForecastDomain.ForecastDataCloudsDomain =
+            ForecastDomain.ForecastDataCloudsDomain(all = this.all)
     }
 
     data class ForecastDataWind(

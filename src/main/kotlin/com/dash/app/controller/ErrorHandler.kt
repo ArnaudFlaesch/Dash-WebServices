@@ -20,7 +20,11 @@ class ErrorHandler : ResponseErrorHandler {
     }
 
     @Throws(IOException::class)
-    override fun hasError(response: ClientHttpResponse): Boolean = (response.statusCode.is4xxClientError || response.statusCode.is5xxServerError)
+    override fun hasError(response: ClientHttpResponse): Boolean =
+        (
+            response.statusCode.is4xxClientError ||
+                response.statusCode.is5xxServerError
+        )
 
     override fun handleError(response: ClientHttpResponse) {
         when (response.statusCode) {
