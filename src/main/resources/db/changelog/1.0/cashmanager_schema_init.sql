@@ -1,4 +1,4 @@
-CREATE SEQUENCE IF NOT EXISTS public.label_id_seq
+CREATE SEQUENCE IF NOT EXISTS PUBLIC.label_id_seq
     AS INTEGER
     START WITH 1
     INCREMENT BY 1
@@ -6,14 +6,14 @@ CREATE SEQUENCE IF NOT EXISTS public.label_id_seq
     NO MAXVALUE
     CACHE 1;
 
-CREATE TABLE IF NOT EXISTS public.label (
-    id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('public.label_id_seq'::regclass),
+CREATE TABLE IF NOT EXISTS PUBLIC.label (
+    id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('PUBLIC.label_id_seq'::regclass),
     label CHARACTER VARYING,
     user_id INTEGER REFERENCES users (id),
     CONSTRAINT UK_label UNIQUE (label)
 );
 
-CREATE SEQUENCE IF NOT EXISTS public.expense_id_seq
+CREATE SEQUENCE IF NOT EXISTS PUBLIC.expense_id_seq
     AS INTEGER
     START WITH 1
     INCREMENT BY 1
@@ -21,8 +21,8 @@ CREATE SEQUENCE IF NOT EXISTS public.expense_id_seq
     NO MAXVALUE
     CACHE 1;
 
-CREATE TABLE IF NOT EXISTS public.expense (
-    id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('public.expense_id_seq'::regclass),
+CREATE TABLE IF NOT EXISTS PUBLIC.expense (
+    id INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('PUBLIC.expense_id_seq'::regclass),
     amount REAL,
     expense_date DATE,
     isRegular boolean DEFAULT false,
