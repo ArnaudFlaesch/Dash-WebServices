@@ -1,8 +1,8 @@
 package com.dash.app.controller
 
-import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
+import com.common.utils.SqlData
 import com.dash.app.controller.requests.widget.CreateWidgetPayload
 import com.dash.domain.model.WidgetDomain
 import io.restassured.RestAssured.defaultParser
@@ -21,7 +21,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class WidgetControllerTests : AbstractIT() {
+@SqlData
+class WidgetControllerTests {
     @LocalServerPort
     private val port: Int = 0
 

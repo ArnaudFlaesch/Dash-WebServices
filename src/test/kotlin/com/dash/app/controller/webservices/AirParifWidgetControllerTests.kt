@@ -1,8 +1,8 @@
 package com.dash.app.controller.webservices
 
-import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
+import com.common.utils.SqlData
 import com.dash.domain.model.airParif.AirParifColor
 import com.dash.domain.model.airParif.AirParifPrevisionEnum
 import com.dash.domain.model.airParif.Prevision
@@ -21,7 +21,8 @@ import org.springframework.http.HttpStatus
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class AirParifWidgetControllerTests : AbstractIT() {
+@SqlData
+class AirParifWidgetControllerTests {
     @LocalServerPort
     private val port: Int = 0
 

@@ -6,10 +6,10 @@ import com.cashmanager.utils.Constants.ADD_LABEL_ENDPOINT
 import com.cashmanager.utils.Constants.DELETE_LABEL_ENDPOINT
 import com.cashmanager.utils.Constants.LABEL_ENDPOINT
 import com.cashmanager.utils.Constants.UPDATE_LABEL_ENDPOINT
-import com.common.utils.AbstractIT
 import com.common.utils.Constants.UNAUTHORIZED_ERROR
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
+import com.common.utils.SqlData
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
@@ -33,7 +33,8 @@ import java.util.stream.Stream
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class LabelControllerTests : AbstractIT() {
+@SqlData
+class LabelControllerTests {
     @LocalServerPort
     private val port: Int = 0
 

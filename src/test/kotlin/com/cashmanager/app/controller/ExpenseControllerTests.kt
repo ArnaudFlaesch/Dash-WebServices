@@ -5,9 +5,9 @@ import com.cashmanager.domain.model.ExpenseDomain
 import com.cashmanager.domain.model.LabelDomain
 import com.cashmanager.domain.model.TotalExpenseByMonthDomain
 import com.cashmanager.utils.Constants
-import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
+import com.common.utils.SqlData
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
@@ -27,7 +27,8 @@ import java.time.LocalDate
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ExpenseControllerTests : AbstractIT() {
+@SqlData
+class ExpenseControllerTests {
     @LocalServerPort
     private val port: Int = 0
 

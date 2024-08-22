@@ -2,14 +2,13 @@ package com.dash.infra.repository
 
 import com.common.infra.entity.RoleEntity
 import com.common.infra.repository.RoleRepository
-import com.common.utils.AbstractIT
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class RoleRepositoryTests : AbstractIT() {
+class RoleRepositoryTests {
     @Autowired
     private lateinit var roleRepository: RoleRepository
 

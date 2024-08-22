@@ -1,7 +1,6 @@
 package com.dash.infra.repository
 
 import com.common.infra.repository.UserRepository
-import com.common.utils.AbstractIT
 import com.dash.infra.entity.workoutwidget.WorkoutSessionEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
@@ -12,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import java.time.LocalDate
 
 @SpringBootTest
-class WorkoutSessionRepositoryTests : AbstractIT() {
+class WorkoutSessionRepositoryTests {
     @Autowired
     private lateinit var workoutSessionRepository: WorkoutSessionRepository
 

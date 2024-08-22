@@ -1,9 +1,9 @@
 package com.cashmanager.app.controller
 
 import com.cashmanager.domain.model.CashManagerImportData
-import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
+import com.common.utils.SqlData
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.http.Header
@@ -18,7 +18,8 @@ import org.springframework.core.io.ClassPathResource
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class CashManagerConfigControllerTests : AbstractIT() {
+@SqlData
+class CashManagerConfigControllerTests {
     @LocalServerPort
     private val port: Int = 0
 

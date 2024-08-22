@@ -3,7 +3,7 @@ package com.common.app.controller
 import com.common.app.controller.requests.LoginRequest
 import com.common.app.security.response.JwtResponse
 import com.common.domain.model.RoleEnum
-import com.common.utils.AbstractIT
+import com.common.utils.SqlData
 import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
@@ -18,7 +18,8 @@ import org.springframework.boot.test.web.server.LocalServerPort
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class AuthControllerTests : AbstractIT() {
+@SqlData
+class AuthControllerTests {
     @LocalServerPort
     private val port: Int = 0
 

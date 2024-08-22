@@ -68,6 +68,10 @@ jobs:
           [[ "$(git ls-remote --heads https://github.com/ArnaudFlaesch/Dash-MockServer ${{github.ref_name}} | wc -l)" == 1 && ${{github.ref_name}} != 'master' ]] && tagName=${{github.ref_name}} || tagName=latest
           docker run -p 5000:5000 -d ghcr.io/arnaudflaesch/dash-mockserver:$tagName
 
+      - name: Start database image
+        run: |
+          docker run -p 5432:5432 -d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash_test postgres:16.3-alpine3.20
+
       - name: Build with Gradle
         run: ./gradlew clean build -x lintKotlin -Dspring.profiles.active=test
 
