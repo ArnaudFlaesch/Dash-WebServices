@@ -22,6 +22,10 @@ class AuthControllerTests : AbstractIT() {
     @LocalServerPort
     private val port: Int = 0
 
+    companion object {
+        const val AUTH_ENDPOINT = "/auth/login"
+    }
+
     @BeforeAll
     fun testUp() {
         defaultParser = Parser.JSON
@@ -35,7 +39,7 @@ class AuthControllerTests : AbstractIT() {
                 .contentType(ContentType.JSON)
                 .`when`()
                 .body(LoginRequest("admintest", "adminpassword"))
-                .post("/auth/login")
+                .post(AUTH_ENDPOINT)
                 .then()
                 .log()
                 .all()
@@ -55,7 +59,7 @@ class AuthControllerTests : AbstractIT() {
                 .contentType(ContentType.JSON)
                 .`when`()
                 .body(LoginRequest("usertest", "userpassword"))
-                .post("/auth/login")
+                .post(AUTH_ENDPOINT)
                 .then()
                 .log()
                 .all()
@@ -74,7 +78,7 @@ class AuthControllerTests : AbstractIT() {
             .contentType(ContentType.JSON)
             .`when`()
             .body(LoginRequest("wrongUsername", "wrongPassword"))
-            .post("/auth/login")
+            .post(AUTH_ENDPOINT)
             .then()
             .log()
             .all()
