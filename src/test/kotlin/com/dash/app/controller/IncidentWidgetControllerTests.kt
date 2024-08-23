@@ -1,8 +1,8 @@
 package com.dash.app.controller
 
-import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
+import com.common.utils.SqlData
 import com.dash.app.controller.requests.incidentWidget.IncidentWidgetPayload
 import com.dash.domain.model.incidentWidget.IncidentDomain
 import com.dash.domain.model.incidentWidget.IncidentStreakDomain
@@ -27,7 +27,8 @@ import java.time.OffsetDateTime
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class IncidentWidgetControllerTests : AbstractIT() {
+@SqlData
+class IncidentWidgetControllerTests {
     @LocalServerPort
     private val port: Int = 0
     private lateinit var jwtToken: String

@@ -1,7 +1,6 @@
 package com.dash.infra.repository
 
 import com.common.infra.repository.UserRepository
-import com.common.utils.AbstractIT
 import com.dash.infra.entity.TabEntity
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -10,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class TabRepositoryTests : AbstractIT() {
+class TabRepositoryTests {
     @Autowired
     private lateinit var tabRepository: TabRepository
 

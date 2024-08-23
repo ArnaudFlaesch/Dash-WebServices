@@ -1,6 +1,6 @@
 package com.cashmanager.infra.repository
 
-import com.common.utils.AbstractIT
+import com.common.utils.SqlData
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -9,7 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import java.time.LocalDate
 
 @SpringBootTest
-class ExpenseRepositoryTests : AbstractIT() {
+@SqlData
+class ExpenseRepositoryTests {
     @Autowired
     private lateinit var expenseRepository: ExpenseRepository
 

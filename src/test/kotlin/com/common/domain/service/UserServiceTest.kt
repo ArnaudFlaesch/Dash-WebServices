@@ -1,6 +1,6 @@
 package com.common.domain.service
 
-import com.common.utils.AbstractIT
+import com.common.utils.SqlData
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -12,7 +12,8 @@ import org.springframework.security.test.context.support.WithMockUser
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class UserServiceTest : AbstractIT() {
+@SqlData
+class UserServiceTest {
     @Autowired
     private lateinit var userService: UserService
 

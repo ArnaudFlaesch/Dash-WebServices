@@ -1,6 +1,5 @@
 package com.dash.domain.service
 
-import com.common.utils.AbstractIT
 import com.dash.app.controller.ErrorHandler
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -16,7 +15,7 @@ import org.springframework.web.client.RestTemplate
 import java.net.URI
 
 @SpringBootTest
-class RssWidgetServiceTest : AbstractIT() {
+class RssWidgetServiceTest {
     @Autowired
     private lateinit var rssWidgetService: RssWidgetService
 

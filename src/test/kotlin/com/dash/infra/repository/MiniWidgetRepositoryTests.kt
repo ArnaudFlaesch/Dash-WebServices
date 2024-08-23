@@ -1,7 +1,7 @@
 package com.dash.infra.repository
 
 import com.common.infra.repository.UserRepository
-import com.common.utils.AbstractIT
+import com.common.utils.SqlData
 import com.dash.infra.entity.MiniWidgetEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterAll
@@ -14,7 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class MiniWidgetRepositoryTests : AbstractIT() {
+@SqlData
+class MiniWidgetRepositoryTests {
     @Autowired
     private lateinit var miniWidgetRepository: MiniWidgetRepository
 

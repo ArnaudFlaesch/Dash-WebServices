@@ -1,6 +1,6 @@
 package com.dash.domain.service
 
-import com.common.utils.AbstractIT
+import com.common.utils.SqlData
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -9,7 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class AirParifWidgetServiceTest : AbstractIT() {
+@SqlData
+class AirParifWidgetServiceTest {
     @Autowired
     private lateinit var airParifWidgetService: AirParifWidgetService
 

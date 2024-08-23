@@ -1,9 +1,9 @@
 package com.dash.app.controller.webservices
 
-import com.common.utils.AbstractIT
 import com.common.utils.Constants.UNAUTHORIZED_ERROR
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
+import com.common.utils.SqlData
 import com.google.gson.Gson
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
@@ -28,7 +28,8 @@ import java.net.URI
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class RssWidgetControllerTests : AbstractIT() {
+@SqlData
+class RssWidgetControllerTests {
     @LocalServerPort
     private val port: Int = 0
 

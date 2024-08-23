@@ -1,8 +1,8 @@
 package com.dash.app.controller.webservices
 
-import com.common.utils.AbstractIT
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
+import com.common.utils.SqlData
 import com.common.utils.TestEndpointsArguments.testTokenArguments
 import com.dash.domain.model.weatherWidget.OpenWeatherForecastDomain
 import com.dash.domain.model.weatherWidget.OpenWeatherWeatherDomain
@@ -24,7 +24,8 @@ import java.util.stream.Stream
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class WeatherWidgetControllerTests : AbstractIT() {
+@SqlData
+class WeatherWidgetControllerTests {
     @LocalServerPort
     private val port: Int = 0
 

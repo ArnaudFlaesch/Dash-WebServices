@@ -16,7 +16,6 @@ val restAssuredVersion = "5.5.0"
 val mockitoKotlinVersion = "5.4.0"
 val junitPlatformLauncherVersion = "1.11.0"
 val hibernateTypesVersion = "2.21.1"
-val testContainersVersion = "1.20.1"
 
 plugins {
     val kotlinPluginVersion = "2.0.20"
@@ -90,10 +89,7 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("org.springframework.security:spring-security-test:$springSecurityVersion")
-    testImplementation("org.springframework.boot:spring-boot-testcontainers:$springBootVersion")
 
-    testImplementation("org.testcontainers:junit-jupiter:$testContainersVersion")
-    testImplementation("org.testcontainers:postgresql:$testContainersVersion")
     testImplementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
 }
 
