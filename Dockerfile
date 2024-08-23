@@ -20,4 +20,4 @@ USER dockeruser
 
 EXPOSE 8080
 ARG SPRING_PROFILE
-ENTRYPOINT ["java", "-Dspring.profiles.active=${SPRING_PROFILE:default}", "-jar dash-webservices.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=${SPRING_PROFILE:default}", "-jar", "dash-webservices.jar"]
