@@ -104,7 +104,7 @@ dependencyManagement {
 
 sonar {
     properties {
-        property("sonar.projectName", "Example of SonarScanner for Gradle Usage")
+        property("sonar.projectName", "Dash-WebServices")
         property("sonar.projectKey", "ArnaudFlaesch_Dash-WebServices")
         property("sonar.organization", "arnaudflaesch")
         property("sonar.host.url", "https://sonarcloud.io")
