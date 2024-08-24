@@ -1,6 +1,12 @@
 name: Gradle CI
 
-on: [ "push", "workflow_dispatch" ]
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -38,7 +44,10 @@ jobs:
           cache: gradle
 
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: |
+          
+          echo ${{ github.head_ref || github.ref_name }} 
+          chmod +x gradlew
 
       - name: Lint
         run: |
@@ -81,7 +90,7 @@ jobs:
           docker run -p 5432:5432 -d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash_test postgres:16.3-alpine3.20
 
       - name: Build with Gradle
-        run: ./gradlew clean build -x lintKotlin -Dspring.profiles.active=test
+        run: ./gradlew clean assemble koverXmlReport
         env:
           POSTGRES_PASSWORD: postgres
 
@@ -99,7 +108,7 @@ jobs:
 
       - name: Report coverage for Codacy
         run: |
-          bash <(curl -Ls https://coverage.codacy.com/get.sh)
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r build/reports/kover/report.xml
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
@@ -123,19 +132,19 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set Docker tag for release
+        if: github.ref_name == 'master'
         run: |
           echo "DOCKER_TAG_NAME=latest" >> $GITHUB_ENV
-        if: github.ref_name == 'master'
 
       - name: Set Docker tag for test
-        run: |
-          echo "DOCKER_TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
         if: github.ref_name != 'master' && !contains(github.ref, 'renovate/')
+        run: |
+          echo "DOCKER_TAG_NAME=${{ github.head_ref || github.ref_name }}" >> $GITHUB_ENV
 
       - name: Set Docker tag for Renovate branches
+        if: github.ref_name != 'master' && contains(github.ref, 'renovate/')
         run: |
           echo "DOCKER_TAG_NAME=renovate" >> $GITHUB_ENV
-        if: github.ref_name != 'master' && contains(github.ref, 'renovate/')
 
       - name: Lowercase the repo name and username
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
