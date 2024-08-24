@@ -24,7 +24,7 @@ class SteamWidgetAdapterTests {
     fun shouldGetPlayerData() {
         val steamUserId = "1337"
         val playerDataResponse =
-            PlayerDataApi(personaname = "Nono", profileurl = "steam/nono", avatar = "profile.png")
+            PlayerDataApi().copy(personaname = "Nono", profileurl = "steam/nono", avatar = "profile.png")
         given(steamApiClient.getPlayerData(steamUserId)).willReturn(
             PlayersDataApiResponse(
                 response =
@@ -52,7 +52,7 @@ class SteamWidgetAdapterTests {
     fun shouldPaginateResults() {
         val steamUserId = "1337"
         val gamesListMock = createGameListFromApi(0, 50)
-        val gameInfoResponseMock = GameInfoResponse(GameDataApi(50, gamesListMock))
+        val gameInfoResponseMock = GameInfoResponse().copy(GameDataApi().copy(50, gamesListMock))
         given(steamApiClient.getOwnedGames(steamUserId)).willReturn(gameInfoResponseMock)
 
         val actualFirstPage = steamWidgetAdapter.getOwnedGames(steamUserId, "", 0)
@@ -83,6 +83,6 @@ class SteamWidgetAdapterTests {
 
     private fun createGameListFromApi(startIndex: Int, size: Int): List<GameInfoApi> =
         (startIndex until size)
-            .map { index -> GameInfoApi(appid = index.toString(), name = "Call of Duty $index") }
+            .map { index -> GameInfoApi().copy(appid = index.toString(), name = "Call of Duty $index") }
             .sortedBy(GameInfoApi::name)
 }
