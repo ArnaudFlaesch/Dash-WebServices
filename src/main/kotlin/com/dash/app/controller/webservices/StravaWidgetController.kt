@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.*
 class StravaWidgetController(
     private val stravaWidgetService: StravaWidgetService
 ) {
+    companion object {
+        private const val PAGE_NUMBER = 1
+        private const val NUMBER_OF_ACTIVITIES_PER_PAGE = 25
+    }
+
     @PostMapping("/getToken")
     fun getToken(
         @RequestBody getStravaTokenPayload: GetStravaTokenPayload
@@ -32,7 +37,10 @@ class StravaWidgetController(
     @GetMapping("/getAthleteActivities")
     fun getAthleteActivities(
         @RequestParam("token") token: String,
-        @RequestParam(name = "pageNumber", required = false) pageNumber: Int?,
-        @RequestParam(name = "numberOfActivities", required = false) numberOfActivities: Int?
+        @RequestParam(name = "pageNumber", required = false) pageNumber: Int = PAGE_NUMBER,
+        @RequestParam(
+            name = "numberOfActivities",
+            required = false
+        ) numberOfActivities: Int = NUMBER_OF_ACTIVITIES_PER_PAGE
     ): List<StravaActivityDomain> = stravaWidgetService.getAthleteActivities(token, pageNumber, numberOfActivities)
 }

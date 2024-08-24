@@ -36,6 +36,14 @@
       },
       "widgetOrder": 1,
       "tabId": 40
+    },
+    {
+      "type": 1,
+      "data": {
+        "city": "Amsterdam"
+      },
+      "widgetOrder": 1,
+      "tabId": 41
     }
   ],
   "tabs": [
@@ -43,6 +51,11 @@
       "id": 40,
       "label": "Perso",
       "tabOrder": 2
+    },
+    {
+      "id": 41,
+      "label": "New",
+      "tabOrder": 3
     }
   ]
 }

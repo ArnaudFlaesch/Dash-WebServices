@@ -154,7 +154,8 @@ class StravaWidgetControllerTests {
         fun getActivitiesArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.arguments(mapOf("token" to "VALID_TOKEN"), 6),
-                Arguments.arguments(mapOf("token" to "VALID_TOKEN", "numberOfActivities" to 25), 6)
+                Arguments.arguments(mapOf("token" to "VALID_TOKEN", "numberOfActivities" to 25), 6),
+                Arguments.arguments(mapOf("token" to "VALID_TOKEN", "numberOfActivities" to 10, "pageNumber" to 0), 6)
             )
     }
 }
