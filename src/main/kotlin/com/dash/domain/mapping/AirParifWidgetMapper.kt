@@ -21,14 +21,19 @@ class AirParifWidgetMapper {
             .getOrDefault(communeInseeCode, listOf(LinkedHashMap()))
             .map(this::previsionResponseToDomain)
 
-    private fun previsionResponseToDomain(previsionResponse: LinkedHashMap<String, String>): Prevision =
-        Prevision(
+    private fun previsionResponseToDomain(previsionResponse: LinkedHashMap<String, String>): Prevision {
+        val getEnumFromValue = { prevision: String ->
+            AirParifPrevisionEnum.getEnumFromValue(previsionResponse.getOrDefault(prevision, ""))
+        }
+
+        return Prevision(
             previsionResponse.getOrDefault("date", ""),
-            AirParifPrevisionEnum.getEnumFromValue(previsionResponse["no2"]),
-            AirParifPrevisionEnum.getEnumFromValue(previsionResponse["o3"]),
-            AirParifPrevisionEnum.getEnumFromValue(previsionResponse["pm10"]),
-            AirParifPrevisionEnum.getEnumFromValue(previsionResponse["pm25"]),
-            AirParifPrevisionEnum.getEnumFromValue(previsionResponse["so2"]),
-            AirParifPrevisionEnum.getEnumFromValue(previsionResponse["indice"])
+            getEnumFromValue("no2"),
+            getEnumFromValue("o3"),
+            getEnumFromValue("pm10"),
+            getEnumFromValue("pm25"),
+            getEnumFromValue("so2"),
+            getEnumFromValue("indice")
         )
+    }
 }

@@ -33,8 +33,8 @@ class RestClient(
     @Throws(RestClientException::class)
     fun <T : Any> getDataFromProxy(
         url: String,
-        responseClass: ParameterizedTypeReference<T>,
-        httpEntity: HttpEntity<T>
+        httpEntity: HttpEntity<T>,
+        responseClass: ParameterizedTypeReference<T>
     ): T {
         logger.info("Send GET request to url : $url")
         return restTemplate

@@ -27,14 +27,14 @@ class AirParifApiClient(
             HttpEntity<LinkedHashMap<String, List<LinkedHashMap<String, String>>>>(getHeaders())
         val expectedClass =
             object : ParameterizedTypeReference<LinkedHashMap<String, List<LinkedHashMap<String, String>>>>() {}
-        return restClient.getDataFromProxy(url, expectedClass, httpEntity)
+        return restClient.getDataFromProxy(url, httpEntity, expectedClass)
     }
 
     fun getColors(): LinkedHashMap<String, String> {
         val url = "$airParifApiUrl$AIRPARIF_API_COLORS_ENDPOINTS"
         val httpEntity = HttpEntity<LinkedHashMap<String, String>>(getHeaders())
         val expectedClass = object : ParameterizedTypeReference<LinkedHashMap<String, String>>() {}
-        return restClient.getDataFromProxy(url, expectedClass, httpEntity)
+        return restClient.getDataFromProxy(url, httpEntity, expectedClass)
     }
 
     private fun getHeaders(): HttpHeaders {

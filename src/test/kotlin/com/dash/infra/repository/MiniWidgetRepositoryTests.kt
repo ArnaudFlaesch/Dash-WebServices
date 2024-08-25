@@ -30,7 +30,7 @@ class MiniWidgetRepositoryTests {
     @Test
     fun testInsertWidgets() {
         val authenticatedUser = userRepository.getReferenceById(1)
-        val w1 = MiniWidgetEntity(0, 1, "{}", authenticatedUser)
+        val w1 = MiniWidgetEntity(id = 0, type = 1, user = authenticatedUser)
         val w2 = MiniWidgetEntity(0, 1, "{}", authenticatedUser)
         miniWidgetRepository.saveAll(listOf(w1, w2))
 
@@ -38,7 +38,7 @@ class MiniWidgetRepositoryTests {
         assertThat(listWidgets).hasSize(2)
         assertNotNull(listWidgets[0].id)
         assertEquals(1, listWidgets[0].type)
-        assertEquals(LinkedHashMap<String, String>(), listWidgets[0].data)
+        assertEquals(null, listWidgets[0].data)
         assertEquals(authenticatedUser.id, listWidgets[0].user.id)
         assertEquals(1, listWidgets[1].type)
         assertEquals(LinkedHashMap<String, String>(), listWidgets[1].data)
