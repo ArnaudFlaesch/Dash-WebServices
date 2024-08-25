@@ -8,6 +8,7 @@ import com.dash.app.controller.requests.stravaWidget.GetStravaRefreshTokenPayloa
 import com.dash.app.controller.requests.stravaWidget.GetStravaTokenPayload
 import com.dash.domain.model.stravaWidget.StravaActivityDomain
 import com.dash.domain.model.stravaWidget.StravaAthleteDomain
+import com.dash.domain.model.stravaWidget.StravaTokenDataDomain
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
@@ -22,6 +23,7 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.http.HttpStatus
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.stream.Stream
 
@@ -47,27 +49,25 @@ class StravaWidgetControllerTests {
     @DisplayName("Get token tests")
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class GetTokenTests {
-        @ParameterizedTest
-        @MethodSource("testGetTokenArguments")
-        fun shouldGetToken(token: String, statusCode: Int) {
+        @Test
+        fun shouldGetToken() {
             val getStravaTokenPayload = GetStravaTokenPayload("api_code")
 
-            given()
-                .port(port)
-                .contentType(ContentType.JSON)
-                .header(Header("Authorization", "Bearer $token"))
-                .`when`()
-                .body(getStravaTokenPayload)
-                .post("$stravaWidgetEndpoint/getToken")
-                .then()
-                .log()
-                .all()
-                .statusCode(statusCode)
-                .log()
-                .all()
-        }
+            val result =
+                given()
+                    .port(port)
+                    .contentType(ContentType.JSON)
+                    .header(Header("Authorization", "Bearer $jwtToken"))
+                    .`when`()
+                    .body(getStravaTokenPayload)
+                    .post("$stravaWidgetEndpoint/getToken")
+                    .then()
+                    .statusCode(HttpStatus.OK.value())
+                    .extract()
+                    .`as`(StravaTokenDataDomain::class.java)
 
-        fun testGetTokenArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
+            assertEquals("Paris", result.athlete.city)
+        }
     }
 
     @Nested
@@ -87,11 +87,7 @@ class StravaWidgetControllerTests {
                 .body(getStravaRefreshTokenPayload)
                 .post("$stravaWidgetEndpoint/getRefreshToken")
                 .then()
-                .log()
-                .all()
                 .statusCode(statusCode)
-                .log()
-                .all()
         }
 
         fun testGetRefreshTokenArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)

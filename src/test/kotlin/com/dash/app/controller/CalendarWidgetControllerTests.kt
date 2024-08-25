@@ -106,6 +106,44 @@ class CalendarWidgetControllerTests {
         SUMMARY:Fête de la Victoire 1945
         TRANSP:TRANSPARENT
         END:VEVENT
+        BEGIN:VEVENT
+        DTSTAMP:20220319T185542Z
+        UID:20210508_8bk7t632v4ejuo8qn09oo47hlo@google.com
+        CLASS:PUBLIC
+        CREATED:20210826T084233Z
+        DESCRIPTION:Null
+        LAST-MODIFIED:20210826T084233Z
+        SEQUENCE:0
+        STATUS:CONFIRMED
+        SUMMARY:Empty event
+        TRANSP:TRANSPARENT
+        END:VEVENT
+        BEGIN:VEVENT
+        DTEND;VALUE=DATE:20210509
+        DTSTAMP:20220319T185542Z
+        UID:20210508_8bk7t632v4ejuo8qn09oo47hlo@google.com
+        CLASS:PUBLIC
+        CREATED:20210826T084233Z
+        DESCRIPTION:Null
+        LAST-MODIFIED:20210826T084233Z
+        SEQUENCE:0
+        STATUS:CONFIRMED
+        SUMMARY:Empty event
+        TRANSP:TRANSPARENT
+        END:VEVENT
+        BEGIN:VEVENT
+        DTSTART;VALUE=DATE:20210509
+        DTSTAMP:20220319T185542Z
+        UID:20210508_8bk7t632v4ejuo8qn09oo47hlo@google.com
+        CLASS:PUBLIC
+        CREATED:20210826T084233Z
+        DESCRIPTION:Null
+        LAST-MODIFIED:20210826T084233Z
+        SEQUENCE:0
+        STATUS:CONFIRMED
+        SUMMARY:Empty event
+        TRANSP:TRANSPARENT
+        END:VEVENT
         END:VCALENDAR
         """.trimIndent()
 
@@ -140,8 +178,6 @@ class CalendarWidgetControllerTests {
                 .`when`()
                 .post(calendarWidgetEndpoint)
                 .then()
-                .log()
-                .all()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
                 .extract()

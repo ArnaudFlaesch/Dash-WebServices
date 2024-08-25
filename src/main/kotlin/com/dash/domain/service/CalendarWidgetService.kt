@@ -8,9 +8,7 @@ import net.fortuna.ical4j.model.component.VEvent
 import org.springframework.stereotype.Service
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
-import java.time.Instant
 import java.time.temporal.Temporal
-import kotlin.jvm.optionals.getOrNull
 
 @Service
 class CalendarWidgetService(
@@ -22,12 +20,18 @@ class CalendarWidgetService(
             .byteInputStream(StandardCharsets.ISO_8859_1)
             .let { stream -> InputStreamReader(stream, StandardCharsets.ISO_8859_1) }
             .let { reader ->
-                CalendarBuilder().build(reader).getComponents<VEvent>(Component.VEVENT).map {
-                    CalendarEvent(
-                        it.getDateTimeStart<Temporal>().getOrNull()?.date ?: Instant.now(),
-                        it.getDateTimeEnd<Temporal>().getOrNull()?.date ?: Instant.now(),
-                        it.summary.get().value
-                    )
+                val eventsList = mutableListOf<CalendarEvent>()
+                CalendarBuilder().build(reader).getComponents<VEvent>(Component.VEVENT).forEach {
+                    if (it.getDateTimeStart<Temporal>().isPresent && it.getDateTimeEnd<Temporal>().isPresent) {
+                        eventsList.add(
+                            CalendarEvent(
+                                it.getDateTimeStart<Temporal>().get().date,
+                                it.getDateTimeEnd<Temporal>().get().date,
+                                it.summary.get().value
+                            )
+                        )
+                    }
                 }
+                return eventsList
             }
 }
