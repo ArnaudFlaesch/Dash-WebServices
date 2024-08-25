@@ -16,7 +16,10 @@ import org.junit.jupiter.api.TestInstance
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+    useMainMethod = SpringBootTest.UseMainMethod.ALWAYS
+)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SqlData
 class AuthControllerTests {
