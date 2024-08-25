@@ -91,8 +91,8 @@ class RestClientTest {
         assertThrows(ErrorHandler.Companion.NotFoundException::class.java) {
             restClient.getDataFromProxy(
                 testUrl,
-                object : ParameterizedTypeReference<List<String>>() {},
-                HttpEntity<List<String>>(HttpHeaders())
+                HttpEntity<List<String>>(HttpHeaders()),
+                object : ParameterizedTypeReference<List<String>>() {}
             )
         }
         mockServer.verify()

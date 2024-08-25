@@ -53,7 +53,7 @@ class StravaApiClient(
         val url = "$stravaApiUrl/api/v3/athlete/activities?page=$pageNumber&per_page=$numberOfActivities"
         val httpEntity = HttpEntity<List<StravaActivityResponse>>(getHeaders(token))
         val typeReference = object : ParameterizedTypeReference<List<StravaActivityResponse>>() {}
-        return restClient.getDataFromProxy(url, typeReference, httpEntity)
+        return restClient.getDataFromProxy(url, httpEntity, typeReference)
     }
 
     private fun getHeaders(token: String): HttpHeaders {

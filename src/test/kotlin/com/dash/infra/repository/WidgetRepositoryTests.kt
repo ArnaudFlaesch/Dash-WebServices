@@ -22,11 +22,10 @@ class WidgetRepositoryTests {
         val tabIdToInsertInto = 1
         val w1 =
             WidgetEntity(
-                0,
-                2,
-                "{}",
-                1,
-                TabEntity(tabIdToInsertInto, "", 1, user = userRepository.getReferenceById(1))
+                id = 0,
+                type = 2,
+                widgetOrder = 1,
+                tab = TabEntity(tabIdToInsertInto, "", 1, user = userRepository.getReferenceById(1))
             )
         val w2 =
             WidgetEntity(
