@@ -55,11 +55,7 @@ class SteamWidgetControllerTests {
                 .`when`()
                 .get("$steamWidgetEndpoint/playerData")
                 .then()
-                .log()
-                .all()
                 .statusCode(200)
-                .log()
-                .all()
         }
     }
 

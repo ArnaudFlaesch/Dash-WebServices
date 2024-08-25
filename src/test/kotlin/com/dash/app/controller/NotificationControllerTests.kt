@@ -57,11 +57,7 @@ class NotificationControllerTests {
                 .`when`()
                 .get("$notificationsEndpoint/")
                 .then()
-                .log()
-                .all()
                 .statusCode(HttpStatus.OK.value())
-                .log()
-                .all()
                 .extract()
                 .`as`(object : TypeRef<Page<NotificationDomain>>() {})
 
@@ -82,11 +78,7 @@ class NotificationControllerTests {
                 .`when`()
                 .put("$notificationsEndpoint/markNotificationAsRead")
                 .then()
-                .log()
-                .all()
                 .statusCode(HttpStatus.OK.value())
-                .log()
-                .all()
                 .extract()
                 .`as`(object : TypeRef<List<NotificationDomain>>() {})
 

@@ -1,9 +1,11 @@
 package com.dash.infra.apimodel.strava
 
 import com.dash.domain.model.stravaWidget.StravaAthleteDomain
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDate
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class StravaAthleteResponse(
     val id: Double = 0.0,
     val username: String = "",

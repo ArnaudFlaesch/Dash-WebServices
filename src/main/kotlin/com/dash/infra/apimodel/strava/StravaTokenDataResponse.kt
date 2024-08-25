@@ -1,8 +1,10 @@
 package com.dash.infra.apimodel.strava
 
 import com.dash.domain.model.stravaWidget.StravaTokenDataDomain
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class StravaTokenDataResponse(
     @JsonProperty("access_token")
     val accessToken: String = "",

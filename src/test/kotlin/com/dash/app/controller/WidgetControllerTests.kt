@@ -126,8 +126,6 @@ class WidgetControllerTests {
                 .`when`()
                 .delete("${WIDGET_ENDPOINT}deleteWidget")
                 .then()
-                .log()
-                .all()
                 .statusCode(200)
 
             val updatedWidgetListDomain =
@@ -235,8 +233,6 @@ class WidgetControllerTests {
                 .`when`()
                 .delete("${WIDGET_ENDPOINT}deleteWidget")
                 .then()
-                .log()
-                .all()
                 .statusCode(403)
         }
     }

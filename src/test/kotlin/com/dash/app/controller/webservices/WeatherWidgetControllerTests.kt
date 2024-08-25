@@ -53,11 +53,7 @@ class WeatherWidgetControllerTests {
                 .`when`()
                 .get("$weatherWidgetEndpoint/weather")
                 .then()
-                .log()
-                .all()
                 .statusCode(statusCode)
-                .log()
-                .all()
         }
 
         fun testGetTokenArguments(): Stream<Arguments> = testTokenArguments(jwtToken)
