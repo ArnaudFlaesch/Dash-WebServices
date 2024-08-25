@@ -22,9 +22,9 @@ class WeatherWidgetAdapterTests {
     fun shouldReturnWeatherData() {
         val city = "Paris"
 
-        val weatherListResponse = listOf(Weather(icon = "sunny"), Weather(icon = "cloudy"))
+        val weatherListResponse = listOf(Weather().copy(icon = "sunny"), Weather().copy(icon = "cloudy"))
         val weatherApiData =
-            OpenWeatherWeatherResponse(name = city, id = 123, weather = weatherListResponse)
+            OpenWeatherWeatherResponse().copy(name = city, id = 123, weather = weatherListResponse)
 
         given(weatherApiClient.getWeatherData(city)).willReturn(weatherApiData)
         val response = weatherWidgetAdapter.getWeatherData(city)
@@ -36,9 +36,9 @@ class WeatherWidgetAdapterTests {
     fun shouldReturnForecastData() {
         val city = "Paris"
 
-        val cityResponse = CityResponse(name = city, country = "France")
-        val forecastList = listOf(ForecastResponse(dt = 1), ForecastResponse(dt = 2))
-        val forecastData = OpenWeatherForecastResponse(list = forecastList, city = cityResponse)
+        val cityResponse = CityResponse().copy(name = city, country = "France")
+        val forecastList = listOf(ForecastResponse().copy(dt = 1), ForecastResponse(dt = 2))
+        val forecastData = OpenWeatherForecastResponse().copy(list = forecastList, city = cityResponse)
 
         given(weatherApiClient.getForecastData(city)).willReturn(forecastData)
         val response = weatherWidgetAdapter.getForecastData(city)
