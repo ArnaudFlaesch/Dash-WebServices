@@ -112,7 +112,6 @@ sonar {
         property("sonar.projectVersion", "1.0")
         property("sonar.sources", "src/main")
         property("sonar.tests", "src/test/kotlin")
-        property("sonar.exclusions", "src/test/resources/data/**/*.sql")
         property("sonar.sourceEncoding", "UTF-8")
         property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/kover/report.xml")
     }

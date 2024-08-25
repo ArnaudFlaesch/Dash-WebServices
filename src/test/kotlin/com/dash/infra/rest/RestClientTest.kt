@@ -2,9 +2,12 @@ package com.dash.infra.rest
 
 import com.common.utils.SqlData
 import com.dash.app.controller.ErrorHandler
-import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.arguments
@@ -18,6 +21,7 @@ import org.springframework.test.web.client.MockRestServiceServer
 import org.springframework.test.web.client.match.MockRestRequestMatchers.method
 import org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
 import org.springframework.test.web.client.response.MockRestResponseCreators.withStatus
+import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import java.net.URI
 import java.util.stream.Stream
@@ -124,6 +128,10 @@ class RestClientTest {
             arguments(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 ErrorHandler.Companion.InternalServerErrorException::class.java
+            ),
+            arguments(
+                HttpStatus.BAD_GATEWAY,
+                RestClientException::class.java
             )
         )
 }
