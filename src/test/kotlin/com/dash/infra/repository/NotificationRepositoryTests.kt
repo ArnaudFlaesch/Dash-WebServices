@@ -1,6 +1,5 @@
 package com.dash.infra.repository
 
-import com.common.utils.SqlData
 import com.dash.domain.model.notification.NotificationType
 import com.dash.infra.entity.NotificationEntity
 import org.assertj.core.api.Assertions.assertThat
@@ -16,7 +15,6 @@ import java.time.OffsetDateTime
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SqlData
 class NotificationRepositoryTests {
     @Autowired
     private lateinit var notificationRepository: NotificationRepository

@@ -2,7 +2,6 @@ package com.dash.app.controller.webservices
 
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.common.utils.SqlData
 import com.dash.app.controller.response.Page
 import com.dash.domain.model.steamwidget.AchievementDataDomain
 import com.dash.domain.model.steamwidget.GameInfoDomain
@@ -26,7 +25,6 @@ import java.util.stream.Stream
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SqlData
 class SteamWidgetControllerTests {
     @LocalServerPort
     private val port: Int = 0

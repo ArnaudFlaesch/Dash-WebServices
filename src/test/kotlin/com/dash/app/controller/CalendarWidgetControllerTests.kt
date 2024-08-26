@@ -3,7 +3,6 @@ package com.dash.app.controller
 import com.common.utils.Constants.UNAUTHORIZED_ERROR
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.common.utils.SqlData
 import com.dash.app.controller.requests.calendarwidget.CalendarUrlPayload
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
@@ -28,7 +27,6 @@ import java.net.URI
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SqlData
 class CalendarWidgetControllerTests {
     @LocalServerPort
     private val port: Int = 0

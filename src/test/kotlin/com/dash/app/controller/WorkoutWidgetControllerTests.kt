@@ -2,7 +2,6 @@ package com.dash.app.controller
 
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.common.utils.SqlData
 import com.dash.app.controller.requests.workoutWidget.AddWorkoutTypePayload
 import com.dash.app.controller.requests.workoutWidget.CreateWorkoutSessionPayload
 import com.dash.app.controller.requests.workoutWidget.UpdateWorkoutExercisePayload
@@ -32,7 +31,6 @@ import java.time.format.DateTimeFormatter
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SqlData
 class WorkoutWidgetControllerTests {
     @LocalServerPort
     private val port: Int = 0

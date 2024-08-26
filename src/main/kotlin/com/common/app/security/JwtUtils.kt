@@ -13,13 +13,12 @@ import java.util.*
 import javax.crypto.SecretKey
 
 @Component
-class JwtUtils {
+class JwtUtils(
     @Value("\${dash.app.jwtSecret}")
-    private val jwtSecret: String? = null
-
+    private val jwtSecret: String,
     @Value("\${dash.app.jwtExpirationMs}")
-    private val jwtExpirationMs = 0
-
+    private val jwtExpirationMs: Int
+) {
     companion object {
         private val logger = LoggerFactory.getLogger(this::class.java.name)
     }
@@ -36,29 +35,26 @@ class JwtUtils {
             .compact()
     }
 
-    fun getUserNameFromJwtToken(token: String): String =
+    fun getUserNameFromJwtToken(token: String): String = parseToken(token).payload.subject
+
+    fun validateJwtToken(authToken: String): Boolean =
+        try {
+            parseToken(authToken)
+            true
+        } catch (e: MalformedJwtException) {
+            logger.error("Invalid JWT token: {}", e.message)
+            false
+        } catch (e: ExpiredJwtException) {
+            logger.error("JWT token is expired: {}", e.message)
+            false
+        }
+
+    private fun parseToken(authToken: String) =
         Jwts
             .parser()
             .verifyWith(getSigningKey())
             .build()
-            .parseSignedClaims(token)
-            .payload.subject
-
-    fun validateJwtToken(authToken: String?): Boolean {
-        try {
-            Jwts
-                .parser()
-                .verifyWith(getSigningKey())
-                .build()
-                .parseSignedClaims(authToken)
-            return true
-        } catch (e: MalformedJwtException) {
-            logger.error("Invalid JWT token: {}", e.message)
-        } catch (e: ExpiredJwtException) {
-            logger.error("JWT token is expired: {}", e.message)
-        }
-        return false
-    }
+            .parseSignedClaims(authToken)
 
     private fun getSigningKey(): SecretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret))
 }

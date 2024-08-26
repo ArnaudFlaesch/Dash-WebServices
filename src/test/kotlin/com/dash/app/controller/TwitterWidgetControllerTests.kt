@@ -2,7 +2,6 @@ package com.dash.app.controller
 
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.common.utils.SqlData
 import com.dash.app.controller.requests.twitterWidget.AddUserToFollowPayload
 import com.dash.app.controller.response.Page
 import com.dash.domain.model.twitterwidget.FollowedUser
@@ -25,7 +24,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SqlData
 class TwitterWidgetControllerTests {
     @LocalServerPort
     private val port: Int = 0
