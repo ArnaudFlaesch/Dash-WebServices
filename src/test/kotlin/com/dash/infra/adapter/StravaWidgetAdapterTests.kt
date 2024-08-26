@@ -1,6 +1,7 @@
 package com.dash.infra.adapter
 
 import com.dash.infra.apimodel.strava.StravaActivityResponse
+import com.dash.infra.apimodel.strava.StravaTokenDataResponse
 import com.dash.infra.rest.StravaApiClient
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -17,6 +18,18 @@ class StravaWidgetAdapterTests {
 
     @InjectMocks
     private lateinit var stravaWidgetAdapter: StravaWidgetAdapter
+
+    @Test
+    fun shouldReturnStravaToken() {
+        val apiCode = "12"
+
+        val stravaTokenResponse =
+            StravaTokenDataResponse(accessToken = "Token")
+        given(stravaApiClient.getToken(apiCode)).willReturn(stravaTokenResponse)
+
+        val response = stravaWidgetAdapter.getToken(apiCode)
+        assertEquals("Token", response.accessToken)
+    }
 
     @Test
     fun shouldReturnStravaActivitiesData() {

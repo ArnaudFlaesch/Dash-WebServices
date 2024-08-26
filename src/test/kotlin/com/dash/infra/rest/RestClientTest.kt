@@ -1,6 +1,5 @@
 package com.dash.infra.rest
 
-import com.common.utils.SqlData
 import com.dash.app.controller.ErrorHandler
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -28,7 +27,6 @@ import java.util.stream.Stream
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SqlData
 class RestClientTest {
     @Autowired
     private lateinit var restClient: RestClient
