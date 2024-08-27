@@ -1,6 +1,5 @@
 package com.common.domain.service
 
-import com.common.utils.SqlData
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -12,13 +11,12 @@ import org.springframework.security.test.context.support.WithMockUser
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SqlData
 class UserServiceTest {
     @Autowired
     private lateinit var userService: UserService
 
     @Test
-    fun getUserByIdTest() {
+    fun getUserByUsernameTest() {
         val username = "admintest"
         val user = userService.getUserByUsername(username)
         assertThat(user).isNotEmpty
@@ -28,10 +26,7 @@ class UserServiceTest {
     @Test
     @WithMockUser(username = "usertest", roles = ["USER"])
     fun shouldReturnUserWhenItExists() {
-        val user = userService.getCurrentAuthenticatedUser()
-        assertNotNull(user.id)
-        assertEquals("usertest", user.username)
-        assertEquals("user@email.com", user.email)
-        assertEquals(1, user.roleId)
+        val userId = userService.getCurrentAuthenticatedUserId()
+        assertNotNull(userId)
     }
 }

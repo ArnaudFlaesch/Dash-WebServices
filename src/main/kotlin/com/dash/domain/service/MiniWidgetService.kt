@@ -14,14 +14,12 @@ class MiniWidgetService(
 ) {
     fun findAuthenticatedUserMiniWidgets(): List<MiniWidgetDomain> =
         userService
-            .getCurrentAuthenticatedUser()
-            .id
+            .getCurrentAuthenticatedUserId()
             .let(miniWidgetPersistenceAdapter::findAuthenticatedUserMiniWidgets)
 
     fun addMiniWidget(widgetType: Int): MiniWidgetDomain =
         userService
-            .getCurrentAuthenticatedUser()
-            .id
+            .getCurrentAuthenticatedUserId()
             .let { currentAuthenticatedUserId ->
                 MiniWidgetDomain(
                     id = 0,

@@ -17,7 +17,7 @@ class WidgetService(
         widgetPersistenceAdapter.findByTabIdOrderByWidgetOrderAsc(tabId)
 
     fun getUserWidgets(): List<WidgetDomain> {
-        val userId = userService.getCurrentAuthenticatedUser().id
+        val userId = userService.getCurrentAuthenticatedUserId()
         return widgetPersistenceAdapter.getUserWidgets(userId)
     }
 

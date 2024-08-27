@@ -20,7 +20,7 @@ class NotificationService(
         notificationAdapter.getNotifications(pageNumber, pageSize)
 
     fun saveNotification(message: String, notificationType: NotificationType) {
-        val userName = userService.getCurrentAuthenticatedUserUsername()
+        val userName = userService.getCurrentAuthenticatedUserIdUsername()
         val notification = createNotification("$userName : $message", notificationType)
         notificationAdapter.saveNotification(notification)
     }

@@ -10,6 +10,7 @@ import io.restassured.RestAssured.defaultParser
 import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
+import io.restassured.http.Header
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -50,6 +51,17 @@ class TabControllerTests {
                 .extract()
                 .`as`(object : TypeRef<List<TabDomain>>() {})
         assertEquals(2, tabsDomain.size)
+    }
+
+    @Test
+    fun testGetTabsWrongToken() {
+        given()
+            .port(port)
+            .header(Header("Authorization", "wrong_token"))
+            .`when`()
+            .get("/tab/")
+            .then()
+            .statusCode(401)
     }
 
     @Test
