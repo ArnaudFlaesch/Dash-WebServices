@@ -16,7 +16,7 @@ class ExpenseService(
     private val userService: UserService
 ) {
     fun getExpensesByInterval(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<ExpenseDomain> {
-        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUser().id
+        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUserId()
         return expensePersistenceAdapter.getExpensesByInterval(
             startIntervalDate,
             endIntervalDate,
@@ -25,17 +25,17 @@ class ExpenseService(
     }
 
     fun getUserExpenses(): List<ExpenseDomain> {
-        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUser().id
+        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUserId()
         return expensePersistenceAdapter.getAllUserExpenses(currentAuthenticatedUserId)
     }
 
     fun getTotalExpensesByMonth(): List<TotalExpenseByMonthDomain> {
-        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUser().id
+        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUserId()
         return expensePersistenceAdapter.getUserTotalExpensesByMonth(currentAuthenticatedUserId)
     }
 
     fun getTotalExpensesByMonthByLabelId(labelId: Int): List<TotalExpenseByMonthDomain> {
-        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUser().id
+        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUserId()
         return expensePersistenceAdapter.getUserTotalExpensesByMonthByLabelId(
             labelId,
             currentAuthenticatedUserId

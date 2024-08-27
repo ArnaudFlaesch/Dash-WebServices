@@ -12,8 +12,8 @@ class WidgetSecurityService(
 ) {
     fun doesWidgetBelongToUser(widgetId: Int): Boolean =
         userService
-            .getCurrentAuthenticatedUser()
-            .let { authUser -> widgetPersistenceAdapter.getUserWidgets(authUser.id) }
+            .getCurrentAuthenticatedUserId()
+            .let(widgetPersistenceAdapter::getUserWidgets)
             .map(WidgetDomain::id)
             .contains(widgetId)
 }

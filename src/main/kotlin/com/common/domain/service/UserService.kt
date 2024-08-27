@@ -1,7 +1,6 @@
 package com.common.domain.service
 
 import com.common.domain.mapping.UserMapper
-import com.common.domain.model.UserDomain
 import com.common.infra.entity.UserEntity
 import com.common.infra.repository.UserRepository
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -15,14 +14,14 @@ class UserService(
     private val userRepository: UserRepository,
     private val userMapper: UserMapper
 ) {
-    fun getCurrentAuthenticatedUserUsername(): String =
+    fun getCurrentAuthenticatedUserIdUsername(): String =
         (SecurityContextHolder.getContext().authentication as UsernamePasswordAuthenticationToken)
             .let { authentication -> authentication.principal as UserDetails }
             .username
 
-    fun getCurrentAuthenticatedUser(): UserDomain {
-        val userId = getCurrentAuthenticatedUserUsername()
-        return userMapper.mapEntityToDomain(getUserByUsername(userId).orElseThrow())
+    fun getCurrentAuthenticatedUserId(): Int {
+        val userId = getCurrentAuthenticatedUserIdUsername()
+        return userMapper.mapEntityToDomain(getUserByUsername(userId).orElseThrow()).id
     }
 
     fun getUserById(userId: Int) = userRepository.getReferenceById(userId)

@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.util.StringUtils
 import org.springframework.web.filter.OncePerRequestFilter
@@ -28,27 +27,29 @@ class AuthTokenFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        try {
-            val jwt = parseJwt(request)
-            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+        parseJwt(request)
+            ?.let { jwt ->
                 jwtUtils
-                    .getUserNameFromJwtToken(jwt)
-                    .let(userDetailsService::loadUserByUsername)
-                    .let { userDetails ->
-                        UsernamePasswordAuthenticationToken(
-                            userDetails,
-                            null,
-                            userDetails.authorities
-                        )
-                    }.let { authentication ->
-                        authentication.details =
-                            WebAuthenticationDetailsSource().buildDetails(request)
-                        SecurityContextHolder.getContext().authentication = authentication
+                    .validateJwtToken(jwt)
+                    .let { isValidToken ->
+                        if (isValidToken) {
+                            jwtUtils
+                                .getUserNameFromJwtToken(jwt)
+                                .let(userDetailsService::loadUserByUsername)
+                                .let { userDetails ->
+                                    UsernamePasswordAuthenticationToken(
+                                        userDetails,
+                                        null,
+                                        userDetails.authorities
+                                    )
+                                }.let { authentication ->
+                                    authentication.details =
+                                        WebAuthenticationDetailsSource().buildDetails(request)
+                                    SecurityContextHolder.getContext().authentication = authentication
+                                }
+                        }
                     }
             }
-        } catch (e: UsernameNotFoundException) {
-            Companion.logger.error("Cannot set user authentication: ${e.message}", e)
-        }
         filterChain.doFilter(request, response)
     }
 

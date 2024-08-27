@@ -12,8 +12,8 @@ class TabSecurityService(
 ) {
     fun doesTabBelongToUser(tabId: Int): Boolean =
         userService
-            .getCurrentAuthenticatedUser()
-            .let { authUser -> tabPersistenceAdapter.getUserTabs(authUser.id) }
+            .getCurrentAuthenticatedUserId()
+            .let(tabPersistenceAdapter::getUserTabs)
             .map(TabDomain::id)
             .contains(tabId)
 }

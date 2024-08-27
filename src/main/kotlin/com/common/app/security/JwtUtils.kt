@@ -1,6 +1,5 @@
 package com.common.app.security
 
-import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.MalformedJwtException
 import io.jsonwebtoken.io.Decoders
@@ -43,9 +42,6 @@ class JwtUtils(
             true
         } catch (e: MalformedJwtException) {
             logger.error("Invalid JWT token: {}", e.message)
-            false
-        } catch (e: ExpiredJwtException) {
-            logger.error("JWT token is expired: {}", e.message)
             false
         }
 
