@@ -26,11 +26,9 @@ class TabService(
 
     fun saveTabs(tabList: List<TabDomain>): List<TabDomain> = tabPersistenceAdapter.saveTabs(tabList)
 
-    fun importTab(tabLabel: String, tabOrder: Int): TabDomain {
-        val userId = userService.getCurrentAuthenticatedUserId()
-        val tabToInsert = TabDomain(0, tabLabel, tabOrder, userId = userId)
-        return tabPersistenceAdapter.importTab(tabToInsert)
-    }
+    fun importTab(tabLabel: String, tabOrder: Int): TabDomain =
+        TabDomain(0, tabLabel, tabOrder, userId = userService.getCurrentAuthenticatedUserId())
+            .let(tabPersistenceAdapter::importTab)
 
     fun updateTab(tabId: Int, label: String, tabOrder: Int): TabDomain =
         tabPersistenceAdapter.updateTab(tabId, label, tabOrder)
