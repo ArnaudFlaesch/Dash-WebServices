@@ -132,12 +132,12 @@ jobs:
           echo "DOCKER_TAG_NAME=latest" >> $GITHUB_ENV
 
       - name: Set Docker tag for test
-        if: github.ref_name != 'master' && !contains(github.ref, 'renovate/')
+        if: github.ref_name != 'master' && !contains(github.head_ref, 'renovate/')
         run: |
           echo "DOCKER_TAG_NAME=${{ github.head_ref || github.ref_name }}" >> $GITHUB_ENV
 
       - name: Set Docker tag for Renovate branches
-        if: github.ref_name != 'master' && contains(github.ref, 'renovate/')
+        if: github.ref_name != 'master' && contains(github.head_ref, 'renovate/')
         run: |
           echo "DOCKER_TAG_NAME=renovate" >> $GITHUB_ENV
 
