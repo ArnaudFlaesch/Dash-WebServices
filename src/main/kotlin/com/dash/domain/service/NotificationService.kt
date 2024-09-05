@@ -21,8 +21,8 @@ class NotificationService(
 
     fun saveNotification(message: String, notificationType: NotificationType) {
         val userName = userService.getCurrentAuthenticatedUserIdUsername()
-        val notification = createNotification("$userName : $message", notificationType)
-        notificationAdapter.saveNotification(notification)
+        createNotification("$userName : $message", notificationType)
+            .let(notificationAdapter::saveNotification)
     }
 
     @PreAuthorize(SecurityConditions.IS_USER_ADMIN)

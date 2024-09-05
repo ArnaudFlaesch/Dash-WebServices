@@ -15,37 +15,28 @@ class ExpenseService(
     private val expensePersistenceAdapter: ExpensePersistenceAdapter,
     private val userService: UserService
 ) {
-    fun getExpensesByInterval(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<ExpenseDomain> {
-        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return expensePersistenceAdapter.getExpensesByInterval(
+    fun getExpensesByInterval(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<ExpenseDomain> =
+        expensePersistenceAdapter.getExpensesByInterval(
             startIntervalDate,
             endIntervalDate,
-            currentAuthenticatedUserId
+            userService.getCurrentAuthenticatedUserId()
         )
-    }
 
-    fun getUserExpenses(): List<ExpenseDomain> {
-        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return expensePersistenceAdapter.getAllUserExpenses(currentAuthenticatedUserId)
-    }
+    fun getUserExpenses(): List<ExpenseDomain> =
+        expensePersistenceAdapter.getAllUserExpenses(userService.getCurrentAuthenticatedUserId())
 
-    fun getTotalExpensesByMonth(): List<TotalExpenseByMonthDomain> {
-        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return expensePersistenceAdapter.getUserTotalExpensesByMonth(currentAuthenticatedUserId)
-    }
+    fun getTotalExpensesByMonth(): List<TotalExpenseByMonthDomain> =
+        expensePersistenceAdapter.getUserTotalExpensesByMonth(userService.getCurrentAuthenticatedUserId())
 
-    fun getTotalExpensesByMonthByLabelId(labelId: Int): List<TotalExpenseByMonthDomain> {
-        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return expensePersistenceAdapter.getUserTotalExpensesByMonthByLabelId(
+    fun getTotalExpensesByMonthByLabelId(labelId: Int): List<TotalExpenseByMonthDomain> =
+        expensePersistenceAdapter.getUserTotalExpensesByMonthByLabelId(
             labelId,
-            currentAuthenticatedUserId
+            userService.getCurrentAuthenticatedUserId()
         )
-    }
 
-    fun addExpense(amount: Float, expenseDate: LocalDate, labelId: Int): ExpenseDomain {
-        val expenseToCreate = ExpenseDomain(0, amount, expenseDate, labelId)
-        return insertExpense(expenseToCreate)
-    }
+    fun addExpense(amount: Float, expenseDate: LocalDate, labelId: Int): ExpenseDomain =
+        ExpenseDomain(0, amount, expenseDate, labelId)
+            .let(this::insertExpense)
 
     fun insertExpense(expense: ExpenseDomain): ExpenseDomain = expensePersistenceAdapter.insertExpense(expense)
 

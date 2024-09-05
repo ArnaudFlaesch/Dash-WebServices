@@ -14,20 +14,16 @@ class LabelService(
     private val expenseService: ExpenseService,
     private val userService: UserService
 ) {
-    fun getUserLabels(): List<LabelDomain> {
-        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return labelPersistenceAdapter.getLabels(authenticatedUserId)
-    }
+    fun getUserLabels(): List<LabelDomain> =
+        labelPersistenceAdapter.getLabels(userService.getCurrentAuthenticatedUserId())
 
-    fun addLabel(labelToAdd: String): LabelDomain {
-        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return labelPersistenceAdapter.addLabel(labelToAdd, currentAuthenticatedUserId)
-    }
+    fun addLabel(labelToAdd: String): LabelDomain =
+        labelPersistenceAdapter.addLabel(labelToAdd, userService.getCurrentAuthenticatedUserId())
 
     fun updateLabel(labelToUpdate: LabelDomain): LabelDomain = labelPersistenceAdapter.updateLabel(labelToUpdate)
 
-    fun deleteLabel(labelId: Int) {
-        expenseService.deleteExpensesByLabelId(labelId)
-        return labelPersistenceAdapter.deleteLabel(labelId)
-    }
+    fun deleteLabel(labelId: Int) =
+        expenseService
+            .deleteExpensesByLabelId(labelId)
+            .let { _ -> labelPersistenceAdapter.deleteLabel(labelId) }
 }
