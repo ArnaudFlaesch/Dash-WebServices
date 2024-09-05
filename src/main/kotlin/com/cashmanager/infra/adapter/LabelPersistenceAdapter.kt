@@ -19,13 +19,15 @@ class LabelPersistenceAdapter(
             .let(labelRepository::save)
             .let(LabelEntity::toDomain)
 
-    fun updateLabel(labelToUpdate: LabelDomain): LabelDomain {
-        val oldLabel = labelRepository.getReferenceById(labelToUpdate.id)
-        return labelRepository.save(oldLabel.copy(label = labelToUpdate.label)).toDomain()
-    }
+    fun updateLabel(labelToUpdate: LabelDomain): LabelDomain =
+        labelRepository
+            .getReferenceById(labelToUpdate.id)
+            .copy(label = labelToUpdate.label)
+            .let(labelRepository::save)
+            .let(LabelEntity::toDomain)
 
-    fun deleteLabel(labelId: Int) {
-        val label = labelRepository.getReferenceById(labelId)
-        return labelRepository.delete(label)
-    }
+    fun deleteLabel(labelId: Int) =
+        labelRepository
+            .getReferenceById(labelId)
+            .let(labelRepository::delete)
 }

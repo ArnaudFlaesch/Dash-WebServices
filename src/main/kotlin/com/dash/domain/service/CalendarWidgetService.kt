@@ -20,18 +20,16 @@ class CalendarWidgetService(
             .byteInputStream(StandardCharsets.ISO_8859_1)
             .let { stream -> InputStreamReader(stream, StandardCharsets.ISO_8859_1) }
             .let { reader ->
-                val eventsList = mutableListOf<CalendarEvent>()
-                CalendarBuilder().build(reader).getComponents<VEvent>(Component.VEVENT).forEach {
-                    if (it.getDateTimeStart<Temporal>().isPresent && it.getDateTimeEnd<Temporal>().isPresent) {
-                        eventsList.add(
-                            CalendarEvent(
-                                it.getDateTimeStart<Temporal>().get().date,
-                                it.getDateTimeEnd<Temporal>().get().date,
-                                it.summary.get().value
-                            )
+                CalendarBuilder()
+                    .build(reader)
+                    .getComponents<VEvent>(Component.VEVENT)
+                    .filter { it.getDateTimeStart<Temporal>().isPresent && it.getDateTimeEnd<Temporal>().isPresent }
+                    .map {
+                        CalendarEvent(
+                            it.getDateTimeStart<Temporal>().get().date,
+                            it.getDateTimeEnd<Temporal>().get().date,
+                            it.summary.get().value
                         )
                     }
-                }
-                return eventsList
             }
 }

@@ -18,16 +18,14 @@ class MiniWidgetService(
             .let(miniWidgetPersistenceAdapter::findAuthenticatedUserMiniWidgets)
 
     fun addMiniWidget(widgetType: Int): MiniWidgetDomain =
-        userService
-            .getCurrentAuthenticatedUserId()
-            .let { currentAuthenticatedUserId ->
-                MiniWidgetDomain(
-                    id = 0,
-                    type = widgetType,
-                    data = null,
-                    userId = currentAuthenticatedUserId
-                )
-            }.let(this::saveMiniWidget)
+        MiniWidgetDomain(
+            id = 0,
+            type = widgetType,
+            data = null,
+            userId =
+                userService
+                    .getCurrentAuthenticatedUserId()
+        ).let(this::saveMiniWidget)
 
     fun saveMiniWidget(miniWidget: MiniWidgetDomain): MiniWidgetDomain =
         miniWidgetPersistenceAdapter.saveMiniWidget(miniWidget)

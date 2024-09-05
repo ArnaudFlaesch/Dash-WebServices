@@ -51,10 +51,10 @@ class ExpensePersistenceAdapter(
         ).let(expenseRepository::save)
             .let(ExpenseEntity::toDomain)
 
-    fun deleteExpense(expenseId: Int) {
-        val expense = expenseRepository.getReferenceById(expenseId)
-        return expenseRepository.delete(expense)
-    }
+    fun deleteExpense(expenseId: Int) =
+        expenseRepository
+            .getReferenceById(expenseId)
+            .let(expenseRepository::delete)
 
     fun deleteExpensesByLabelId(labelId: Int) = expenseRepository.deleteExpensesByLabelId(labelId)
 }
