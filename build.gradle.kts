@@ -1,5 +1,5 @@
 val kotlinVersion = "2.0.20"
-val springBootVersion = "3.3.3"
+val springBootVersion = "3.3.4"
 val jwtVersion = "0.12.6"
 val ical4jVersion = "4.0.4"
 
@@ -19,7 +19,7 @@ val hibernateTypesVersion = "2.21.1"
 
 plugins {
     val kotlinPluginVersion = "2.0.20"
-    val springBootPluginVersion = "3.3.3"
+    val springBootPluginVersion = "3.3.4"
     val springDependencyManagementPluginVersion = "1.1.6"
     val kotlinterPluginVersion = "4.4.1"
     val sonarQubePluginVersion = "5.1.0.4882"
