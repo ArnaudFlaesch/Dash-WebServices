@@ -6,6 +6,8 @@ spring:
     gcp:
       secretmanager:
         enabled: false
+      core:
+        enabled: false
   datasource:
     driver-class-name: org.postgresql.Driver
     platform: postgresql
@@ -29,8 +31,6 @@ logging:
 springdoc:
   api-docs:
     path: /api-docs
-  swagger-ui:
-    path: /swagger-ui.html
 dash:
   app:
     AIRPARIF_API_URL: http://localhost:5000/airParif
@@ -54,6 +54,8 @@ spring:
   cloud:
     gcp:
       secretmanager:
+        enabled: true
+      core:
         enabled: true
   datasource:
     url: ${sm://projects/32508443606/secrets/DATABASE_URL}
