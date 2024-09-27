@@ -6,5 +6,11 @@
   "assignees": [
     "ArnaudFlaesch"
   ],
+  "packageRules": [
+    {
+      "groupName": "jackson",
+      "matchPackagePatterns": ["^com.fasterxml.jackson.*"]
+    }
+  ],
   "branchTopic": "{{{depNameSanitized}}}-{{{newMajor}}}{{#if separateMinorPatch}}{{#if isPatch}}.{{{newMinor}}}{{/if}}{{/if}}{{#if isLockfileUpdate}}-lockfile{{/if}}"
 }
