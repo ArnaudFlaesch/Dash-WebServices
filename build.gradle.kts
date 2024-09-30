@@ -17,23 +17,28 @@ val mockitoKotlinVersion = "5.4.0"
 val junitPlatformLauncherVersion = "1.11.1"
 val hibernateTypesVersion = "2.21.1"
 
+val springCloudGcpVersion = "5.6.1"
+val springCloudVersion = "2023.0.3"
+
 plugins {
     val kotlinPluginVersion = "2.0.20"
     val springBootPluginVersion = "3.3.4"
+    val springDocGradlePluginVersion = "1.9.0"
     val springDependencyManagementPluginVersion = "1.1.6"
     val kotlinterPluginVersion = "4.4.1"
     val sonarQubePluginVersion = "5.1.0.4882"
     val koverPluginVersion = "0.8.3"
 
-    id("org.springframework.boot") version springBootPluginVersion
-    id("io.spring.dependency-management") version springDependencyManagementPluginVersion
-    // id("org.springdoc.openapi-gradle-plugin") version springDocGradlePluginVersion
-    id("org.jmailen.kotlinter") version kotlinterPluginVersion
-    id("org.sonarqube") version sonarQubePluginVersion
-    id("org.jetbrains.kotlinx.kover") version koverPluginVersion
     kotlin("jvm") version kotlinPluginVersion
     kotlin("plugin.spring") version kotlinPluginVersion
     kotlin("plugin.jpa") version kotlinPluginVersion
+
+    id("org.springframework.boot") version springBootPluginVersion
+    id("io.spring.dependency-management") version springDependencyManagementPluginVersion
+    id("org.springdoc.openapi-gradle-plugin") version springDocGradlePluginVersion
+    id("org.jmailen.kotlinter") version kotlinterPluginVersion
+    id("org.jetbrains.kotlinx.kover") version koverPluginVersion
+    id("org.sonarqube") version sonarQubePluginVersion
 }
 
 group = "com.dash"
@@ -51,9 +56,6 @@ repositories {
         url = uri("https://jitpack.io")
     }
 }
-
-val springCloudGcpVersion = "5.6.1"
-val springCloudVersion = "2023.0.3"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter:$springBootVersion")
@@ -76,6 +78,8 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
 
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:$springDocVersion")
+
     implementation("org.liquibase:liquibase-core:$liquibaseVersion")
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
@@ -92,8 +96,6 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("org.springframework.security:spring-security-test:$springSecurityVersion")
-
-    testImplementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
 }
 
 dependencyManagement {
@@ -120,6 +122,13 @@ sonar {
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
+    }
+}
+
+openApi {
+    apiDocsUrl.set("http://localhost:8080/api-docs")
+    customBootRun {
+        args.set(listOf("--spring.profiles.active=test"))
     }
 }
 

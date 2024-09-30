@@ -63,7 +63,6 @@ class WebSecurityConfig(
                     .requestMatchers(
                         "/auth/**",
                         "/actuator/**",
-                        "/swagger-ui/*",
                         "/api-docs/**",
                         "/error"
                     ).permitAll()
@@ -81,7 +80,7 @@ class WebSecurityConfig(
     fun corsConfigurationSource(): CorsConfigurationSource {
         val config = CorsConfiguration()
         config.allowedOriginPatterns = listOf("*")
-        config.setAllowedMethods(listOf("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"))
+        config.allowedMethods = listOf("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH")
         config.allowCredentials = true
         config.allowedHeaders = listOf("Authorization", "Cache-Control", "Content-Type")
         val source = UrlBasedCorsConfigurationSource()

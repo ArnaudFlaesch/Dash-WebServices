@@ -69,6 +69,7 @@ jobs:
         with:
           output: swagger-ui
           spec-url: localhost:8080/api-docs
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3
