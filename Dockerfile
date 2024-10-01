@@ -1,4 +1,4 @@
-FROM gradle:8.10.1-jdk21-alpine AS build
+FROM gradle:8.10.2-jdk21-alpine AS build
 
 ENV GRADLE_OPTS="-Xmx512m"
 
