@@ -68,7 +68,7 @@ jobs:
         if: success() && github.ref_name == 'master'
         with:
           output: swagger-ui
-          spec-url: localhost:8080/api-docs
+          spec-file: openapi.json
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload pages artifact
