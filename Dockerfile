@@ -11,7 +11,7 @@ COPY settings.gradle.kts settings.gradle.kts
 RUN gradle assemble --no-daemon
 
 
-FROM eclipse-temurin:21.0.5_11-jre-alpine AS run
+FROM eclipse-temurin:23.0.1_11-jre-noble AS run
 
 COPY --from=build /build-step/build/libs/dash-webservices-*.jar dash-webservices.jar
 
