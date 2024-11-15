@@ -4,6 +4,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**
+.kotlin
 
 ### STS ###
 .apt_generated
@@ -35,4 +36,3 @@ out/
 data.sql
 snyk-report.html
 snyk-report.json
-.kotlin/sessions/

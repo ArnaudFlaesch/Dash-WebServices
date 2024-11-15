@@ -43,7 +43,10 @@ class WeatherWidgetControllerTests {
     inner class GetWeatherTests {
         @ParameterizedTest
         @MethodSource("testGetTokenArguments")
-        fun testGetWeatherData(token: String, statusCode: Int) {
+        fun testGetWeatherData(
+            token: String,
+            statusCode: Int
+        ) {
             given()
                 .port(port)
                 .header(createAuthenticationHeader(token))

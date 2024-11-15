@@ -21,7 +21,10 @@ class WidgetService(
         return widgetPersistenceAdapter.getUserWidgets(userId)
     }
 
-    fun addWidget(widgetType: Int, tabId: Int): WidgetDomain =
+    fun addWidget(
+        widgetType: Int,
+        tabId: Int
+    ): WidgetDomain =
         WidgetDomain(
             id = 0,
             type = widgetType,
@@ -32,7 +35,12 @@ class WidgetService(
 
     fun saveWidget(widget: WidgetDomain): WidgetDomain = widgetPersistenceAdapter.saveWidget(widget)
 
-    fun importWidget(widgetType: Int, widgetOrder: Int, data: Any?, tabId: Int): WidgetDomain =
+    fun importWidget(
+        widgetType: Int,
+        widgetOrder: Int,
+        data: Any?,
+        tabId: Int
+    ): WidgetDomain =
         WidgetDomain(
             id = 0,
             type = widgetType,
@@ -41,8 +49,10 @@ class WidgetService(
             tabId = tabId
         ).let(widgetPersistenceAdapter::saveWidget)
 
-    fun updateWidgetData(widgetId: Int, updatedData: Any): WidgetDomain =
-        widgetPersistenceAdapter.updateWidgetData(widgetId, updatedData)
+    fun updateWidgetData(
+        widgetId: Int,
+        updatedData: Any
+    ): WidgetDomain = widgetPersistenceAdapter.updateWidgetData(widgetId, updatedData)
 
     fun updateWidgetsOrder(widgetList: List<WidgetDomain>): List<WidgetDomain> =
         widgetPersistenceAdapter.updateWidgetsOrder(widgetList)

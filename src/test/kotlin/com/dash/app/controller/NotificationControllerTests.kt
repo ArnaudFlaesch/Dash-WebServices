@@ -6,7 +6,6 @@ import com.dash.app.controller.requests.notifications.MarkNotificationsAsReadPay
 import com.dash.app.controller.response.Page
 import com.dash.domain.model.notification.NotificationDomain
 import com.dash.domain.model.notification.NotificationType
-import com.dash.domain.model.workoutwidget.*
 import com.dash.infra.repository.NotificationRepository
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given

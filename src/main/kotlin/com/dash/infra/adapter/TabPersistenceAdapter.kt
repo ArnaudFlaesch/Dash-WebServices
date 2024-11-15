@@ -18,7 +18,10 @@ class TabPersistenceAdapter(
             .findByUserIdOrderByTabOrderAsc(userId)
             .map(TabEntity::toDomain)
 
-    fun addTab(tabLabel: String, userId: Int): TabDomain =
+    fun addTab(
+        tabLabel: String,
+        userId: Int
+    ): TabDomain =
         TabEntity(
             id = 0,
             label = tabLabel,
@@ -42,7 +45,11 @@ class TabPersistenceAdapter(
         ).let(tabRepository::save)
             .let(TabEntity::toDomain)
 
-    fun updateTab(tabId: Int, label: String, tabOrder: Int): TabDomain =
+    fun updateTab(
+        tabId: Int,
+        label: String,
+        tabOrder: Int
+    ): TabDomain =
         tabRepository
             .getReferenceById(tabId)
             .copy(label = label, tabOrder = tabOrder)

@@ -67,7 +67,10 @@ class RestClientTest {
 
     @ParameterizedTest
     @MethodSource("requestErrorsParams")
-    fun testGetRequestErrors(statusCode: HttpStatus, exceptionClass: Class<Exception>) {
+    fun testGetRequestErrors(
+        statusCode: HttpStatus,
+        exceptionClass: Class<Exception>
+    ) {
         mockServer
             .expect(ExpectedCount.once(), requestTo(URI(testUrl)))
             .andExpect(method(HttpMethod.GET))
@@ -102,7 +105,10 @@ class RestClientTest {
 
     @ParameterizedTest
     @MethodSource("requestErrorsParams")
-    fun testPostRequestErrors(statusCode: HttpStatus, exceptionClass: Class<Exception>) {
+    fun testPostRequestErrors(
+        statusCode: HttpStatus,
+        exceptionClass: Class<Exception>
+    ) {
         mockServer
             .expect(ExpectedCount.once(), requestTo(URI(testUrl)))
             .andExpect(method(HttpMethod.POST))

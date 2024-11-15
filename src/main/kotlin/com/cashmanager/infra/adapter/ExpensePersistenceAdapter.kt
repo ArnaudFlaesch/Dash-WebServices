@@ -35,7 +35,10 @@ class ExpensePersistenceAdapter(
                 authenticatedUserId
             ).map(TotalExpenseByMonthEntity::toDomain)
 
-    fun getUserTotalExpensesByMonthByLabelId(labelId: Int, authenticatedUserId: Int): List<TotalExpenseByMonthDomain> =
+    fun getUserTotalExpensesByMonthByLabelId(
+        labelId: Int,
+        authenticatedUserId: Int
+    ): List<TotalExpenseByMonthDomain> =
         expenseRepository
             .getTotalExpensesByMonthByLabelId(
                 labelId,

@@ -74,7 +74,10 @@ class StravaWidgetControllerTests {
     inner class GetRefreshTokenTests {
         @ParameterizedTest
         @MethodSource("testGetRefreshTokenArguments")
-        fun shouldGetRefreshToken(token: String, statusCode: Int) {
+        fun shouldGetRefreshToken(
+            token: String,
+            statusCode: Int
+        ) {
             val getStravaRefreshTokenPayload = GetStravaRefreshTokenPayload("refresh_token")
 
             given()
@@ -124,7 +127,10 @@ class StravaWidgetControllerTests {
     inner class GetAthleteActivitiesTests {
         @ParameterizedTest
         @MethodSource("getActivitiesArguments")
-        fun shouldGetAthleteActivities(params: Map<String, Any>, expectedSize: Int) {
+        fun shouldGetAthleteActivities(
+            params: Map<String, Any>,
+            expectedSize: Int
+        ) {
             val actual =
                 given()
                     .port(port)

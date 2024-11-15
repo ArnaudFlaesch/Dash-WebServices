@@ -10,8 +10,10 @@ import io.restassured.http.Header
 import io.restassured.http.Headers
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers
-import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.core.io.ClassPathResource

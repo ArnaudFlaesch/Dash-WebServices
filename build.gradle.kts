@@ -86,16 +86,14 @@ dependencies {
     implementation("com.vladmihalcea:hibernate-types-60:$hibernateTypesVersion")
     implementation("com.google.code.gson:gson:$gsonVersion")
 
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformLauncherVersion")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+    testImplementation("org.springframework.security:spring-security-test:$springSecurityVersion")
 
     testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinVersion")
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
-    testImplementation("io.rest-assured:json-path:$restAssuredVersion")
-    testImplementation("io.rest-assured:xml-path:$restAssuredVersion")
-
-    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
-    testImplementation("org.springframework.security:spring-security-test:$springSecurityVersion")
+    testImplementation("io.rest-assured:kotlin-extensions:$restAssuredVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformLauncherVersion")
 }
 
 dependencyManagement {
@@ -111,7 +109,7 @@ sonar {
         property("sonar.projectKey", "ArnaudFlaesch_Dash-WebServices")
         property("sonar.organization", "arnaudflaesch")
         property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.projectVersion", "1.0")
+        property("sonar.qualitygate.wait", true)
         property("sonar.sources", "src/main")
         property("sonar.tests", "src/test/kotlin")
         property("sonar.sourceEncoding", "UTF-8")

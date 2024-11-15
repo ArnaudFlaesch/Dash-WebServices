@@ -29,7 +29,10 @@ class WidgetPersistenceAdapter(
         ).let(widgetRepository::save)
             .let(WidgetEntity::toDomain)
 
-    fun updateWidgetData(widgetId: Int, updatedData: Any): WidgetDomain =
+    fun updateWidgetData(
+        widgetId: Int,
+        updatedData: Any
+    ): WidgetDomain =
         widgetRepository
             .getReferenceById(widgetId)
             .copy(data = updatedData)

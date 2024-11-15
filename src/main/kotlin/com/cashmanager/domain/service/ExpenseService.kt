@@ -15,7 +15,10 @@ class ExpenseService(
     private val expensePersistenceAdapter: ExpensePersistenceAdapter,
     private val userService: UserService
 ) {
-    fun getExpensesByInterval(startIntervalDate: LocalDate, endIntervalDate: LocalDate): List<ExpenseDomain> =
+    fun getExpensesByInterval(
+        startIntervalDate: LocalDate,
+        endIntervalDate: LocalDate
+    ): List<ExpenseDomain> =
         expensePersistenceAdapter.getExpensesByInterval(
             startIntervalDate,
             endIntervalDate,
@@ -34,7 +37,11 @@ class ExpenseService(
             userService.getCurrentAuthenticatedUserId()
         )
 
-    fun addExpense(amount: Float, expenseDate: LocalDate, labelId: Int): ExpenseDomain =
+    fun addExpense(
+        amount: Float,
+        expenseDate: LocalDate,
+        labelId: Int
+    ): ExpenseDomain =
         ExpenseDomain(0, amount, expenseDate, labelId)
             .let(this::insertExpense)
 
