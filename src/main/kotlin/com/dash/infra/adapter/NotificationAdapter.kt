@@ -11,7 +11,10 @@ import org.springframework.stereotype.Component
 class NotificationAdapter(
     private val notificationRepository: NotificationRepository
 ) {
-    fun getNotifications(pageNumber: Int, pageSize: Int): Page<NotificationDomain> =
+    fun getNotifications(
+        pageNumber: Int,
+        pageSize: Int
+    ): Page<NotificationDomain> =
         notificationRepository
             .findAllByOrderByNotificationDateDesc(
                 PageRequest.of(pageNumber, pageSize)

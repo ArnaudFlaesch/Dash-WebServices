@@ -11,6 +11,10 @@ import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
 import io.restassured.http.Header
+import io.restassured.module.kotlin.extensions.Extract
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -41,15 +45,17 @@ class TabControllerTests {
     @Test
     fun testGetAllTabs() {
         val tabsDomain =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .`when`()
-                .get("/tab/")
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(object : TypeRef<List<TabDomain>>() {})
+            Given {
+                port(port)
+                header(createAuthenticationHeader(jwtToken))
+            } When {
+                get("/tab/")
+            } Then {
+                statusCode(200)
+            } Extract {
+                `as`(object : TypeRef<List<TabDomain>>() {})
+            }
+        given()
         assertEquals(2, tabsDomain.size)
     }
 

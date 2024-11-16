@@ -26,12 +26,18 @@ class TabService(
 
     fun saveTabs(tabList: List<TabDomain>): List<TabDomain> = tabPersistenceAdapter.saveTabs(tabList)
 
-    fun importTab(tabLabel: String, tabOrder: Int): TabDomain =
+    fun importTab(
+        tabLabel: String,
+        tabOrder: Int
+    ): TabDomain =
         TabDomain(0, tabLabel, tabOrder, userId = userService.getCurrentAuthenticatedUserId())
             .let(tabPersistenceAdapter::importTab)
 
-    fun updateTab(tabId: Int, label: String, tabOrder: Int): TabDomain =
-        tabPersistenceAdapter.updateTab(tabId, label, tabOrder)
+    fun updateTab(
+        tabId: Int,
+        label: String,
+        tabOrder: Int
+    ): TabDomain = tabPersistenceAdapter.updateTab(tabId, label, tabOrder)
 
     @PreAuthorize(
         "${SecurityConditions.DOES_TAB_BELONG_TO_AUTHENTICATED_USER} and ${SecurityConditions.IS_USER_ADMIN}"

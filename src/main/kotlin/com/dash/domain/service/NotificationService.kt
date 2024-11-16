@@ -16,10 +16,15 @@ class NotificationService(
     private val notificationAdapter: NotificationAdapter
 ) {
     @PreAuthorize(SecurityConditions.IS_USER_ADMIN)
-    fun getNotifications(pageNumber: Int, pageSize: Int): Page<NotificationDomain> =
-        notificationAdapter.getNotifications(pageNumber, pageSize)
+    fun getNotifications(
+        pageNumber: Int,
+        pageSize: Int
+    ): Page<NotificationDomain> = notificationAdapter.getNotifications(pageNumber, pageSize)
 
-    fun saveNotification(message: String, notificationType: NotificationType) {
+    fun saveNotification(
+        message: String,
+        notificationType: NotificationType
+    ) {
         val userName = userService.getCurrentAuthenticatedUserIdUsername()
         createNotification("$userName : $message", notificationType)
             .let(notificationAdapter::saveNotification)
@@ -29,6 +34,8 @@ class NotificationService(
     fun markNotificationsAsRead(notificationIds: List<Int>): List<NotificationDomain> =
         notificationAdapter.markNotificationsAsRead(notificationIds)
 
-    private fun createNotification(message: String, notificationType: NotificationType): NotificationDomain =
-        NotificationDomain(0, message, OffsetDateTime.now(), notificationType, isRead = false)
+    private fun createNotification(
+        message: String,
+        notificationType: NotificationType
+    ): NotificationDomain = NotificationDomain(0, message, OffsetDateTime.now(), notificationType, isRead = false)
 }

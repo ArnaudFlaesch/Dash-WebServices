@@ -21,7 +21,11 @@ class SteamWidgetAdapter(
         return playerDataResponse.toDomain()
     }
 
-    fun getOwnedGames(steamUserId: String, search: String, pageNumber: Int): Page<GameInfoDomain> {
+    fun getOwnedGames(
+        steamUserId: String,
+        search: String,
+        pageNumber: Int
+    ): Page<GameInfoDomain> {
         val ownedGamesResponse = steamApiClient.getOwnedGames(steamUserId)
 
         val gamesList =
@@ -55,7 +59,10 @@ class SteamWidgetAdapter(
         )
     }
 
-    fun getAchievementList(appId: String, steamUserId: String): AchievementDataDomain {
+    fun getAchievementList(
+        appId: String,
+        steamUserId: String
+    ): AchievementDataDomain {
         val achievementsDataResponse = steamApiClient.getAchievementList(appId, steamUserId)
         return achievementsDataResponse.toDomain()
     }

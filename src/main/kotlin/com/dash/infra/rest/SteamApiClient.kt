@@ -31,7 +31,10 @@ class SteamApiClient(
         return restClient.getDataFromProxy(getOwnedGamesUrl, GameInfoResponse::class)
     }
 
-    fun getAchievementList(appId: String, steamUserId: String): AchievementDataResponse {
+    fun getAchievementList(
+        appId: String,
+        steamUserId: String
+    ): AchievementDataResponse {
         val getAchievementsUrl =
             "${steamApiUrl}$GET_ACHIEVEMENTS_URL/?appid=$appId&key=$steamApiKey&steamid=$steamUserId"
         return restClient.getDataFromProxy(getAchievementsUrl, AchievementDataResponse::class)

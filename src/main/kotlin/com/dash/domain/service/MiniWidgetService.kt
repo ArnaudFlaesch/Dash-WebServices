@@ -30,8 +30,10 @@ class MiniWidgetService(
     fun saveMiniWidget(miniWidget: MiniWidgetDomain): MiniWidgetDomain =
         miniWidgetPersistenceAdapter.saveMiniWidget(miniWidget)
 
-    fun updateWidgetData(widgetId: Int, updatedData: Any): MiniWidgetDomain =
-        miniWidgetPersistenceAdapter.updateWidgetData(widgetId, updatedData)
+    fun updateWidgetData(
+        widgetId: Int,
+        updatedData: Any
+    ): MiniWidgetDomain = miniWidgetPersistenceAdapter.updateWidgetData(widgetId, updatedData)
 
     @PreAuthorize(SecurityConditions.IS_USER_ADMIN)
     fun deleteMiniWidget(widgetId: Int) = miniWidgetPersistenceAdapter.deleteMiniWidget(widgetId)
