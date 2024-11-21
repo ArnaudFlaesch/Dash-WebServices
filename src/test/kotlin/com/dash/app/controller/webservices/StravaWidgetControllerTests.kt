@@ -9,10 +9,13 @@ import com.dash.domain.model.stravaWidget.StravaActivityDomain
 import com.dash.domain.model.stravaWidget.StravaAthleteDomain
 import com.dash.domain.model.stravaWidget.StravaTokenDataDomain
 import io.restassured.RestAssured
-import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
 import io.restassured.http.Header
+import io.restassured.module.kotlin.extensions.Extract
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -52,17 +55,18 @@ class StravaWidgetControllerTests {
             val getStravaTokenPayload = GetStravaTokenPayload("api_code")
 
             val result =
-                given()
-                    .port(port)
-                    .contentType(ContentType.JSON)
-                    .header(Header("Authorization", "Bearer $jwtToken"))
-                    .`when`()
-                    .body(getStravaTokenPayload)
-                    .post("$stravaWidgetEndpoint/getToken")
-                    .then()
-                    .statusCode(HttpStatus.OK.value())
-                    .extract()
-                    .`as`(StravaTokenDataDomain::class.java)
+                Given {
+                    port(port)
+                        .contentType(ContentType.JSON)
+                        .header(Header("Authorization", "Bearer $jwtToken"))
+                } When {
+                    body(getStravaTokenPayload)
+                        .post("$stravaWidgetEndpoint/getToken")
+                } Then {
+                    statusCode(HttpStatus.OK.value())
+                } Extract {
+                    `as`(StravaTokenDataDomain::class.java)
+                }
 
             assertEquals("Paris", result.athlete.city)
         }
@@ -80,15 +84,16 @@ class StravaWidgetControllerTests {
         ) {
             val getStravaRefreshTokenPayload = GetStravaRefreshTokenPayload("refresh_token")
 
-            given()
-                .port(port)
-                .contentType(ContentType.JSON)
-                .header(createAuthenticationHeader(token))
-                .`when`()
-                .body(getStravaRefreshTokenPayload)
-                .post("$stravaWidgetEndpoint/getRefreshToken")
-                .then()
-                .statusCode(statusCode)
+            Given {
+                port(port)
+                    .contentType(ContentType.JSON)
+                    .header(createAuthenticationHeader(token))
+            } When {
+                body(getStravaRefreshTokenPayload)
+                    .post("$stravaWidgetEndpoint/getRefreshToken")
+            } Then {
+                statusCode(statusCode)
+            }
         }
 
         fun testGetRefreshTokenArguments(): Stream<Arguments> = TestEndpointsArguments.testTokenArguments(jwtToken)
@@ -101,21 +106,22 @@ class StravaWidgetControllerTests {
         @Test
         fun shouldGetAthleteData() {
             val actual =
-                given()
-                    .port(port)
-                    .contentType(ContentType.JSON)
-                    .header(createAuthenticationHeader(jwtToken))
-                    .param("token", "VALID_TOKEN")
-                    .`when`()
-                    .get("$stravaWidgetEndpoint/getAthleteData")
-                    .then()
-                    .log()
-                    .all()
-                    .statusCode(200)
-                    .log()
-                    .all()
-                    .extract()
-                    .`as`(StravaAthleteDomain::class.java)
+                Given {
+                    port(port)
+                        .contentType(ContentType.JSON)
+                        .header(createAuthenticationHeader(jwtToken))
+                        .param("token", "VALID_TOKEN")
+                } When {
+                    get("$stravaWidgetEndpoint/getAthleteData")
+                } Then {
+                    log()
+                        .all()
+                        .statusCode(200)
+                        .log()
+                        .all()
+                } Extract {
+                    `as`(StravaAthleteDomain::class.java)
+                }
 
             assertEquals("Paris", actual.city)
         }
@@ -132,21 +138,22 @@ class StravaWidgetControllerTests {
             expectedSize: Int
         ) {
             val actual =
-                given()
-                    .port(port)
-                    .contentType(ContentType.JSON)
-                    .header(createAuthenticationHeader(jwtToken))
-                    .params(params)
-                    .`when`()
-                    .get("$stravaWidgetEndpoint/getAthleteActivities")
-                    .then()
-                    .log()
-                    .all()
-                    .statusCode(200)
-                    .log()
-                    .all()
-                    .extract()
-                    .`as`(object : TypeRef<List<StravaActivityDomain>>() {})
+                Given {
+                    port(port)
+                        .contentType(ContentType.JSON)
+                        .header(createAuthenticationHeader(jwtToken))
+                        .params(params)
+                } When {
+                    get("$stravaWidgetEndpoint/getAthleteActivities")
+                } Then {
+                    log()
+                        .all()
+                        .statusCode(200)
+                        .log()
+                        .all()
+                } Extract {
+                    `as`(object : TypeRef<List<StravaActivityDomain>>() {})
+                }
 
             assertEquals(expectedSize, actual.size)
         }

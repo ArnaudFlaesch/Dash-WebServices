@@ -6,9 +6,12 @@ import com.dash.domain.model.airParif.AirParifColor
 import com.dash.domain.model.airParif.AirParifPrevisionEnum
 import com.dash.domain.model.airParif.Prevision
 import io.restassured.RestAssured
-import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
+import io.restassured.module.kotlin.extensions.Extract
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
@@ -39,17 +42,18 @@ class AirParifWidgetControllerTests {
         val communeInseeCode = "75112"
 
         val getPrevisionsDataResponse =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .accept(ContentType.JSON)
-                .`when`()
-                .param("commune", communeInseeCode)
-                .get("$airParifWidgetEndpoint/previsionCommune")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(object : TypeRef<List<Prevision>>() {})
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .accept(ContentType.JSON)
+            } When {
+                param("commune", communeInseeCode)
+                    .get("$airParifWidgetEndpoint/previsionCommune")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(object : TypeRef<List<Prevision>>() {})
+            }
 
         assertEquals(getPrevisionsDataResponse.size, 2)
     }
@@ -57,16 +61,17 @@ class AirParifWidgetControllerTests {
     @Test
     fun testGetColorsData() {
         val getColorsResponse =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .accept(ContentType.JSON)
-                .`when`()
-                .get("$airParifWidgetEndpoint/couleurs")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(object : TypeRef<List<AirParifColor>>() {})
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .accept(ContentType.JSON)
+            } When {
+                get("$airParifWidgetEndpoint/couleurs")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(object : TypeRef<List<AirParifColor>>() {})
+            }
 
         val expected =
             listOf(

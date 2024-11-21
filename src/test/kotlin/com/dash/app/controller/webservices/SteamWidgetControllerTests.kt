@@ -6,9 +6,12 @@ import com.dash.app.controller.response.Page
 import com.dash.domain.model.steamwidget.AchievementDataDomain
 import com.dash.domain.model.steamwidget.GameInfoDomain
 import io.restassured.RestAssured
-import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.Header
+import io.restassured.module.kotlin.extensions.Extract
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -46,14 +49,15 @@ class SteamWidgetControllerTests {
     inner class GetPlayerSummaryTests {
         @Test
         fun testGetPlayerSummary() {
-            given()
-                .port(port)
-                .param("steamUserId", steamUserIdParam)
-                .header(createAuthenticationHeader(jwtToken))
-                .`when`()
-                .get("$steamWidgetEndpoint/playerData")
-                .then()
-                .statusCode(200)
+            Given {
+                port(port)
+                    .param("steamUserId", steamUserIdParam)
+                    .header(createAuthenticationHeader(jwtToken))
+            } When {
+                get("$steamWidgetEndpoint/playerData")
+            } Then {
+                statusCode(200)
+            }
         }
     }
 
@@ -68,21 +72,22 @@ class SteamWidgetControllerTests {
             expectedNumberOfResults: Int
         ) {
             val ownedGamesData =
-                given()
-                    .port(port)
-                    .param("steamUserId", steamUserIdParam)
-                    .header(createAuthenticationHeader(jwtToken))
-                    .`when`()
-                    .param("search", search)
-                    .get("$steamWidgetEndpoint/ownedGames")
-                    .then()
-                    .log()
-                    .all()
-                    .statusCode(HttpStatus.OK.value())
-                    .log()
-                    .all()
-                    .extract()
-                    .`as`(object : TypeRef<Page<GameInfoDomain>>() {})
+                Given {
+                    port(port)
+                        .param("steamUserId", steamUserIdParam)
+                        .header(createAuthenticationHeader(jwtToken))
+                } When {
+                    param("search", search)
+                        .get("$steamWidgetEndpoint/ownedGames")
+                } Then {
+                    log()
+                        .all()
+                        .statusCode(HttpStatus.OK.value())
+                        .log()
+                        .all()
+                } Extract {
+                    `as`(object : TypeRef<Page<GameInfoDomain>>() {})
+                }
 
             assertEquals(expectedNumberOfResults, ownedGamesData.totalElements.toInt())
         }
@@ -102,21 +107,22 @@ class SteamWidgetControllerTests {
         @Test
         fun testGetAchievementList() {
             val actual =
-                given()
-                    .port(port)
-                    .param("steamUserId", steamUserIdParam)
-                    .param("appId", 1337)
-                    .header(Header("Authorization", "Bearer $jwtToken"))
-                    .`when`()
-                    .get("$steamWidgetEndpoint/achievementList")
-                    .then()
-                    .log()
-                    .all()
-                    .statusCode(200)
-                    .log()
-                    .all()
-                    .extract()
-                    .`as`(AchievementDataDomain::class.java)
+                Given {
+                    port(port)
+                        .param("steamUserId", steamUserIdParam)
+                        .param("appId", 1337)
+                        .header(Header("Authorization", "Bearer $jwtToken"))
+                } When {
+                    get("$steamWidgetEndpoint/achievementList")
+                } Then {
+                    log()
+                        .all()
+                        .statusCode(200)
+                        .log()
+                        .all()
+                } Extract {
+                    `as`(AchievementDataDomain::class.java)
+                }
 
             assertEquals(23, actual.playerstats.achievements.size)
         }

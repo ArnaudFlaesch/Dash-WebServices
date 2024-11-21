@@ -8,9 +8,12 @@ import com.dash.domain.model.notification.NotificationDomain
 import com.dash.domain.model.notification.NotificationType
 import com.dash.infra.repository.NotificationRepository
 import io.restassured.RestAssured
-import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
+import io.restassured.module.kotlin.extensions.Extract
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
@@ -47,16 +50,17 @@ class NotificationControllerTests {
     @Test
     fun shouldGetNotificationsAndMarkAsRead() {
         val actualNotifications =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .`when`()
-                .get("$notificationsEndpoint/")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(object : TypeRef<Page<NotificationDomain>>() {})
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+            } When {
+                get("$notificationsEndpoint/")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(object : TypeRef<Page<NotificationDomain>>() {})
+            }
 
         // This one notification is the one created when the user logs in before starting the test
         assertEquals(1, actualNotifications.content.size)
@@ -67,17 +71,18 @@ class NotificationControllerTests {
         val markNotificationsAsReadPayload =
             MarkNotificationsAsReadPayload(listOf(actualNotifications.content[0].id))
         val updatedNotifications =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .body(markNotificationsAsReadPayload)
-                .`when`()
-                .put("$notificationsEndpoint/markNotificationAsRead")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(object : TypeRef<List<NotificationDomain>>() {})
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .body(markNotificationsAsReadPayload)
+            } When {
+                put("$notificationsEndpoint/markNotificationAsRead")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(object : TypeRef<List<NotificationDomain>>() {})
+            }
 
         assertEquals(1, updatedNotifications.size)
         assertEquals("admintest : Connexion utilisateur.", updatedNotifications[0].message)

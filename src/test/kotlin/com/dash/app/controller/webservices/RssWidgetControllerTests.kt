@@ -5,8 +5,10 @@ import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.google.gson.Gson
 import io.restassured.RestAssured
-import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.BeforeAll
@@ -15,11 +17,11 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.web.client.RestTemplate
 import java.net.URI
@@ -31,7 +33,7 @@ class RssWidgetControllerTests {
     @LocalServerPort
     private val port: Int = 0
 
-    @MockBean
+    @MockitoBean
     private lateinit var restTemplate: RestTemplate
 
     private lateinit var jwtToken: String
@@ -65,20 +67,21 @@ class RssWidgetControllerTests {
                 )
             ).thenReturn(ResponseEntity(mockedResponse, HttpStatus.OK))
 
-        given()
-            .port(port)
-            .param("url", url)
-            .contentType(ContentType.JSON)
-            .header(createAuthenticationHeader(jwtToken))
-            .`when`()
-            .get(rssWidgetEndpoint)
-            .then()
-            .log()
-            .all()
-            .statusCode(200)
-            .body(equalTo(Gson().toJson(mapOf("version" to "2.0", "channel" to ""))))
-            .log()
-            .all()
+        Given {
+            port(port)
+                .param("url", url)
+                .contentType(ContentType.JSON)
+                .header(createAuthenticationHeader(jwtToken))
+        } When {
+            get(rssWidgetEndpoint)
+        } Then {
+            log()
+                .all()
+                .statusCode(200)
+                .body(equalTo(Gson().toJson(mapOf("version" to "2.0", "channel" to ""))))
+                .log()
+                .all()
+        }
     }
 
     @Test
@@ -90,31 +93,33 @@ class RssWidgetControllerTests {
                 restTemplate.exchange(URI.create(url), HttpMethod.GET, null, String::class.java)
             ).thenReturn(ResponseEntity(HttpStatus.OK))
 
-        given()
-            .port(port)
-            .param("url", url)
-            .header(createAuthenticationHeader(jwtToken))
-            .`when`()
-            .get(rssWidgetEndpoint)
-            .then()
-            .log()
-            .all()
-            .statusCode(404)
+        Given {
+            port(port)
+                .param("url", url)
+                .header(createAuthenticationHeader(jwtToken))
+        } When {
+            get(rssWidgetEndpoint)
+        } Then {
+            log()
+                .all()
+                .statusCode(404)
+        }
     }
 
     @Test
     fun testEndpointNotAuthenticated() {
-        given()
-            .port(port)
-            .param("url", "http://testwrongurl.com")
-            .`when`()
-            .get(rssWidgetEndpoint)
-            .then()
-            .log()
-            .all()
-            .statusCode(401)
-            .log()
-            .all()
-            .body("error", equalTo(UNAUTHORIZED_ERROR))
+        Given {
+            port(port)
+                .param("url", "http://testwrongurl.com")
+        } When {
+            get(rssWidgetEndpoint)
+        } Then {
+            log()
+                .all()
+                .statusCode(401)
+                .log()
+                .all()
+                .body("error", equalTo(UNAUTHORIZED_ERROR))
+        }
     }
 }

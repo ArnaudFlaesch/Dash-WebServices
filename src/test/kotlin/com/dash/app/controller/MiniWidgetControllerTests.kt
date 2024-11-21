@@ -6,9 +6,12 @@ import com.common.utils.SqlData
 import com.dash.app.controller.requests.widget.CreateMiniWidgetPayload
 import com.dash.domain.model.MiniWidgetDomain
 import io.restassured.RestAssured.defaultParser
-import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
+import io.restassured.module.kotlin.extensions.Extract
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -45,85 +48,91 @@ class MiniWidgetControllerTests {
         val widget = CreateMiniWidgetPayload(1)
 
         val insertedMiniWidgetDomain: MiniWidgetDomain =
-            given()
-                .contentType(ContentType.JSON)
-                .header(createAuthenticationHeader(jwtToken))
-                .port(port)
-                .body(widget)
-                .`when`()
-                .post("${MINI_WIDGET_ENDPOINT}addMiniWidget")
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(MiniWidgetDomain::class.java)
+            Given {
+                contentType(ContentType.JSON)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .port(port)
+                    .body(widget)
+            } When {
+                post("${MINI_WIDGET_ENDPOINT}addMiniWidget")
+            } Then {
+                statusCode(200)
+            } Extract {
+                `as`(MiniWidgetDomain::class.java)
+            }
 
         assertNotNull(insertedMiniWidgetDomain.id)
         assertEquals(insertedMiniWidgetDomain.type, widget.type)
 
         val widgetDomainList =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .`when`()
-                .get(MINI_WIDGET_ENDPOINT)
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(object : TypeRef<List<MiniWidgetDomain>>() {})
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+            } When {
+                get(MINI_WIDGET_ENDPOINT)
+            } Then {
+                statusCode(200)
+            } Extract {
+                `as`(object : TypeRef<List<MiniWidgetDomain>>() {})
+            }
         assertEquals(1, widgetDomainList.size)
 
         val updatedMiniWidgetDomain: MiniWidgetDomain =
-            given()
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .port(port)
-                .body(insertedMiniWidgetDomain.copy(data = "{}"))
-                .`when`()
-                .patch("${MINI_WIDGET_ENDPOINT}updateWidgetData/${insertedMiniWidgetDomain.id}")
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(MiniWidgetDomain::class.java)
+            Given {
+                header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .port(port)
+                    .body(insertedMiniWidgetDomain.copy(data = "{}"))
+            } When {
+                patch("${MINI_WIDGET_ENDPOINT}updateWidgetData/${insertedMiniWidgetDomain.id}")
+            } Then {
+                statusCode(200)
+            } Extract {
+                `as`(MiniWidgetDomain::class.java)
+            }
 
         assertNotNull(updatedMiniWidgetDomain.id)
         assertEquals("{}", updatedMiniWidgetDomain.data)
         assertNotNull(updatedMiniWidgetDomain.userId)
 
         val updatedWidgetListDomain =
-            given()
-                .header(createAuthenticationHeader(jwtToken))
-                .port(port)
-                .`when`()
-                .get(MINI_WIDGET_ENDPOINT)
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(object : TypeRef<List<MiniWidgetDomain>>() {})
+            Given {
+                header(createAuthenticationHeader(jwtToken))
+                    .port(port)
+            } When {
+                get(MINI_WIDGET_ENDPOINT)
+            } Then {
+                statusCode(200)
+            } Extract {
+                `as`(object : TypeRef<List<MiniWidgetDomain>>() {})
+            }
         assertEquals(1, updatedWidgetListDomain.size)
 
-        given()
-            .header(createAuthenticationHeader(jwtToken))
-            .port(port)
-            .`when`()
-            .param("widgetId", insertedMiniWidgetDomain.id)
-            .delete("${MINI_WIDGET_ENDPOINT}deleteMiniWidget")
-            .then()
-            .log()
-            .all()
-            .statusCode(200)
-            .log()
-            .all()
+        Given {
+            header(createAuthenticationHeader(jwtToken))
+                .port(port)
+        } When {
+            param("widgetId", insertedMiniWidgetDomain.id)
+                .delete("${MINI_WIDGET_ENDPOINT}deleteMiniWidget")
+        } Then {
+            log()
+                .all()
+                .statusCode(200)
+                .log()
+                .all()
+        }
 
         val updatedMiniWidgetList =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .`when`()
-                .get(MINI_WIDGET_ENDPOINT)
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(object : TypeRef<List<MiniWidgetDomain>>() {})
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+            } When {
+                get(MINI_WIDGET_ENDPOINT)
+            } Then {
+                statusCode(200)
+            } Extract {
+                `as`(object : TypeRef<List<MiniWidgetDomain>>() {})
+            }
         assertEquals(0, updatedMiniWidgetList.size)
     }
 }

@@ -5,8 +5,11 @@ import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.dash.app.controller.requests.calendarwidget.CalendarUrlPayload
 import io.restassured.RestAssured
-import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import io.restassured.module.kotlin.extensions.Extract
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.*
@@ -14,12 +17,12 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.web.client.RestTemplate
 import java.net.URI
@@ -31,7 +34,7 @@ class CalendarWidgetControllerTests {
     @LocalServerPort
     private val port: Int = 0
 
-    @MockBean
+    @MockitoBean
     private lateinit var restTemplate: RestTemplate
 
     private lateinit var jwtToken: String
@@ -167,19 +170,20 @@ class CalendarWidgetControllerTests {
             ).thenReturn(ResponseEntity(mockedCalendarDataResponse, HttpStatus.OK))
 
         val getCalendarDataResponse =
-            given()
-                .port(port)
-                .contentType(ContentType.JSON)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .body(CalendarUrlPayload(calendarUrl))
-                .header(createAuthenticationHeader(jwtToken))
-                .`when`()
-                .post(calendarWidgetEndpoint)
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .extract()
-                .`as`(List::class.java)
+            Given {
+                port(port)
+                    .contentType(ContentType.JSON)
+                    .accept(MediaType.APPLICATION_JSON_VALUE)
+                    .body(CalendarUrlPayload(calendarUrl))
+                    .header(createAuthenticationHeader(jwtToken))
+            } When {
+                post(calendarWidgetEndpoint)
+            } Then {
+                statusCode(200)
+                    .contentType(ContentType.JSON)
+            } Extract {
+                `as`(List::class.java)
+            }
 
         assertEquals(getCalendarDataResponse.size, 4)
     }
@@ -198,31 +202,33 @@ class CalendarWidgetControllerTests {
                 )
             ).thenReturn(ResponseEntity(HttpStatus.OK))
 
-        given()
-            .port(port)
-            .contentType(ContentType.JSON)
-            .body(CalendarUrlPayload(calendarUrl))
-            .header(createAuthenticationHeader(jwtToken))
-            .`when`()
-            .post(calendarWidgetEndpoint)
-            .then()
-            .log()
-            .all()
-            .statusCode(404)
+        Given {
+            port(port)
+                .contentType(ContentType.JSON)
+                .body(CalendarUrlPayload(calendarUrl))
+                .header(createAuthenticationHeader(jwtToken))
+        } When {
+            post(calendarWidgetEndpoint)
+        } Then {
+            log()
+                .all()
+                .statusCode(404)
+        }
     }
 
     @Test
     fun testEndpointNotAuthenticated() {
-        given()
-            .port(port)
-            .`when`()
-            .post(calendarWidgetEndpoint)
-            .then()
-            .log()
-            .all()
-            .statusCode(401)
-            .log()
-            .all()
-            .body("error", equalTo(UNAUTHORIZED_ERROR))
+        Given {
+            port(port)
+        } When {
+            post(calendarWidgetEndpoint)
+        } Then {
+            log()
+                .all()
+                .statusCode(401)
+                .log()
+                .all()
+                .body("error", equalTo(UNAUTHORIZED_ERROR))
+        }
     }
 }

@@ -10,9 +10,12 @@ import com.dash.infra.repository.WorkoutExerciseRepository
 import com.dash.infra.repository.WorkoutSessionRepository
 import com.dash.infra.repository.WorkoutTypeRepository
 import io.restassured.RestAssured
-import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
+import io.restassured.module.kotlin.extensions.Extract
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
@@ -68,31 +71,33 @@ class WorkoutWidgetControllerTests {
         val addWorkoutTypePayload = AddWorkoutTypePayload(newWorkoutType)
 
         val workoutType =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .body(addWorkoutTypePayload)
-                .`when`()
-                .post("$workoutWidgetEndpoint/addWorkoutType")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(WorkoutTypeDomain::class.java)
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .body(addWorkoutTypePayload)
+            } When {
+                post("$workoutWidgetEndpoint/addWorkoutType")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(WorkoutTypeDomain::class.java)
+            }
 
         assertEquals(newWorkoutType, workoutType.name)
 
         val workoutTypes =
-            given()
-                .port(port)
-                .param("userId", userId)
-                .header(createAuthenticationHeader(jwtToken))
-                .`when`()
-                .get("$workoutWidgetEndpoint/workoutTypes")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(object : TypeRef<List<WorkoutTypeDomain>>() {})
+            Given {
+                port(port)
+                    .param("userId", userId)
+                    .header(createAuthenticationHeader(jwtToken))
+            } When {
+                get("$workoutWidgetEndpoint/workoutTypes")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(object : TypeRef<List<WorkoutTypeDomain>>() {})
+            }
 
         assertEquals(1, workoutTypes.size)
 
@@ -100,54 +105,57 @@ class WorkoutWidgetControllerTests {
         val createWorkoutSessionPayload = CreateWorkoutSessionPayload(workoutSessionDate)
 
         val workoutSession =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .body(createWorkoutSessionPayload)
-                .`when`()
-                .post("$workoutWidgetEndpoint/createWorkoutSession")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(WorkoutSessionDomain::class.java)
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .body(createWorkoutSessionPayload)
+            } When {
+                post("$workoutWidgetEndpoint/createWorkoutSession")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(WorkoutSessionDomain::class.java)
+            }
 
         assertEquals(workoutSessionDate, workoutSession.workoutDate)
 
         val workoutSessions =
-            given()
-                .port(port)
-                .param("userId", userId)
-                .header(createAuthenticationHeader(jwtToken))
-                .`when`()
-                .param(
+            Given {
+                port(port)
+                    .param("userId", userId)
+                    .header(createAuthenticationHeader(jwtToken))
+            } When {
+                param(
                     "dateIntervalStart",
                     LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE)
                 ).param(
                     "dateIntervalEnd",
                     LocalDate.now().plusDays(1).format(DateTimeFormatter.ISO_DATE)
                 ).get("$workoutWidgetEndpoint/workoutSessions")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(object : TypeRef<List<WorkoutSessionDomain>>() {})
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(object : TypeRef<List<WorkoutSessionDomain>>() {})
+            }
 
         assertEquals(1, workoutSessions.size)
 
         val workoutExercisePayload =
             UpdateWorkoutExercisePayload(workoutSession.id, workoutType.id, 5)
         val workoutExercise =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .body(workoutExercisePayload)
-                .`when`()
-                .post("$workoutWidgetEndpoint/updateWorkoutExercise")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(WorkoutExerciseDomain::class.java)
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .body(workoutExercisePayload)
+            } When {
+                post("$workoutWidgetEndpoint/updateWorkoutExercise")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(WorkoutExerciseDomain::class.java)
+            }
 
         assertEquals(
             WorkoutExerciseDomain(workoutSession.id, workoutType.id, 5),
@@ -155,35 +163,38 @@ class WorkoutWidgetControllerTests {
         )
 
         val workoutExercises =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .param("workoutSessionId", workoutSession.id)
-                .`when`()
-                .get("$workoutWidgetEndpoint/workoutExercises")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(object : TypeRef<List<WorkoutExerciseDomain>>() {})
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .param("workoutSessionId", workoutSession.id)
+            } When {
+                get("$workoutWidgetEndpoint/workoutExercises")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(object : TypeRef<List<WorkoutExerciseDomain>>() {})
+            }
 
         assertEquals(1, workoutExercises.size)
 
         val workoutStats =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .param(
-                    "dateIntervalStart",
-                    LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE)
-                ).param(
-                    "dateIntervalEnd",
-                    LocalDate.now().plusDays(1).format(DateTimeFormatter.ISO_DATE)
-                ).`when`()
-                .get("$workoutWidgetEndpoint/workoutStatsByPeriod")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(object : TypeRef<List<WorkoutStatsByIntervalDomain>>() {})
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .param(
+                        "dateIntervalStart",
+                        LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE)
+                    ).param(
+                        "dateIntervalEnd",
+                        LocalDate.now().plusDays(1).format(DateTimeFormatter.ISO_DATE)
+                    )
+            } When {
+                get("$workoutWidgetEndpoint/workoutStatsByPeriod")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(object : TypeRef<List<WorkoutStatsByIntervalDomain>>() {})
+            }
 
         assertEquals(1, workoutStats.size)
     }
@@ -195,17 +206,18 @@ class WorkoutWidgetControllerTests {
         val addWorkoutTypePayload = AddWorkoutTypePayload(newWorkoutType)
 
         val workoutType =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .body(addWorkoutTypePayload)
-                .`when`()
-                .post("$workoutWidgetEndpoint/addWorkoutType")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(WorkoutTypeDomain::class.java)
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .body(addWorkoutTypePayload)
+            } When {
+                post("$workoutWidgetEndpoint/addWorkoutType")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(WorkoutTypeDomain::class.java)
+            }
 
         assertEquals(newWorkoutType, workoutType.name)
 
@@ -213,34 +225,36 @@ class WorkoutWidgetControllerTests {
         val createWorkoutSessionPayload = CreateWorkoutSessionPayload(workoutSessionDate)
 
         val workoutSession =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .body(createWorkoutSessionPayload)
-                .`when`()
-                .post("$workoutWidgetEndpoint/createWorkoutSession")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(WorkoutSessionDomain::class.java)
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .body(createWorkoutSessionPayload)
+            } When {
+                post("$workoutWidgetEndpoint/createWorkoutSession")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(WorkoutSessionDomain::class.java)
+            }
 
         assertEquals(workoutSessionDate, workoutSession.workoutDate)
 
         val workoutExercisePayload =
             UpdateWorkoutExercisePayload(workoutSession.id, workoutType.id, 5)
         val workoutExercise =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .body(workoutExercisePayload)
-                .`when`()
-                .post("$workoutWidgetEndpoint/updateWorkoutExercise")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(WorkoutExerciseDomain::class.java)
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .body(workoutExercisePayload)
+            } When {
+                post("$workoutWidgetEndpoint/updateWorkoutExercise")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(WorkoutExerciseDomain::class.java)
+            }
 
         assertEquals(
             WorkoutExerciseDomain(workoutSession.id, workoutType.id, 5),
@@ -248,21 +262,23 @@ class WorkoutWidgetControllerTests {
         )
 
         val workoutStats =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .param(
-                    "dateIntervalStart",
-                    workoutSessionDate.minusMonths(1).format(DateTimeFormatter.ISO_DATE)
-                ).param(
-                    "dateIntervalEnd",
-                    workoutSessionDate.plusMonths(1).format(DateTimeFormatter.ISO_DATE)
-                ).`when`()
-                .get("$workoutWidgetEndpoint/workoutStatsByMonth")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(object : TypeRef<List<WorkoutStatsByMonthDomain>>() {})
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .param(
+                        "dateIntervalStart",
+                        workoutSessionDate.minusMonths(1).format(DateTimeFormatter.ISO_DATE)
+                    ).param(
+                        "dateIntervalEnd",
+                        workoutSessionDate.plusMonths(1).format(DateTimeFormatter.ISO_DATE)
+                    )
+            } When {
+                get("$workoutWidgetEndpoint/workoutStatsByMonth")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(object : TypeRef<List<WorkoutStatsByMonthDomain>>() {})
+            }
 
         assertEquals(1, workoutStats.size)
         assertEquals("Abdos", workoutStats[0].workoutTypeName)

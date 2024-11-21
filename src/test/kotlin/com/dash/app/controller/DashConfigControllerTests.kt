@@ -5,9 +5,12 @@ import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.common.utils.SqlData
 import com.dash.domain.model.config.ImportData
 import io.restassured.RestAssured.defaultParser
-import io.restassured.RestAssured.given
 import io.restassured.http.Header
 import io.restassured.http.Headers
+import io.restassured.module.kotlin.extensions.Extract
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -44,16 +47,17 @@ class DashConfigControllerTests {
     @Test
     fun testExportConfig() {
         val exportData =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .`when`()
-                .get("${CONFIG_ENDPOINT}export")
-                .then()
-                .statusCode(200)
-                .body("$", Matchers.notNullValue())
-                .extract()
-                .`as`(ImportData::class.java)
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+            } When {
+                get("${CONFIG_ENDPOINT}export")
+            } Then {
+                statusCode(200)
+                    .body("$", Matchers.notNullValue())
+            } Extract {
+                `as`(ImportData::class.java)
+            }
         assertEquals(2, exportData.tabs.size)
         assertEquals(2, exportData.widgets.size)
 
@@ -65,20 +69,22 @@ class DashConfigControllerTests {
     @Test
     fun testImportConfig() {
         val response =
-            given()
-                .multiPart("file", ClassPathResource("./files/dashboardConfigTest.json").file)
-                .port(port)
-                .headers(
-                    Headers(
-                        createAuthenticationHeader(jwtToken),
-                        Header("content-type", "multipart/form-data")
+            Given {
+                multiPart("file", ClassPathResource("./files/dashboardConfigTest.json").file)
+                    .port(port)
+                    .headers(
+                        Headers(
+                            createAuthenticationHeader(jwtToken),
+                            Header("content-type", "multipart/form-data")
+                        )
                     )
-                ).`when`()
-                .post("${CONFIG_ENDPOINT}import")
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(Boolean::class.java)
+            } When {
+                post("${CONFIG_ENDPOINT}import")
+            } Then {
+                statusCode(200)
+            } Extract {
+                `as`(Boolean::class.java)
+            }
         assertTrue(response)
     }
 }

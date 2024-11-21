@@ -8,9 +8,12 @@ import com.dash.domain.model.incidentWidget.IncidentDomain
 import com.dash.domain.model.incidentWidget.IncidentStreakDomain
 import com.dash.domain.model.workoutwidget.*
 import io.restassured.RestAssured
-import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
+import io.restassured.module.kotlin.extensions.Extract
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -44,63 +47,67 @@ class IncidentWidgetControllerTests {
     @Test
     fun getIncidentWidgetConfigTest() {
         val incidentConfig =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .`when`()
-                .param("widgetId", widgetId.toString())
-                .get("$incidentWidgetEndpoint/incidentWidgetConfig")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(IncidentDomain::class.java)
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+            } When {
+                param("widgetId", widgetId.toString())
+                    .get("$incidentWidgetEndpoint/incidentWidgetConfig")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(IncidentDomain::class.java)
+            }
 
         assertNotNull(incidentConfig.lastIncidentDate)
 
         val updatedIncidentConfig =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .`when`()
-                .body(IncidentWidgetPayload(widgetId = widgetId))
-                .post("$incidentWidgetEndpoint/startFirstStreak")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(IncidentDomain::class.java)
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+            } When {
+                body(IncidentWidgetPayload(widgetId = widgetId))
+                    .post("$incidentWidgetEndpoint/startFirstStreak")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(IncidentDomain::class.java)
+            }
 
         assertNotNull(updatedIncidentConfig.lastIncidentDate)
 
         val streakEndedIncidentConfig =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .`when`()
-                .body(IncidentWidgetPayload(widgetId = widgetId))
-                .post("$incidentWidgetEndpoint/endStreak")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(IncidentDomain::class.java)
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+            } When {
+                body(IncidentWidgetPayload(widgetId = widgetId))
+                    .post("$incidentWidgetEndpoint/endStreak")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(IncidentDomain::class.java)
+            }
 
         assertNotNull(streakEndedIncidentConfig.id)
         assertEquals(widgetId, streakEndedIncidentConfig.widgetId)
 
         val streaks =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .`when`()
-                .param("incidentId", incidentConfig.id)
-                .get("$incidentWidgetEndpoint/streaks")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .`as`(object : TypeRef<List<IncidentStreakDomain>>() {})
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+            } When {
+                param("incidentId", incidentConfig.id)
+                    .get("$incidentWidgetEndpoint/streaks")
+            } Then {
+                statusCode(HttpStatus.OK.value())
+            } Extract {
+                `as`(object : TypeRef<List<IncidentStreakDomain>>() {})
+            }
 
         assertEquals(1, streaks.size)
         assertNotNull(streaks[0].id)

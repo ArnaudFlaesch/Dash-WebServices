@@ -5,9 +5,12 @@ import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.common.utils.SqlData
 import io.restassured.RestAssured.defaultParser
-import io.restassured.RestAssured.given
 import io.restassured.http.Header
 import io.restassured.http.Headers
+import io.restassured.module.kotlin.extensions.Extract
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Assertions.*
@@ -40,16 +43,17 @@ class CashManagerConfigControllerTests {
     @Test
     fun testExportConfig() {
         val exportData =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .`when`()
-                .get("${CASH_MANAGER_CONFIG_ENDPOINT}export")
-                .then()
-                .statusCode(200)
-                .body("$", Matchers.notNullValue())
-                .extract()
-                .`as`(CashManagerImportData::class.java)
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+            } When {
+                get("${CASH_MANAGER_CONFIG_ENDPOINT}export")
+            } Then {
+                statusCode(200)
+                    .body("$", Matchers.notNullValue())
+            } Extract {
+                `as`(CashManagerImportData::class.java)
+            }
         assertEquals(2, exportData.labels.size)
         assertEquals(4, exportData.expenses.size)
 
@@ -61,20 +65,22 @@ class CashManagerConfigControllerTests {
     @Test
     fun testImportConfig() {
         val response =
-            given()
-                .multiPart("file", ClassPathResource("./files/cashManagerData.json").file)
-                .port(port)
-                .headers(
-                    Headers(
-                        createAuthenticationHeader(jwtToken),
-                        Header("content-type", "multipart/form-data")
+            Given {
+                multiPart("file", ClassPathResource("./files/cashManagerData.json").file)
+                    .port(port)
+                    .headers(
+                        Headers(
+                            createAuthenticationHeader(jwtToken),
+                            Header("content-type", "multipart/form-data")
+                        )
                     )
-                ).`when`()
-                .post("${CASH_MANAGER_CONFIG_ENDPOINT}import")
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(Boolean::class.java)
+            } When {
+                post("${CASH_MANAGER_CONFIG_ENDPOINT}import")
+            } Then {
+                statusCode(200)
+            } Extract {
+                `as`(Boolean::class.java)
+            }
         assertTrue(response)
     }
 }
