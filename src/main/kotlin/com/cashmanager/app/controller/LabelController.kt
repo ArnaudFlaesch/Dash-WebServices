@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/label")
-@CrossOrigin(origins = ["*"])
 class LabelController(
     private val labelService: LabelService
 ) {

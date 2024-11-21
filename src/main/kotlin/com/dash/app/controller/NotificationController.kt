@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/notifications")
-@CrossOrigin(origins = ["*"])
 class NotificationController(
     private val notificationService: NotificationService
 ) {

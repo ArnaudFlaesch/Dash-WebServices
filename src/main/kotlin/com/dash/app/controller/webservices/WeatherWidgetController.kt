@@ -6,7 +6,6 @@ import com.dash.domain.service.WeatherWidgetService
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@CrossOrigin(origins = ["*"])
 @RequestMapping("/weatherWidget")
 class WeatherWidgetController(
     private val weatherWidgetService: WeatherWidgetService

@@ -9,7 +9,6 @@ import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@CrossOrigin(origins = ["*"])
 @RequestMapping("/twitterWidget", produces = [MediaType.APPLICATION_JSON_VALUE])
 class TwitterWidgetController(
     private val twitterWidgetService: TwitterWidgetService

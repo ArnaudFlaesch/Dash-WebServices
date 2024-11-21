@@ -7,7 +7,6 @@ import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@CrossOrigin(origins = ["*"])
 @RequestMapping("/airParifWidget", produces = [MediaType.APPLICATION_JSON_VALUE])
 class AirParifWidgetController(
     private val airParifWidgetService: AirParifWidgetService

@@ -42,9 +42,9 @@ dash:
     STEAM_API_KEY: test
     STRAVA_CLIENT_ID: test
     STRAVA_CLIENT_SECRET: test
-    jwtExpirationMs: 86400000
-    jwtSecret: dashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKeydashSecretKey
-
+    jwtExpirationMs: 172800000
+    jwtSecret: JwtSuperExtraEncryptedSecretKeyJwtSuperExtraEncryptedSecretKeyJwtSuperExtraEncryptedSecretKey
+    allowed-origins: http://localhost:4200
 ---
 spring:
   config:
@@ -76,7 +76,9 @@ dash:
     OPENWEATHERMAP_KEY: ${sm://projects/32508443606/secrets/OPENWEATHERMAP_KEY}
     AIRPARIF_API_TOKEN: ${sm://projects/32508443606/secrets/AIRPARIF_API_TOKEN}
     STEAM_API_KEY: ${sm://projects/32508443606/secrets/STEAM_API_KEY}
-
+    jwtSecret: ${sm://projects/32508443606/secrets/JWT_SECRET}
+    allowed-origins:
+      - https://arnaudflaesch.github.io/Dash-Web
 ---
 spring:
   config:
