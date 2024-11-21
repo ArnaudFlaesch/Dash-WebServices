@@ -6,7 +6,10 @@ import com.common.utils.TestEndpointsArguments.testTokenArguments
 import com.dash.domain.model.weatherWidget.OpenWeatherForecastDomain
 import com.dash.domain.model.weatherWidget.OpenWeatherWeatherDomain
 import io.restassured.RestAssured
-import io.restassured.RestAssured.given
+import io.restassured.module.kotlin.extensions.Extract
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -47,14 +50,15 @@ class WeatherWidgetControllerTests {
             token: String,
             statusCode: Int
         ) {
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(token))
-                .param("city", "Paris")
-                .`when`()
-                .get("$weatherWidgetEndpoint/weather")
-                .then()
-                .statusCode(statusCode)
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(token))
+                    .param("city", "Paris")
+            } When {
+                get("$weatherWidgetEndpoint/weather")
+            } Then {
+                statusCode(statusCode)
+            }
         }
 
         fun testGetTokenArguments(): Stream<Arguments> = testTokenArguments(jwtToken)
@@ -62,20 +66,21 @@ class WeatherWidgetControllerTests {
         @Test
         fun shouldGetWeatherData() {
             val actual =
-                given()
-                    .port(port)
-                    .header(createAuthenticationHeader(jwtToken))
-                    .param("city", "Paris")
-                    .`when`()
-                    .get("$weatherWidgetEndpoint/weather")
-                    .then()
-                    .log()
-                    .all()
-                    .statusCode(HttpStatus.OK.value())
-                    .log()
-                    .all()
-                    .extract()
-                    .`as`(OpenWeatherWeatherDomain::class.java)
+                Given {
+                    port(port)
+                        .header(createAuthenticationHeader(jwtToken))
+                        .param("city", "Paris")
+                } When {
+                    get("$weatherWidgetEndpoint/weather")
+                } Then {
+                    log()
+                        .all()
+                        .statusCode(HttpStatus.OK.value())
+                        .log()
+                        .all()
+                } Extract {
+                    `as`(OpenWeatherWeatherDomain::class.java)
+                }
 
             assertEquals("Paris", actual.name)
         }
@@ -88,20 +93,21 @@ class WeatherWidgetControllerTests {
         @Test
         fun shouldGetForecastData() {
             val actual =
-                given()
-                    .port(port)
-                    .header(createAuthenticationHeader(jwtToken))
-                    .param("city", "Paris")
-                    .`when`()
-                    .get("$weatherWidgetEndpoint/forecast")
-                    .then()
-                    .log()
-                    .all()
-                    .statusCode(HttpStatus.OK.value())
-                    .log()
-                    .all()
-                    .extract()
-                    .`as`(OpenWeatherForecastDomain::class.java)
+                Given {
+                    port(port)
+                        .header(createAuthenticationHeader(jwtToken))
+                        .param("city", "Paris")
+                } When {
+                    get("$weatherWidgetEndpoint/forecast")
+                } Then {
+                    log()
+                        .all()
+                        .statusCode(HttpStatus.OK.value())
+                        .log()
+                        .all()
+                } Extract {
+                    `as`(OpenWeatherForecastDomain::class.java)
+                }
 
             assertEquals(15, actual.list.size)
         }

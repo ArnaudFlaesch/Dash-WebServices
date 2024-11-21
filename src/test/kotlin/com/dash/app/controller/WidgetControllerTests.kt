@@ -6,9 +6,12 @@ import com.common.utils.SqlData
 import com.dash.app.controller.requests.widget.CreateWidgetPayload
 import com.dash.domain.model.WidgetDomain
 import io.restassured.RestAssured.defaultParser
-import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
+import io.restassured.module.kotlin.extensions.Extract
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -45,20 +48,21 @@ class WidgetControllerTests {
         @Test
         fun testGetAllWidgetsByTabId() {
             val widgetDomainList =
-                given()
-                    .port(port)
-                    .header(createAuthenticationHeader(jwtToken))
-                    .param("tabId", 1)
-                    .`when`()
-                    .get(WIDGET_ENDPOINT)
-                    .then()
-                    .log()
-                    .all()
-                    .statusCode(200)
-                    .log()
-                    .all()
-                    .extract()
-                    .`as`(object : TypeRef<List<WidgetDomain>>() {})
+                Given {
+                    port(port)
+                        .header(createAuthenticationHeader(jwtToken))
+                        .param("tabId", 1)
+                } When {
+                    get(WIDGET_ENDPOINT)
+                } Then {
+                    log()
+                        .all()
+                        .statusCode(200)
+                        .log()
+                        .all()
+                } Extract {
+                    `as`(object : TypeRef<List<WidgetDomain>>() {})
+                }
             assertEquals(2, widgetDomainList.size)
         }
 
@@ -67,82 +71,87 @@ class WidgetControllerTests {
             val widget = CreateWidgetPayload(2, 1)
 
             val insertedWidgetDomain: WidgetDomain =
-                given()
-                    .contentType(ContentType.JSON)
-                    .header(createAuthenticationHeader(jwtToken))
-                    .port(port)
-                    .body(widget)
-                    .`when`()
-                    .post("${WIDGET_ENDPOINT}addWidget")
-                    .then()
-                    .log()
-                    .all()
-                    .statusCode(200)
-                    .extract()
-                    .`as`(WidgetDomain::class.java)
+                Given {
+                    contentType(ContentType.JSON)
+                        .header(createAuthenticationHeader(jwtToken))
+                        .port(port)
+                        .body(widget)
+                } When {
+                    post("${WIDGET_ENDPOINT}addWidget")
+                } Then {
+                    log()
+                        .all()
+                        .statusCode(200)
+                } Extract {
+                    `as`(WidgetDomain::class.java)
+                }
 
             assertNotNull(insertedWidgetDomain.id)
             assertEquals(insertedWidgetDomain.type, widget.type)
 
             val widgetDomainList =
-                given()
-                    .port(port)
-                    .header(createAuthenticationHeader(jwtToken))
-                    .param("tabId", 1)
-                    .`when`()
-                    .get(WIDGET_ENDPOINT)
-                    .then()
-                    .log()
-                    .all()
-                    .statusCode(200)
-                    .log()
-                    .all()
-                    .extract()
-                    .`as`(object : TypeRef<List<WidgetDomain>>() {})
+                Given {
+                    port(port)
+                        .header(createAuthenticationHeader(jwtToken))
+                        .param("tabId", 1)
+                } When {
+                    get(WIDGET_ENDPOINT)
+                } Then {
+                    log()
+                        .all()
+                        .statusCode(200)
+                        .log()
+                        .all()
+                } Extract {
+                    `as`(object : TypeRef<List<WidgetDomain>>() {})
+                }
             assertEquals(3, widgetDomainList.size)
 
             val updatedWidgetDomain: WidgetDomain =
-                given()
-                    .header(createAuthenticationHeader(jwtToken))
-                    .contentType(ContentType.JSON)
-                    .port(port)
-                    .body(insertedWidgetDomain.copy(widgetOrder = 0, data = "{}"))
-                    .`when`()
-                    .patch("${WIDGET_ENDPOINT}updateWidgetData/${insertedWidgetDomain.id}")
-                    .then()
-                    .log()
-                    .all()
-                    .statusCode(200)
-                    .extract()
-                    .`as`(WidgetDomain::class.java)
+                Given {
+                    header(createAuthenticationHeader(jwtToken))
+                        .contentType(ContentType.JSON)
+                        .port(port)
+                        .body(insertedWidgetDomain.copy(widgetOrder = 0, data = "{}"))
+                } When {
+                    patch("${WIDGET_ENDPOINT}updateWidgetData/${insertedWidgetDomain.id}")
+                } Then {
+                    log()
+                        .all()
+                        .statusCode(200)
+                } Extract {
+                    `as`(WidgetDomain::class.java)
+                }
 
             assertEquals("{}", updatedWidgetDomain.data)
 
-            given()
-                .header(createAuthenticationHeader(jwtToken))
-                .contentType(ContentType.JSON)
-                .port(port)
-                .param("id", updatedWidgetDomain.id)
-                .`when`()
-                .delete("${WIDGET_ENDPOINT}deleteWidget")
-                .then()
-                .statusCode(200)
+            Given {
+                header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .port(port)
+                    .param("id", updatedWidgetDomain.id)
+            } When {
+                delete("${WIDGET_ENDPOINT}deleteWidget")
+            } Then {
+                statusCode(200)
+            }
 
             val updatedWidgetListDomain =
-                given()
-                    .header(createAuthenticationHeader(jwtToken))
-                    .port(port)
-                    .param("tabId", 1)
-                    .`when`()
-                    .get(WIDGET_ENDPOINT)
-                    .then()
-                    .log()
-                    .all()
-                    .statusCode(200)
-                    .log()
-                    .all()
-                    .extract()
-                    .`as`(object : TypeRef<List<WidgetDomain>>() {})
+                Given {
+                    header(createAuthenticationHeader(jwtToken))
+                        .port(port)
+                        .param("tabId", 1)
+                } When {
+                    get(WIDGET_ENDPOINT)
+                } Then {
+                    log()
+                        .all()
+                        .statusCode(200)
+                        .log()
+                        .all()
+                } Extract {
+                    `as`(object : TypeRef<List<WidgetDomain>>() {})
+                }
             assertEquals(2, updatedWidgetListDomain.size)
         }
 
@@ -152,34 +161,36 @@ class WidgetControllerTests {
             val secondWidget = CreateWidgetPayload(3, 1)
 
             val firstInsertedWidgetDomain: WidgetDomain =
-                given()
-                    .header(createAuthenticationHeader(jwtToken))
-                    .contentType(ContentType.JSON)
-                    .port(port)
-                    .body(firstWidget)
-                    .`when`()
-                    .post("${WIDGET_ENDPOINT}addWidget")
-                    .then()
-                    .log()
-                    .all()
-                    .statusCode(200)
-                    .extract()
-                    .`as`(WidgetDomain::class.java)
+                Given {
+                    header(createAuthenticationHeader(jwtToken))
+                        .contentType(ContentType.JSON)
+                        .port(port)
+                        .body(firstWidget)
+                } When {
+                    post("${WIDGET_ENDPOINT}addWidget")
+                } Then {
+                    log()
+                        .all()
+                        .statusCode(200)
+                } Extract {
+                    `as`(WidgetDomain::class.java)
+                }
 
             val secondInsertedWidgetDomain: WidgetDomain =
-                given()
-                    .header(createAuthenticationHeader(jwtToken))
-                    .contentType(ContentType.JSON)
-                    .port(port)
-                    .body(secondWidget)
-                    .`when`()
-                    .post("${WIDGET_ENDPOINT}addWidget")
-                    .then()
-                    .log()
-                    .all()
-                    .statusCode(200)
-                    .extract()
-                    .`as`(WidgetDomain::class.java)
+                Given {
+                    header(createAuthenticationHeader(jwtToken))
+                        .contentType(ContentType.JSON)
+                        .port(port)
+                        .body(secondWidget)
+                } When {
+                    post("${WIDGET_ENDPOINT}addWidget")
+                } Then {
+                    log()
+                        .all()
+                        .statusCode(200)
+                } Extract {
+                    `as`(WidgetDomain::class.java)
+                }
 
             assertNotNull(firstInsertedWidgetDomain.id)
             assertEquals(firstInsertedWidgetDomain.type, firstWidget.type)
@@ -188,23 +199,25 @@ class WidgetControllerTests {
             assertEquals(secondInsertedWidgetDomain.type, secondWidget.type)
 
             val updatedWidgetList: List<WidgetDomain> =
-                given()
-                    .header(createAuthenticationHeader(jwtToken))
-                    .contentType(ContentType.JSON)
-                    .port(port)
-                    .body(
-                        listOf(
-                            firstInsertedWidgetDomain.copy(widgetOrder = 2),
-                            secondInsertedWidgetDomain.copy(widgetOrder = 3)
+                Given {
+                    header(createAuthenticationHeader(jwtToken))
+                        .contentType(ContentType.JSON)
+                        .port(port)
+                        .body(
+                            listOf(
+                                firstInsertedWidgetDomain.copy(widgetOrder = 2),
+                                secondInsertedWidgetDomain.copy(widgetOrder = 3)
+                            )
                         )
-                    ).`when`()
-                    .post("${WIDGET_ENDPOINT}updateWidgetsOrder")
-                    .then()
-                    .log()
-                    .all()
-                    .statusCode(200)
-                    .extract()
-                    .`as`(object : TypeRef<List<WidgetDomain>>() {})
+                } When {
+                    post("${WIDGET_ENDPOINT}updateWidgetsOrder")
+                } Then {
+                    log()
+                        .all()
+                        .statusCode(200)
+                } Extract {
+                    `as`(object : TypeRef<List<WidgetDomain>>() {})
+                }
 
             assertEquals(2, updatedWidgetList.size)
             assertEquals(2, updatedWidgetList[0].widgetOrder)
@@ -226,14 +239,15 @@ class WidgetControllerTests {
 
         @Test
         fun shouldNotDeleteWidgetWithoutAdminRights() {
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .param("id", 1)
-                .`when`()
-                .delete("${WIDGET_ENDPOINT}deleteWidget")
-                .then()
-                .statusCode(403)
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .param("id", 1)
+            } When {
+                delete("${WIDGET_ENDPOINT}deleteWidget")
+            } Then {
+                statusCode(403)
+            }
         }
     }
 }

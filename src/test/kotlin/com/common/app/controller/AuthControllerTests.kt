@@ -5,8 +5,11 @@ import com.common.app.security.response.JwtResponse
 import com.common.domain.model.RoleEnum
 import com.common.utils.SqlData
 import io.restassured.RestAssured.defaultParser
-import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import io.restassured.module.kotlin.extensions.Extract
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -38,49 +41,52 @@ class AuthControllerTests {
     @Test
     fun testGetAdmin() {
         val jwtResponse =
-            given()
-                .port(port)
-                .contentType(ContentType.JSON)
-                .`when`()
-                .body(LoginRequest("admintest", "adminpassword"))
-                .post(AUTH_ENDPOINT)
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(JwtResponse::class.java)
+            Given {
+                port(port)
+                    .contentType(ContentType.JSON)
+            } When {
+                body(LoginRequest("admintest", "adminpassword"))
+                    .post(AUTH_ENDPOINT)
+            } Then {
+                statusCode(200)
+            } Extract {
+                `as`(JwtResponse::class.java)
+            }
         assertEquals(RoleEnum.ROLE_ADMIN.roleName, jwtResponse.roles[0])
     }
 
     @Test
     fun testGetUser() {
         val jwtResponse =
-            given()
-                .port(port)
-                .contentType(ContentType.JSON)
-                .`when`()
-                .body(LoginRequest("usertest", "userpassword"))
-                .post(AUTH_ENDPOINT)
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(JwtResponse::class.java)
+            Given {
+                port(port)
+                    .contentType(ContentType.JSON)
+            } When {
+                body(LoginRequest("usertest", "userpassword"))
+                    .post(AUTH_ENDPOINT)
+            } Then {
+                statusCode(200)
+            } Extract {
+                `as`(JwtResponse::class.java)
+            }
         assertEquals(RoleEnum.ROLE_USER.roleName, jwtResponse.roles[0])
     }
 
     @Test
     fun testGetUserWrongUsername() {
-        given()
-            .port(port)
-            .contentType(ContentType.JSON)
-            .`when`()
-            .body(LoginRequest("wrongUsername", "wrongPassword"))
-            .post(AUTH_ENDPOINT)
-            .then()
-            .log()
-            .all()
-            .statusCode(401)
-            .log()
-            .all()
-            .body("error", Matchers.equalTo("Unauthorized"))
+        Given {
+            port(port)
+                .contentType(ContentType.JSON)
+        } When {
+            body(LoginRequest("wrongUsername", "wrongPassword"))
+                .post(AUTH_ENDPOINT)
+        } Then {
+            log()
+                .all()
+                .statusCode(401)
+                .log()
+                .all()
+                .body("error", Matchers.equalTo("Unauthorized"))
+        }
     }
 }

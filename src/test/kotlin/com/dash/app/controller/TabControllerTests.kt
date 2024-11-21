@@ -7,7 +7,6 @@ import com.dash.app.controller.requests.tab.CreateTabPayload
 import com.dash.app.controller.requests.tab.UpdateTabPayload
 import com.dash.domain.model.TabDomain
 import io.restassured.RestAssured.defaultParser
-import io.restassured.RestAssured.given
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
 import io.restassured.http.Header
@@ -55,19 +54,19 @@ class TabControllerTests {
             } Extract {
                 `as`(object : TypeRef<List<TabDomain>>() {})
             }
-        given()
         assertEquals(2, tabsDomain.size)
     }
 
     @Test
     fun testGetTabsWrongToken() {
-        given()
-            .port(port)
-            .header(Header("Authorization", "wrong_token"))
-            .`when`()
-            .get("/tab/")
-            .then()
-            .statusCode(401)
+        Given {
+            port(port)
+                .header(Header("Authorization", "wrong_token"))
+        } When {
+            get("/tab/")
+        } Then {
+            statusCode(401)
+        }
     }
 
     @Test
@@ -75,93 +74,99 @@ class TabControllerTests {
         val newTab = CreateTabPayload("LabelTest")
 
         val insertedTab: TabDomain =
-            given()
-                .port(port)
-                .contentType(ContentType.JSON)
-                .header(createAuthenticationHeader(jwtToken))
-                .`when`()
-                .body(newTab)
-                .post("/tab/addTab")
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(TabDomain::class.java)
+            Given {
+                port(port)
+                    .contentType(ContentType.JSON)
+                    .header(createAuthenticationHeader(jwtToken))
+            } When {
+                body(newTab)
+                    .post("/tab/addTab")
+            } Then {
+                statusCode(200)
+            } Extract {
+                `as`(TabDomain::class.java)
+            }
 
         assertNotNull(insertedTab.id)
         assertEquals(insertedTab.label, newTab.label)
         assertNotNull(insertedTab.userId)
 
         val tabList =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .`when`()
-                .get("/tab/")
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(object : TypeRef<List<TabDomain>>() {})
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+            } When {
+                get("/tab/")
+            } Then {
+                statusCode(200)
+            } Extract {
+                `as`(object : TypeRef<List<TabDomain>>() {})
+            }
         assertEquals(3, tabList.size)
 
         val updatedLabel = "Updated label"
 
         val updatedTab: TabDomain =
-            given()
-                .port(port)
-                .contentType(ContentType.JSON)
-                .header(createAuthenticationHeader(jwtToken))
-                .`when`()
-                .body(
+            Given {
+                port(port)
+                    .contentType(ContentType.JSON)
+                    .header(createAuthenticationHeader(jwtToken))
+            } When {
+                body(
                     UpdateTabPayload(
                         id = insertedTab.id,
                         label = updatedLabel,
                         tabOrder = insertedTab.tabOrder
                     )
                 ).post("/tab/updateTab")
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(TabDomain::class.java)
+            } Then {
+                statusCode(200)
+            } Extract {
+                `as`(TabDomain::class.java)
+            }
 
         assertNotNull(updatedTab.id)
         assertEquals(updatedLabel, updatedTab.label)
 
         val updatedTabsDomain: List<TabDomain> =
-            given()
-                .port(port)
-                .contentType(ContentType.JSON)
-                .header(createAuthenticationHeader(jwtToken))
-                .`when`()
-                .body(listOf(updatedTab))
-                .post("/tab/updateTabs")
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(object : TypeRef<List<TabDomain>>() {})
+            Given {
+                port(port)
+                    .contentType(ContentType.JSON)
+                    .header(createAuthenticationHeader(jwtToken))
+            } When {
+                body(listOf(updatedTab))
+                    .post("/tab/updateTabs")
+            } Then {
+                statusCode(200)
+            } Extract {
+                `as`(object : TypeRef<List<TabDomain>>() {})
+            }
         assertEquals(1, updatedTabsDomain.size)
 
-        given()
-            .port(port)
-            .contentType(ContentType.JSON)
-            .header(createAuthenticationHeader(jwtToken))
-            .`when`()
-            .param("id", updatedTab.id)
-            .delete("/tab/deleteTab")
-            .then()
-            .log()
-            .all()
-            .statusCode(200)
+        Given {
+            port(port)
+                .contentType(ContentType.JSON)
+                .header(createAuthenticationHeader(jwtToken))
+        } When {
+            param("id", updatedTab.id)
+                .delete("/tab/deleteTab")
+        } Then {
+            log()
+                .all()
+                .statusCode(200)
+        }
 
         val updatedTabListDomain =
-            given()
-                .port(port)
-                .header(createAuthenticationHeader(jwtToken))
-                .`when`()
-                .get("/tab/")
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(object : TypeRef<List<TabDomain>>() {})
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+            } When {
+                get("/tab/")
+            } Then {
+                statusCode(200)
+            } Extract {
+                `as`(object : TypeRef<List<TabDomain>>() {})
+            }
         assertEquals(2, updatedTabListDomain.size)
     }
 }
