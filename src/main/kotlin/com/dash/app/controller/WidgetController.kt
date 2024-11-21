@@ -7,7 +7,6 @@ import com.dash.domain.service.WidgetService
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@CrossOrigin(origins = ["*"])
 @RequestMapping("/widget")
 class WidgetController(
     private val widgetService: WidgetService

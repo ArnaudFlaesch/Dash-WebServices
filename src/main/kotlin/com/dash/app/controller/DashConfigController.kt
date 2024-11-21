@@ -23,7 +23,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @RestController
-@CrossOrigin(origins = ["*"])
 @RequestMapping("/dashConfig")
 @PreAuthorize(SecurityConditions.IS_USER_ADMIN)
 class DashConfigController(

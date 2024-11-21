@@ -19,7 +19,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @RestController
-@CrossOrigin(origins = ["*"])
 @RequestMapping("/cashManagerConfig")
 class CashManagerConfigController(
     private val labelService: LabelService,

@@ -7,7 +7,6 @@ import com.dash.domain.service.MiniWidgetService
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@CrossOrigin(origins = ["*"])
 @RequestMapping("/miniWidget")
 class MiniWidgetController(
     private val miniWidgetService: MiniWidgetService

@@ -1,5 +1,6 @@
 package com.common.app.security
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -28,6 +29,9 @@ class WebSecurityConfig(
     private val unauthorizedHandler: AuthEntryPointJwt,
     private val jwtUtils: JwtUtils
 ) {
+    @Value("\${dash.app.allowed-origins}")
+    private lateinit var allowedOrigins: List<String>
+
     @Bean
     fun authenticationJwtTokenFilter(): AuthTokenFilter = AuthTokenFilter(jwtUtils, userDetailsService)
 
@@ -79,7 +83,7 @@ class WebSecurityConfig(
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val config = CorsConfiguration()
-        config.allowedOriginPatterns = listOf("*")
+        config.allowedOriginPatterns = allowedOrigins
         config.allowedMethods = listOf("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH")
         config.allowCredentials = true
         config.allowedHeaders = listOf("Authorization", "Cache-Control", "Content-Type")

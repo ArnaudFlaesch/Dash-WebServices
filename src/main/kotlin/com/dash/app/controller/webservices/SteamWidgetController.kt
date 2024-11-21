@@ -8,7 +8,6 @@ import com.dash.domain.service.SteamWidgetService
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@CrossOrigin(origins = ["*"])
 @RequestMapping("/steamWidget")
 class SteamWidgetController(
     private val steamWidgetService: SteamWidgetService

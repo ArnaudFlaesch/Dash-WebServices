@@ -8,7 +8,6 @@ import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@CrossOrigin(origins = ["*"])
 @RequestMapping("/incidentWidget", produces = [MediaType.APPLICATION_JSON_VALUE])
 class IncidentWidgetController(
     private val incidentWidgetService: IncidentWidgetService

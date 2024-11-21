@@ -9,7 +9,6 @@ import com.dash.domain.service.StravaWidgetService
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@CrossOrigin(origins = ["*"])
 @RequestMapping("/stravaWidget")
 class StravaWidgetController(
     private val stravaWidgetService: StravaWidgetService
