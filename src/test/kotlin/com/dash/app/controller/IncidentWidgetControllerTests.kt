@@ -6,7 +6,6 @@ import com.common.utils.SqlData
 import com.dash.app.controller.requests.incidentWidget.IncidentWidgetPayload
 import com.dash.domain.model.incidentWidget.IncidentDomain
 import com.dash.domain.model.incidentWidget.IncidentStreakDomain
-import com.dash.domain.model.workoutwidget.*
 import io.restassured.RestAssured
 import io.restassured.common.mapper.TypeRef
 import io.restassured.http.ContentType
