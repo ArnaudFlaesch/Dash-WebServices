@@ -44,7 +44,7 @@ dash:
     STRAVA_CLIENT_SECRET: test
     jwtExpirationMs: 172800000
     jwtSecret: JwtSuperExtraEncryptedSecretKeyJwtSuperExtraEncryptedSecretKeyJwtSuperExtraEncryptedSecretKey
-    allowed-origins: http://localhost:4200
+    allowed-origins: "*"
 ---
 spring:
   config:
