@@ -78,7 +78,7 @@ dash:
     STEAM_API_KEY: ${sm://projects/32508443606/secrets/STEAM_API_KEY}
     jwtSecret: ${sm://projects/32508443606/secrets/JWT_SECRET}
     allowed-origins:
-      - https://arnaudflaesch.github.io/Dash-Web
+      - https://arnaudflaesch.github.io
 ---
 spring:
   config:
