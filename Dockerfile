@@ -21,4 +21,5 @@ COPY --from=build /build-step/build/libs/dash-webservices-*.jar dash-webservices
 RUN adduser --system --no-create-home dockeruser
 USER dockeruser
 EXPOSE 8080
+
 ENTRYPOINT ["java", "-jar", "dash-webservices.jar"]
