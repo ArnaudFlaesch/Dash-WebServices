@@ -22,7 +22,7 @@ val springCloudVersion = "2024.0.0"
 
 plugins {
     val kotlinPluginVersion = "2.0.21"
-    val springBootPluginVersion = "3.3.5"
+    val springBootPluginVersion = "3.4.0"
     val springDocGradlePluginVersion = "1.9.0"
     val springDependencyManagementPluginVersion = "1.1.6"
     val kotlinterPluginVersion = "4.5.0"
