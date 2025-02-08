@@ -13,8 +13,7 @@ COPY settings.gradle.kts settings.gradle.kts
 RUN chmod +x gradlew \
     && ./gradlew assemble
 
-
-FROM eclipse-temurin:23.0.1_11-jre-noble AS run
+FROM eclipse-temurin:21.0.1_12-jre-alpine AS run
 
 COPY --from=build /build-step/build/libs/dash-webservices-*.jar dash-webservices.jar
 
