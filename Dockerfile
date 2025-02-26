@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21.0.5_11-jdk-alpine AS build
+FROM eclipse-temurin:21.0.5_11-jdk-noble AS build
 
 ENV GRADLE_OPTS="-Xmx512m"
 
