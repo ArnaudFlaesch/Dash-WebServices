@@ -23,12 +23,12 @@ class CalendarWidgetService(
                 CalendarBuilder()
                     .build(reader)
                     .getComponents<VEvent>(Component.VEVENT)
-                    .filter { it.getDateTimeStart<Temporal>().isPresent && it.getDateTimeEnd<Temporal>().isPresent }
+                    .filter { it.getDateTimeStart<Temporal>() !== null && it.getDateTimeEnd<Temporal>() !== null }
                     .map {
                         CalendarEvent(
-                            it.getDateTimeStart<Temporal>().get().date,
-                            it.getDateTimeEnd<Temporal>().get().date,
-                            it.summary.get().value
+                            it.getDateTimeStart<Temporal>().date,
+                            it.getDateTimeEnd<Temporal>().date,
+                            it.summary.value
                         )
                     }
             }
