@@ -1,9 +1,9 @@
-val kotlinVersion = "2.1.10"
-val springBootVersion = "3.4.3"
+val kotlinVersion = "2.1.20"
+val springBootVersion = "3.4.4"
 val jwtVersion = "0.12.6"
 val ical4jVersion = "4.1.1"
 
-val springDocVersion = "2.8.5"
+val springDocVersion = "2.8.6"
 val jacksonVersion = "2.18.3"
 val log4jVersion = "2.24.3"
 
@@ -11,22 +11,22 @@ val liquibaseVersion = "4.31.1"
 val postgresqlVersion = "42.7.5"
 val gsonVersion = "2.12.1"
 
-val springSecurityVersion = "6.4.3"
+val springSecurityVersion = "6.4.4"
 val restAssuredVersion = "5.5.1"
 val mockitoKotlinVersion = "5.4.0"
 val junitPlatformLauncherVersion = "1.11.4"
 val hibernateTypesVersion = "2.21.1"
 
-val springCloudGcpVersion = "6.1.0"
-val springCloudVersion = "2024.0.0"
+val springCloudGcpVersion = "6.1.1"
+val springCloudVersion = "2024.0.1"
 
 plugins {
-    val kotlinPluginVersion = "2.1.10"
-    val springBootPluginVersion = "3.4.3"
+    val kotlinPluginVersion = "2.1.20"
+    val springBootPluginVersion = "3.4.4"
     val springDocGradlePluginVersion = "1.9.0"
     val springDependencyManagementPluginVersion = "1.1.7"
     val kotlinterPluginVersion = "5.0.1"
-    val sonarQubePluginVersion = "6.0.1.5171"
+    val sonarQubePluginVersion = "6.1.0.5360"
     val koverPluginVersion = "0.9.1"
 
     kotlin("jvm") version kotlinPluginVersion
@@ -132,5 +132,6 @@ openApi {
 
 tasks.withType<Test> {
     environment("spring.profiles.active", "test")
+    jvmArgs("-XX:+EnableDynamicAgentLoading")
     useJUnitPlatform()
 }
