@@ -243,7 +243,7 @@ jobs:
 
       - name: Login to GCP
         id: auth
-        uses: 'google-github-actions/auth@v2.1.8'
+        uses: 'google-github-actions/auth@v2.1.9'
         with:
           token_format: 'access_token'
           project_id: ${{ secrets.PROJECT_ID }}
