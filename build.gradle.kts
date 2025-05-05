@@ -14,7 +14,7 @@ val gsonVersion = "2.13.1"
 val springSecurityVersion = "6.4.5"
 val restAssuredVersion = "5.5.1"
 val mockitoKotlinVersion = "5.4.0"
-val junitPlatformLauncherVersion = "1.11.4"
+val junitPlatformLauncherVersion = "1.12.2"
 val hibernateTypesVersion = "2.21.1"
 
 val springCloudGcpVersion = "6.1.1"
