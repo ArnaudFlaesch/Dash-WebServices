@@ -4,7 +4,7 @@ val jwtVersion = "0.12.6"
 val ical4jVersion = "4.1.1"
 
 val springDocVersion = "2.8.9"
-val jacksonVersion = "2.19.1"
+val jacksonVersion = "2.19.2"
 val log4jVersion = "2.25.1"
 
 val liquibaseVersion = "4.33.0"
