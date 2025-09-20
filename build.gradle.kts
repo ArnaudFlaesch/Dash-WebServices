@@ -1,5 +1,5 @@
 val kotlinVersion = "2.2.10"
-val springBootVersion = "3.5.5"
+val springBootVersion = "3.5.6"
 val jwtVersion = "0.13.0"
 val ical4jVersion = "4.1.1"
 
@@ -22,7 +22,7 @@ val springCloudVersion = "2025.0.0"
 
 plugins {
     val kotlinPluginVersion = "2.2.20"
-    val springBootPluginVersion = "3.5.5"
+    val springBootPluginVersion = "3.5.6"
     val springDocGradlePluginVersion = "1.9.0"
     val springDependencyManagementPluginVersion = "1.1.7"
     val kotlinterPluginVersion = "5.2.0"
