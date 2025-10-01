@@ -1,4 +1,4 @@
-val kotlinVersion = "2.2.10"
+val kotlinVersion = "2.2.20"
 val springBootVersion = "3.5.6"
 val jwtVersion = "0.13.0"
 val ical4jVersion = "4.1.1"
