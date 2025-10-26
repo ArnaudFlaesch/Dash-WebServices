@@ -164,7 +164,7 @@ jobs:
           args: --sarif-file-output=snyk-code.sarif
 
       - name: Upload Snyk code scan result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: snyk-code.sarif
 
@@ -197,7 +197,7 @@ jobs:
           sed -i 's/"security-severity": "null"/"security-severity": "0"/g' snyk.sarif
 
       - name: Upload Snyk container scan result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: snyk.sarif
 
@@ -300,6 +300,6 @@ jobs:
 
       # Upload the SARIF file generated in the previous step
       - name: Upload SARIF results file
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: results.sarif
