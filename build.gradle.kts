@@ -1,17 +1,17 @@
-val kotlinVersion = "2.2.20"
+val kotlinVersion = "2.2.21"
 val springBootVersion = "3.5.6"
 val jwtVersion = "0.13.0"
 val ical4jVersion = "4.2.1"
 
-val springDocVersion = "2.8.13"
-val jacksonVersion = "2.20.0"
+val springDocVersion = "2.8.14"
+val jacksonVersion = "2.20.1"
 val log4jVersion = "2.25.2"
 
 val liquibaseVersion = "5.0.1"
 val postgresqlVersion = "42.7.8"
 val gsonVersion = "2.13.2"
 
-val springSecurityVersion = "6.5.5"
+val springSecurityVersion = "6.5.7"
 val restAssuredVersion = "5.5.6"
 val mockitoKotlinVersion = "6.1.0"
 val junitPlatformLauncherVersion = "1.12.2"
@@ -25,9 +25,9 @@ plugins {
     val springBootPluginVersion = "3.5.6"
     val springDocGradlePluginVersion = "1.9.0"
     val springDependencyManagementPluginVersion = "1.1.7"
-    val kotlinterPluginVersion = "5.2.0"
-    val sonarQubePluginVersion = "6.3.1.5724"
-    val koverPluginVersion = "0.9.2"
+    val kotlinterPluginVersion = "5.3.0"
+    val sonarQubePluginVersion = "7.1.0.6387"
+    val koverPluginVersion = "0.9.3"
 
     kotlin("jvm") version kotlinPluginVersion
     kotlin("plugin.spring") version kotlinPluginVersion
