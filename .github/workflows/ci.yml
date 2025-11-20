@@ -20,7 +20,7 @@ jobs:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Cache Gradle packages
         uses: actions/cache@v4
@@ -125,7 +125,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Set Docker tag for release
         if: github.ref_name == 'master'
@@ -239,7 +239,7 @@ jobs:
       id-token: 'write'
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Login to GCP
         id: auth
@@ -282,7 +282,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # Execute Codacy Analysis CLI and generate a SARIF output with the security issues identified during the analysis
       - name: Run Codacy Analysis CLI
