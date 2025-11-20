@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class ExpenseExportDomain(
-    @JsonProperty("id")
+    @param:JsonProperty("id")
     val id: Int,
-    @JsonProperty("amount")
+    @param:JsonProperty("amount")
     val amount: Float,
-    @JsonProperty("expenseDate")
+    @param:JsonProperty("expenseDate")
     val expenseDate: String,
-    @JsonProperty("labelId")
+    @param:JsonProperty("labelId")
     val labelId: Int
 )
