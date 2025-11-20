@@ -13,9 +13,9 @@ import javax.crypto.SecretKey
 
 @Component
 class JwtUtils(
-    @Value("\${dash.app.jwtSecret}")
+    @param:Value("\${dash.app.jwtSecret}")
     private val jwtSecret: String,
-    @Value("\${dash.app.jwtExpirationMs}")
+    @param:Value("\${dash.app.jwtExpirationMs}")
     private val jwtExpirationMs: Int
 ) {
     companion object {

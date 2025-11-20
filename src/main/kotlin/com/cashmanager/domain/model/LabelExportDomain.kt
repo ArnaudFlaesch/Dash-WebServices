@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class LabelExportDomain(
-    @JsonProperty("id")
+    @param:JsonProperty("id")
     val id: Int,
-    @JsonProperty("label")
+    @param:JsonProperty("label")
     val label: String
 )
