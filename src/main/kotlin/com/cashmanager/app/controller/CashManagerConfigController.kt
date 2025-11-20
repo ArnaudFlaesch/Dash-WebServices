@@ -27,7 +27,7 @@ class CashManagerConfigController(
     private val logger = LoggerFactory.getLogger(this::class.java.name)
 
     @GetMapping("/export")
-    fun downloadJsonFile(): ResponseEntity<ByteArray?>? {
+    fun downloadJsonFile(): ResponseEntity<ByteArray> {
         val expensesToExport =
             expenseService.getUserExpenses().map { expense: ExpenseDomain ->
                 ExpenseExportDomain(
