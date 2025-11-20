@@ -11,9 +11,9 @@ import java.util.*
 @Component
 class AirParifApiClient(
     private val restClient: RestClient,
-    @Value("\${dash.app.AIRPARIF_API_URL}")
+    @param:Value("\${dash.app.AIRPARIF_API_URL}")
     private val airParifApiUrl: String,
-    @Value("\${dash.app.AIRPARIF_API_TOKEN}")
+    @param:Value("\${dash.app.AIRPARIF_API_TOKEN}")
     private val airParifToken: String
 ) {
     companion object {
