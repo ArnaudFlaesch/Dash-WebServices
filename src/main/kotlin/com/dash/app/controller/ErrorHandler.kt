@@ -1,11 +1,13 @@
 package com.dash.app.controller
 
+import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.client.ClientHttpResponse
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.client.ResponseErrorHandler
 import org.springframework.web.client.RestClientException
 import java.io.IOException
+import java.net.URI
 
 class ErrorHandler : ResponseErrorHandler {
     companion object {
@@ -26,7 +28,11 @@ class ErrorHandler : ResponseErrorHandler {
                 response.statusCode.is5xxServerError
         )
 
-    override fun handleError(response: ClientHttpResponse) {
+    override fun handleError(
+        url: URI,
+        method: HttpMethod,
+        response: ClientHttpResponse
+    ) {
         when (response.statusCode) {
             HttpStatus.BAD_REQUEST -> throw BadRequestException()
             HttpStatus.NOT_FOUND -> throw NotFoundException()

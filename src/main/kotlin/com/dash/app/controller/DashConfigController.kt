@@ -33,7 +33,7 @@ class DashConfigController(
     private val logger = LoggerFactory.getLogger(this::class.java.name)
 
     @GetMapping("/export")
-    fun downloadJsonFile(): ResponseEntity<ByteArray?>? {
+    fun downloadJsonFile(): ResponseEntity<ByteArray> {
         val widgets: List<WidgetDomain> = widgetService.getUserWidgets()
         val tabs: List<TabDomain> = tabService.getUserTabs()
         applicationEventPublisher.publishEvent(
