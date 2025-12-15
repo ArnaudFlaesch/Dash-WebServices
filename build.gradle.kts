@@ -1,5 +1,5 @@
 val kotlinVersion = "2.2.21"
-val springBootVersion = "3.5.8"
+val springBootVersion = "4.0.0"
 val jwtVersion = "0.13.0"
 val ical4jVersion = "4.2.2"
 
@@ -14,7 +14,7 @@ val gsonVersion = "2.13.2"
 val springSecurityVersion = "7.0.0"
 val restAssuredVersion = "5.5.6"
 val mockitoKotlinVersion = "6.1.0"
-val junitPlatformLauncherVersion = "1.12.2"
+val junitPlatformLauncherVersion = "6.0.1"
 val hibernateTypesVersion = "2.21.1"
 
 val springCloudGcpVersion = "6.2.3"
@@ -22,7 +22,7 @@ val springCloudVersion = "2025.0.0"
 
 plugins {
     val kotlinPluginVersion = "2.2.21"
-    val springBootPluginVersion = "3.5.8"
+    val springBootPluginVersion = "4.0.0"
     val springDocGradlePluginVersion = "1.9.0"
     val springDependencyManagementPluginVersion = "1.1.7"
     val kotlinterPluginVersion = "5.3.0"

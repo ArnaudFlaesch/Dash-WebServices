@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component
 @Component
 class SteamApiClient(
     private val restClient: RestClient,
-    @Value("\${dash.app.STEAM_API_URL}")
+    @param:Value("\${dash.app.STEAM_API_URL}")
     private val steamApiUrl: String,
-    @Value("\${dash.app.STEAM_API_KEY}")
+    @param:Value("\${dash.app.STEAM_API_KEY}")
     private val steamApiKey: String
 ) {
     companion object {
