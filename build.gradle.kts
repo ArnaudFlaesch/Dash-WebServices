@@ -17,7 +17,7 @@ val mockitoKotlinVersion = "6.2.1"
 val junitPlatformLauncherVersion = "1.12.2"
 val hibernateTypesVersion = "2.21.1"
 
-val springCloudGcpVersion = "6.2.3"
+val springCloudGcpVersion = "7.4.2"
 val springCloudVersion = "2025.0.0"
 
 plugins {
