@@ -1,11 +1,11 @@
 val kotlinVersion = "2.3.0"
-val springBootVersion = "3.5.9"
+val springBootVersion = "3.5.13"
 val jwtVersion = "0.13.0"
 val ical4jVersion = "4.2.3"
 
 val springDocVersion = "2.8.15"
-val jacksonVersion = "2.20.1"
-val log4jVersion = "2.25.3"
+val jacksonVersion = "2.21.2"
+val log4jVersion = "2.25.4"
 
 val liquibaseVersion = "5.0.1"
 val postgresqlVersion = "42.7.9"
@@ -22,7 +22,7 @@ val springCloudVersion = "2025.0.0"
 
 plugins {
     val kotlinPluginVersion = "2.3.0"
-    val springBootPluginVersion = "3.5.9"
+    val springBootPluginVersion = "3.5.13"
     val springDocGradlePluginVersion = "1.9.0"
     val springDependencyManagementPluginVersion = "1.1.7"
     val kotlinterPluginVersion = "5.3.0"
@@ -46,7 +46,7 @@ version = "1.0.0"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(24)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
