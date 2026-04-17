@@ -5,7 +5,7 @@ val ical4jVersion = "4.2.3"
 
 val springDocVersion = "2.8.15"
 val jacksonVersion = "2.21.2"
-val log4jVersion = "2.25.3"
+val log4jVersion = "2.25.4"
 
 val liquibaseVersion = "5.0.1"
 val postgresqlVersion = "42.7.9"
