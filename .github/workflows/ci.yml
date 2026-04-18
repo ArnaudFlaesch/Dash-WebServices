@@ -99,7 +99,7 @@ jobs:
           path: build/reports/tests/test
 
       - name: Report coverage for Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
