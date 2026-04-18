@@ -3,7 +3,7 @@ val springBootVersion = "3.5.13"
 val jwtVersion = "0.13.0"
 val ical4jVersion = "4.2.5"
 
-val springDocVersion = "2.8.15"
+val springDocVersion = "2.8.17"
 val jacksonVersion = "2.21.2"
 val log4jVersion = "2.25.4"
 
@@ -11,7 +11,7 @@ val liquibaseVersion = "5.0.2"
 val postgresqlVersion = "42.7.10"
 val gsonVersion = "2.13.2"
 
-val springSecurityVersion = "7.0.2"
+val springSecurityVersion = "7.0.4"
 val restAssuredVersion = "5.5.7"
 val mockitoKotlinVersion = "6.3.0"
 val junitPlatformLauncherVersion = "1.12.2"
