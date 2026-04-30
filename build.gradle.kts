@@ -26,7 +26,7 @@ plugins {
     val springDocGradlePluginVersion = "1.9.0"
     val springDependencyManagementPluginVersion = "1.1.7"
     val kotlinterPluginVersion = "5.4.2"
-    val sonarQubePluginVersion = "7.2.3.7755"
+    val sonarQubePluginVersion = "7.3.0.8198"
     val koverPluginVersion = "0.9.8"
 
     kotlin("jvm") version kotlinPluginVersion
