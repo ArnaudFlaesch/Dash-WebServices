@@ -11,7 +11,6 @@ val liquibaseVersion = "5.0.2"
 val postgresqlVersion = "42.7.11"
 val gsonVersion = "2.14.0"
 
-val springSecurityVersion = "7.0.5"
 val restAssuredVersion = "5.5.7"
 val mockitoKotlinVersion = "6.3.0"
 val junitPlatformLauncherVersion = "1.12.2"
@@ -87,7 +86,7 @@ dependencies {
     implementation("com.google.code.gson:gson:$gsonVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
-    testImplementation("org.springframework.security:spring-security-test:$springSecurityVersion")
+    testImplementation("org.springframework.boot:spring-boot-starter-security-test:$springBootVersion")
 
     testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinVersion")
