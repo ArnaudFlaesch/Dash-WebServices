@@ -1,28 +1,26 @@
-val kotlinVersion = "2.3.0"
-val springBootVersion = "3.5.14"
+val kotlinVersion = "2.3.21"
+val springBootVersion = "4.0.6"
 val jwtVersion = "0.13.0"
 val ical4jVersion = "4.2.5"
 
-val springDocVersion = "2.8.17"
-val jacksonVersion = "2.21.3"
+val springDocVersion = "3.0.3"
+val jacksonModuleVersion = "3.1.2"
 val log4jVersion = "2.25.4"
 
-val liquibaseVersion = "5.0.2"
 val postgresqlVersion = "42.7.11"
 val gsonVersion = "2.14.0"
 
-val springSecurityVersion = "7.0.5"
-val restAssuredVersion = "5.5.7"
+val restAssuredVersion = "6.0.0"
 val mockitoKotlinVersion = "6.3.0"
-val junitPlatformLauncherVersion = "1.12.2"
-val hibernateTypesVersion = "2.21.1"
+val junitPlatformLauncherVersion = "6.0.0"
+val hibernateTypesVersion = "3.15.2"
 
-val springCloudGcpVersion = "6.2.3"
-val springCloudVersion = "2025.0.0"
+val springCloudGcpVersion = "8.0.2"
+val springCloudVersion = "2025.1.1"
 
 plugins {
-    val kotlinPluginVersion = "2.3.0"
-    val springBootPluginVersion = "3.5.14"
+    val kotlinPluginVersion = "2.3.21"
+    val springBootPluginVersion = "4.0.6"
     val springDocGradlePluginVersion = "1.9.0"
     val springDependencyManagementPluginVersion = "1.1.7"
     val kotlinterPluginVersion = "5.4.2"
@@ -58,12 +56,12 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-webmvc:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-liquibase:$springBootVersion")
 
     implementation("com.google.cloud:spring-cloud-gcp-starter-secretmanager:$springCloudGcpVersion")
 
@@ -71,29 +69,22 @@ dependencies {
     implementation("org.mnode.ical4j:ical4j:$ical4jVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
 
-    implementation("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
-    implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-    implementation("com.fasterxml.jackson.module:jackson-modules-base:$jacksonVersion")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
-
+    implementation("tools.jackson.module:jackson-module-kotlin:$jacksonModuleVersion")
+    implementation("tools.jackson.dataformat:jackson-dataformat-xml:$jacksonModuleVersion")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:$springDocVersion")
 
-    implementation("org.liquibase:liquibase-core:$liquibaseVersion")
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
-    implementation("com.vladmihalcea:hibernate-types-60:$hibernateTypesVersion")
+    implementation("io.hypersistence:hypersistence-utils-hibernate-73:$hibernateTypesVersion")
     implementation("com.google.code.gson:gson:$gsonVersion")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
-    testImplementation("org.springframework.security:spring-security-test:$springSecurityVersion")
+    testImplementation("org.springframework.boot:spring-boot-starter-security-test:$springBootVersion")
 
     testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinVersion")
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
     testImplementation("io.rest-assured:kotlin-extensions:$restAssuredVersion")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformLauncherVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 dependencyManagement {
@@ -119,8 +110,13 @@ sonar {
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
+        freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
     }
+}
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.Embeddable")
 }
 
 openApi {

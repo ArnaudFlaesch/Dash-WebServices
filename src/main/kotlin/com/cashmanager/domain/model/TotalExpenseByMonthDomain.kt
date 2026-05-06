@@ -1,8 +1,8 @@
 package com.cashmanager.domain.model
 
-import java.util.Date
+import java.time.LocalDate
 
 data class TotalExpenseByMonthDomain(
     val total: Float,
-    val date: Date
+    val date: LocalDate
 )

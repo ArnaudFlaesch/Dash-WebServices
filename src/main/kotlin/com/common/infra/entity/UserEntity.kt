@@ -29,7 +29,7 @@ data class UserEntity(
     @NotBlank
     @Size(max = 120)
     val password: String,
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "roleId")
     val role: RoleEntity
 )

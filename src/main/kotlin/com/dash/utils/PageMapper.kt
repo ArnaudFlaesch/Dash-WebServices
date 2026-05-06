@@ -3,7 +3,7 @@ package com.dash.utils
 import org.springframework.data.domain.Page
 
 object PageMapper {
-    fun <T> mapPageToPageResponse(page: Page<T>): com.dash.app.controller.response.Page<T> =
+    fun <T : Any> mapPageToPageResponse(page: Page<T>): com.dash.app.controller.response.Page<T> =
         com.dash.app.controller.response.Page(
             content = page.content,
             last = page.isLast,
