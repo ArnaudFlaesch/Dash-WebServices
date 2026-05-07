@@ -51,7 +51,7 @@ spring:
   config:
     activate:
       on-profile: production
-    import: sm://
+    import: sm:@
   cloud:
     gcp:
       secretmanager:
@@ -59,9 +59,9 @@ spring:
       core:
         enabled: true
   datasource:
-    url: ${sm://projects/32508443606/secrets/DATABASE_URL}
-    username: ${sm://projects/32508443606/secrets/DATABASE_USERNAME}
-    password: ${sm://projects/32508443606/secrets/DATABASE_PASSWORD}
+    url: ${sm:@projects/32508443606/secrets/DATABASE_URL}
+    username: ${sm:@projects/32508443606/secrets/DATABASE_USERNAME}
+    password: ${sm:@projects/32508443606/secrets/DATABASE_PASSWORD}
   jpa:
     show-sql: true
   liquibase:
@@ -72,12 +72,12 @@ dash:
     OPENWEATHERMAP_API_URL: https://api.openweathermap.org/data/2.5
     STEAM_API_URL: https://api.steampowered.com
     STRAVA_API_URL: https://www.strava.com
-    STRAVA_CLIENT_ID: ${sm://projects/32508443606/secrets/STRAVA_CLIENT_ID}
-    STRAVA_CLIENT_SECRET: ${sm://projects/32508443606/secrets/STRAVA_CLIENT_SECRET}
-    OPENWEATHERMAP_KEY: ${sm://projects/32508443606/secrets/OPENWEATHERMAP_KEY}
-    AIRPARIF_API_TOKEN: ${sm://projects/32508443606/secrets/AIRPARIF_API_TOKEN}
-    STEAM_API_KEY: ${sm://projects/32508443606/secrets/STEAM_API_KEY}
-    jwtSecret: ${sm://projects/32508443606/secrets/JWT_SECRET}
+    STRAVA_CLIENT_ID: ${sm:@projects/32508443606/secrets/STRAVA_CLIENT_ID}
+    STRAVA_CLIENT_SECRET: ${sm:@projects/32508443606/secrets/STRAVA_CLIENT_SECRET}
+    OPENWEATHERMAP_KEY: ${sm:@projects/32508443606/secrets/OPENWEATHERMAP_KEY}
+    AIRPARIF_API_TOKEN: ${sm:@projects/32508443606/secrets/AIRPARIF_API_TOKEN}
+    STEAM_API_KEY: ${sm:@projects/32508443606/secrets/STEAM_API_KEY}
+    jwtSecret: ${sm:@projects/32508443606/secrets/JWT_SECRET}
     allowed-origins:
       https://arnaudflaesch.github.io
 ---

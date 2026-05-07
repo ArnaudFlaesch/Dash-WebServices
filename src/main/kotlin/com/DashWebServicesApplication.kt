@@ -14,7 +14,10 @@ import org.springframework.context.annotation.FilterType
                 "com.google.cloud.spring.autoconfigure.datastore.*",
                 "com.google.cloud.datastore.*",
                 "com.google.cloud.spring.autoconfigure.spanner.*",
-                "com.google.cloud.spanner.*"
+                "com.google.cloud.spanner.*",
+                "com.google.cloud.spring.autoconfigure.parametermanager.*",
+                "com.google.cloud.parametermanager.*",
+                "com.google.cloud.spring.autoconfigure.secretmanager.*"
             ]
         )
     ]
