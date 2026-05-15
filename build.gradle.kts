@@ -92,6 +92,9 @@ dependencyManagement {
         mavenBom("com.google.cloud:spring-cloud-gcp-dependencies:$springCloudGcpVersion")
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
     }
+    dependencies {
+        dependency("org.apache.tomcat.embed:tomcat-embed-core:11.0.22")
+    }
 }
 
 sonar {
