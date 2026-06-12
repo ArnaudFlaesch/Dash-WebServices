@@ -16,7 +16,7 @@ val junitPlatformLauncherVersion = "6.0.0"
 val hibernateTypesVersion = "3.15.3"
 
 val springCloudGcpVersion = "8.0.4"
-val springCloudVersion = "2025.1.1"
+val springCloudVersion = "2025.1.2"
 
 plugins {
     val kotlinPluginVersion = "2.4.0"
