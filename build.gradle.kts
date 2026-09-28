@@ -4,16 +4,16 @@ val jwtVersion = "0.13.0"
 val ical4jVersion = "4.3.0"
 
 val springDocVersion = "3.1.1"
-val jacksonModuleVersion = "3.2.2"
+val jacksonModuleVersion = "3.2.3"
 val log4jVersion = "2.26.1"
 
 val postgresqlVersion = "42.7.13"
 val gsonVersion = "2.14.0"
 
 val restAssuredVersion = "6.0.1"
-val mockitoKotlinVersion = "6.3.0"
+val mockitoKotlinVersion = "6.4.0"
 val junitPlatformLauncherVersion = "6.0.0"
-val hibernateTypesVersion = "3.15.5"
+val hibernateTypesVersion = "3.16.0"
 
 val springCloudGcpVersion = "8.2.1"
 val springCloudVersion = "2025.1.3"
@@ -25,7 +25,7 @@ plugins {
     val springDependencyManagementPluginVersion = "1.1.7"
     val kotlinterPluginVersion = "5.7.0"
     val sonarQubePluginVersion = "7.5.0.8588"
-    val koverPluginVersion = "0.9.9"
+    val koverPluginVersion = "0.9.10"
 
     kotlin("jvm") version kotlinPluginVersion
     kotlin("plugin.spring") version kotlinPluginVersion
