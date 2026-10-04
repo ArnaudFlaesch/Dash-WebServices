@@ -26,9 +26,9 @@ class CalendarWidgetService(
                     .filter { it.getDateTimeStart<Temporal>() !== null && it.getDateTimeEnd<Temporal>() !== null }
                     .map {
                         CalendarEvent(
-                            it.getDateTimeStart<Temporal>().date,
-                            it.getDateTimeEnd<Temporal>().date,
-                            it.summary.value
+                            it.getDateTimeStart<Temporal>()!!.date,
+                            it.getDateTimeEnd<Temporal>()!!.date,
+                            it.summary?.value ?: ""
                         )
                     }
             }
