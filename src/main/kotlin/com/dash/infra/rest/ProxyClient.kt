@@ -19,7 +19,9 @@ class ProxyClient(
         uri: URI,
         responseType: ParameterizedTypeReference<T>
     ): T {
-        logger.info("Send GET request to url : {}", uri)
+        // The URL is user-supplied: strip line breaks so it cannot forge log entries
+        val sanitizedUrl = uri.toString().replace('\n', '_').replace('\r', '_')
+        logger.info("Send GET request to url : {}", sanitizedUrl)
         return restClient
             .get()
             .uri(uri)
