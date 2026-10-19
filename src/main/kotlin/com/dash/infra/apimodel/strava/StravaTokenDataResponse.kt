@@ -1,16 +1,14 @@
 package com.dash.infra.apimodel.strava
 
 import com.dash.domain.model.stravaWidget.StravaTokenDataDomain
-import com.fasterxml.jackson.annotation.JsonProperty
+import tools.jackson.databind.PropertyNamingStrategies
+import tools.jackson.databind.annotation.JsonNaming
 
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class StravaTokenDataResponse(
-    @JsonProperty("access_token")
     val accessToken: String = "",
-    @JsonProperty("refresh_token")
     val refreshToken: String = "",
-    @JsonProperty("expires_at")
     val expiresAt: String = "",
-    @JsonProperty("athlete")
     val athlete: StravaAthleteResponse = StravaAthleteResponse()
 ) {
     fun toDomain(): StravaTokenDataDomain =

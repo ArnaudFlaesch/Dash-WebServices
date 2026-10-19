@@ -1,33 +1,26 @@
 package com.dash.domain.service
 
 import com.dash.infra.rest.NotFoundException
-import org.hamcrest.Matchers.startsWith
+import com.dash.infra.rest.api.StravaApi
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.mockito.kotlin.any
+import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.restclient.test.autoconfigure.AutoConfigureMockRestServiceServer
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.HttpMethod
-import org.springframework.test.web.client.MockRestServiceServer
-import org.springframework.test.web.client.match.MockRestRequestMatchers.method
-import org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
-import org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 @SpringBootTest
-@AutoConfigureMockRestServiceServer
 class StravaWidgetServiceTest {
-    @Autowired
-    private lateinit var mockServer: MockRestServiceServer
+    @MockitoBean
+    private lateinit var stravaApi: StravaApi
 
     @Autowired
     private lateinit var stravaWidgetService: StravaWidgetService
 
     @Test
     fun shouldReturnEmptyStravaRefreshTokenData() {
-        mockServer
-            .expect(requestTo(startsWith("http://localhost:5000/strava/oauth/token")))
-            .andExpect(method(HttpMethod.POST))
-            .andRespond(withSuccess())
+        whenever(stravaApi.getToken(any(), any())).thenReturn(null)
 
         assertThrows<NotFoundException> {
             stravaWidgetService.getToken("apiCode")

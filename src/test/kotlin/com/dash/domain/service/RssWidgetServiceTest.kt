@@ -1,25 +1,24 @@
 package com.dash.domain.service
 
 import com.dash.infra.rest.NotFoundException
+import com.dash.infra.rest.ProxyClient
+import com.dash.infra.rest.typeReference
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.restclient.test.autoconfigure.AutoConfigureMockRestServiceServer
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.MediaType
-import org.springframework.test.web.client.MockRestServiceServer
-import org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
-import org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess
+import org.springframework.test.context.bean.override.mockito.MockitoBean
+import java.net.URI
 
 @SpringBootTest
-@AutoConfigureMockRestServiceServer
 class RssWidgetServiceTest {
     @Autowired
     private lateinit var rssWidgetService: RssWidgetService
 
-    @Autowired
-    private lateinit var mockServer: MockRestServiceServer
+    @MockitoBean
+    private lateinit var proxyClient: ProxyClient
 
     private val url = "http://thelastpictureshow.over-blog.com/rss"
 
@@ -32,9 +31,7 @@ class RssWidgetServiceTest {
                 "    <channel></channel>\n" +
                 "</rss>"
 
-        mockServer
-            .expect(requestTo(url))
-            .andRespond(withSuccess(mockedResponse, MediaType.APPLICATION_XML))
+        whenever(proxyClient.get(URI.create(url), typeReference<String>())).thenReturn(mockedResponse)
 
         val actualResponse = rssWidgetService.getJsonFeedFromUrl(url)
         assertEquals("{\"version\":\"2.0\",\"channel\":\"\"}", actualResponse)
@@ -42,9 +39,7 @@ class RssWidgetServiceTest {
 
     @Test
     fun testGetRequestNullResponse() {
-        mockServer
-            .expect(requestTo(url))
-            .andRespond(withSuccess())
+        whenever(proxyClient.get(URI.create(url), typeReference<String>())).thenThrow(NotFoundException())
 
         assertThrows<NotFoundException> {
             rssWidgetService.getJsonFeedFromUrl(url)

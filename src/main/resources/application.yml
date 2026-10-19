@@ -26,6 +26,20 @@ spring:
     clients:
       connect-timeout: 3s
       read-timeout: 3s
+    serviceclient:
+      airparif:
+        base-url: ${dash.app.AIRPARIF_API_URL}
+        default-header:
+          X-Api-Key: ${dash.app.AIRPARIF_API_TOKEN}
+      openweather:
+        base-url: ${dash.app.OPENWEATHERMAP_API_URL}
+      steam:
+        base-url: ${dash.app.STEAM_API_URL}
+      strava:
+        base-url: ${dash.app.STRAVA_API_URL}
+  threads:
+    virtual:
+      enabled: true
 logging:
   level:
     org:

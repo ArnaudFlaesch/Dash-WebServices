@@ -11,3 +11,6 @@ class NotFoundException : RuntimeException()
 
 @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Internal server error")
 class InternalServerErrorException : RuntimeException()
+
+/** Treats an empty response body as a missing resource. */
+fun <T : Any> T?.orNotFound(): T = this ?: throw NotFoundException()

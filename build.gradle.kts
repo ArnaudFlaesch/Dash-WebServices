@@ -79,7 +79,6 @@ dependencies {
     implementation("io.hypersistence:hypersistence-utils-hibernate-73:$hibernateTypesVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-security-test:$springBootVersion")
-    testImplementation("org.springframework.boot:spring-boot-starter-restclient-test:$springBootVersion")
     testImplementation("com.google.code.gson:gson:$gsonVersion")
 
     testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")

@@ -3,6 +3,9 @@ package com.dash.app.controller.webservices
 import com.common.utils.Constants.UNAUTHORIZED_ERROR
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
+import com.dash.infra.rest.NotFoundException
+import com.dash.infra.rest.ProxyClient
+import com.dash.infra.rest.typeReference
 import com.google.gson.Gson
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
@@ -15,26 +18,23 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.restclient.test.autoconfigure.AutoConfigureMockRestServiceServer
+import org.mockito.kotlin.whenever
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.MediaType
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.test.web.client.MockRestServiceServer
-import org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
-import org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess
+import java.net.URI
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockRestServiceServer
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RssWidgetControllerTests {
     @LocalServerPort
     private val port: Int = 0
 
-    @Autowired
-    private lateinit var mockServer: MockRestServiceServer
+    @MockitoBean
+    private lateinit var proxyClient: ProxyClient
 
     private lateinit var jwtToken: String
 
@@ -57,9 +57,7 @@ class RssWidgetControllerTests {
                 "    <channel></channel>\n" +
                 "</rss>"
 
-        mockServer
-            .expect(requestTo(url))
-            .andRespond(withSuccess(mockedResponse, MediaType.APPLICATION_XML))
+        whenever(proxyClient.get(URI.create(url), typeReference<String>())).thenReturn(mockedResponse)
 
         Given {
             port(port)
@@ -82,9 +80,7 @@ class RssWidgetControllerTests {
     fun testGetUrlNullResponse() {
         val url = "http://thelastpictureshow.over-blog.com/rss"
 
-        mockServer
-            .expect(requestTo(url))
-            .andRespond(withSuccess())
+        whenever(proxyClient.get(URI.create(url), typeReference<String>())).thenThrow(NotFoundException())
 
         Given {
             port(port)

@@ -1,25 +1,22 @@
 package com.dash.infra.apimodel.steam
 
 import com.dash.domain.model.steamwidget.GameInfoDomain
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import tools.jackson.databind.PropertyNamingStrategies
+import tools.jackson.databind.annotation.JsonNaming
 
 data class GameInfoResponse(
     val response: GameDataApi = GameDataApi()
 )
 
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class GameDataApi(
-    @JsonProperty("game_count")
     val gameCount: Int = 0,
-    @JsonProperty("games")
     val games: List<GameInfoApi> = emptyList()
 )
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 data class GameInfoApi(
-    @JsonProperty("appid")
     val appid: String = "",
-    @JsonProperty("name")
     val name: String = "",
     @JsonProperty("img_icon_url")
     val imgIconUrl: String = "",

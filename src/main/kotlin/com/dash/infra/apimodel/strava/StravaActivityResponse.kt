@@ -1,58 +1,37 @@
 package com.dash.infra.apimodel.strava
 
 import com.dash.domain.model.stravaWidget.StravaActivityDomain
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonProperty
+import tools.jackson.databind.PropertyNamingStrategies
+import tools.jackson.databind.annotation.JsonNaming
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class StravaActivityResponse(
-    @JsonProperty("resource_state")
     val resourceState: Int = 0,
     val athlete: ActivityAthlete = ActivityAthlete(),
     val name: String = "",
     val distance: Float = 0f,
-    @JsonProperty("moving_time")
     val movingTime: Int = 0,
-    @JsonProperty("elapsed_time")
     val elapsedTime: Int = 0,
-    @JsonProperty("total_elevation_gain")
     val totalElevationGain: Float = 0f,
     val type: String = "",
-    @JsonProperty("workout_type")
     val workoutType: Int = 0,
     val id: Double = 0.0,
-    @JsonProperty("external_id")
     val externalId: String? = "",
-    @JsonProperty("upload_id")
     val uploadId: Double = 0.0,
-    @JsonProperty("start_date")
     val startDate: String = "",
-    @JsonProperty("start_date_local")
     val startDateLocal: String = "",
     val timezone: String = "",
-    @JsonProperty("utc_offset")
     val utcOffset: Float = 0f,
-    @JsonProperty("start_latlng")
     val startLatlng: IntArray = IntArray(2),
-    @JsonProperty("end_latlng")
     val endLatlng: IntArray = IntArray(2),
-    @JsonProperty("location_city")
     val locationCity: String? = "",
-    @JsonProperty("location_state")
     val locationState: String? = "",
-    @JsonProperty("start_latitude")
     val startLatitude: Int = 0,
-    @JsonProperty("start_longitude")
     val startLongitude: Int = 0,
-    @JsonProperty("achievement_count")
     val achievementCount: Int = 0,
-    @JsonProperty("kudos_count")
     val kudosCount: Int = 0,
-    @JsonProperty("comment_count")
     val commentCount: Int = 0,
-    @JsonProperty("athlete_count")
     val athleteCount: Int = 0,
-    @JsonProperty("photo_count")
     val photoCount: Int = 0,
     val map: ActivityMap = ActivityMap(),
     val trainer: Boolean = false,
@@ -61,29 +40,17 @@ data class StravaActivityResponse(
     val private: Boolean = false,
     val visibility: String = "",
     val flagged: Boolean = false,
-    @JsonProperty("from_accepted_tag")
     val fromAcceptedTag: Boolean = false,
-    @JsonProperty("upload_id_str")
     val uploadIdStr: Double = 0.0,
-    @JsonProperty("average_speed")
     val averageSpeed: Float = 0f,
-    @JsonProperty("max_speed")
     val maxSpeed: Float = 0f,
-    @JsonProperty("has_heartrate")
     val hasHeartrate: Boolean = false,
-    @JsonProperty("heartrate_opt_out")
     val heartrateOptOut: Boolean = false,
-    @JsonProperty("display_hide_heartrate_option")
     val displayHideHeartrateOption: Boolean = false,
-    @JsonProperty("elev_high")
     val elevHigh: Float = 0f,
-    @JsonProperty("elev_low")
     val elevLow: Float = 0f,
-    @JsonProperty("pr_count")
     val prCount: Int = 0,
-    @JsonProperty("total_photo_count")
     val totalPhotoCount: Int = 0,
-    @JsonProperty("has_kudoed")
     val hasKudoed: Boolean = false
 ) {
     fun toDomain(): StravaActivityDomain =

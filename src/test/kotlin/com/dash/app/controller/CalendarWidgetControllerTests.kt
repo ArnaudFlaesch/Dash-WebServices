@@ -4,6 +4,9 @@ import com.common.utils.Constants.UNAUTHORIZED_ERROR
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.dash.app.controller.requests.calendarwidget.CalendarUrlPayload
+import com.dash.infra.rest.NotFoundException
+import com.dash.infra.rest.ProxyClient
+import com.dash.infra.rest.typeReference
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import io.restassured.module.kotlin.extensions.Extract
@@ -15,26 +18,23 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.restclient.test.autoconfigure.AutoConfigureMockRestServiceServer
+import org.mockito.kotlin.whenever
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.MediaType
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.test.web.client.MockRestServiceServer
-import org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
-import org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess
+import java.net.URI
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockRestServiceServer
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CalendarWidgetControllerTests {
     @LocalServerPort
     private val port: Int = 0
 
-    @Autowired
-    private lateinit var mockServer: MockRestServiceServer
+    @MockitoBean
+    private lateinit var proxyClient: ProxyClient
 
     private lateinit var jwtToken: String
 
@@ -158,9 +158,9 @@ class CalendarWidgetControllerTests {
         val calendarUrl =
             "https://calendar.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics"
 
-        mockServer
-            .expect(requestTo(calendarUrl))
-            .andRespond(withSuccess(mockedCalendarDataResponse, MediaType.TEXT_PLAIN))
+        whenever(
+            proxyClient.get(URI.create(calendarUrl), typeReference<String>())
+        ).thenReturn(mockedCalendarDataResponse)
 
         val getCalendarDataResponse =
             Given {
@@ -185,9 +185,7 @@ class CalendarWidgetControllerTests {
     fun testGetCalendarDataNullResponse() {
         val calendarUrl = "http://wrong_calendar_url.com"
 
-        mockServer
-            .expect(requestTo(calendarUrl))
-            .andRespond(withSuccess())
+        whenever(proxyClient.get(URI.create(calendarUrl), typeReference<String>())).thenThrow(NotFoundException())
 
         Given {
             port(port)
