@@ -16,10 +16,8 @@ class WidgetService(
     fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<WidgetDomain> =
         widgetPersistenceAdapter.findByTabIdOrderByWidgetOrderAsc(tabId)
 
-    fun getUserWidgets(): List<WidgetDomain> {
-        val userId = userService.getCurrentAuthenticatedUserId()
-        return widgetPersistenceAdapter.getUserWidgets(userId)
-    }
+    fun getUserWidgets(): List<WidgetDomain> =
+        widgetPersistenceAdapter.getUserWidgets(userService.getCurrentAuthenticatedUserId())
 
     fun addWidget(
         widgetType: Int,
@@ -31,9 +29,7 @@ class WidgetService(
             widgetOrder = widgetPersistenceAdapter.getNumberOfWidgetsByTab(tabId) + 1,
             tabId = tabId,
             data = null
-        ).let(this::saveWidget)
-
-    fun saveWidget(widget: WidgetDomain): WidgetDomain = widgetPersistenceAdapter.saveWidget(widget)
+        ).let(widgetPersistenceAdapter::saveWidget)
 
     fun importWidget(
         widgetType: Int,

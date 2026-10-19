@@ -14,7 +14,7 @@ class IncidentWidgetController(
 ) {
     @GetMapping("/incidentWidgetConfig")
     fun getIncidentConfigForWidget(
-        @RequestParam(value = "widgetId") widgetId: Int
+        @RequestParam widgetId: Int
     ): IncidentDomain = incidentWidgetService.getIncidentConfigForWidget(widgetId)
 
     @PostMapping("/startFirstStreak")
@@ -29,6 +29,6 @@ class IncidentWidgetController(
 
     @GetMapping("/streaks")
     fun getPastStreaks(
-        @RequestParam(value = "incidentId") incidentId: Int
+        @RequestParam incidentId: Int
     ): List<IncidentStreakDomain> = incidentWidgetService.getIncidentStreaks(incidentId)
 }

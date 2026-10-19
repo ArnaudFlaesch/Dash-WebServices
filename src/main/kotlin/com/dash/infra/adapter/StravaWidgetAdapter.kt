@@ -11,32 +11,19 @@ import org.springframework.stereotype.Component
 class StravaWidgetAdapter(
     private val stravaApiClient: StravaApiClient
 ) {
-    fun getToken(apiCode: String): StravaTokenDataDomain {
-        val getTokenResponse = stravaApiClient.getToken(apiCode)
-        return getTokenResponse.toDomain()
-    }
+    fun getToken(apiCode: String): StravaTokenDataDomain = stravaApiClient.getToken(apiCode).toDomain()
 
-    fun getRefreshToken(refreshToken: String): StravaTokenDataDomain {
-        val getRefreshTokenResponse = stravaApiClient.getRefreshToken(refreshToken)
-        return getRefreshTokenResponse.toDomain()
-    }
+    fun getRefreshToken(refreshToken: String): StravaTokenDataDomain =
+        stravaApiClient.getRefreshToken(refreshToken).toDomain()
 
-    fun getAthleteData(token: String): StravaAthleteDomain {
-        val getAthleteResponse = stravaApiClient.getAthleteData(token)
-        return getAthleteResponse.toDomain()
-    }
+    fun getAthleteData(token: String): StravaAthleteDomain = stravaApiClient.getAthleteData(token).toDomain()
 
     fun getAthleteActivities(
         token: String,
         pageNumber: Int,
         numberOfActivities: Int
-    ): List<StravaActivityDomain> {
-        val getAthleteActivitiesResponse =
-            stravaApiClient.getAthleteActivities(
-                token,
-                pageNumber,
-                numberOfActivities
-            )
-        return getAthleteActivitiesResponse.map(StravaActivityResponse::toDomain)
-    }
+    ): List<StravaActivityDomain> =
+        stravaApiClient
+            .getAthleteActivities(token, pageNumber, numberOfActivities)
+            .map(StravaActivityResponse::toDomain)
 }

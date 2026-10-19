@@ -11,7 +11,6 @@ import jakarta.validation.Valid
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 
@@ -24,23 +23,23 @@ class AuthController(
 ) {
     @PostMapping("/login")
     fun authenticateUser(
-        @Valid
-        @RequestBody
-        loginRequest: LoginRequest
+        @Valid @RequestBody loginRequest: LoginRequest
     ): JwtResponse {
         val authentication =
             authenticationManager.authenticate(
-                UsernamePasswordAuthenticationToken(loginRequest.username, loginRequest.password)
+                UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.username, loginRequest.password)
             )
-
         SecurityContextHolder.getContext().authentication = authentication
-        val jwt = jwtUtils.generateJwtToken(authentication)
         val userDetails = authentication.principal as UserDetailsImpl
 
-        applicationEventPublisher.publishEvent(
-            DashEvent(this, Constants.USER_LOGGED_IN_EVENT, NotificationType.WARN)
+        applicationEventPublisher.publishEvent(DashEvent(Constants.USER_LOGGED_IN_EVENT, NotificationType.WARN))
+
+        return JwtResponse(
+            accessToken = jwtUtils.generateJwtToken(userDetails.username),
+            id = userDetails.id,
+            username = userDetails.username,
+            email = userDetails.email,
+            roles = userDetails.authorities.mapNotNull { it.authority }
         )
-        val roles = userDetails.authorities.map(GrantedAuthority::getAuthority)
-        return JwtResponse(jwt, userDetails.id, userDetails.username, userDetails.email, roles as List<String>)
     }
 }

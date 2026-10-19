@@ -12,8 +12,8 @@ val gsonVersion = "2.14.0"
 
 val restAssuredVersion = "6.2.0"
 val mockitoKotlinVersion = "6.4.0"
-val junitPlatformLauncherVersion = "6.0.0"
 val hibernateTypesVersion = "3.16.0"
+val junitPlatformLauncherVersion = "6.0.0"
 
 val springCloudGcpVersion = "8.2.4"
 val springCloudVersion = "2025.1.3"
@@ -62,6 +62,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-liquibase:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-restclient:$springBootVersion")
 
     implementation("com.google.cloud:spring-cloud-gcp-starter-secretmanager:$springCloudGcpVersion")
 
@@ -76,9 +77,10 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
     implementation("io.hypersistence:hypersistence-utils-hibernate-73:$hibernateTypesVersion")
-    implementation("com.google.code.gson:gson:$gsonVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-security-test:$springBootVersion")
+    testImplementation("org.springframework.boot:spring-boot-starter-restclient-test:$springBootVersion")
+    testImplementation("com.google.code.gson:gson:$gsonVersion")
 
     testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinVersion")
@@ -110,7 +112,7 @@ sonar {
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
+        freeCompilerArgs.add("-Xjsr305=strict")
     }
 }
 

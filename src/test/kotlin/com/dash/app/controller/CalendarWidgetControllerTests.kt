@@ -15,27 +15,26 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mockito
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.restclient.test.autoconfigure.AutoConfigureMockRestServiceServer
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
-import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.web.client.RestTemplate
-import java.net.URI
+import org.springframework.test.web.client.MockRestServiceServer
+import org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
+import org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockRestServiceServer
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CalendarWidgetControllerTests {
     @LocalServerPort
     private val port: Int = 0
 
-    @MockitoBean
-    private lateinit var restTemplate: RestTemplate
+    @Autowired
+    private lateinit var mockServer: MockRestServiceServer
 
     private lateinit var jwtToken: String
 
@@ -159,15 +158,9 @@ class CalendarWidgetControllerTests {
         val calendarUrl =
             "https://calendar.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics"
 
-        Mockito
-            .`when`(
-                restTemplate.exchange(
-                    URI.create(calendarUrl),
-                    HttpMethod.GET,
-                    null,
-                    String::class.java
-                )
-            ).thenReturn(ResponseEntity(mockedCalendarDataResponse, HttpStatus.OK))
+        mockServer
+            .expect(requestTo(calendarUrl))
+            .andRespond(withSuccess(mockedCalendarDataResponse, MediaType.TEXT_PLAIN))
 
         val getCalendarDataResponse =
             Given {
@@ -192,15 +185,9 @@ class CalendarWidgetControllerTests {
     fun testGetCalendarDataNullResponse() {
         val calendarUrl = "http://wrong_calendar_url.com"
 
-        Mockito
-            .`when`(
-                restTemplate.exchange(
-                    URI.create(calendarUrl),
-                    HttpMethod.GET,
-                    null,
-                    String::class.java
-                )
-            ).thenReturn(ResponseEntity(HttpStatus.OK))
+        mockServer
+            .expect(requestTo(calendarUrl))
+            .andRespond(withSuccess())
 
         Given {
             port(port)

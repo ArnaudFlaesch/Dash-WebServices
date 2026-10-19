@@ -30,16 +30,13 @@ class StravaWidgetController(
 
     @GetMapping("/getAthleteData")
     fun getAthleteData(
-        @RequestParam("token") token: String
+        @RequestParam token: String
     ): StravaAthleteDomain = stravaWidgetService.getAthleteData(token)
 
     @GetMapping("/getAthleteActivities")
     fun getAthleteActivities(
-        @RequestParam("token") token: String,
-        @RequestParam(name = "pageNumber", required = false) pageNumber: Int = PAGE_NUMBER,
-        @RequestParam(
-            name = "numberOfActivities",
-            required = false
-        ) numberOfActivities: Int = NUMBER_OF_ACTIVITIES_PER_PAGE
+        @RequestParam token: String,
+        @RequestParam pageNumber: Int = PAGE_NUMBER,
+        @RequestParam numberOfActivities: Int = NUMBER_OF_ACTIVITIES_PER_PAGE
     ): List<StravaActivityDomain> = stravaWidgetService.getAthleteActivities(token, pageNumber, numberOfActivities)
 }

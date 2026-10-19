@@ -28,7 +28,7 @@ class ExpenseController(
 
     @GetMapping("/getTotalExpensesByMonthByLabelId")
     fun getTotalExpensesByMonthByLabelId(
-        @RequestParam("labelId") labelId: Int
+        @RequestParam labelId: Int
     ): List<TotalExpenseByMonthDomain> = expenseService.getTotalExpensesByMonthByLabelId(labelId)
 
     @PostMapping("/addExpense")

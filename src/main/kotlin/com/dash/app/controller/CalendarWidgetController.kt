@@ -14,5 +14,5 @@ class CalendarWidgetController(
     @PostMapping("/")
     fun getCalendarEvents(
         @RequestBody calendarUrlPayload: CalendarUrlPayload
-    ): List<CalendarEvent>? = calendarWidgetService.getIcalDataFromUrl(calendarUrlPayload.calendarUrl)
+    ): List<CalendarEvent> = calendarWidgetService.getIcalDataFromUrl(calendarUrlPayload.calendarUrl)
 }

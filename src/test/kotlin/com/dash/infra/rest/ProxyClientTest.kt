@@ -1,10 +1,7 @@
 package com.dash.infra.rest
 
-import com.dash.app.controller.ErrorHandler
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
@@ -12,55 +9,45 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.restclient.test.autoconfigure.AutoConfigureMockRestServiceServer
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.core.ParameterizedTypeReference
-import org.springframework.http.*
+import org.springframework.http.HttpMethod
+import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.test.web.client.ExpectedCount
 import org.springframework.test.web.client.MockRestServiceServer
 import org.springframework.test.web.client.match.MockRestRequestMatchers.method
 import org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
 import org.springframework.test.web.client.response.MockRestResponseCreators.withStatus
 import org.springframework.web.client.RestClientException
-import org.springframework.web.client.RestTemplate
 import java.net.URI
 import java.util.stream.Stream
 
 @SpringBootTest
+@AutoConfigureMockRestServiceServer
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class RestClientTest {
+class ProxyClientTest {
     @Autowired
-    private lateinit var restClient: RestClient
+    private lateinit var proxyClient: ProxyClient
 
     @Autowired
-    private lateinit var restTemplate: RestTemplate
-
     private lateinit var mockServer: MockRestServiceServer
 
-    val testUrl = "http://url.com"
-
-    @BeforeAll
-    fun setup() {
-        mockServer = MockRestServiceServer.createServer(restTemplate)
-    }
-
-    @BeforeEach
-    fun resetMockServer() {
-        mockServer.reset()
-    }
+    private val testUrl = URI("http://url.com")
 
     @Test
     fun testGetRequest() {
         val response = "response"
 
         mockServer
-            .expect(ExpectedCount.once(), requestTo(URI(testUrl)))
+            .expect(ExpectedCount.once(), requestTo(testUrl))
             .andExpect(method(HttpMethod.GET))
             .andRespond(
                 withStatus(HttpStatus.OK)
-                    .contentType(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.TEXT_PLAIN)
                     .body(response)
             )
-        val actualResponse = restClient.getDataFromProxy(testUrl, String::class)
+        val actualResponse = proxyClient.get(testUrl, typeReference<String>())
         assertEquals(response, actualResponse)
         mockServer.verify()
     }
@@ -72,14 +59,14 @@ class RestClientTest {
         exceptionClass: Class<Exception>
     ) {
         mockServer
-            .expect(ExpectedCount.once(), requestTo(URI(testUrl)))
+            .expect(ExpectedCount.once(), requestTo(testUrl))
             .andExpect(method(HttpMethod.GET))
             .andRespond(
                 withStatus(statusCode)
                     .contentType(MediaType.APPLICATION_JSON)
             )
         assertThrows(exceptionClass) {
-            restClient.getDataFromProxy(testUrl, String::class)
+            proxyClient.get(testUrl, typeReference<String>())
         }
         mockServer.verify()
     }
@@ -87,18 +74,14 @@ class RestClientTest {
     @Test
     fun testGetRequestNullResponse() {
         mockServer
-            .expect(ExpectedCount.once(), requestTo(URI(testUrl)))
+            .expect(ExpectedCount.once(), requestTo(testUrl))
             .andExpect(method(HttpMethod.GET))
             .andRespond(
                 withStatus(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
             )
-        assertThrows(ErrorHandler.Companion.NotFoundException::class.java) {
-            restClient.getDataFromProxy(
-                testUrl,
-                HttpEntity<List<String>>(HttpHeaders()),
-                object : ParameterizedTypeReference<List<String>>() {}
-            )
+        assertThrows(NotFoundException::class.java) {
+            proxyClient.get(testUrl, typeReference<List<String>>())
         }
         mockServer.verify()
     }
@@ -110,32 +93,31 @@ class RestClientTest {
         exceptionClass: Class<Exception>
     ) {
         mockServer
-            .expect(ExpectedCount.once(), requestTo(URI(testUrl)))
+            .expect(ExpectedCount.once(), requestTo(testUrl))
             .andExpect(method(HttpMethod.POST))
             .andRespond(
                 withStatus(statusCode)
                     .contentType(MediaType.APPLICATION_JSON)
             )
         assertThrows(exceptionClass) {
-            restClient.postDataFromProxy(testUrl, "{}", String::class)
+            proxyClient.post(testUrl, "{}", typeReference<String>())
         }
         mockServer.verify()
     }
 
+    @Test
+    fun testBuildUriEncodesQueryParams() {
+        assertEquals(
+            URI("http://url.com/api/weather?q=Saint%20Denis&units=metric"),
+            buildUri("http://url.com/api", "/weather", "q" to "Saint Denis", "units" to "metric")
+        )
+    }
+
     fun requestErrorsParams(): Stream<Arguments> =
         Stream.of(
-            arguments(
-                HttpStatus.BAD_REQUEST,
-                ErrorHandler.Companion.BadRequestException::class.java
-            ),
-            arguments(HttpStatus.NOT_FOUND, ErrorHandler.Companion.NotFoundException::class.java),
-            arguments(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                ErrorHandler.Companion.InternalServerErrorException::class.java
-            ),
-            arguments(
-                HttpStatus.BAD_GATEWAY,
-                RestClientException::class.java
-            )
+            arguments(HttpStatus.BAD_REQUEST, BadRequestException::class.java),
+            arguments(HttpStatus.NOT_FOUND, NotFoundException::class.java),
+            arguments(HttpStatus.INTERNAL_SERVER_ERROR, InternalServerErrorException::class.java),
+            arguments(HttpStatus.BAD_GATEWAY, RestClientException::class.java)
         )
 }

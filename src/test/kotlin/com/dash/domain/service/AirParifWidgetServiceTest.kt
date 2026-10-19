@@ -4,50 +4,48 @@ import com.dash.domain.model.airParif.AirParifPrevisionEnum
 import com.dash.domain.model.airParif.Prevision
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
-import org.mockito.kotlin.any
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.restclient.test.autoconfigure.AutoConfigureMockRestServiceServer
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.core.ParameterizedTypeReference
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.test.context.bean.override.mockito.MockitoBean
-import org.springframework.web.client.RestTemplate
-import java.net.URI
+import org.springframework.http.MediaType
+import org.springframework.test.web.client.MockRestServiceServer
+import org.springframework.test.web.client.match.MockRestRequestMatchers.header
+import org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
+import org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess
 
 @SpringBootTest
+@AutoConfigureMockRestServiceServer
 class AirParifWidgetServiceTest {
-    @MockitoBean
-    private lateinit var restTemplate: RestTemplate
+    @Autowired
+    private lateinit var mockServer: MockRestServiceServer
 
     @Autowired
     private lateinit var airParifWidgetService: AirParifWidgetService
 
     @Test
     fun testGetCustomResponse() {
-        val mockedResponse = LinkedHashMap<String, List<LinkedHashMap<String, String>>>()
-        val previsions = LinkedHashMap<String, String>()
-        previsions["date"] = "2021-01-16"
-        previsions["no2"] = "Bon"
-        previsions["o3"] = "Mauvais"
-        previsions["pm10"] = "Dégradé"
-        previsions["pm25"] = "Moyen"
-        previsions["so2"] = "bad format"
-        previsions["indice"] = "Bon"
-        previsions[""] = "Bon"
-        mockedResponse["75112"] = listOf(previsions)
+        val mockedResponse =
+            """
+            {
+              "75112": [
+                {
+                  "date": "2021-01-16",
+                  "no2": "Bon",
+                  "o3": "Mauvais",
+                  "pm10": "Dégradé",
+                  "pm25": "Moyen",
+                  "so2": "bad format",
+                  "indice": "Bon",
+                  "": "Bon"
+                }
+              ]
+            }
+            """.trimIndent()
 
-        Mockito
-            .`when`(
-                restTemplate.exchange(
-                    any<URI>(),
-                    any<HttpMethod>(),
-                    any<HttpEntity<Any>>(),
-                    any<ParameterizedTypeReference<Any>>()
-                )
-            ).thenReturn(ResponseEntity(mockedResponse, HttpStatus.OK))
+        mockServer
+            .expect(requestTo("http://localhost:5000/airParif/commune?insee=75112"))
+            .andExpect(header("X-Api-Key", "test"))
+            .andRespond(withSuccess(mockedResponse, MediaType.APPLICATION_JSON))
 
         val getPrevisionsDataResponse = airParifWidgetService.getPrevisionCommune("75112")
 

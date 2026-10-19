@@ -7,33 +7,31 @@ import org.springframework.stereotype.Component
 
 @Component
 class AirParifWidgetMapper {
-    fun colorsResponseToDomain(colorsResponse: LinkedHashMap<String, String>): List<AirParifColor> =
+    fun colorsResponseToDomain(colorsResponse: Map<String, String>): List<AirParifColor> =
         AirParifPrevisionEnum
             .entries
             .filter { it != AirParifPrevisionEnum.MISSING }
-            .map { AirParifColor(it, colorsResponse.getOrDefault(it.prevision, "")) }
+            .map { AirParifColor(it, colorsResponse[it.prevision].orEmpty()) }
 
     fun previsionsResponseToDomain(
         communeInseeCode: String,
-        airParifPrevisionResponse: LinkedHashMap<String, List<LinkedHashMap<String, String>>>
+        airParifPrevisionResponse: Map<String, List<Map<String, String>>>
     ): List<Prevision> =
         airParifPrevisionResponse
-            .getOrDefault(communeInseeCode, listOf(LinkedHashMap()))
-            .map(this::previsionResponseToDomain)
+            .getOrDefault(communeInseeCode, listOf(emptyMap()))
+            .map(::previsionResponseToDomain)
 
-    private fun previsionResponseToDomain(previsionResponse: LinkedHashMap<String, String>): Prevision {
-        val getEnumFromValue = { prevision: String ->
-            AirParifPrevisionEnum.getEnumFromValue(previsionResponse.getOrDefault(prevision, ""))
-        }
+    private fun previsionResponseToDomain(previsionResponse: Map<String, String>): Prevision {
+        fun pollutant(name: String) = AirParifPrevisionEnum.getEnumFromValue(previsionResponse[name].orEmpty())
 
         return Prevision(
-            previsionResponse.getOrDefault("date", ""),
-            getEnumFromValue("no2"),
-            getEnumFromValue("o3"),
-            getEnumFromValue("pm10"),
-            getEnumFromValue("pm25"),
-            getEnumFromValue("so2"),
-            getEnumFromValue("indice")
+            previsionResponse["date"].orEmpty(),
+            pollutant("no2"),
+            pollutant("o3"),
+            pollutant("pm10"),
+            pollutant("pm25"),
+            pollutant("so2"),
+            pollutant("indice")
         )
     }
 }

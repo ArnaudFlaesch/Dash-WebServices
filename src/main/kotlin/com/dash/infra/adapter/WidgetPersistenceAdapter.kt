@@ -17,7 +17,7 @@ class WidgetPersistenceAdapter(
     fun getUserWidgets(userId: Int): List<WidgetDomain> =
         widgetRepository.getUsersWidget(userId).map(WidgetEntity::toDomain)
 
-    fun getNumberOfWidgetsByTab(tabId: Int) = widgetRepository.getNumberOfWidgetsByTab(tabId)
+    fun getNumberOfWidgetsByTab(tabId: Int): Int = widgetRepository.getNumberOfWidgetsByTab(tabId)
 
     fun saveWidget(widgetData: WidgetDomain): WidgetDomain =
         WidgetEntity(
@@ -41,10 +41,8 @@ class WidgetPersistenceAdapter(
 
     fun updateWidgetsOrder(widgetList: List<WidgetDomain>): List<WidgetDomain> =
         widgetList
-            .map { widget ->
-                val oldWidget = widgetRepository.getReferenceById(widget.id)
-                oldWidget.copy(widgetOrder = widget.widgetOrder)
-            }.let(widgetRepository::saveAll)
+            .map { widget -> widgetRepository.getReferenceById(widget.id).copy(widgetOrder = widget.widgetOrder) }
+            .let(widgetRepository::saveAll)
             .map(WidgetEntity::toDomain)
 
     fun deleteWidget(id: Int) = widgetRepository.deleteById(id)

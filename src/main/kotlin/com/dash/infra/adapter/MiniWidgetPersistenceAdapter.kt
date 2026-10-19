@@ -26,10 +26,12 @@ class MiniWidgetPersistenceAdapter(
     fun updateWidgetData(
         widgetId: Int,
         updatedData: Any
-    ): MiniWidgetDomain {
-        val oldWidget = miniWidgetRepository.getReferenceById(widgetId)
-        return miniWidgetRepository.save(oldWidget.copy(data = updatedData)).toDomain()
-    }
+    ): MiniWidgetDomain =
+        miniWidgetRepository
+            .getReferenceById(widgetId)
+            .copy(data = updatedData)
+            .let(miniWidgetRepository::save)
+            .let(MiniWidgetEntity::toDomain)
 
     fun deleteMiniWidget(widgetId: Int) = miniWidgetRepository.deleteById(widgetId)
 }

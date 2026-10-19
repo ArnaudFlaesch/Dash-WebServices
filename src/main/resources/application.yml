@@ -22,6 +22,10 @@ spring:
     show-sql: true
   liquibase:
     contexts: dev
+  http:
+    clients:
+      connect-timeout: 3s
+      read-timeout: 3s
 logging:
   level:
     org:

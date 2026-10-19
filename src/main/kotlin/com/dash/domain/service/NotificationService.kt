@@ -25,7 +25,7 @@ class NotificationService(
         message: String,
         notificationType: NotificationType
     ) {
-        val userName = userService.getCurrentAuthenticatedUserIdUsername()
+        val userName = userService.getCurrentAuthenticatedUserUsername()
         createNotification("$userName : $message", notificationType)
             .let(notificationAdapter::saveNotification)
     }

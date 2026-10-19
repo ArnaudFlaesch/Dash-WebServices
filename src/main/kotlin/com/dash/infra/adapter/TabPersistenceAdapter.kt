@@ -6,6 +6,7 @@ import com.dash.infra.entity.TabEntity
 import com.dash.infra.repository.TabRepository
 import com.dash.infra.repository.WidgetRepository
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
 class TabPersistenceAdapter(
@@ -21,29 +22,11 @@ class TabPersistenceAdapter(
     fun addTab(
         tabLabel: String,
         userId: Int
-    ): TabDomain =
-        TabEntity(
-            id = 0,
-            label = tabLabel,
-            tabOrder = tabRepository.getNumberOfTabs(userId) + 1,
-            user = userRepository.getReferenceById(userId)
-        ).let(tabRepository::save)
-            .let(TabEntity::toDomain)
+    ): TabDomain = saveTab(TabDomain(0, tabLabel, tabRepository.getNumberOfTabs(userId) + 1, userId))
 
-    fun saveTabs(tabList: List<TabDomain>): List<TabDomain> =
-        tabList
-            .map(this::mapTabDomainToTabEntity)
-            .map(tabRepository::save)
-            .map(TabEntity::toDomain)
+    fun saveTabs(tabList: List<TabDomain>): List<TabDomain> = tabList.map(::saveTab)
 
-    fun importTab(newTab: TabDomain): TabDomain =
-        TabEntity(
-            id = 0,
-            label = newTab.label,
-            tabOrder = newTab.tabOrder,
-            user = userRepository.getReferenceById(newTab.userId)
-        ).let(tabRepository::save)
-            .let(TabEntity::toDomain)
+    fun importTab(newTab: TabDomain): TabDomain = saveTab(newTab.copy(id = 0))
 
     fun updateTab(
         tabId: Int,
@@ -56,17 +39,18 @@ class TabPersistenceAdapter(
             .let(tabRepository::save)
             .let(TabEntity::toDomain)
 
-    fun deleteTab(tabId: Int) =
-        widgetRepository
-            .deleteWidgetsByTabId(tabId)
-            .let { _ -> tabRepository.getReferenceById(tabId) }
-            .let(tabRepository::delete)
+    @Transactional
+    fun deleteTab(tabId: Int) {
+        widgetRepository.deleteWidgetsByTabId(tabId)
+        tabRepository.deleteById(tabId)
+    }
 
-    private fun mapTabDomainToTabEntity(tabDomain: TabDomain): TabEntity =
+    private fun saveTab(tab: TabDomain): TabDomain =
         TabEntity(
-            id = tabDomain.id,
-            label = tabDomain.label,
-            tabOrder = tabDomain.tabOrder,
-            user = userRepository.getReferenceById(tabDomain.userId)
-        )
+            id = tab.id,
+            label = tab.label,
+            tabOrder = tab.tabOrder,
+            user = userRepository.getReferenceById(tab.userId)
+        ).let(tabRepository::save)
+            .let(TabEntity::toDomain)
 }

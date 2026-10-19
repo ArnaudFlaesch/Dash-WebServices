@@ -13,7 +13,7 @@ class AirParifWidgetController(
 ) {
     @GetMapping("/previsionCommune")
     fun getPrevisionCommune(
-        @RequestParam(value = "commune") commune: String
+        @RequestParam commune: String
     ): List<Prevision> = airParifWidgetService.getPrevisionCommune(commune)
 
     @GetMapping("/couleurs")

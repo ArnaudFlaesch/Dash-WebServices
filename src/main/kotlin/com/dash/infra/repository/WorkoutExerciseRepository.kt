@@ -6,10 +6,8 @@ import com.dash.infra.entity.workoutwidget.WorkoutStatsByIntervalEntity
 import com.dash.infra.entity.workoutwidget.WorkoutStatsByMonthEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
-import org.springframework.stereotype.Repository
 import java.time.LocalDate
 
-@Repository
 interface WorkoutExerciseRepository : JpaRepository<WorkoutExerciseEntity, WorkoutExerciseEntityId> {
     @Query(
         "SELECT * FROM workout_exercise WHERE workout_session_id = :workoutSessionId",

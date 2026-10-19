@@ -11,11 +11,10 @@ import org.springframework.transaction.annotation.Transactional
 class UserDetailsServiceImpl(
     private val userRepository: UserRepository
 ) : UserDetailsService {
-    @Transactional
-    @Throws(UsernameNotFoundException::class)
+    @Transactional(readOnly = true)
     override fun loadUserByUsername(username: String): UserDetails =
         userRepository
             .findByUsername(username)
-            .orElseThrow { UsernameNotFoundException("User Not Found with username: $username") }
-            .let(UserDetailsImpl::build)
+            ?.let(UserDetailsImpl::build)
+            ?: throw UsernameNotFoundException("User Not Found with username: $username")
 }
