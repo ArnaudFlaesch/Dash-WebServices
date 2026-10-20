@@ -5,9 +5,11 @@ import com.cashmanager.infra.entity.TotalExpenseByMonthEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
+import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 
+@Repository
 interface ExpenseRepository : JpaRepository<ExpenseEntity, Int> {
     fun findAllByLabelUserIdAndExpenseDateBetweenOrderByExpenseDateAsc(
         userId: Int,
