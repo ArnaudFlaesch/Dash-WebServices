@@ -20,10 +20,5 @@ class StravaWidgetService(
         token: String,
         pageNumber: Int,
         numberOfActivities: Int
-    ): List<StravaActivityDomain> =
-        stravaWidgetAdapter.getAthleteActivities(
-            token,
-            pageNumber,
-            numberOfActivities
-        )
+    ): List<StravaActivityDomain> = stravaWidgetAdapter.getAthleteActivities(token, pageNumber, numberOfActivities)
 }

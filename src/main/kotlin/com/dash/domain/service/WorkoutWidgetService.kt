@@ -20,36 +20,29 @@ class WorkoutWidgetService(
     private val workoutTypeMapper: WorkoutTypeMapper,
     private val userService: UserService
 ) {
-    fun getWorkoutTypes(): List<WorkoutTypeDomain> {
-        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return workoutTypeRepository
-            .findByUserIdOrderByNameAsc(
-                authenticatedUserId
-            ).map(WorkoutTypeEntity::toDomain)
-    }
+    fun getWorkoutTypes(): List<WorkoutTypeDomain> =
+        workoutTypeRepository
+            .findByUserIdOrderByNameAsc(userService.getCurrentAuthenticatedUserId())
+            .map(WorkoutTypeEntity::toDomain)
 
     fun getWorkoutSessions(
         dateIntervalStart: LocalDate,
         dateIntervalEnd: LocalDate
-    ): List<WorkoutSessionDomain> {
-        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return workoutSessionRepository
+    ): List<WorkoutSessionDomain> =
+        workoutSessionRepository
             .findByUserIdAndWorkoutDateBetweenOrderByWorkoutDateAsc(
-                authenticatedUserId,
+                userService.getCurrentAuthenticatedUserId(),
                 dateIntervalStart,
                 dateIntervalEnd
             ).map(WorkoutSessionEntity::toDomain)
-    }
 
     fun getWorkoutStatsByPeriod(
         dateIntervalStart: LocalDate,
         dateIntervalEnd: LocalDate
-    ): List<WorkoutStatsByIntervalDomain> {
-        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return workoutExerciseRepository
-            .getWorkoutStatsByInterval(dateIntervalStart, dateIntervalEnd, authenticatedUserId)
+    ): List<WorkoutStatsByIntervalDomain> =
+        workoutExerciseRepository
+            .getWorkoutStatsByInterval(dateIntervalStart, dateIntervalEnd, userService.getCurrentAuthenticatedUserId())
             .map(WorkoutStatsByIntervalEntity::toDomain)
-    }
 
     fun getWorkoutStatsByMonth(
         dateIntervalStart: LocalDate,
@@ -67,9 +60,8 @@ class WorkoutWidgetService(
 
     fun getWorkoutsExercisesByWorkoutSessionId(workoutSessionId: Int): List<WorkoutExerciseDomain> =
         workoutExerciseRepository
-            .findAllByWorkoutSessionId(
-                workoutSessionId
-            ).map(WorkoutExerciseEntity::toDomain)
+            .findAllByWorkoutSessionId(workoutSessionId)
+            .map(WorkoutExerciseEntity::toDomain)
 
     fun updateWorkoutExercise(
         workoutSessionId: Int,

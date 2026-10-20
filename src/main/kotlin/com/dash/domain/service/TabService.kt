@@ -14,15 +14,10 @@ class TabService(
     private val userService: UserService
 ) {
     @PostFilter(SecurityConditions.DOES_TABS_BELONG_TO_AUTHENTICATED_USER)
-    fun getUserTabs(): List<TabDomain> {
-        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return tabPersistenceAdapter.getUserTabs(currentAuthenticatedUserId)
-    }
+    fun getUserTabs(): List<TabDomain> = tabPersistenceAdapter.getUserTabs(userService.getCurrentAuthenticatedUserId())
 
-    fun addTab(tabLabel: String): TabDomain {
-        val currentAuthenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return tabPersistenceAdapter.addTab(tabLabel, currentAuthenticatedUserId)
-    }
+    fun addTab(tabLabel: String): TabDomain =
+        tabPersistenceAdapter.addTab(tabLabel, userService.getCurrentAuthenticatedUserId())
 
     fun saveTabs(tabList: List<TabDomain>): List<TabDomain> = tabPersistenceAdapter.saveTabs(tabList)
 

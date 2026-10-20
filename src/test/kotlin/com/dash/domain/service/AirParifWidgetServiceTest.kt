@@ -2,52 +2,36 @@ package com.dash.domain.service
 
 import com.dash.domain.model.airParif.AirParifPrevisionEnum
 import com.dash.domain.model.airParif.Prevision
+import com.dash.infra.rest.api.AirParifApi
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
-import org.mockito.kotlin.any
+import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.core.ParameterizedTypeReference
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.test.context.bean.override.mockito.MockitoBean
-import org.springframework.web.client.RestTemplate
-import java.net.URI
 
 @SpringBootTest
 class AirParifWidgetServiceTest {
     @MockitoBean
-    private lateinit var restTemplate: RestTemplate
+    private lateinit var airParifApi: AirParifApi
 
     @Autowired
     private lateinit var airParifWidgetService: AirParifWidgetService
 
     @Test
     fun testGetCustomResponse() {
-        val mockedResponse = LinkedHashMap<String, List<LinkedHashMap<String, String>>>()
-        val previsions = LinkedHashMap<String, String>()
-        previsions["date"] = "2021-01-16"
-        previsions["no2"] = "Bon"
-        previsions["o3"] = "Mauvais"
-        previsions["pm10"] = "Dégradé"
-        previsions["pm25"] = "Moyen"
-        previsions["so2"] = "bad format"
-        previsions["indice"] = "Bon"
-        previsions[""] = "Bon"
-        mockedResponse["75112"] = listOf(previsions)
-
-        Mockito
-            .`when`(
-                restTemplate.exchange(
-                    any<URI>(),
-                    any<HttpMethod>(),
-                    any<HttpEntity<Any>>(),
-                    any<ParameterizedTypeReference<Any>>()
-                )
-            ).thenReturn(ResponseEntity(mockedResponse, HttpStatus.OK))
+        val previsions =
+            mapOf(
+                "date" to "2021-01-16",
+                "no2" to "Bon",
+                "o3" to "Mauvais",
+                "pm10" to "Dégradé",
+                "pm25" to "Moyen",
+                "so2" to "bad format",
+                "indice" to "Bon",
+                "" to "Bon"
+            )
+        whenever(airParifApi.getPrevisionCommune("75112")).thenReturn(mapOf("75112" to listOf(previsions)))
 
         val getPrevisionsDataResponse = airParifWidgetService.getPrevisionCommune("75112")
 

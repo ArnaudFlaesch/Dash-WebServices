@@ -6,6 +6,7 @@ import com.common.app.security.SecurityConditions
 import com.common.domain.service.UserService
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 @PreAuthorize(SecurityConditions.IS_USER_ADMIN)
@@ -22,8 +23,9 @@ class LabelService(
 
     fun updateLabel(labelToUpdate: LabelDomain): LabelDomain = labelPersistenceAdapter.updateLabel(labelToUpdate)
 
-    fun deleteLabel(labelId: Int) =
-        expenseService
-            .deleteExpensesByLabelId(labelId)
-            .let { _ -> labelPersistenceAdapter.deleteLabel(labelId) }
+    @Transactional
+    fun deleteLabel(labelId: Int) {
+        expenseService.deleteExpensesByLabelId(labelId)
+        labelPersistenceAdapter.deleteLabel(labelId)
+    }
 }

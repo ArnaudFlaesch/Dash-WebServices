@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import kotlin.test.assertNotNull
 
 @SpringBootTest
 @SqlData
@@ -46,20 +47,14 @@ class UserRepositoryTests {
 
     @Test
     fun testGetUserByUsername() {
-        val user = userRepository.findByUsername("usertest")
-        if (user.isEmpty) {
-            fail()
-        } else {
-            assertNotNull(user.get().id)
-            assertEquals("usertest", user.get().username)
-            assertEquals("ROLE_USER", user.get().role.name)
-            assertEquals("user@email.com", user.get().email)
-        }
+        val user = assertNotNull(userRepository.findByUsername("usertest"))
+        assertEquals("usertest", user.username)
+        assertEquals("ROLE_USER", user.role.name)
+        assertEquals("user@email.com", user.email)
     }
 
     @Test
     fun testGetUserByUsernameWrongUsername() {
-        val user = userRepository.findByUsername("usertestFail")
-        assertTrue(user.isEmpty)
+        assertNull(userRepository.findByUsername("usertestFail"))
     }
 }

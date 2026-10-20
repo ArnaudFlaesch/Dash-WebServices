@@ -54,10 +54,7 @@ class ExpensePersistenceAdapter(
         ).let(expenseRepository::save)
             .let(ExpenseEntity::toDomain)
 
-    fun deleteExpense(expenseId: Int) =
-        expenseRepository
-            .getReferenceById(expenseId)
-            .let(expenseRepository::delete)
+    fun deleteExpense(expenseId: Int) = expenseRepository.deleteById(expenseId)
 
     fun deleteExpensesByLabelId(labelId: Int) = expenseRepository.deleteExpensesByLabelId(labelId)
 }

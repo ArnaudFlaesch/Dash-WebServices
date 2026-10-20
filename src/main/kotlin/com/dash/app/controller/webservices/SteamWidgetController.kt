@@ -14,19 +14,19 @@ class SteamWidgetController(
 ) {
     @GetMapping("/playerData")
     fun getPlayerData(
-        @RequestParam(value = "steamUserId") steamUserId: String
+        @RequestParam steamUserId: String
     ): List<PlayerDataDomain> = steamWidgetService.getPlayerData(steamUserId)
 
     @GetMapping("/ownedGames")
     fun getOwnedGames(
-        @RequestParam(value = "steamUserId") steamUserId: String,
-        @RequestParam(value = "search", defaultValue = "") search: String,
-        @RequestParam(value = "pageNumber", defaultValue = "0") pageNumber: Int
+        @RequestParam steamUserId: String,
+        @RequestParam(defaultValue = "") search: String,
+        @RequestParam(defaultValue = "0") pageNumber: Int
     ): Page<GameInfoDomain> = steamWidgetService.getOwnedGames(steamUserId, search, pageNumber)
 
     @GetMapping("/achievementList")
     fun getAchievementList(
-        @RequestParam(value = "appId") appId: String,
-        @RequestParam(value = "steamUserId") steamUserId: String
+        @RequestParam appId: String,
+        @RequestParam steamUserId: String
     ): AchievementDataDomain = steamWidgetService.getAchievementList(appId, steamUserId)
 }

@@ -1,6 +1,5 @@
 package com.common.domain.service
 
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -19,8 +18,7 @@ class UserServiceTest {
     fun getUserByUsernameTest() {
         val username = "admintest"
         val user = userService.getUserByUsername(username)
-        assertThat(user).isNotEmpty
-        assertEquals(username, user.get().username)
+        assertEquals(username, user?.username)
     }
 
     @Test

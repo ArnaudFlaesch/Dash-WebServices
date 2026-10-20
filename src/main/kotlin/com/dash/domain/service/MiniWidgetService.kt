@@ -22,13 +22,8 @@ class MiniWidgetService(
             id = 0,
             type = widgetType,
             data = null,
-            userId =
-                userService
-                    .getCurrentAuthenticatedUserId()
-        ).let(this::saveMiniWidget)
-
-    fun saveMiniWidget(miniWidget: MiniWidgetDomain): MiniWidgetDomain =
-        miniWidgetPersistenceAdapter.saveMiniWidget(miniWidget)
+            userId = userService.getCurrentAuthenticatedUserId()
+        ).let(miniWidgetPersistenceAdapter::saveMiniWidget)
 
     fun updateWidgetData(
         widgetId: Int,

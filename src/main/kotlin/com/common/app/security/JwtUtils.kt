@@ -1,56 +1,45 @@
 package com.common.app.security
 
+import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.MalformedJwtException
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
-import java.util.*
-import javax.crypto.SecretKey
+import java.time.Duration
+import java.time.Instant
+import java.util.Date
 
 @Component
 class JwtUtils(
     @Value("\${dash.app.jwtSecret}")
-    private val jwtSecret: String,
+    jwtSecret: String,
     @Value("\${dash.app.jwtExpirationMs}")
-    private val jwtExpirationMs: Int
+    jwtExpirationMs: Long
 ) {
-    companion object {
-        private val logger = LoggerFactory.getLogger(this::class.java.name)
-    }
+    private val logger = LoggerFactory.getLogger(this::class.java)
+    private val signingKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret))
+    private val jwtExpiration = Duration.ofMillis(jwtExpirationMs)
+    private val parser = Jwts.parser().verifyWith(signingKey).build()
 
-    fun generateJwtToken(authentication: Authentication): String {
-        val userPrincipal = authentication.principal as UserDetailsImpl
-
+    fun generateJwtToken(username: String): String {
+        val now = Instant.now()
         return Jwts
             .builder()
-            .subject(userPrincipal.username)
-            .issuedAt(Date())
-            .expiration(Date(Date().time + jwtExpirationMs))
-            .signWith(getSigningKey())
+            .subject(username)
+            .issuedAt(Date.from(now))
+            .expiration(Date.from(now + jwtExpiration))
+            .signWith(signingKey)
             .compact()
     }
 
-    fun getUserNameFromJwtToken(token: String): String = parseToken(token).payload.subject
-
-    fun validateJwtToken(authToken: String): Boolean =
+    /** Returns the token's subject, or null if the token is malformed, expired or wrongly signed. */
+    fun getUserNameFromValidToken(token: String): String? =
         try {
-            parseToken(authToken)
-            true
-        } catch (e: MalformedJwtException) {
+            parser.parseSignedClaims(token).payload.subject
+        } catch (e: JwtException) {
             logger.error("Invalid JWT token: {}", e.message)
-            false
+            null
         }
-
-    private fun parseToken(authToken: String) =
-        Jwts
-            .parser()
-            .verifyWith(getSigningKey())
-            .build()
-            .parseSignedClaims(authToken)
-
-    private fun getSigningKey(): SecretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret))
 }

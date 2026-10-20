@@ -1,33 +1,27 @@
 package com.common.domain.service
 
-import com.common.domain.mapping.UserMapper
-import com.common.domain.model.UserDomain
+import com.common.app.security.UserDetailsImpl
 import com.common.infra.entity.UserEntity
 import com.common.infra.repository.UserRepository
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class UserService(
-    private val userRepository: UserRepository,
-    private val userMapper: UserMapper
+    private val userRepository: UserRepository
 ) {
-    fun getCurrentAuthenticatedUserIdUsername(): String =
-        (SecurityContextHolder.getContext().authentication as UsernamePasswordAuthenticationToken)
-            .let { authentication -> authentication.principal as UserDetails }
-            .username
+    fun getCurrentAuthenticatedUserUsername(): String = currentAuthentication().name
 
     fun getCurrentAuthenticatedUserId(): Int =
-        getCurrentAuthenticatedUserIdUsername()
-            .let(this::getUserByUsername)
-            .orElseThrow()
-            .let(userMapper::mapEntityToDomain)
-            .let(UserDomain::id)
+        (currentAuthentication().principal as? UserDetailsImpl)?.id
+            ?: getUserByUsername(getCurrentAuthenticatedUserUsername())?.id
+            ?: throw NoSuchElementException("Authenticated user not found")
 
-    fun getUserById(userId: Int) = userRepository.getReferenceById(userId)
+    fun getUserById(userId: Int): UserEntity = userRepository.getReferenceById(userId)
 
-    fun getUserByUsername(username: String): Optional<UserEntity> = userRepository.findByUsername(username)
+    fun getUserByUsername(username: String): UserEntity? = userRepository.findByUsername(username)
+
+    private fun currentAuthentication(): Authentication =
+        checkNotNull(SecurityContextHolder.getContext().authentication) { "No authenticated user" }
 }

@@ -13,7 +13,7 @@ class WidgetController(
 ) {
     @GetMapping("/")
     fun getWidgets(
-        @RequestParam(value = "tabId") tabId: Int
+        @RequestParam tabId: Int
     ): List<WidgetDomain> = widgetService.findByTabIdOrderByWidgetOrderAsc(tabId)
 
     @PostMapping("/addWidget")
@@ -23,7 +23,7 @@ class WidgetController(
 
     @PatchMapping("/updateWidgetData/{widgetId}")
     fun updateWidgetData(
-        @PathVariable("widgetId") widgetId: Int,
+        @PathVariable widgetId: Int,
         @RequestBody updateWidgetDataPayload: UpdateWidgetDataPayload
     ): WidgetDomain = widgetService.updateWidgetData(widgetId, updateWidgetDataPayload.data)
 

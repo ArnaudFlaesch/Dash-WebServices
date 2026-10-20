@@ -15,20 +15,16 @@ class TwitterWidgetService(
         searchParam: String,
         pageNumber: Int,
         pageSize: Int
-    ): Page<FollowedUser> {
-        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return twitterWidgetAdapter.getFollowedUsers(
+    ): Page<FollowedUser> =
+        twitterWidgetAdapter.getFollowedUsers(
             searchParam,
             pageNumber,
             pageSize,
-            authenticatedUserId
+            userService.getCurrentAuthenticatedUserId()
         )
-    }
 
-    fun addFollowedUser(followedUserHandle: String): FollowedUser {
-        val authenticatedUserId = userService.getCurrentAuthenticatedUserId()
-        return twitterWidgetAdapter.addFollowedUser(followedUserHandle, authenticatedUserId)
-    }
+    fun addFollowedUser(followedUserHandle: String): FollowedUser =
+        twitterWidgetAdapter.addFollowedUser(followedUserHandle, userService.getCurrentAuthenticatedUserId())
 
     fun deleteFollowedUser(followedUserId: Int) = twitterWidgetAdapter.deleteFollowedUser(followedUserId)
 }

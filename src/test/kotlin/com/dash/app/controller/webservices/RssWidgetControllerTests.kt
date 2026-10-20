@@ -3,6 +3,9 @@ package com.dash.app.controller.webservices
 import com.common.utils.Constants.UNAUTHORIZED_ERROR
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
+import com.dash.infra.rest.NotFoundException
+import com.dash.infra.rest.ProxyClient
+import com.dash.infra.rest.typeReference
 import com.google.gson.Gson
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
@@ -15,15 +18,12 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mockito
+import org.mockito.kotlin.whenever
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import org.springframework.http.MediaType
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.web.client.RestTemplate
 import java.net.URI
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -34,7 +34,7 @@ class RssWidgetControllerTests {
     private val port: Int = 0
 
     @MockitoBean
-    private lateinit var restTemplate: RestTemplate
+    private lateinit var proxyClient: ProxyClient
 
     private lateinit var jwtToken: String
 
@@ -57,15 +57,7 @@ class RssWidgetControllerTests {
                 "    <channel></channel>\n" +
                 "</rss>"
 
-        Mockito
-            .`when`(
-                restTemplate.exchange(
-                    URI.create(url),
-                    HttpMethod.GET,
-                    null,
-                    String::class.java
-                )
-            ).thenReturn(ResponseEntity(mockedResponse, HttpStatus.OK))
+        whenever(proxyClient.get(URI.create(url), typeReference<String>())).thenReturn(mockedResponse)
 
         Given {
             port(port)
@@ -88,10 +80,7 @@ class RssWidgetControllerTests {
     fun testGetUrlNullResponse() {
         val url = "http://thelastpictureshow.over-blog.com/rss"
 
-        Mockito
-            .`when`(
-                restTemplate.exchange(URI.create(url), HttpMethod.GET, null, String::class.java)
-            ).thenReturn(ResponseEntity(HttpStatus.OK))
+        whenever(proxyClient.get(URI.create(url), typeReference<String>())).thenThrow(NotFoundException())
 
         Given {
             port(port)

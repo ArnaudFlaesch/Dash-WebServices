@@ -1,18 +1,14 @@
 package com.dash.infra.apimodel.openweather
 
 import com.dash.domain.model.weatherWidget.*
-import com.fasterxml.jackson.annotation.JsonProperty
+import tools.jackson.databind.PropertyNamingStrategies
+import tools.jackson.databind.annotation.JsonNaming
 
 data class OpenWeatherForecastResponse(
-    @JsonProperty("cod")
     val cod: String = "",
-    @JsonProperty("message")
     val message: Int = 0,
-    @JsonProperty("cnt")
     val cnt: Int = 0,
-    @JsonProperty("list")
     val list: List<ForecastResponse> = listOf(),
-    @JsonProperty("city")
     val city: CityResponse = CityResponse()
 ) {
     fun toDomain(): OpenWeatherForecastDomain =
@@ -26,31 +22,18 @@ data class OpenWeatherForecastResponse(
 }
 
 data class OpenWeatherWeatherResponse(
-    @JsonProperty("coord")
     val coord: LatLng = LatLng(),
-    @JsonProperty("weather")
     val weather: List<Weather> = listOf(),
-    @JsonProperty("base")
     val base: String = "",
-    @JsonProperty("main")
     val main: WeatherMain = WeatherMain(),
-    @JsonProperty("visibility")
     val visibility: Int = 0,
-    @JsonProperty("wind")
     val wind: WeatherWind = WeatherWind(),
-    @JsonProperty("clouds")
     val clouds: WeatherCloud = WeatherCloud(),
-    @JsonProperty("dt")
     val dt: Int = 0,
-    @JsonProperty("sys")
     val sys: WeatherSys = WeatherSys(),
-    @JsonProperty("timezone")
     val timezone: Int = 0,
-    @JsonProperty("id")
     val id: Int = 0,
-    @JsonProperty("name")
     val name: String = "",
-    @JsonProperty("cod")
     val cod: Int = 0
 ) {
     fun toDomain(): OpenWeatherWeatherDomain =
@@ -70,18 +53,13 @@ data class OpenWeatherWeatherResponse(
             cod = this.cod
         )
 
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
     data class WeatherMain(
-        @JsonProperty("temp")
         val temp: Float = 0f,
-        @JsonProperty("feels_like")
         val feelsLike: Float = 0f,
-        @JsonProperty("temp_min")
         val tempMin: Float = 0f,
-        @JsonProperty("temp_max")
         val tempMax: Float = 0f,
-        @JsonProperty("pressure")
         val pressure: Int = 0,
-        @JsonProperty("humidity")
         val humidity: Float = 0f
     ) {
         fun toDomain(): OpenWeatherWeatherDomain.WeatherMainDomain =
@@ -96,11 +74,8 @@ data class OpenWeatherWeatherResponse(
     }
 
     data class WeatherWind(
-        @JsonProperty("speed")
         val speed: Int = 0,
-        @JsonProperty("deg")
         val deg: Int = 0,
-        @JsonProperty("gust")
         val gust: Int = 0
     ) {
         fun toDomain(): OpenWeatherWeatherDomain.WeatherWindDomain =
@@ -112,15 +87,10 @@ data class OpenWeatherWeatherResponse(
     }
 
     data class WeatherSys(
-        @JsonProperty("id")
         val id: Int = 0,
-        @JsonProperty("type")
         val type: Int = 0,
-        @JsonProperty("country")
         val country: String = "",
-        @JsonProperty("sunrise")
         val sunrise: Int = 0,
-        @JsonProperty("sunset")
         val sunset: Int = 0
     ) {
         fun toDomain(): OpenWeatherWeatherDomain.WeatherSysDomain =
@@ -134,7 +104,6 @@ data class OpenWeatherWeatherResponse(
     }
 
     data class WeatherCloud(
-        @JsonProperty("all")
         val all: String = ""
     ) {
         fun toDomain(): OpenWeatherWeatherDomain.WeatherCloudDomain =
@@ -142,22 +111,15 @@ data class OpenWeatherWeatherResponse(
     }
 }
 
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class ForecastResponse(
-    @JsonProperty("dt")
     val dt: Int = 0,
-    @JsonProperty("dt_text")
     val dtText: String = "",
-    @JsonProperty("main")
     val main: ForecastDataMain = ForecastDataMain(),
-    @JsonProperty("weather")
     val weather: List<Weather> = listOf(),
-    @JsonProperty("clouds")
     val clouds: ForecastDataClouds = ForecastDataClouds(),
-    @JsonProperty("wind")
     val wind: ForecastDataWind = ForecastDataWind(),
-    @JsonProperty("city")
     val city: CityResponse = CityResponse(),
-    @JsonProperty("sys")
     val sys: ForecastDataSys = ForecastDataSys()
 ) {
     fun toDomain(): ForecastDomain =
@@ -172,24 +134,16 @@ data class ForecastResponse(
             sys = this.sys.toDomain()
         )
 
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
     data class ForecastDataMain(
-        @JsonProperty("temp")
         val temp: Int = 0,
-        @JsonProperty("feels_like")
         val feelsLike: Float = 0f,
-        @JsonProperty("temp_min")
         val tempMin: Float = 0f,
-        @JsonProperty("temp_max")
         val tempMax: Float = 0f,
-        @JsonProperty("pressure")
         val pressure: Int = 0,
-        @JsonProperty("sea_level")
         val seaLevel: Float = 0f,
-        @JsonProperty("grnd_level")
         val grndLevel: Float = 0f,
-        @JsonProperty("humidity")
         val humidity: Float = 0f,
-        @JsonProperty("temp_kf")
         val tempKf: Float = 0f
     ) {
         fun toDomain(): ForecastDomain.ForecastDataMainDomain =
@@ -207,7 +161,6 @@ data class ForecastResponse(
     }
 
     data class ForecastDataClouds(
-        @JsonProperty("all")
         val all: Int = 0
     ) {
         fun toDomain(): ForecastDomain.ForecastDataCloudsDomain =
@@ -215,9 +168,7 @@ data class ForecastResponse(
     }
 
     data class ForecastDataWind(
-        @JsonProperty("speed")
         val speed: Int = 0,
-        @JsonProperty("deg")
         val deg: Int = 0
     ) {
         fun toDomain(): ForecastDomain.ForecastDataWindDomain =
@@ -228,7 +179,6 @@ data class ForecastResponse(
     }
 
     data class ForecastDataSys(
-        @JsonProperty("pod")
         val pod: String = ""
     ) {
         fun toDomain(): ForecastDomain.ForecastDataSysDomain = ForecastDomain.ForecastDataSysDomain(pod = this.pod)
@@ -236,21 +186,13 @@ data class ForecastResponse(
 }
 
 data class CityResponse(
-    @JsonProperty("id")
     val id: Int = 0,
-    @JsonProperty("name")
     val name: String = "",
-    @JsonProperty("coord")
     val coord: LatLng = LatLng(),
-    @JsonProperty("country")
     val country: String = "",
-    @JsonProperty("population")
     val population: Int = 0,
-    @JsonProperty("timezone")
     val timezone: Int = 0,
-    @JsonProperty("sunrise")
     val sunrise: Int = 0,
-    @JsonProperty("sunset")
     val sunset: Int = 0
 ) {
     fun toDomain(): CityDomain =
@@ -267,22 +209,16 @@ data class CityResponse(
 }
 
 data class LatLng(
-    @JsonProperty("lat")
     val lat: Int = 0,
-    @JsonProperty("lon")
     val lon: Int = 0
 ) {
     fun toDomain(): LatLngDomain = LatLngDomain(lat = this.lat, lon = this.lon)
 }
 
 data class Weather(
-    @JsonProperty("id")
     val id: Int = 0,
-    @JsonProperty("main")
     val main: String = "",
-    @JsonProperty("description")
     val description: String = "",
-    @JsonProperty("icon")
     val icon: String = ""
 ) {
     fun toDomain(): WeatherDomain =

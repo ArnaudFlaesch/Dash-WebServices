@@ -1,35 +1,28 @@
 package com.dash.domain.service
 
 import com.dash.domain.model.calendarWidget.CalendarEvent
-import com.dash.infra.rest.RestClient
+import com.dash.infra.rest.ProxyClient
+import com.dash.infra.rest.typeReference
 import net.fortuna.ical4j.data.CalendarBuilder
 import net.fortuna.ical4j.model.Component
 import net.fortuna.ical4j.model.component.VEvent
 import org.springframework.stereotype.Service
-import java.io.InputStreamReader
-import java.nio.charset.StandardCharsets
+import java.io.StringReader
+import java.net.URI
 import java.time.temporal.Temporal
 
 @Service
 class CalendarWidgetService(
-    private val proxyService: RestClient
+    private val proxyClient: ProxyClient
 ) {
-    fun getIcalDataFromUrl(url: String): List<CalendarEvent>? =
-        proxyService
-            .getDataFromProxy(url, String::class)
-            .byteInputStream(StandardCharsets.ISO_8859_1)
-            .let { stream -> InputStreamReader(stream, StandardCharsets.ISO_8859_1) }
-            .let { reader ->
-                CalendarBuilder()
-                    .build(reader)
-                    .getComponents<VEvent>(Component.VEVENT)
-                    .filter { it.getDateTimeStart<Temporal>() !== null && it.getDateTimeEnd<Temporal>() !== null }
-                    .map {
-                        CalendarEvent(
-                            it.getDateTimeStart<Temporal>()!!.date,
-                            it.getDateTimeEnd<Temporal>()!!.date,
-                            it.summary?.value ?: ""
-                        )
-                    }
+    fun getIcalDataFromUrl(url: String): List<CalendarEvent> =
+        proxyClient
+            .get(URI.create(url), typeReference<String>())
+            .let { CalendarBuilder().build(StringReader(it)) }
+            .getComponents<VEvent>(Component.VEVENT)
+            .mapNotNull { event ->
+                val start = event.getDateTimeStart<Temporal>() ?: return@mapNotNull null
+                val end = event.getDateTimeEnd<Temporal>() ?: return@mapNotNull null
+                CalendarEvent(start.date, end.date, event.summary?.value.orEmpty())
             }
 }
