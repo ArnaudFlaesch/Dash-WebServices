@@ -8,7 +8,7 @@ val jacksonModuleVersion = "3.2.4"
 val log4jVersion = "2.26.1"
 
 val postgresqlVersion = "42.7.14"
-val gsonVersion = "2.14.0"
+val gsonVersion = "2.15.0"
 
 val restAssuredVersion = "6.3.0"
 val mockitoKotlinVersion = "6.4.0"
