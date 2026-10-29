@@ -5,6 +5,7 @@ import com.dash.infra.entity.WidgetEntity
 import com.dash.infra.repository.TabRepository
 import com.dash.infra.repository.WidgetRepository
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
 class WidgetPersistenceAdapter(
@@ -29,6 +30,7 @@ class WidgetPersistenceAdapter(
         ).let(widgetRepository::save)
             .let(WidgetEntity::toDomain)
 
+    @Transactional
     fun updateWidgetData(
         widgetId: Int,
         updatedData: Any
@@ -39,6 +41,7 @@ class WidgetPersistenceAdapter(
             .let(widgetRepository::save)
             .let(WidgetEntity::toDomain)
 
+    @Transactional
     fun updateWidgetsOrder(widgetList: List<WidgetDomain>): List<WidgetDomain> =
         widgetList
             .map { widget -> widgetRepository.getReferenceById(widget.id).copy(widgetOrder = widget.widgetOrder) }

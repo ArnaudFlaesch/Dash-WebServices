@@ -28,6 +28,7 @@ class TabPersistenceAdapter(
 
     fun importTab(newTab: TabDomain): TabDomain = saveTab(newTab.copy(id = 0))
 
+    @Transactional
     fun updateTab(
         tabId: Int,
         label: String,

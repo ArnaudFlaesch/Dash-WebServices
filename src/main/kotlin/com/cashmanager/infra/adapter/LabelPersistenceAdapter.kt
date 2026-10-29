@@ -5,6 +5,7 @@ import com.cashmanager.infra.entity.LabelEntity
 import com.cashmanager.infra.repository.LabelRepository
 import com.common.infra.repository.UserRepository
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
 class LabelPersistenceAdapter(
@@ -22,6 +23,7 @@ class LabelPersistenceAdapter(
             .let(labelRepository::save)
             .let(LabelEntity::toDomain)
 
+    @Transactional
     fun updateLabel(labelToUpdate: LabelDomain): LabelDomain =
         labelRepository
             .getReferenceById(labelToUpdate.id)

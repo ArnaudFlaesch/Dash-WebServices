@@ -17,6 +17,7 @@ spring:
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
     hibernate:
       naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
     show-sql: true

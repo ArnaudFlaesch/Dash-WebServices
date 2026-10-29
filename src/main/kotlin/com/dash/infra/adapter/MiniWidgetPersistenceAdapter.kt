@@ -5,6 +5,7 @@ import com.dash.domain.model.MiniWidgetDomain
 import com.dash.infra.entity.MiniWidgetEntity
 import com.dash.infra.repository.MiniWidgetRepository
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
 class MiniWidgetPersistenceAdapter(
@@ -23,6 +24,7 @@ class MiniWidgetPersistenceAdapter(
         ).let(miniWidgetRepository::save)
             .let(MiniWidgetEntity::toDomain)
 
+    @Transactional
     fun updateWidgetData(
         widgetId: Int,
         updatedData: Any
