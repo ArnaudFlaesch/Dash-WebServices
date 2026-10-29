@@ -5,6 +5,7 @@ import com.dash.domain.model.WidgetDomain
 import com.dash.infra.adapter.WidgetPersistenceAdapter
 import com.dash.infra.repository.IncidentWidgetRepository
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
 class IncidentWidgetSecurityService(
@@ -12,6 +13,7 @@ class IncidentWidgetSecurityService(
     val widgetPersistenceAdapter: WidgetPersistenceAdapter,
     val incidentWidgetRepository: IncidentWidgetRepository
 ) {
+    @Transactional(readOnly = true)
     fun doesIncidentBelongToAuthenticatedUser(incidentId: Int): Boolean {
         val incidentWidgetId = incidentWidgetRepository.getReferenceById(incidentId).widget.id
         return userService

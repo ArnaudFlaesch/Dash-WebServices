@@ -6,6 +6,7 @@ import com.dash.infra.repository.NotificationRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
 class NotificationAdapter(
@@ -30,6 +31,7 @@ class NotificationAdapter(
         ).let(notificationRepository::save)
             .let(NotificationEntity::toDomain)
 
+    @Transactional
     fun markNotificationsAsRead(notificationIds: List<Int>): List<NotificationDomain> =
         notificationIds
             .map { notificationRepository.getReferenceById(it).copy(isRead = true) }
