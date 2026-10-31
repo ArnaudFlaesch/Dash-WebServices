@@ -26,12 +26,12 @@ accessible à l'addresse : <https://dash-webservices.herokuapp.com/>.
 
 - Récupération de l'image Docker de la base de données
 
-> docker pull postgres:16.3-alpine3.20
+> docker pull postgres:18.6-alpine3.24
 
 - Démarrage de la base de données
 
 > docker run -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash
-> postgres:16.3-alpine3.20
+> postgres:18.6-alpine3.24
 
 - Variables d'environnement
 

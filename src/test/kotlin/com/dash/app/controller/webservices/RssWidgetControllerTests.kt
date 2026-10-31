@@ -6,7 +6,6 @@ import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.dash.infra.rest.NotFoundException
 import com.dash.infra.rest.ProxyClient
 import com.dash.infra.rest.typeReference
-import com.google.gson.Gson
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import io.restassured.module.kotlin.extensions.Given
@@ -17,17 +16,14 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.whenever
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.MediaType
 import org.springframework.test.context.bean.override.mockito.MockitoBean
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.net.URI
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RssWidgetControllerTests {
     @LocalServerPort
@@ -70,7 +66,7 @@ class RssWidgetControllerTests {
             log()
                 .all()
                 .statusCode(200)
-                .body(equalTo(Gson().toJson(mapOf("version" to "2.0", "channel" to ""))))
+                .body(equalTo("""{"version":"2.0","channel":""}"""))
                 .log()
                 .all()
         }

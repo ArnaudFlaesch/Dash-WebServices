@@ -5,15 +5,11 @@ val ical4jVersion = "4.4.0"
 
 val springDocVersion = "3.2.0"
 val jacksonModuleVersion = "3.2.4"
-val log4jVersion = "2.26.1"
 
 val postgresqlVersion = "42.7.14"
-val gsonVersion = "2.15.0"
 
 val restAssuredVersion = "6.3.0"
 val mockitoKotlinVersion = "6.4.0"
-val hibernateTypesVersion = "3.16.0"
-val junitPlatformLauncherVersion = "6.0.0"
 
 val springCloudGcpVersion = "8.3.1"
 val springCloudVersion = "2025.1.4"
@@ -50,10 +46,8 @@ java {
 
 repositories {
     mavenCentral()
-    maven {
-        url = uri("https://jitpack.io")
-    }
 }
+
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webmvc:$springBootVersion")
@@ -74,12 +68,9 @@ dependencies {
     implementation("tools.jackson.dataformat:jackson-dataformat-xml:$jacksonModuleVersion")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:$springDocVersion")
 
-    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
-    implementation("org.postgresql:postgresql:$postgresqlVersion")
-    implementation("io.hypersistence:hypersistence-utils-hibernate-73:$hibernateTypesVersion")
+    runtimeOnly("org.postgresql:postgresql:$postgresqlVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-security-test:$springBootVersion")
-    testImplementation("com.google.code.gson:gson:$gsonVersion")
 
     testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinVersion")
@@ -103,6 +94,8 @@ sonar {
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.qualitygate.wait", true)
         property("sonar.sources", "src/main")
+        // The SQL scripts target PostgreSQL, which Sonar would otherwise analyze as Oracle PL/SQL
+        property("sonar.exclusions", "**/*.sql")
         property("sonar.tests", "src/test/kotlin")
         property("sonar.sourceEncoding", "UTF-8")
         property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/kover/report.xml")
@@ -131,4 +124,8 @@ tasks.withType<Test> {
     environment("spring.profiles.active", "test")
     jvmArgs("-XX:+EnableDynamicAgentLoading")
     useJUnitPlatform()
+}
+
+tasks.jar {
+    enabled = false
 }
