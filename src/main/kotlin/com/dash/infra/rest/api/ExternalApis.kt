@@ -17,7 +17,7 @@ import org.springframework.web.service.annotation.GetExchange
 import org.springframework.web.service.annotation.HttpExchange
 import org.springframework.web.service.annotation.PostExchange
 
-// Declarative HTTP clients, registered in HttpServicesConfig. Base URLs and default headers come from
+// Declarative HTTP clients, registered in RestClientConfig. Base URLs and default headers come from
 // spring.http.serviceclient.<group> in application.yml. A null return value means an empty response body.
 
 @HttpExchange(accept = [MediaType.APPLICATION_JSON_VALUE])

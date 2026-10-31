@@ -31,7 +31,7 @@ class MiniWidgetRepositoryTests {
     fun testInsertWidgets() {
         val authenticatedUser = userRepository.getReferenceById(1)
         val w1 = MiniWidgetEntity(id = 0, type = 1, user = authenticatedUser)
-        val w2 = MiniWidgetEntity(0, 1, "{}", authenticatedUser)
+        val w2 = MiniWidgetEntity(0, 1, emptyMap<String, Any>(), authenticatedUser)
         miniWidgetRepository.saveAll(listOf(w1, w2))
 
         val listWidgets = miniWidgetRepository.findByUserId(authenticatedUser.id)

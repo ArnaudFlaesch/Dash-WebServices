@@ -1,9 +1,9 @@
 package com.dash.infra.entity
 
 import com.dash.domain.model.WidgetDomain
-import io.hypersistence.utils.hibernate.type.json.JsonBinaryType
 import jakarta.persistence.*
-import org.hibernate.annotations.Type
+import org.hibernate.annotations.JdbcTypeCode
+import org.hibernate.type.SqlTypes
 import java.io.Serializable
 
 @Entity
@@ -20,7 +20,7 @@ data class WidgetEntity(
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
     val type: Int,
-    @Type(JsonBinaryType::class)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "json")
     val data: Any? = null,
     val widgetOrder: Int,

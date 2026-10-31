@@ -9,17 +9,11 @@ spring:
       core:
         enabled: false
   datasource:
-    driver-class-name: org.postgresql.Driver
-    platform: postgresql
     url: jdbc:postgresql://localhost:5432/dash
     username: postgres
     password: ${POSTGRES_PASSWORD}
   jpa:
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
-    hibernate:
-      naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
     show-sql: true
   liquibase:
     contexts: dev
@@ -46,7 +40,9 @@ logging:
     org:
       hibernate:
         SQL: DEBUG
-        type: trace
+        orm:
+          jdbc:
+            bind: trace
 springdoc:
   api-docs:
     path: /api-docs
