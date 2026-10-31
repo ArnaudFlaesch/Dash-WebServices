@@ -94,6 +94,8 @@ sonar {
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.qualitygate.wait", true)
         property("sonar.sources", "src/main")
+        // The SQL scripts target PostgreSQL, which Sonar would otherwise analyze as Oracle PL/SQL
+        property("sonar.exclusions", "**/*.sql")
         property("sonar.tests", "src/test/kotlin")
         property("sonar.sourceEncoding", "UTF-8")
         property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/kover/report.xml")
