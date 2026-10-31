@@ -5,6 +5,9 @@ val ical4jVersion = "4.4.0"
 
 val springDocVersion = "3.2.0"
 val jacksonModuleVersion = "3.2.4"
+val jackson2Version = "2.22.4"
+val logbackVersion = "1.6.6"
+val guavaVersion = "33.7.2-jre"
 
 val postgresqlVersion = "42.7.14"
 
@@ -79,10 +82,18 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+// Overrides of versions managed by the Spring Boot and GCP BOMs, for security fixes they don't include yet
+extra["jackson-bom.version"] = jacksonModuleVersion
+extra["jackson-2-bom.version"] = jackson2Version
+extra["logback.version"] = logbackVersion
+
 dependencyManagement {
     imports {
         mavenBom("com.google.cloud:spring-cloud-gcp-dependencies:$springCloudGcpVersion")
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
+    }
+    dependencies {
+        dependency("com.google.guava:guava:$guavaVersion")
     }
 }
 
@@ -115,14 +126,22 @@ allOpen {
 
 openApi {
     apiDocsUrl.set("http://localhost:8080/api-docs")
+    // Startup (Liquibase, Hibernate) can exceed the default 30 seconds on CI runners
+    waitTimeInSeconds.set(120)
     customBootRun {
         args.set(listOf("--spring.profiles.active=test"))
     }
 }
 
+// The springdoc plugin's tasks, which fork the application, don't support the configuration cache
+tasks.matching { it.name in setOf("forkedSpringBootRun", "forkedSpringBootStop", "generateOpenApiDocs") }.configureEach {
+    notCompatibleWithConfigurationCache("springdoc-openapi-gradle-plugin does not support the configuration cache")
+}
+
 tasks.withType<Test> {
     environment("spring.profiles.active", "test")
-    jvmArgs("-XX:+EnableDynamicAgentLoading")
+    // Mockito's agent appends to the bootstrap classpath, which disables class data sharing and logs a JVM warning
+    jvmArgs("-XX:+EnableDynamicAgentLoading", "-Xshare:off")
     useJUnitPlatform()
 }
 
