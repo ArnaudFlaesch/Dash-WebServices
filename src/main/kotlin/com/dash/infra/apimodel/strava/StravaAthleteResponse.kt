@@ -8,39 +8,39 @@ import java.time.LocalDate
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class StravaAthleteResponse(
     val id: Double = 0.0,
-    val username: String = "",
+    val username: String? = "",
     val resourceState: Int = 0,
-    val firstname: String = "",
-    val lastname: String = "",
-    val city: String = "",
-    val state: String = "",
-    val country: String = "",
-    val sex: String = "",
+    val firstname: String? = "",
+    val lastname: String? = "",
+    val city: String? = "",
+    val state: String? = "",
+    val country: String? = "",
+    val sex: String? = "",
     val premium: Boolean = false,
     val summit: Boolean = false,
     val createdAt: LocalDate = LocalDate.now(),
     val updatedAt: LocalDate = LocalDate.now(),
     val badgeTypeId: Int = 0,
-    val profileMedium: String = "",
-    val profile: String = ""
+    val profileMedium: String? = "",
+    val profile: String? = ""
 ) {
     fun toDomain(): StravaAthleteDomain =
         StravaAthleteDomain(
             id = this.id.toInt(),
-            username = this.username,
+            username = this.username.orEmpty(),
             resourceState = this.resourceState,
-            firstname = this.firstname,
-            lastname = this.lastname,
-            city = this.city,
-            state = this.state,
-            country = this.country,
-            sex = this.sex,
+            firstname = this.firstname.orEmpty(),
+            lastname = this.lastname.orEmpty(),
+            city = this.city.orEmpty(),
+            state = this.state.orEmpty(),
+            country = this.country.orEmpty(),
+            sex = this.sex.orEmpty(),
             premium = this.premium,
             summit = this.summit,
             createdAt = this.createdAt,
             updatedAt = this.updatedAt,
             badgeTypeId = this.badgeTypeId,
-            profileMedium = this.profileMedium,
-            profile = this.profile
+            profileMedium = this.profileMedium.orEmpty(),
+            profile = this.profile.orEmpty()
         )
 }
