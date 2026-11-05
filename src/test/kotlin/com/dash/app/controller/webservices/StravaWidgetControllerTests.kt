@@ -25,6 +25,7 @@ import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
+import java.time.LocalDate
 import java.util.stream.Stream
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -65,7 +66,12 @@ class StravaWidgetControllerTests {
                     `as`(StravaTokenDataDomain::class.java)
                 }
 
+            assertEquals("TOKEN", result.accessToken)
+            assertEquals("REFRESH_TOKEN", result.refreshToken)
+            assertEquals("1644882561", result.expiresAt)
             assertEquals("Paris", result.athlete.city)
+            assertEquals(LocalDate.of(2017, 9, 28), result.athlete.createdAt)
+            assertEquals("jpg", result.athlete.profileMedium)
         }
     }
 
