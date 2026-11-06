@@ -28,23 +28,19 @@ class SteamWidgetAdapter(
 
         val gamesList =
             ownedGamesResponse.games
-                .sortedBy(GameInfoApi::name)
                 .filter { gameInfo -> gameInfo.name.contains(search, ignoreCase = true) }
+                .sortedBy(GameInfoApi::name)
 
-        val paginatedGames =
-            if (gamesList.size <= PAGE_SIZE) {
-                gamesList
-            } else {
-                gamesList.drop(pageNumber * PAGE_SIZE).take(PAGE_SIZE)
-            }
+        val paginatedGames = gamesList.drop(pageNumber.coerceAtLeast(0) * PAGE_SIZE).take(PAGE_SIZE)
 
-        val totalPages = gamesList.size / PAGE_SIZE
+        // Rounded up, so that a partially filled last page is counted
+        val totalPages = (gamesList.size + PAGE_SIZE - 1) / PAGE_SIZE
         return Page(
             content = paginatedGames.map(GameInfoApi::toDomain),
             totalPages = totalPages,
-            totalElements = (if (search.isBlank()) ownedGamesResponse.gameCount else gamesList.size).toLong(),
+            totalElements = gamesList.size.toLong(),
             size = paginatedGames.size,
-            last = (pageNumber + 1) == totalPages,
+            last = pageNumber >= totalPages - 1,
             number = pageNumber
         )
     }

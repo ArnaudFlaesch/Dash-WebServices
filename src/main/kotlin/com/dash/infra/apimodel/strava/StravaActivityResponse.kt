@@ -4,6 +4,8 @@ import com.dash.domain.model.stravaWidget.StravaActivityDomain
 import tools.jackson.databind.PropertyNamingStrategies
 import tools.jackson.databind.annotation.JsonNaming
 
+private val DEFAULT_LATLNG = listOf(0.0, 0.0)
+
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class StravaActivityResponse(
     val resourceState: Int = 0,
@@ -15,19 +17,19 @@ data class StravaActivityResponse(
     val totalElevationGain: Float = 0f,
     val type: String? = "",
     val workoutType: Int? = 0,
-    val id: Double = 0.0,
+    val id: Long = 0,
     val externalId: String? = "",
-    val uploadId: Double? = 0.0,
+    val uploadId: Long? = 0,
     val startDate: String = "",
     val startDateLocal: String = "",
     val timezone: String? = "",
     val utcOffset: Float = 0f,
-    val startLatlng: IntArray? = IntArray(2),
-    val endLatlng: IntArray? = IntArray(2),
+    val startLatlng: List<Double>? = DEFAULT_LATLNG,
+    val endLatlng: List<Double>? = DEFAULT_LATLNG,
     val locationCity: String? = "",
     val locationState: String? = "",
-    val startLatitude: Int = 0,
-    val startLongitude: Int = 0,
+    val startLatitude: Double = 0.0,
+    val startLongitude: Double = 0.0,
     val achievementCount: Int = 0,
     val kudosCount: Int = 0,
     val commentCount: Int = 0,
@@ -41,7 +43,7 @@ data class StravaActivityResponse(
     val visibility: String? = "",
     val flagged: Boolean = false,
     val fromAcceptedTag: Boolean = false,
-    val uploadIdStr: Double? = 0.0,
+    val uploadIdStr: String? = "",
     val averageSpeed: Float = 0f,
     val maxSpeed: Float = 0f,
     val hasHeartrate: Boolean = false,
@@ -66,13 +68,13 @@ data class StravaActivityResponse(
             workoutType = this.workoutType ?: 0,
             id = this.id,
             externalId = this.externalId,
-            uploadId = this.uploadId ?: 0.0,
+            uploadId = this.uploadId ?: 0,
             startDate = this.startDate,
             startDateLocal = this.startDateLocal,
             timezone = this.timezone.orEmpty(),
             utcOffset = this.utcOffset,
-            startLatlng = this.startLatlng ?: IntArray(2),
-            endLatlng = this.endLatlng ?: IntArray(2),
+            startLatlng = this.startLatlng ?: DEFAULT_LATLNG,
+            endLatlng = this.endLatlng ?: DEFAULT_LATLNG,
             locationCity = this.locationCity,
             locationState = this.locationState,
             startLatitude = this.startLatitude,
@@ -90,7 +92,7 @@ data class StravaActivityResponse(
             visibility = this.visibility.orEmpty(),
             flagged = this.flagged,
             fromAcceptedTag = this.fromAcceptedTag,
-            uploadIdStr = this.uploadIdStr ?: 0.0,
+            uploadIdStr = this.uploadIdStr.orEmpty(),
             averageSpeed = this.averageSpeed,
             maxSpeed = this.maxSpeed,
             hasHeartrate = this.hasHeartrate,
@@ -105,7 +107,7 @@ data class StravaActivityResponse(
 
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
     data class ActivityAthlete(
-        val id: Int = 0,
+        val id: Long = 0,
         val resourceState: Int = 0
     ) {
         fun toDomain(): StravaActivityDomain.ActivityAthleteDomain =

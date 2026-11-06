@@ -4,17 +4,15 @@ import com.dash.infra.apimodel.strava.StravaActivityResponse
 import com.dash.infra.apimodel.strava.StravaAthleteResponse
 import com.dash.infra.apimodel.strava.StravaTokenDataResponse
 import com.dash.infra.rest.api.StravaApi
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
 class StravaApiClient(
     private val stravaApi: StravaApi,
-    @Value("\${dash.app.STRAVA_CLIENT_ID}")
-    private val stravaClientId: String,
-    @Value("\${dash.app.STRAVA_CLIENT_SECRET}")
-    private val stravaClientSecret: String
+    apiProperties: ApiProperties
 ) {
+    private val stravaCredentials = apiProperties.strava
+
     fun getToken(apiCode: String): StravaTokenDataResponse =
         requestToken("code" to apiCode, "grant_type" to "authorization_code")
 
@@ -33,7 +31,11 @@ class StravaApiClient(
     private fun requestToken(vararg grantParams: Pair<String, String>): StravaTokenDataResponse =
         stravaApi
             .getToken(
-                mapOf("client_id" to stravaClientId, "client_secret" to stravaClientSecret, *grantParams),
+                mapOf(
+                    "client_id" to stravaCredentials.clientId,
+                    "client_secret" to stravaCredentials.clientSecret,
+                    *grantParams
+                ),
                 emptyMap()
             ).orNotFound()
 

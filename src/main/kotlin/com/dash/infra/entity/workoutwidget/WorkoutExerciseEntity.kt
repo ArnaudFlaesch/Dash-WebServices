@@ -27,7 +27,7 @@ import java.io.Serializable
             WHERE S.workout_date BETWEEN :dateIntervalStart AND :dateIntervalEnd
             AND S.user_id = :userId
             GROUP BY monthPeriod, workoutTypeId, yearPeriod, workoutTypeName
-            ORDER BY monthPeriod ASC""",
+            ORDER BY yearPeriod ASC, monthPeriod ASC""",
         name = "getWorkoutStatsByMonth",
         resultClass = WorkoutStatsByMonthEntity::class,
         resultSetMapping = "workoutStatsByMonth"

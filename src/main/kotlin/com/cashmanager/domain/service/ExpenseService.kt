@@ -41,11 +41,9 @@ class ExpenseService(
         amount: Float,
         expenseDate: LocalDate,
         labelId: Int
-    ): ExpenseDomain =
-        ExpenseDomain(0, amount, expenseDate, labelId)
-            .let(this::insertExpense)
+    ): ExpenseDomain = expensePersistenceAdapter.insertExpense(ExpenseDomain(0, amount, expenseDate, labelId))
 
-    fun insertExpense(expense: ExpenseDomain): ExpenseDomain = expensePersistenceAdapter.insertExpense(expense)
+    fun updateExpense(expense: ExpenseDomain): ExpenseDomain = expensePersistenceAdapter.updateExpense(expense)
 
     fun deleteExpense(expenseId: Int) = expensePersistenceAdapter.deleteExpense(expenseId)
 

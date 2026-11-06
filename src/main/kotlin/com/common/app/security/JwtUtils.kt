@@ -5,22 +5,17 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
-import java.time.Duration
 import java.time.Instant
 import java.util.Date
 
 @Component
 class JwtUtils(
-    @Value("\${dash.app.jwtSecret}")
-    jwtSecret: String,
-    @Value("\${dash.app.jwtExpirationMs}")
-    jwtExpirationMs: Long
+    securityProperties: SecurityProperties
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private val signingKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret))
-    private val jwtExpiration = Duration.ofMillis(jwtExpirationMs)
+    private val signingKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(securityProperties.jwt.secret))
+    private val jwtExpiration = securityProperties.jwt.expiration
     private val parser = Jwts.parser().verifyWith(signingKey).build()
 
     fun generateJwtToken(username: String): String {

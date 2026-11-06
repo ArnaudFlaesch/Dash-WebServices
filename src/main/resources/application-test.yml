@@ -1,0 +1,8 @@
+# Tests and OpenAPI docs generation: dedicated database, external APIs served by Dash-MockServer
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dash_test
+    username: postgres
+    password: postgres
+  liquibase:
+    contexts: test

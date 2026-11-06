@@ -1,6 +1,7 @@
 package com
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.persistence.autoconfigure.EntityScan
 import org.springframework.boot.runApplication
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
@@ -12,6 +13,7 @@ private const val COMMON_PACKAGE = "com.common"
 private const val CASHMANAGER_PACKAGE = "com.cashmanager"
 
 @SpringBootApplication(scanBasePackages = [DASH_PACKAGE, COMMON_PACKAGE, CASHMANAGER_PACKAGE])
+@ConfigurationPropertiesScan(DASH_PACKAGE, COMMON_PACKAGE, CASHMANAGER_PACKAGE)
 @EntityScan(DASH_PACKAGE, COMMON_PACKAGE, CASHMANAGER_PACKAGE)
 @EnableJpaRepositories(DASH_PACKAGE, COMMON_PACKAGE, CASHMANAGER_PACKAGE)
 class DashWebServicesApplication

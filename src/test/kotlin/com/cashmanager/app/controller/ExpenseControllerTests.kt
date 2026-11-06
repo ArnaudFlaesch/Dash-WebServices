@@ -160,6 +160,7 @@ class ExpenseControllerTests {
                 `as`(ExpenseDomain::class.java)
             }
         assertEquals(expenseToUpdate.amount, updatedExpense.amount)
+        assertEquals(insertedExpense.id, updatedExpense.id)
 
         Given {
             port(port)

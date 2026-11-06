@@ -2,6 +2,8 @@ package com.dash.infra.adapter
 
 import com.dash.domain.model.WidgetDomain
 import com.dash.infra.entity.WidgetEntity
+import com.dash.infra.repository.IncidentStreakRepository
+import com.dash.infra.repository.IncidentWidgetRepository
 import com.dash.infra.repository.TabRepository
 import com.dash.infra.repository.WidgetRepository
 import org.springframework.stereotype.Component
@@ -10,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional
 @Component
 class WidgetPersistenceAdapter(
     private val widgetRepository: WidgetRepository,
-    private val tabRepository: TabRepository
+    private val tabRepository: TabRepository,
+    private val incidentWidgetRepository: IncidentWidgetRepository,
+    private val incidentStreakRepository: IncidentStreakRepository
 ) {
     fun findByTabIdOrderByWidgetOrderAsc(tabId: Int): List<WidgetDomain> =
         widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId).map(WidgetEntity::toDomain)
@@ -48,5 +52,17 @@ class WidgetPersistenceAdapter(
             .let(widgetRepository::saveAll)
             .map(WidgetEntity::toDomain)
 
-    fun deleteWidget(id: Int) = widgetRepository.deleteById(id)
+    @Transactional
+    fun deleteWidget(id: Int) {
+        deleteWidgetsData(listOf(id))
+        widgetRepository.deleteById(id)
+    }
+
+    /** Deletes the rows referencing the widgets (incident widget data), which would otherwise block their deletion. */
+    @Transactional
+    fun deleteWidgetsData(widgetIds: Collection<Int>) {
+        if (widgetIds.isEmpty()) return
+        incidentStreakRepository.deleteByWidgetIds(widgetIds)
+        incidentWidgetRepository.deleteByWidgetIds(widgetIds)
+    }
 }

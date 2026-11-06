@@ -1,6 +1,5 @@
 package com.common.app.security
 
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -26,8 +25,7 @@ class WebSecurityConfig(
     private val userDetailsService: UserDetailsService,
     private val unauthorizedHandler: AuthEntryPointJwt,
     private val jwtUtils: JwtUtils,
-    @Value("\${dash.app.allowed-origins}")
-    private val allowedOrigins: List<String>
+    private val securityProperties: SecurityProperties
 ) {
     companion object {
         private val PUBLIC_ENDPOINTS = listOf("/auth/**", "/actuator/**", "/api-docs/**", "/error")
@@ -60,7 +58,7 @@ class WebSecurityConfig(
     fun corsConfigurationSource(): CorsConfigurationSource {
         val config =
             CorsConfiguration().apply {
-                allowedOrigins = this@WebSecurityConfig.allowedOrigins
+                allowedOrigins = securityProperties.allowedOrigins
                 allowedMethods = listOf("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH")
                 allowedHeaders = listOf("Authorization", "Cache-Control", "Content-Type")
                 allowCredentials = true

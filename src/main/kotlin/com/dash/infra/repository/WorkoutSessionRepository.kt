@@ -12,4 +12,9 @@ interface WorkoutSessionRepository : JpaRepository<WorkoutSessionEntity, Int> {
         dateIntervalStart: LocalDate,
         dateIntervalEnd: LocalDate
     ): List<WorkoutSessionEntity>
+
+    fun existsByIdAndUserId(
+        id: Int,
+        userId: Int
+    ): Boolean
 }

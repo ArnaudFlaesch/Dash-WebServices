@@ -67,6 +67,34 @@ class TabControllerTests {
     }
 
     @Test
+    fun shouldNotUpdateAnotherUsersTabs() {
+        val userJwtToken = IntegrationTestsUtils.authenticateUserRole(port).accessToken
+        val adminTab = TabDomain(id = 1, label = "Stolen", tabOrder = 1, userId = 1)
+
+        Given {
+            port(port)
+                .contentType(ContentType.JSON)
+                .header(createAuthenticationHeader(userJwtToken))
+                .body(UpdateTabPayload(adminTab.id, adminTab.label, adminTab.tabOrder))
+        } When {
+            post("/tab/updateTab")
+        } Then {
+            statusCode(403)
+        }
+
+        Given {
+            port(port)
+                .contentType(ContentType.JSON)
+                .header(createAuthenticationHeader(userJwtToken))
+                .body(listOf(adminTab))
+        } When {
+            post("/tab/updateTabs")
+        } Then {
+            statusCode(403)
+        }
+    }
+
+    @Test
     fun testAddUpdateDeleteTab() {
         val newTab = CreateTabPayload("LabelTest")
 

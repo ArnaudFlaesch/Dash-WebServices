@@ -1,6 +1,5 @@
 package com.dash.infra.apimodel.strava
 
-import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -156,8 +155,8 @@ class StravaResponseDeserializationTests {
 
         assertEquals("Yoga", activity.name)
         assertEquals(0, activity.workoutType)
-        assertEquals(0.0, activity.uploadId)
-        assertEquals(0.0, activity.uploadIdStr)
+        assertEquals(0L, activity.uploadId)
+        assertEquals("", activity.uploadIdStr)
         assertNull(activity.externalId)
         assertNull(activity.locationCity)
         assertEquals("", activity.map.summaryPolyline)
@@ -223,8 +222,10 @@ class StravaResponseDeserializationTests {
         assertEquals(5012.3f, activity.distance)
         assertEquals(0f, activity.elevHigh)
         assertEquals(0f, activity.elevLow)
-        assertEquals(987654321123.0, activity.uploadIdStr)
-        assertArrayEquals(intArrayOf(48, 2), activity.startLatlng)
+        assertEquals(154504250376823L, activity.id)
+        assertEquals(987654321123L, activity.uploadId)
+        assertEquals("987654321123", activity.uploadIdStr)
+        assertEquals(listOf(48.8566, 2.3522), activity.startLatlng)
         assertEquals("ki{eFvqfiVqAWQIGEEKAYJgBVqDJ{BHa@", activity.map.summaryPolyline)
     }
 
@@ -245,7 +246,7 @@ class StravaResponseDeserializationTests {
         assertEquals("", token.accessToken)
         assertEquals("", token.refreshToken)
         assertEquals("", token.expiresAt)
-        assertEquals(0, token.athlete.id)
+        assertEquals(0L, token.athlete.id)
         assertEquals("", token.athlete.firstname)
     }
 
@@ -292,8 +293,8 @@ class StravaResponseDeserializationTests {
         assertEquals("", activity.name)
         assertEquals("", activity.type)
         assertEquals("", activity.timezone)
-        assertArrayEquals(IntArray(2), activity.startLatlng)
-        assertArrayEquals(IntArray(2), activity.endLatlng)
+        assertEquals(listOf(0.0, 0.0), activity.startLatlng)
+        assertEquals(listOf(0.0, 0.0), activity.endLatlng)
         assertEquals("", activity.visibility)
         assertEquals("", activity.map.id)
     }
