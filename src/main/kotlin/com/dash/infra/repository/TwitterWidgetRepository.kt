@@ -21,4 +21,9 @@ interface TwitterWidgetRepository : JpaRepository<FollowedUserEntity, Int> {
         userId: Int,
         pageRequest: Pageable
     ): Page<FollowedUserEntity>
+
+    fun existsByIdAndUserId(
+        id: Int,
+        userId: Int
+    ): Boolean
 }

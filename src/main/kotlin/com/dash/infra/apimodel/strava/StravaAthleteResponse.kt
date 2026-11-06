@@ -7,7 +7,7 @@ import java.time.LocalDate
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class StravaAthleteResponse(
-    val id: Double = 0.0,
+    val id: Long = 0,
     val username: String? = "",
     val resourceState: Int = 0,
     val firstname: String? = "",
@@ -26,7 +26,7 @@ data class StravaAthleteResponse(
 ) {
     fun toDomain(): StravaAthleteDomain =
         StravaAthleteDomain(
-            id = this.id.toInt(),
+            id = this.id,
             username = this.username.orEmpty(),
             resourceState = this.resourceState,
             firstname = this.firstname.orEmpty(),

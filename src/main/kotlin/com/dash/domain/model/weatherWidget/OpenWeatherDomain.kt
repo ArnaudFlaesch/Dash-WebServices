@@ -25,9 +25,9 @@ data class OpenWeatherWeatherDomain(
     )
 
     data class WeatherWindDomain(
-        val speed: Int,
+        val speed: Float,
         val deg: Int,
-        val gust: Int
+        val gust: Float
     )
 
     data class WeatherSysDomain(
@@ -62,7 +62,7 @@ data class ForecastDomain(
     val sys: ForecastDataSysDomain
 ) {
     data class ForecastDataMainDomain(
-        val temp: Int,
+        val temp: Float,
         val feelsLike: Float,
         val tempMin: Float,
         val tempMax: Float,
@@ -78,7 +78,7 @@ data class ForecastDomain(
     )
 
     data class ForecastDataWindDomain(
-        val speed: Int,
+        val speed: Float,
         val deg: Int
     )
 
@@ -99,8 +99,8 @@ data class CityDomain(
 )
 
 data class LatLngDomain(
-    val lat: Int,
-    val lon: Int
+    val lat: Double,
+    val lon: Double
 )
 
 data class WeatherDomain(

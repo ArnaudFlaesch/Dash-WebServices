@@ -11,4 +11,14 @@ interface TabRepository : JpaRepository<TabEntity, Int> {
 
     @Query("SELECT COUNT(*) FROM TabEntity WHERE user.id = :userId")
     fun getNumberOfTabs(userId: Int): Int
+
+    fun existsByIdAndUserId(
+        id: Int,
+        userId: Int
+    ): Boolean
+
+    fun countByIdInAndUserId(
+        ids: Collection<Int>,
+        userId: Int
+    ): Long
 }

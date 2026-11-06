@@ -19,7 +19,8 @@ import java.time.LocalDate
         "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
             "FROM Expense E " +
             "WHERE E.label_id IN (SELECT id from public.label L WHERE L.user_id = :userId) " +
-            "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
+            "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE) " +
+            "ORDER BY date",
     name = "getExpensesByMonth",
     resultClass = TotalExpenseByMonthEntity::class,
     resultSetMapping = "totalExpensesByMonth"
@@ -30,7 +31,8 @@ import java.time.LocalDate
             "FROM Expense E " +
             "WHERE label_id = :labelId " +
             "AND E.label_id IN (SELECT id from public.label L WHERE L.user_id = :userId) " +
-            "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE)",
+            "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE) " +
+            "ORDER BY date",
     name = "getExpensesByMonthByLabelId",
     resultClass = TotalExpenseByMonthEntity::class,
     resultSetMapping = "totalExpensesByMonth"
@@ -52,7 +54,7 @@ data class ExpenseEntity(
     val amount: Float,
     @Column(name = "expense_date")
     val expenseDate: LocalDate,
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "labelId")
     val label: LabelEntity
 ) : Serializable {

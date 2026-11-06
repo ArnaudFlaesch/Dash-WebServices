@@ -1,5 +1,6 @@
 package com.dash.domain.service
 
+import com.common.app.security.SecurityConditions
 import com.common.domain.service.UserService
 import com.dash.domain.mapping.WorkoutSessionMapper
 import com.dash.domain.mapping.WorkoutTypeMapper
@@ -8,6 +9,7 @@ import com.dash.infra.entity.workoutwidget.*
 import com.dash.infra.repository.WorkoutExerciseRepository
 import com.dash.infra.repository.WorkoutSessionRepository
 import com.dash.infra.repository.WorkoutTypeRepository
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
@@ -58,11 +60,13 @@ class WorkoutWidgetService(
             .let(workoutTypeRepository::save)
             .let(WorkoutTypeEntity::toDomain)
 
+    @PreAuthorize(SecurityConditions.DOES_WORKOUT_SESSION_BELONG_TO_AUTHENTICATED_USER)
     fun getWorkoutsExercisesByWorkoutSessionId(workoutSessionId: Int): List<WorkoutExerciseDomain> =
         workoutExerciseRepository
-            .findAllByWorkoutSessionId(workoutSessionId)
+            .findAllByWorkoutExerciseIdWorkoutSessionId(workoutSessionId)
             .map(WorkoutExerciseEntity::toDomain)
 
+    @PreAuthorize(SecurityConditions.DOES_WORKOUT_EXERCISE_BELONG_TO_AUTHENTICATED_USER)
     fun updateWorkoutExercise(
         workoutSessionId: Int,
         workoutTypeId: Int,

@@ -7,6 +7,7 @@ import com.cashmanager.infra.entity.TotalExpenseByMonthEntity
 import com.cashmanager.infra.repository.ExpenseRepository
 import com.cashmanager.infra.repository.LabelRepository
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 
 @Component
@@ -52,6 +53,17 @@ class ExpensePersistenceAdapter(
             expenseDate = expense.expenseDate,
             label = labelRepository.getReferenceById(expense.labelId)
         ).let(expenseRepository::save)
+            .let(ExpenseEntity::toDomain)
+
+    @Transactional
+    fun updateExpense(expense: ExpenseDomain): ExpenseDomain =
+        expenseRepository
+            .getReferenceById(expense.id)
+            .copy(
+                amount = expense.amount,
+                expenseDate = expense.expenseDate,
+                label = labelRepository.getReferenceById(expense.labelId)
+            ).let(expenseRepository::save)
             .let(ExpenseEntity::toDomain)
 
     fun deleteExpense(expenseId: Int) = expenseRepository.deleteById(expenseId)

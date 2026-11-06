@@ -74,9 +74,9 @@ data class OpenWeatherWeatherResponse(
     }
 
     data class WeatherWind(
-        val speed: Int = 0,
+        val speed: Float = 0f,
         val deg: Int = 0,
-        val gust: Int = 0
+        val gust: Float = 0f
     ) {
         fun toDomain(): OpenWeatherWeatherDomain.WeatherWindDomain =
             OpenWeatherWeatherDomain.WeatherWindDomain(
@@ -136,7 +136,7 @@ data class ForecastResponse(
 
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
     data class ForecastDataMain(
-        val temp: Int = 0,
+        val temp: Float = 0f,
         val feelsLike: Float = 0f,
         val tempMin: Float = 0f,
         val tempMax: Float = 0f,
@@ -168,7 +168,7 @@ data class ForecastResponse(
     }
 
     data class ForecastDataWind(
-        val speed: Int = 0,
+        val speed: Float = 0f,
         val deg: Int = 0
     ) {
         fun toDomain(): ForecastDomain.ForecastDataWindDomain =
@@ -209,8 +209,8 @@ data class CityResponse(
 }
 
 data class LatLng(
-    val lat: Int = 0,
-    val lon: Int = 0
+    val lat: Double = 0.0,
+    val lon: Double = 0.0
 ) {
     fun toDomain(): LatLngDomain = LatLngDomain(lat = this.lat, lon = this.lon)
 }
