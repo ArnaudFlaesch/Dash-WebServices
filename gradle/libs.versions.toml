@@ -1,0 +1,67 @@
+[versions]
+kotlin = "2.4.10"
+spring-boot = "4.1.2"
+spring-dependency-management = "1.1.7"
+spring-cloud = "2025.1.4"
+spring-cloud-gcp = "8.3.1"
+springdoc = "3.2.0"
+springdoc-gradle = "2.1.0"
+kotlinter = "5.7.0"
+kover = "0.9.11"
+sonarqube = "7.5.0.8588"
+
+jjwt = "0.13.0"
+ical4j = "4.4.0"
+postgresql = "42.7.14"
+rest-assured = "6.3.0"
+mockito-kotlin = "6.4.0"
+
+# Overrides of versions managed by the Spring Boot and GCP BOMs, for security fixes they don't include yet
+jackson = "3.2.4"
+jackson2 = "2.22.4"
+logback = "1.6.6"
+guava = "33.7.2-jre"
+
+[libraries]
+# Versions managed by the Spring Boot BOM
+spring-boot-starter-webmvc = { module = "org.springframework.boot:spring-boot-starter-webmvc" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-liquibase = { module = "org.springframework.boot:spring-boot-starter-liquibase" }
+spring-boot-starter-restclient = { module = "org.springframework.boot:spring-boot-starter-restclient" }
+spring-boot-starter-security-test = { module = "org.springframework.boot:spring-boot-starter-security-test" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+
+# Versions aligned with the Kotlin Gradle plugin
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
+kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5" }
+
+spring-cloud-dependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "spring-cloud" }
+spring-cloud-gcp-dependencies = { module = "com.google.cloud:spring-cloud-gcp-dependencies", version.ref = "spring-cloud-gcp" }
+spring-cloud-gcp-starter-secretmanager = { module = "com.google.cloud:spring-cloud-gcp-starter-secretmanager", version.ref = "spring-cloud-gcp" }
+springdoc-openapi-starter-webmvc-api = { module = "org.springdoc:springdoc-openapi-starter-webmvc-api", version.ref = "springdoc" }
+
+jackson-module-kotlin = { module = "tools.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
+jackson-dataformat-xml = { module = "tools.jackson.dataformat:jackson-dataformat-xml", version.ref = "jackson" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+
+jjwt = { module = "io.jsonwebtoken:jjwt", version.ref = "jjwt" }
+ical4j = { module = "org.mnode.ical4j:ical4j", version.ref = "ical4j" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
+rest-assured = { module = "io.rest-assured:rest-assured", version.ref = "rest-assured" }
+rest-assured-kotlin-extensions = { module = "io.rest-assured:kotlin-extensions", version.ref = "rest-assured" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin" }
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
+springdoc-openapi = { id = "org.springdoc.openapi-gradle-plugin", version.ref = "springdoc-gradle" }
+kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }

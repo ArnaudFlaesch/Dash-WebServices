@@ -1,19 +1,10 @@
-HELP.md
+### Gradle ###
 .gradle
+.kotlin
 build/
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**
-!**/src/test/**
-.kotlin
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+!**/src/main/**/build/
+!**/src/test/**/build/
 
 ### IntelliJ IDEA ###
 .idea
@@ -22,17 +13,22 @@ build/
 *.ipr
 out/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+### Eclipse / STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
 
 ### VS Code ###
 .vscode/
 
-.codacy-coverage/
+### Local files ###
+HELP.md
 data.sql
+.codacy-coverage/
 snyk-report.html
 snyk-report.json

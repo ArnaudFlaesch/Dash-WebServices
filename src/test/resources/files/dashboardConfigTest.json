@@ -56,6 +56,11 @@
       "id": 41,
       "label": "New",
       "tabOrder": 3
+    },
+    {
+      "id": 42,
+      "label": "Empty",
+      "tabOrder": 4
     }
   ]
 }
