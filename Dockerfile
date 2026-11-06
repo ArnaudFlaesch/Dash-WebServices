@@ -4,20 +4,24 @@ ENV GRADLE_OPTS="-Xmx512m"
 
 WORKDIR /build-step
 
-COPY ./src ./src
-COPY gradlew gradlew
-COPY ./gradle ./gradle
-COPY build.gradle.kts build.gradle.kts
-COPY settings.gradle.kts settings.gradle.kts
-
+# Download the Gradle distribution in its own layer, so it is cached until the wrapper changes
+COPY gradlew ./
+COPY gradle ./gradle
 RUN chmod +x gradlew \
-    && ./gradlew assemble
+    && ./gradlew --no-daemon --version
+
+COPY settings.gradle.kts build.gradle.kts gradle.properties ./
+COPY src ./src
+RUN ./gradlew --no-daemon assemble
 
 FROM eclipse-temurin:25.0.5_8-jre-alpine-3.24@sha256:e1898fd6a11fc965a994d8ace186fd3585aeb636cf8f05f47a723fcfee0b0918 AS run
 
-COPY --from=build /build-step/build/libs/dash-webservices-*.jar dash-webservices.jar
+WORKDIR /app
 
 RUN adduser --system --no-create-home dockeruser
+
+COPY --from=build /build-step/build/libs/dash-webservices-*.jar dash-webservices.jar
+
 USER dockeruser
 EXPOSE 8080
 

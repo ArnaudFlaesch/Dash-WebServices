@@ -1,9 +1,15 @@
+# Only the Gradle wrapper, build scripts and sources are needed to build the image
 .git
-.idea
+.github
 .gradle
+.idea
+.kotlin
 .settings
+.vscode
 .classpath
 .project
 bin
+build
 out
 test-report
+*.md

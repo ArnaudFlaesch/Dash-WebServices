@@ -2,16 +2,24 @@ root = true
 
 [*]
 charset = utf-8
+end_of_line = lf
 indent_style = space
-
-[*.kt]
 indent_size = 4
-max_line_length = 120
+insert_final_newline = true
+trim_trailing_whitespace = true
 
+[*.{kt,kts}]
+max_line_length = 120
 ktlint_standard_no-wildcard-imports = disabled
 ij_kotlin_allow_trailing_comma_on_call_site = false
 ij_kotlin_allow_trailing_comma = false
 
+[*.{yml,yaml,json,toml}]
+indent_size = 2
+
 [*.md]
 max_line_length = 80
 trim_trailing_whitespace = false
+
+[*.bat]
+end_of_line = crlf

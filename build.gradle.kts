@@ -1,41 +1,13 @@
-val kotlinVersion = "2.4.21"
-val springBootVersion = "4.1.2"
-val jwtVersion = "0.13.0"
-val ical4jVersion = "4.4.0"
-
-val springDocVersion = "3.2.0"
-val jacksonModuleVersion = "3.2.4"
-val jackson2Version = "2.22.4"
-val logbackVersion = "1.6.6"
-val guavaVersion = "33.7.2-jre"
-
-val postgresqlVersion = "42.7.14"
-
-val restAssuredVersion = "6.3.0"
-val mockitoKotlinVersion = "6.4.0"
-
-val springCloudGcpVersion = "8.3.1"
-val springCloudVersion = "2025.1.4"
-
 plugins {
-    val kotlinPluginVersion = "2.4.10"
-    val springBootPluginVersion = "4.1.2"
-    val springDocGradlePluginVersion = "2.1.0"
-    val springDependencyManagementPluginVersion = "1.1.7"
-    val kotlinterPluginVersion = "5.7.0"
-    val sonarQubePluginVersion = "7.5.0.8588"
-    val koverPluginVersion = "0.9.11"
-
-    kotlin("jvm") version kotlinPluginVersion
-    kotlin("plugin.spring") version kotlinPluginVersion
-    kotlin("plugin.jpa") version kotlinPluginVersion
-
-    id("org.springframework.boot") version springBootPluginVersion
-    id("io.spring.dependency-management") version springDependencyManagementPluginVersion
-    id("org.springdoc.openapi-gradle-plugin") version springDocGradlePluginVersion
-    id("org.jmailen.kotlinter") version kotlinterPluginVersion
-    id("org.jetbrains.kotlinx.kover") version koverPluginVersion
-    id("org.sonarqube") version sonarQubePluginVersion
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.spring)
+    alias(libs.plugins.kotlin.jpa)
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.springdoc.openapi)
+    alias(libs.plugins.kotlinter)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.sonarqube)
 }
 
 group = "com.dash"
@@ -51,49 +23,56 @@ repositories {
     mavenCentral()
 }
 
-
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-webmvc:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-liquibase:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-restclient:$springBootVersion")
+    implementation(libs.spring.boot.starter.webmvc)
+    implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.spring.boot.starter.validation)
+    implementation(libs.spring.boot.starter.security)
+    implementation(libs.spring.boot.starter.actuator)
+    implementation(libs.spring.boot.starter.liquibase)
+    implementation(libs.spring.boot.starter.restclient)
 
-    implementation("com.google.cloud:spring-cloud-gcp-starter-secretmanager:$springCloudGcpVersion")
+    implementation(libs.spring.cloud.gcp.starter.secretmanager)
 
-    implementation("io.jsonwebtoken:jjwt:$jwtVersion")
-    implementation("org.mnode.ical4j:ical4j:$ical4jVersion")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+    implementation(libs.jjwt)
+    implementation(libs.ical4j)
+    implementation(libs.kotlin.reflect)
 
-    implementation("tools.jackson.module:jackson-module-kotlin:$jacksonModuleVersion")
-    implementation("tools.jackson.dataformat:jackson-dataformat-xml:$jacksonModuleVersion")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:$springDocVersion")
+    implementation(libs.jackson.module.kotlin)
+    implementation(libs.jackson.dataformat.xml)
+    implementation(libs.springdoc.openapi.starter.webmvc.api)
 
-    runtimeOnly("org.postgresql:postgresql:$postgresqlVersion")
+    runtimeOnly(libs.postgresql)
 
-    testImplementation("org.springframework.boot:spring-boot-starter-security-test:$springBootVersion")
-
-    testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinVersion")
-    testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
-    testImplementation("io.rest-assured:kotlin-extensions:$restAssuredVersion")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation(libs.spring.boot.starter.security.test)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.kotlin.test.junit5)
+    testImplementation(libs.rest.assured)
+    testImplementation(libs.rest.assured.kotlin.extensions)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 // Overrides of versions managed by the Spring Boot and GCP BOMs, for security fixes they don't include yet
-extra["jackson-bom.version"] = jacksonModuleVersion
-extra["jackson-2-bom.version"] = jackson2Version
-extra["logback.version"] = logbackVersion
+extra["jackson-bom.version"] = libs.versions.jackson.get()
+extra["jackson-2-bom.version"] = libs.versions.jackson2.get()
+extra["logback.version"] = libs.versions.logback.get()
 
 dependencyManagement {
     imports {
-        mavenBom("com.google.cloud:spring-cloud-gcp-dependencies:$springCloudGcpVersion")
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
+        mavenBom(libs.spring.cloud.gcp.dependencies.get().toString())
+        mavenBom(libs.spring.cloud.dependencies.get().toString())
     }
     dependencies {
-        dependency("com.google.guava:guava:$guavaVersion")
+        dependency(libs.guava.get().toString())
+    }
+}
+
+// The Spring Cloud BOMs pin an older Spring Boot: keep every Spring Boot module on the plugin's version
+configurations.configureEach {
+    resolutionStrategy.eachDependency {
+        if (requested.group == "org.springframework.boot") {
+            useVersion(libs.versions.spring.boot.get())
+        }
     }
 }
 

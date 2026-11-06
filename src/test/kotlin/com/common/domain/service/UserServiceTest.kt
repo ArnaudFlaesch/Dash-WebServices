@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.test.context.support.WithMockUser
@@ -26,5 +27,18 @@ class UserServiceTest {
     fun shouldReturnUserWhenItExists() {
         val userId = userService.getCurrentAuthenticatedUserId()
         assertNotNull(userId)
+    }
+
+    @Test
+    @WithMockUser(username = "unknownUser", roles = ["USER"])
+    fun shouldThrowWhenAuthenticatedUserDoesNotExist() {
+        val exception = assertThrows<NoSuchElementException> { userService.getCurrentAuthenticatedUserId() }
+        assertEquals("Authenticated user not found", exception.message)
+    }
+
+    @Test
+    fun shouldThrowWhenNoUserIsAuthenticated() {
+        val exception = assertThrows<IllegalStateException> { userService.getCurrentAuthenticatedUserUsername() }
+        assertEquals("No authenticated user", exception.message)
     }
 }

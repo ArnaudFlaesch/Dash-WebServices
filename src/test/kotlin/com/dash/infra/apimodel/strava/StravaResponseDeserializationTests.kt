@@ -227,4 +227,74 @@ class StravaResponseDeserializationTests {
         assertArrayEquals(intArrayOf(48, 2), activity.startLatlng)
         assertEquals("ki{eFvqfiVqAWQIGEEKAYJgBVqDJ{BHa@", activity.map.summaryPolyline)
     }
+
+    @Test
+    fun shouldDefaultTokenResponseWithAllNullFields() {
+        val json =
+            """
+            {
+              "access_token": null,
+              "refresh_token": null,
+              "expires_at": null,
+              "athlete": null
+            }
+            """.trimIndent()
+
+        val token = jsonMapper.readValue<StravaTokenDataResponse>(json).toDomain()
+
+        assertEquals("", token.accessToken)
+        assertEquals("", token.refreshToken)
+        assertEquals("", token.expiresAt)
+        assertEquals(0, token.athlete.id)
+        assertEquals("", token.athlete.firstname)
+    }
+
+    @Test
+    fun shouldDefaultAthleteNameAndProfileNullFields() {
+        val json =
+            """
+            {
+              "id": 134815,
+              "resource_state": 1,
+              "firstname": null,
+              "lastname": null,
+              "profile_medium": null,
+              "profile": null
+            }
+            """.trimIndent()
+
+        val athlete = jsonMapper.readValue<StravaAthleteResponse>(json).toDomain()
+
+        assertEquals("", athlete.firstname)
+        assertEquals("", athlete.lastname)
+        assertEquals("", athlete.profileMedium)
+        assertEquals("", athlete.profile)
+    }
+
+    @Test
+    fun shouldDefaultActivityNullFields() {
+        val json =
+            """
+            [{
+              "id": 154504250376823,
+              "name": null,
+              "type": null,
+              "timezone": null,
+              "start_latlng": null,
+              "end_latlng": null,
+              "visibility": null,
+              "map": { "id": null, "summary_polyline": null, "resource_state": 1 }
+            }]
+            """.trimIndent()
+
+        val activity = jsonMapper.readValue<List<StravaActivityResponse>>(json).single().toDomain()
+
+        assertEquals("", activity.name)
+        assertEquals("", activity.type)
+        assertEquals("", activity.timezone)
+        assertArrayEquals(IntArray(2), activity.startLatlng)
+        assertArrayEquals(IntArray(2), activity.endLatlng)
+        assertEquals("", activity.visibility)
+        assertEquals("", activity.map.id)
+    }
 }

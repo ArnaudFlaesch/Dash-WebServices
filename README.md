@@ -12,53 +12,120 @@
 ## Description
 
 L'application a pour but de proposer à un utilisateur de créer un dashboard sur
-lequel il peut créer plusieurs widgets,comme par exemple un lecteur de flux RSS,
-un calendrier listant des évènements à partir d'un lien ICal et un affichage
-de prévisions météorologiques. Il est possible de répartir ces widgets sur
-plusieurs onglets.
+lequel il peut créer plusieurs widgets, comme par exemple un lecteur de flux
+RSS, un calendrier listant des évènements à partir d'un lien iCal et un
+affichage de prévisions météorologiques. Il est possible de répartir ces
+widgets sur plusieurs onglets.
 
-Le projet est déployé via Github Pages et accessible à cette
-addresse : <https://arnaudflaesch.github.io/Dash-Web/>.
-Ce dépôt contient les sources de la partie backend de l'application, qui est
-accessible à l'addresse : <https://dash-webservices.herokuapp.com/>.
+Ce dépôt contient les sources de la partie backend de l'application, développée
+en Kotlin avec Spring Boot et une base de données PostgreSQL.
+
+- Frontend (Github Pages) : <https://arnaudflaesch.github.io/Dash-Web/>
+- Documentation de l'API (Swagger UI) :
+  <https://arnaudflaesch.github.io/Dash-WebServices/>
+- Le backend est déployé sur Google Cloud Run à chaque push sur `master`.
+
+## Prérequis
+
+- JDK 25
+- Docker
 
 ## Démarrage
 
-- Récupération de l'image Docker de la base de données
-
-> docker pull postgres:18.6-alpine3.24
+En local, l'application utilise le profil par défaut : les appels aux API
+externes sont redirigés vers le serveur de mock
+[Dash-MockServer](https://github.com/ArnaudFlaesch/Dash-MockServer), il n'est
+donc pas nécessaire de disposer de clés d'API.
 
 - Démarrage de la base de données
 
-> docker run -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash
-> postgres:18.6-alpine3.24
+```bash
+docker run --name dash-db -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash postgres:18.6-alpine3.24
+```
 
-- Variables d'environnement
+- Démarrage du serveur de mock
 
-Le projet a besoin de plusieurs variables d'environnement pour s'exécuter,
-principalement des clés d'API pour accéder à des services externes.
+```bash
+docker run --name dash-mockserver -p 5000:5000 -d ghcr.io/arnaudflaesch/dash-mockserver:latest
+```
 
-| Nom de la variable d'environnement | Lien pour la récupérer                                                |
-|------------------------------------|-----------------------------------------------------------------------|
-| OPENWEATHERMAP_KEY                 | <https://home.openweathermap.org/api_keys>                            |
-| STEAM_API_KEY                      | <https://steamcommunity.com/dev/apikey>                               |
-| STRAVA_CLIENT_ID                   | <https://www.strava.com/settings/api>                                 |
-| STRAVA_CLIENT_SECRET               | <https://www.strava.com/settings/api>                                 |
-| AIRPARIF_API_TOKEN                 | <https://www.airparif.asso.fr/interface-de-programmation-applicative> |
+- Démarrage du projet (le mot de passe de la base de données est lu depuis la
+  variable d'environnement `POSTGRES_PASSWORD`)
 
-- Démarrage du projet
+```bash
+POSTGRES_PASSWORD=postgres ./gradlew bootRun
+```
 
-> ./gradlew bootRun
+L'API est alors accessible sur <http://localhost:8080> et sa documentation
+OpenAPI sur <http://localhost:8080/api-docs>.
 
-## Commandes utiles
+## Tests
+
+Les tests utilisent le profil `test`, qui se connecte à la base `dash_test` et
+au serveur de mock.
+
+- Création de la base de test (avec la base démarrée ci-dessus)
+
+```bash
+docker exec dash-db createdb -U postgres dash_test
+```
 
 - Exécution des tests
 
-> ./gradlew test
+```bash
+./gradlew test
+```
+
+- Rapport de couverture (généré dans `build/reports/kover`)
+
+```bash
+./gradlew koverHtmlReport
+```
 
 - Lint des fichiers sources
 
-> ./gradlew lintKotlin
+```bash
+./gradlew lintKotlin
+```
+
+- Correction automatique du lint
+
+```bash
+./gradlew formatKotlin
+```
+
+## Configuration
+
+La configuration se trouve dans `src/main/resources/application.yml`, avec un
+profil par environnement :
+
+| Profil       | Utilisation                                                       |
+|--------------|-------------------------------------------------------------------|
+| (défaut)     | Développement local, base `dash` et serveur de mock               |
+| `test`       | Tests et génération de la documentation OpenAPI, base `dash_test` |
+| `production` | Déploiement sur Cloud Run, secrets lus dans GCP Secret Manager    |
+
+Les versions des dépendances et des plugins Gradle sont centralisées dans
+`gradle/libs.versions.toml` et mises à jour par Renovate.
+
+### Secrets de production
+
+En production, les secrets suivants sont lus dans GCP Secret Manager :
+
+| Secret                                                     | Lien pour le récupérer                                                |
+|------------------------------------------------------------|-----------------------------------------------------------------------|
+| `DATABASE_URL`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`   | Base de données PostgreSQL                                            |
+| `JWT_SECRET`                                               | Clé encodée en Base64 pour signer les tokens JWT                      |
+| `OPENWEATHERMAP_KEY`                                       | <https://home.openweathermap.org/api_keys>                            |
+| `STEAM_API_KEY`                                            | <https://steamcommunity.com/dev/apikey>                               |
+| `STRAVA_CLIENT_ID`, `STRAVA_CLIENT_SECRET`                 | <https://www.strava.com/settings/api>                                 |
+| `AIRPARIF_API_TOKEN`                                       | <https://www.airparif.asso.fr/interface-de-programmation-applicative> |
+
+## Docker
+
+```bash
+docker build -t dash-webservices .
+```
 
 ### Coverage
 

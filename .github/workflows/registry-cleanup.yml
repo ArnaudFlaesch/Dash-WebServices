@@ -1,15 +1,20 @@
 name: Registry cleanup
+
 on:
+  workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 0"
+    - cron: '0 0 * * 0'
 
 jobs:
   registry-cleanup:
+    permissions:
+      packages: write
+
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
-      with:
-        package-name: 'dash-webservices'
-        package-type: 'container'
-        min-versions-to-keep: 5
+      - uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5.0.0
+        with:
+          package-name: dash-webservices
+          package-type: container
+          min-versions-to-keep: 5

@@ -12,14 +12,37 @@
     {
       "groupName": "kotlin",
       "matchPackageNames": [
-        "/^org.jetbrains.kotlin/"
+        "/^org\\.jetbrains\\.kotlin[.:]/"
       ]
     },
     {
       "groupName": "jackson",
       "matchPackageNames": [
-        "/^com.fasterxml.jackson.*/"
+        "/^com\\.fasterxml\\.jackson/",
+        "/^tools\\.jackson/"
       ]
+    },
+    {
+      "groupName": "postgres",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "postgres"
+      ]
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update the PostgreSQL image tag in the README",
+      "managerFilePatterns": [
+        "/^README\\.md$/"
+      ],
+      "matchStrings": [
+        "(?<depName>postgres):(?<currentValue>[0-9][^\\s@]*)"
+      ],
+      "datasourceTemplate": "docker"
     }
   ],
   "branchTopic": "{{{depNameSanitized}}}-{{{newMajor}}}{{#if separateMinorPatch}}{{#if isPatch}}.{{{newMinor}}}{{/if}}{{/if}}{{#if isLockfileUpdate}}-lockfile{{/if}}"
