@@ -1,3 +1,5 @@
+# Shared configuration, with defaults for local development (database "dash" and Dash-MockServer).
+# Environment-specific values are overridden in application-<profile>.yml.
 server:
   # Cloud Run provides the port to listen on
   port: ${PORT:8080}
@@ -23,82 +25,40 @@ spring:
       read-timeout: 3s
     serviceclient:
       airparif:
-        base-url: ${dash.app.AIRPARIF_API_URL}
+        base-url: http://localhost:5000/airParif
         default-header:
-          X-Api-Key: ${dash.app.AIRPARIF_API_TOKEN}
+          X-Api-Key: test
       openweather:
-        base-url: ${dash.app.OPENWEATHERMAP_API_URL}
+        base-url: http://localhost:5000/openweatherapi
       steam:
-        base-url: ${dash.app.STEAM_API_URL}
+        base-url: http://localhost:5000/steam
       strava:
-        base-url: ${dash.app.STRAVA_API_URL}
+        base-url: http://localhost:5000/strava
   threads:
     virtual:
       enabled: true
+
 logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.orm.jdbc.bind: trace
+
 springdoc:
   api-docs:
     path: /api-docs
+
 dash:
-  app:
-    AIRPARIF_API_URL: http://localhost:5000/airParif
-    OPENWEATHERMAP_API_URL: http://localhost:5000/openweatherapi
-    STEAM_API_URL: http://localhost:5000/steam
-    STRAVA_API_URL: http://localhost:5000/strava
-    AIRPARIF_API_TOKEN: test
-    OPENWEATHERMAP_KEY: test
-    STEAM_API_KEY: test
-    STRAVA_CLIENT_ID: test
-    STRAVA_CLIENT_SECRET: test
-    jwtExpirationMs: 172800000
-    jwtSecret: JwtSuperExtraEncryptedSecretKeyJwtSuperExtraEncryptedSecretKeyJwtSuperExtraEncryptedSecretKey
+  security:
     allowed-origins: http://localhost:4200
----
-spring:
-  config:
-    activate:
-      on-profile: production
-    import: sm@
-  cloud:
-    gcp:
-      secretmanager:
-        enabled: true
-      core:
-        enabled: true
-  datasource:
-    url: ${sm@projects/32508443606/secrets/DATABASE_URL}
-    username: ${sm@projects/32508443606/secrets/DATABASE_USERNAME}
-    password: ${sm@projects/32508443606/secrets/DATABASE_PASSWORD}
-  liquibase:
-    contexts: prod
-logging:
-  level:
-    org.hibernate.SQL: info
-    org.hibernate.orm.jdbc.bind: info
-dash:
-  app:
-    AIRPARIF_API_URL: https://api.airparif.asso.fr/indices/prevision
-    OPENWEATHERMAP_API_URL: https://api.openweathermap.org/data/2.5
-    STEAM_API_URL: https://api.steampowered.com
-    STRAVA_API_URL: https://www.strava.com
-    STRAVA_CLIENT_ID: ${sm@projects/32508443606/secrets/STRAVA_CLIENT_ID}
-    STRAVA_CLIENT_SECRET: ${sm@projects/32508443606/secrets/STRAVA_CLIENT_SECRET}
-    OPENWEATHERMAP_KEY: ${sm@projects/32508443606/secrets/OPENWEATHERMAP_KEY}
-    AIRPARIF_API_TOKEN: ${sm@projects/32508443606/secrets/AIRPARIF_API_TOKEN}
-    STEAM_API_KEY: ${sm@projects/32508443606/secrets/STEAM_API_KEY}
-    jwtSecret: ${sm@projects/32508443606/secrets/JWT_SECRET}
-    allowed-origins: https://arnaudflaesch.github.io
----
-spring:
-  config:
-    activate:
-      on-profile: test
-  datasource:
-    url: jdbc:postgresql://localhost:5432/dash_test
-    username: postgres
-    password: postgres
-  liquibase:
-    contexts: test
+    jwt:
+      # Base64-encoded HMAC key
+      secret: JwtSuperExtraEncryptedSecretKeyJwtSuperExtraEncryptedSecretKeyJwtSuperExtraEncryptedSecretKey
+      expiration: 2d
+  api:
+    openweather:
+      key: test
+    steam:
+      key: test
+    strava:
+      client-id: test
+      client-secret: test
