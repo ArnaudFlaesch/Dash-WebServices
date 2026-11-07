@@ -3,7 +3,9 @@ package com.dash.app.controller
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.common.utils.SqlData
+import com.dash.app.controller.requests.incidentWidget.IncidentWidgetPayload
 import com.dash.app.controller.requests.widget.CreateWidgetPayload
+import com.dash.app.controller.requests.widget.UpdateWidgetDataPayload
 import com.dash.domain.model.WidgetDomain
 import io.restassured.RestAssured.defaultParser
 import io.restassured.common.mapper.TypeRef
@@ -244,6 +246,86 @@ class WidgetControllerTests {
                 delete("${WIDGET_ENDPOINT}deleteWidget")
             } Then {
                 statusCode(403)
+            }
+        }
+
+        @Test
+        fun shouldNotAddWidgetToAnotherUsersTab() {
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .body(CreateWidgetPayload(type = 1, tabId = 1))
+            } When {
+                post("${WIDGET_ENDPOINT}addWidget")
+            } Then {
+                statusCode(403)
+            }
+        }
+
+        @Test
+        fun shouldNotUpdateAnotherUsersWidgetData() {
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .body(UpdateWidgetDataPayload(mapOf("city" to "Lyon")))
+            } When {
+                patch("${WIDGET_ENDPOINT}updateWidgetData/1")
+            } Then {
+                statusCode(403)
+            }
+        }
+
+        @Test
+        fun shouldNotReorderAnotherUsersWidgets() {
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .body(listOf(WidgetDomain(id = 1, type = 1, data = null, widgetOrder = 5, tabId = 1)))
+            } When {
+                post("${WIDGET_ENDPOINT}updateWidgetsOrder")
+            } Then {
+                statusCode(403)
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Incident widget deletion tests")
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class IncidentWidgetDeletion {
+        private val incidentWidgetId = 55
+
+        @BeforeAll
+        fun testUp() {
+            defaultParser = Parser.JSON
+            jwtToken = IntegrationTestsUtils.authenticateAdminRole(port).accessToken
+        }
+
+        @Test
+        fun shouldDeleteWidgetWithIncidentHistory() {
+            // Ending a streak creates the incident and a streak, which both reference the widget
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .contentType(ContentType.JSON)
+                    .body(IncidentWidgetPayload(incidentWidgetId))
+            } When {
+                post("/incidentWidget/endStreak")
+            } Then {
+                statusCode(200)
+            }
+
+            Given {
+                port(port)
+                    .header(createAuthenticationHeader(jwtToken))
+                    .param("id", incidentWidgetId)
+            } When {
+                delete("${WIDGET_ENDPOINT}deleteWidget")
+            } Then {
+                statusCode(200)
             }
         }
     }

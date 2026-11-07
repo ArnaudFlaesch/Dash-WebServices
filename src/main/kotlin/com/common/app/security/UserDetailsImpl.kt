@@ -31,4 +31,7 @@ data class UserDetailsImpl(
     override fun getPassword(): String = password
 
     override fun getUsername(): String = username
+
+    // Keeps the password hash out of logs and error messages
+    override fun toString(): String = "UserDetailsImpl(id=$id, username=$username, authorities=$authorities)"
 }

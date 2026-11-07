@@ -44,7 +44,7 @@ class ExpenseController(
     @PatchMapping("/updateExpense")
     fun updateExpense(
         @RequestBody expense: ExpenseDomain
-    ): ExpenseDomain = expenseService.insertExpense(expense)
+    ): ExpenseDomain = expenseService.updateExpense(expense)
 
     @DeleteMapping("/deleteExpense")
     fun deleteExpense(

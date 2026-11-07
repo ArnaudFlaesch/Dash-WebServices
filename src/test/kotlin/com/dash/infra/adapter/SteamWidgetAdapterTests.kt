@@ -81,6 +81,22 @@ class SteamWidgetAdapterTests {
         assertEquals(expectedSecondPage, actualSecondPage)
     }
 
+    @Test
+    fun shouldCountPartiallyFilledLastPage() {
+        val steamUserId = "1337"
+        val gamesListMock = createGameListFromApi(0, 27)
+        given(steamApiClient.getOwnedGames(steamUserId)).willReturn(GameInfoResponse(GameDataApi(27, gamesListMock)))
+
+        val firstPage = steamWidgetAdapter.getOwnedGames(steamUserId, "", 0)
+        assertEquals(2, firstPage.totalPages)
+        assertEquals(25, firstPage.size)
+        assertEquals(false, firstPage.last)
+
+        val lastPage = steamWidgetAdapter.getOwnedGames(steamUserId, "", 1)
+        assertEquals(gamesListMock.subList(25, 27).map(GameInfoApi::toDomain), lastPage.content)
+        assertEquals(true, lastPage.last)
+    }
+
     private fun createGameListFromApi(
         startIndex: Int,
         size: Int

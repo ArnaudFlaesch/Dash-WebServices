@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
-import org.springframework.transaction.annotation.Transactional
 
 @Repository
 interface WidgetRepository : JpaRepository<WidgetEntity, Int> {
@@ -17,7 +16,17 @@ interface WidgetRepository : JpaRepository<WidgetEntity, Int> {
     @Query("FROM WidgetEntity WHERE tab.user.id = :userId")
     fun getUsersWidget(userId: Int): List<WidgetEntity>
 
-    @Transactional
+    fun existsByIdAndTabUserId(
+        id: Int,
+        userId: Int
+    ): Boolean
+
+    @Query("SELECT w.id FROM WidgetEntity w WHERE w.id IN :ids AND w.tab.user.id = :userId")
+    fun findIdsByIdInAndTabUserId(
+        ids: Collection<Int>,
+        userId: Int
+    ): List<Int>
+
     @Modifying
     @Query("DELETE FROM WidgetEntity WHERE tab.id = :tabId")
     fun deleteWidgetsByTabId(tabId: Int)

@@ -96,14 +96,18 @@ docker exec dash-db createdb -U postgres dash_test
 
 ## Configuration
 
-La configuration se trouve dans `src/main/resources/application.yml`, avec un
-profil par environnement :
+La configuration commune et les valeurs de développement local se trouvent dans
+`src/main/resources/application.yml`, surchargées par un fichier par profil :
 
-| Profil       | Utilisation                                                       |
-|--------------|-------------------------------------------------------------------|
-| (défaut)     | Développement local, base `dash` et serveur de mock               |
-| `test`       | Tests et génération de la documentation OpenAPI, base `dash_test` |
-| `production` | Déploiement sur Cloud Run, secrets lus dans GCP Secret Manager    |
+| Profil       | Fichier                      | Utilisation                                                       |
+|--------------|------------------------------|-------------------------------------------------------------------|
+| (défaut)     | `application.yml`            | Développement local, base `dash` et serveur de mock               |
+| `test`       | `application-test.yml`       | Tests et génération de la documentation OpenAPI, base `dash_test` |
+| `production` | `application-production.yml` | Déploiement sur Cloud Run, secrets lus dans GCP Secret Manager    |
+
+Les URL des API externes sont configurées sur les clients HTTP
+(`spring.http.serviceclient.*`), les clés d'API sous `dash.api.*` et la
+sécurité (JWT, origines CORS autorisées) sous `dash.security.*`.
 
 Les versions des dépendances et des plugins Gradle sont centralisées dans
 `gradle/libs.versions.toml` et mises à jour par Renovate.

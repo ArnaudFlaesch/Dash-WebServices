@@ -10,19 +10,19 @@ data class StravaActivityDomain(
     val totalElevationGain: Float,
     val type: String,
     val workoutType: Int,
-    val id: Double,
+    val id: Long,
     val externalId: String?,
-    val uploadId: Double,
+    val uploadId: Long,
     val startDate: String,
     val startDateLocal: String,
     val timezone: String,
     val utcOffset: Float,
-    val startLatlng: IntArray,
-    val endLatlng: IntArray,
+    val startLatlng: List<Double>,
+    val endLatlng: List<Double>,
     val locationCity: String?,
     val locationState: String?,
-    val startLatitude: Int,
-    val startLongitude: Int,
+    val startLatitude: Double,
+    val startLongitude: Double,
     val achievementCount: Int,
     val kudosCount: Int,
     val commentCount: Int,
@@ -36,7 +36,7 @@ data class StravaActivityDomain(
     val visibility: String,
     val flagged: Boolean,
     val fromAcceptedTag: Boolean,
-    val uploadIdStr: Double,
+    val uploadIdStr: String,
     val averageSpeed: Float,
     val maxSpeed: Float,
     val hasHeartrate: Boolean,
@@ -49,7 +49,7 @@ data class StravaActivityDomain(
     val hasKudoed: Boolean
 ) {
     data class ActivityAthleteDomain(
-        val id: Int,
+        val id: Long,
         val resourceState: Int
     )
 

@@ -25,11 +25,14 @@ class MiniWidgetService(
             userId = userService.getCurrentAuthenticatedUserId()
         ).let(miniWidgetPersistenceAdapter::saveMiniWidget)
 
+    @PreAuthorize(SecurityConditions.DOES_MINI_WIDGET_BELONG_TO_AUTHENTICATED_USER)
     fun updateWidgetData(
         widgetId: Int,
         updatedData: Any
     ): MiniWidgetDomain = miniWidgetPersistenceAdapter.updateWidgetData(widgetId, updatedData)
 
-    @PreAuthorize(SecurityConditions.IS_USER_ADMIN)
+    @PreAuthorize(
+        "${SecurityConditions.DOES_MINI_WIDGET_BELONG_TO_AUTHENTICATED_USER} and ${SecurityConditions.IS_USER_ADMIN}"
+    )
     fun deleteMiniWidget(widgetId: Int) = miniWidgetPersistenceAdapter.deleteMiniWidget(widgetId)
 }

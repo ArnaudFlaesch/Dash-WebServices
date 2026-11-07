@@ -19,18 +19,14 @@ class WidgetService(
     fun getUserWidgets(): List<WidgetDomain> =
         widgetPersistenceAdapter.getUserWidgets(userService.getCurrentAuthenticatedUserId())
 
+    @PreAuthorize(SecurityConditions.DOES_TAB_BELONG_TO_AUTHENTICATED_USER)
     fun addWidget(
         widgetType: Int,
         tabId: Int
     ): WidgetDomain =
-        WidgetDomain(
-            id = 0,
-            type = widgetType,
-            widgetOrder = widgetPersistenceAdapter.getNumberOfWidgetsByTab(tabId) + 1,
-            tabId = tabId,
-            data = null
-        ).let(widgetPersistenceAdapter::saveWidget)
+        importWidget(widgetType, widgetPersistenceAdapter.getNumberOfWidgetsByTab(tabId) + 1, data = null, tabId)
 
+    /** Not access-checked: only called for tabs that were just created for the authenticated user. */
     fun importWidget(
         widgetType: Int,
         widgetOrder: Int,
@@ -45,11 +41,13 @@ class WidgetService(
             tabId = tabId
         ).let(widgetPersistenceAdapter::saveWidget)
 
+    @PreAuthorize(SecurityConditions.DOES_WIDGET_BELONG_TO_AUTHENTICATED_USER)
     fun updateWidgetData(
         widgetId: Int,
         updatedData: Any
     ): WidgetDomain = widgetPersistenceAdapter.updateWidgetData(widgetId, updatedData)
 
+    @PreAuthorize(SecurityConditions.DO_WIDGETS_BELONG_TO_AUTHENTICATED_USER)
     fun updateWidgetsOrder(widgetList: List<WidgetDomain>): List<WidgetDomain> =
         widgetPersistenceAdapter.updateWidgetsOrder(widgetList)
 

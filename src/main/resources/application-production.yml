@@ -1,0 +1,47 @@
+# Cloud Run deployment: secrets are read from GCP Secret Manager
+spring:
+  config:
+    import: sm@
+  cloud:
+    gcp:
+      secretmanager:
+        enabled: true
+      core:
+        enabled: true
+  datasource:
+    url: ${sm@projects/32508443606/secrets/DATABASE_URL}
+    username: ${sm@projects/32508443606/secrets/DATABASE_USERNAME}
+    password: ${sm@projects/32508443606/secrets/DATABASE_PASSWORD}
+  liquibase:
+    contexts: prod
+  http:
+    serviceclient:
+      airparif:
+        base-url: https://api.airparif.asso.fr/indices/prevision
+        default-header:
+          X-Api-Key: ${sm@projects/32508443606/secrets/AIRPARIF_API_TOKEN}
+      openweather:
+        base-url: https://api.openweathermap.org/data/2.5
+      steam:
+        base-url: https://api.steampowered.com
+      strava:
+        base-url: https://www.strava.com
+
+logging:
+  level:
+    org.hibernate.SQL: info
+    org.hibernate.orm.jdbc.bind: info
+
+dash:
+  security:
+    allowed-origins: https://arnaudflaesch.github.io
+    jwt:
+      secret: ${sm@projects/32508443606/secrets/JWT_SECRET}
+  api:
+    openweather:
+      key: ${sm@projects/32508443606/secrets/OPENWEATHERMAP_KEY}
+    steam:
+      key: ${sm@projects/32508443606/secrets/STEAM_API_KEY}
+    strava:
+      client-id: ${sm@projects/32508443606/secrets/STRAVA_CLIENT_ID}
+      client-secret: ${sm@projects/32508443606/secrets/STRAVA_CLIENT_SECRET}

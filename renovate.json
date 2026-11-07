@@ -30,6 +30,13 @@
       "matchPackageNames": [
         "postgres"
       ]
+    },
+    {
+      "description": "Keep a plain, readable image tag in the README's docker run command",
+      "matchFileNames": [
+        "README.md"
+      ],
+      "pinDigests": false
     }
   ],
   "customManagers": [

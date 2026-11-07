@@ -7,4 +7,9 @@ import org.springframework.stereotype.Repository
 @Repository
 interface MiniWidgetRepository : JpaRepository<MiniWidgetEntity, Int> {
     fun findByUserId(userId: Int): List<MiniWidgetEntity>
+
+    fun existsByIdAndUserId(
+        id: Int,
+        userId: Int
+    ): Boolean
 }

@@ -7,4 +7,9 @@ import org.springframework.stereotype.Repository
 @Repository
 interface WorkoutTypeRepository : JpaRepository<WorkoutTypeEntity, Int> {
     fun findByUserIdOrderByNameAsc(userId: Int): List<WorkoutTypeEntity>
+
+    fun existsByIdAndUserId(
+        id: Int,
+        userId: Int
+    ): Boolean
 }

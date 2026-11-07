@@ -33,8 +33,9 @@ class NotificationAdapter(
 
     @Transactional
     fun markNotificationsAsRead(notificationIds: List<Int>): List<NotificationDomain> =
-        notificationIds
-            .map { notificationRepository.getReferenceById(it).copy(isRead = true) }
+        notificationRepository
+            .findAllById(notificationIds)
+            .map { it.copy(isRead = true) }
             .let(notificationRepository::saveAll)
             .map(NotificationEntity::toDomain)
 }
