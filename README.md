@@ -25,6 +25,30 @@ en Kotlin avec Spring Boot et une base de données PostgreSQL.
   <https://arnaudflaesch.github.io/Dash-WebServices/>
 - Le backend est déployé sur Google Cloud Run à chaque push sur `master`.
 
+## Architecture
+
+Le code suit une architecture hexagonale (ports et adaptateurs), découpée en
+trois contextes sous le package `com.dash` :
+
+- `dashboard` : onglets, widgets et leurs services externes
+- `cashmanager` : dépenses et libellés
+- `shared` : authentification, utilisateur courant, événements et pagination
+
+Chaque contexte est organisé de la même façon :
+
+| Package                     | Contenu                                                               |
+|-----------------------------|-----------------------------------------------------------------------|
+| `domain`                    | Modèles métier, en Kotlin pur, sans dépendance à un framework         |
+| `application.port.inbound`  | Cas d'utilisation (`*UseCase`), appelés par les adaptateurs entrants  |
+| `application.port.outbound` | Interfaces (`*Port`) des services dont l'application a besoin         |
+| `application.service`       | Implémentation des cas d'utilisation, sécurité et transactions        |
+| `adapter.inbound`           | Contrôleurs REST et écouteurs d'événements                            |
+| `adapter.outbound`          | Persistance JPA, clients HTTP des API externes, sécurité              |
+
+Les dépendances vont toujours vers le domaine : les adaptateurs dépendent des
+ports, l'application ne dépend que des ports et du domaine, et le domaine ne
+dépend de rien.
+
 ## Prérequis
 
 - JDK 25

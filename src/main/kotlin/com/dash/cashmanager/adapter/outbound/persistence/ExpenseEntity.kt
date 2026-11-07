@@ -1,0 +1,67 @@
+package com.dash.cashmanager.adapter.outbound.persistence
+
+import com.dash.cashmanager.domain.model.Expense
+import jakarta.persistence.*
+import java.time.LocalDate
+
+@SqlResultSetMapping(
+    name = "totalExpensesByMonth",
+    classes = [
+        ConstructorResult(
+            targetClass = TotalExpenseByMonthEntity::class,
+            columns = [ColumnResult(name = "total"), ColumnResult(name = "date")]
+        )
+    ]
+)
+@NamedNativeQuery(
+    query =
+        "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
+            "FROM Expense E " +
+            "WHERE E.label_id IN (SELECT id from public.label L WHERE L.user_id = :userId) " +
+            "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE) " +
+            "ORDER BY date",
+    name = "getExpensesByMonth",
+    resultClass = TotalExpenseByMonthEntity::class,
+    resultSetMapping = "totalExpensesByMonth"
+)
+@NamedNativeQuery(
+    query =
+        "SELECT SUM(amount) AS total, CAST(date_trunc('month', E.expense_date) AS DATE) as date " +
+            "FROM Expense E " +
+            "WHERE label_id = :labelId " +
+            "AND E.label_id IN (SELECT id from public.label L WHERE L.user_id = :userId) " +
+            "GROUP BY CAST(date_trunc('month', E.expense_date) AS DATE) " +
+            "ORDER BY date",
+    name = "getExpensesByMonthByLabelId",
+    resultClass = TotalExpenseByMonthEntity::class,
+    resultSetMapping = "totalExpensesByMonth"
+)
+@Entity
+@Table(name = "expense")
+class ExpenseEntity(
+    @Id
+    @SequenceGenerator(
+        name = "expense-seq-gen",
+        sequenceName = "expense_id_seq",
+        initialValue = 1,
+        allocationSize = 1
+    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "expense-seq-gen")
+    @Column(name = "id", unique = true, nullable = false)
+    val id: Int,
+    @Column
+    var amount: Float,
+    @Column(name = "expense_date")
+    var expenseDate: LocalDate,
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "labelId")
+    var label: LabelEntity
+) {
+    fun toDomain(): Expense =
+        Expense(
+            id = this.id,
+            amount = this.amount,
+            expenseDate = this.expenseDate,
+            labelId = label.id
+        )
+}
