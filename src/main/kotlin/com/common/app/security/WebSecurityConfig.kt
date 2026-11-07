@@ -55,14 +55,12 @@ class WebSecurityConfig(
     }
 
     @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource {
-        val config =
-            CorsConfiguration().apply {
+    fun corsConfigurationSource(): CorsConfigurationSource =
+        CorsConfiguration()
+            .apply {
                 allowedOrigins = securityProperties.allowedOrigins
                 allowedMethods = listOf("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH")
                 allowedHeaders = listOf("Authorization", "Cache-Control", "Content-Type")
                 allowCredentials = true
-            }
-        return UrlBasedCorsConfigurationSource().apply { registerCorsConfiguration("/**", config) }
-    }
+            }.let { config -> UrlBasedCorsConfigurationSource().apply { registerCorsConfiguration("/**", config) } }
 }

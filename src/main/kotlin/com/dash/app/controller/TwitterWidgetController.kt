@@ -1,8 +1,8 @@
 package com.dash.app.controller
 
 import com.dash.app.controller.requests.twitterWidget.AddUserToFollowPayload
-import com.dash.app.controller.response.Page
-import com.dash.app.controller.response.toPageResponse
+import com.dash.domain.model.Page
+import com.dash.domain.model.toPageResponse
 import com.dash.domain.model.twitterwidget.FollowedUser
 import com.dash.domain.service.TwitterWidgetService
 import org.springframework.http.MediaType
@@ -28,5 +28,7 @@ class TwitterWidgetController(
     @DeleteMapping("/deleteFollowedUser")
     fun deleteFollowedUser(
         @RequestParam followedUserId: Int
-    ) = twitterWidgetService.deleteFollowedUser(followedUserId)
+    ) {
+        twitterWidgetService.deleteFollowedUser(followedUserId)
+    }
 }

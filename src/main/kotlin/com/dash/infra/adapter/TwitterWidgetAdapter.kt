@@ -34,5 +34,7 @@ class TwitterWidgetAdapter(
         ).let(twitterWidgetRepository::save)
             .let(FollowedUserEntity::toDomain)
 
-    fun deleteFollowedUser(followedUserId: Int) = twitterWidgetRepository.deleteById(followedUserId)
+    fun deleteFollowedUser(followedUserId: Int) {
+        twitterWidgetRepository.deleteById(followedUserId)
+    }
 }

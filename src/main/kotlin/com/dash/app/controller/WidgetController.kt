@@ -35,5 +35,7 @@ class WidgetController(
     @DeleteMapping("/deleteWidget")
     fun deleteWidget(
         @RequestParam(value = "id") widgetId: Int
-    ) = widgetService.deleteWidget(widgetId)
+    ) {
+        widgetService.deleteWidget(widgetId)
+    }
 }

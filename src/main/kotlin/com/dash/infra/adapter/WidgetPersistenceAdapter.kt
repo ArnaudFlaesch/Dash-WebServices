@@ -41,16 +41,17 @@ class WidgetPersistenceAdapter(
     ): WidgetDomain =
         widgetRepository
             .getReferenceById(widgetId)
-            .copy(data = updatedData)
-            .let(widgetRepository::save)
-            .let(WidgetEntity::toDomain)
+            .apply { data = updatedData }
+            .toDomain()
 
     @Transactional
     fun updateWidgetsOrder(widgetList: List<WidgetDomain>): List<WidgetDomain> =
-        widgetList
-            .map { widget -> widgetRepository.getReferenceById(widget.id).copy(widgetOrder = widget.widgetOrder) }
-            .let(widgetRepository::saveAll)
-            .map(WidgetEntity::toDomain)
+        widgetList.map { widget ->
+            widgetRepository
+                .getReferenceById(widget.id)
+                .apply { widgetOrder = widget.widgetOrder }
+                .toDomain()
+        }
 
     @Transactional
     fun deleteWidget(id: Int) {
@@ -61,8 +62,9 @@ class WidgetPersistenceAdapter(
     /** Deletes the rows referencing the widgets (incident widget data), which would otherwise block their deletion. */
     @Transactional
     fun deleteWidgetsData(widgetIds: Collection<Int>) {
-        if (widgetIds.isEmpty()) return
-        incidentStreakRepository.deleteByWidgetIds(widgetIds)
-        incidentWidgetRepository.deleteByWidgetIds(widgetIds)
+        widgetIds.takeIf(Collection<Int>::isNotEmpty)?.let { ids ->
+            incidentStreakRepository.deleteByWidgetIds(ids)
+            incidentWidgetRepository.deleteByWidgetIds(ids)
+        }
     }
 }

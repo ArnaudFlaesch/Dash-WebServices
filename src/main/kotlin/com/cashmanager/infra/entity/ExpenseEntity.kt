@@ -2,7 +2,6 @@ package com.cashmanager.infra.entity
 
 import com.cashmanager.domain.model.ExpenseDomain
 import jakarta.persistence.*
-import java.io.Serializable
 import java.time.LocalDate
 
 @SqlResultSetMapping(
@@ -39,7 +38,7 @@ import java.time.LocalDate
 )
 @Entity
 @Table(name = "expense")
-data class ExpenseEntity(
+class ExpenseEntity(
     @Id
     @SequenceGenerator(
         name = "expense-seq-gen",
@@ -51,18 +50,14 @@ data class ExpenseEntity(
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
     @Column
-    val amount: Float,
+    var amount: Float,
     @Column(name = "expense_date")
-    val expenseDate: LocalDate,
+    var expenseDate: LocalDate,
     @ManyToOne(optional = false)
     @JoinColumn(name = "labelId")
-    val label: LabelEntity
-) : Serializable {
-    companion object {
-        private const val serialVersionUID: Long = 1
-    }
-
-    fun toDomain() =
+    var label: LabelEntity
+) {
+    fun toDomain(): ExpenseDomain =
         ExpenseDomain(
             id = this.id,
             amount = this.amount,

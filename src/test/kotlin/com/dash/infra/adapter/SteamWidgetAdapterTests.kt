@@ -1,6 +1,6 @@
 package com.dash.infra.adapter
 
-import com.dash.app.controller.response.Page
+import com.dash.domain.model.Page
 import com.dash.domain.model.steamwidget.PlayerDataDomain
 import com.dash.infra.apimodel.steam.*
 import com.dash.infra.rest.SteamApiClient

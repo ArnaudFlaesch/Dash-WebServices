@@ -24,17 +24,19 @@ class DashConfigController(
     private val jsonMapper: JsonMapper
 ) {
     @GetMapping("/export")
-    fun downloadJsonFile(): ResponseEntity<ByteArray> {
-        val config = dashConfigService.exportConfig()
-        applicationEventPublisher.publishEvent(DashEvent(Constants.EXPORT_CONFIG_EVENT, NotificationType.WARN))
-        return jsonFileResponse("dashboardConfig", jsonMapper.writeValueAsBytes(config))
-    }
+    fun downloadJsonFile(): ResponseEntity<ByteArray> =
+        dashConfigService
+            .exportConfig()
+            .also {
+                applicationEventPublisher.publishEvent(DashEvent(Constants.EXPORT_CONFIG_EVENT, NotificationType.WARN))
+            }.let { config -> jsonFileResponse("dashboardConfig", jsonMapper.writeValueAsBytes(config)) }
 
     @PostMapping("/import")
     fun importConfig(
         @RequestParam file: MultipartFile
-    ): Boolean {
-        dashConfigService.importConfig(jsonMapper.readValue<ImportData>(file.bytes))
-        return true
-    }
+    ): Boolean =
+        jsonMapper
+            .readValue<ImportData>(file.bytes)
+            .let(dashConfigService::importConfig)
+            .let { true }
 }

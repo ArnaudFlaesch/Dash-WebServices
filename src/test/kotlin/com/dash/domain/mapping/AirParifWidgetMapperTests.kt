@@ -7,11 +7,9 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class AirParifWidgetMapperTests {
-    private val airParifWidgetMapper = AirParifWidgetMapper()
-
     @Test
     fun shouldMapColorsAndDefaultMissingOnesToEmpty() {
-        val colors = airParifWidgetMapper.colorsResponseToDomain(mapOf("Bon" to "#50F0E6", "Mauvais" to "#FF5050"))
+        val colors = colorsResponseToDomain(mapOf("Bon" to "#50F0E6", "Mauvais" to "#FF5050"))
 
         assertEquals(
             listOf(
@@ -29,7 +27,7 @@ class AirParifWidgetMapperTests {
     @Test
     fun shouldMapPrevisionWithMissingFields() {
         val previsions =
-            airParifWidgetMapper.previsionsResponseToDomain("75112", mapOf("75112" to listOf(mapOf("no2" to "Bon"))))
+            previsionsResponseToDomain("75112", mapOf("75112" to listOf(mapOf("no2" to "Bon"))))
 
         assertEquals(
             listOf(
@@ -49,7 +47,7 @@ class AirParifWidgetMapperTests {
 
     @Test
     fun shouldReturnEmptyPrevisionWhenCommuneIsMissing() {
-        val previsions = airParifWidgetMapper.previsionsResponseToDomain("75112", emptyMap())
+        val previsions = previsionsResponseToDomain("75112", emptyMap())
 
         val missing = AirParifPrevisionEnum.MISSING
         assertEquals(listOf(Prevision("", missing, missing, missing, missing, missing, missing)), previsions)

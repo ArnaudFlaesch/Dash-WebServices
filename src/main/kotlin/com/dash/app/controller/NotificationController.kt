@@ -1,9 +1,9 @@
 package com.dash.app.controller
 
 import com.dash.app.controller.requests.notifications.MarkNotificationsAsReadPayload
-import com.dash.app.controller.response.Page
-import com.dash.app.controller.response.toPageResponse
+import com.dash.domain.model.Page
 import com.dash.domain.model.notification.NotificationDomain
+import com.dash.domain.model.toPageResponse
 import com.dash.domain.service.NotificationService
 import org.springframework.web.bind.annotation.*
 

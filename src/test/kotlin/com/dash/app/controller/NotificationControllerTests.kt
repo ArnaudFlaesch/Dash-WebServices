@@ -3,7 +3,7 @@ package com.dash.app.controller
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.dash.app.controller.requests.notifications.MarkNotificationsAsReadPayload
-import com.dash.app.controller.response.Page
+import com.dash.domain.model.Page
 import com.dash.domain.model.notification.NotificationDomain
 import com.dash.domain.model.notification.NotificationType
 import com.dash.infra.repository.NotificationRepository

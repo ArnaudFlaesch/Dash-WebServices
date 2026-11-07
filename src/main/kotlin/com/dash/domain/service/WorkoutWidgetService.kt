@@ -2,69 +2,56 @@ package com.dash.domain.service
 
 import com.common.app.security.SecurityConditions
 import com.common.domain.service.UserService
-import com.dash.domain.mapping.WorkoutSessionMapper
-import com.dash.domain.mapping.WorkoutTypeMapper
 import com.dash.domain.model.workoutwidget.*
-import com.dash.infra.entity.workoutwidget.*
-import com.dash.infra.repository.WorkoutExerciseRepository
-import com.dash.infra.repository.WorkoutSessionRepository
-import com.dash.infra.repository.WorkoutTypeRepository
+import com.dash.infra.adapter.WorkoutWidgetPersistenceAdapter
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 @Service
 class WorkoutWidgetService(
-    private val workoutTypeRepository: WorkoutTypeRepository,
-    private val workoutExerciseRepository: WorkoutExerciseRepository,
-    private val workoutSessionRepository: WorkoutSessionRepository,
-    private val workoutSessionMapper: WorkoutSessionMapper,
-    private val workoutTypeMapper: WorkoutTypeMapper,
+    private val workoutWidgetPersistenceAdapter: WorkoutWidgetPersistenceAdapter,
     private val userService: UserService
 ) {
     fun getWorkoutTypes(): List<WorkoutTypeDomain> =
-        workoutTypeRepository
-            .findByUserIdOrderByNameAsc(userService.getCurrentAuthenticatedUserId())
-            .map(WorkoutTypeEntity::toDomain)
+        workoutWidgetPersistenceAdapter.getWorkoutTypes(userService.getCurrentAuthenticatedUserId())
 
     fun getWorkoutSessions(
         dateIntervalStart: LocalDate,
         dateIntervalEnd: LocalDate
     ): List<WorkoutSessionDomain> =
-        workoutSessionRepository
-            .findByUserIdAndWorkoutDateBetweenOrderByWorkoutDateAsc(
-                userService.getCurrentAuthenticatedUserId(),
-                dateIntervalStart,
-                dateIntervalEnd
-            ).map(WorkoutSessionEntity::toDomain)
+        workoutWidgetPersistenceAdapter.getWorkoutSessions(
+            dateIntervalStart,
+            dateIntervalEnd,
+            userService.getCurrentAuthenticatedUserId()
+        )
 
     fun getWorkoutStatsByPeriod(
         dateIntervalStart: LocalDate,
         dateIntervalEnd: LocalDate
     ): List<WorkoutStatsByIntervalDomain> =
-        workoutExerciseRepository
-            .getWorkoutStatsByInterval(dateIntervalStart, dateIntervalEnd, userService.getCurrentAuthenticatedUserId())
-            .map(WorkoutStatsByIntervalEntity::toDomain)
+        workoutWidgetPersistenceAdapter.getWorkoutStatsByPeriod(
+            dateIntervalStart,
+            dateIntervalEnd,
+            userService.getCurrentAuthenticatedUserId()
+        )
 
     fun getWorkoutStatsByMonth(
         dateIntervalStart: LocalDate,
         dateIntervalEnd: LocalDate
     ): List<WorkoutStatsByMonthDomain> =
-        workoutExerciseRepository
-            .getWorkoutStatsByMonth(dateIntervalStart, dateIntervalEnd, userService.getCurrentAuthenticatedUserId())
-            .map(WorkoutStatsByMonthEntity::toDomain)
+        workoutWidgetPersistenceAdapter.getWorkoutStatsByMonth(
+            dateIntervalStart,
+            dateIntervalEnd,
+            userService.getCurrentAuthenticatedUserId()
+        )
 
     fun addWorkoutType(workoutType: String): WorkoutTypeDomain =
-        WorkoutTypeDomain(0, workoutType, userService.getCurrentAuthenticatedUserId())
-            .let(workoutTypeMapper::mapDomainToEntity)
-            .let(workoutTypeRepository::save)
-            .let(WorkoutTypeEntity::toDomain)
+        workoutWidgetPersistenceAdapter.addWorkoutType(workoutType, userService.getCurrentAuthenticatedUserId())
 
     @PreAuthorize(SecurityConditions.DOES_WORKOUT_SESSION_BELONG_TO_AUTHENTICATED_USER)
     fun getWorkoutsExercisesByWorkoutSessionId(workoutSessionId: Int): List<WorkoutExerciseDomain> =
-        workoutExerciseRepository
-            .findAllByWorkoutExerciseIdWorkoutSessionId(workoutSessionId)
-            .map(WorkoutExerciseEntity::toDomain)
+        workoutWidgetPersistenceAdapter.getWorkoutExercises(workoutSessionId)
 
     @PreAuthorize(SecurityConditions.DOES_WORKOUT_EXERCISE_BELONG_TO_AUTHENTICATED_USER)
     fun updateWorkoutExercise(
@@ -72,15 +59,10 @@ class WorkoutWidgetService(
         workoutTypeId: Int,
         numberOfReps: Int
     ): WorkoutExerciseDomain =
-        WorkoutExerciseEntity(
-            WorkoutExerciseEntityId(workoutSessionId, workoutTypeId),
-            numberOfReps
-        ).let(workoutExerciseRepository::save)
-            .let(WorkoutExerciseEntity::toDomain)
+        workoutWidgetPersistenceAdapter.saveWorkoutExercise(
+            WorkoutExerciseDomain(workoutSessionId, workoutTypeId, numberOfReps)
+        )
 
     fun createWorkoutSession(workoutDate: LocalDate): WorkoutSessionDomain =
-        WorkoutSessionDomain(0, workoutDate, userService.getCurrentAuthenticatedUserId())
-            .let(workoutSessionMapper::mapDomainToEntity)
-            .let(workoutSessionRepository::save)
-            .let(WorkoutSessionEntity::toDomain)
+        workoutWidgetPersistenceAdapter.createWorkoutSession(workoutDate, userService.getCurrentAuthenticatedUserId())
 }

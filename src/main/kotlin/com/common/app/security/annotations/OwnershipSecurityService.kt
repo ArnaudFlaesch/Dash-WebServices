@@ -25,17 +25,15 @@ class OwnershipSecurityService(
 ) {
     fun isTabOwner(tabId: Int): Boolean = tabRepository.existsByIdAndUserId(tabId, currentUserId())
 
-    fun areTabsOwned(tabs: Collection<TabDomain>): Boolean {
-        val tabIds = tabs.map(TabDomain::id).toSet()
-        return tabRepository.findIdsByIdInAndUserId(tabIds, currentUserId()).toSet() == tabIds
-    }
+    fun areTabsOwned(tabs: Collection<TabDomain>): Boolean =
+        areAllOwned(tabs.map(TabDomain::id)) { ids -> tabRepository.findIdsByIdInAndUserId(ids, currentUserId()) }
 
     fun isWidgetOwner(widgetId: Int): Boolean = widgetRepository.existsByIdAndTabUserId(widgetId, currentUserId())
 
-    fun areWidgetsOwned(widgets: Collection<WidgetDomain>): Boolean {
-        val widgetIds = widgets.map(WidgetDomain::id).toSet()
-        return widgetRepository.findIdsByIdInAndTabUserId(widgetIds, currentUserId()).toSet() == widgetIds
-    }
+    fun areWidgetsOwned(widgets: Collection<WidgetDomain>): Boolean =
+        areAllOwned(widgets.map(WidgetDomain::id)) { ids ->
+            widgetRepository.findIdsByIdInAndTabUserId(ids, currentUserId())
+        }
 
     fun isMiniWidgetOwner(miniWidgetId: Int): Boolean =
         miniWidgetRepository.existsByIdAndUserId(miniWidgetId, currentUserId())
@@ -53,4 +51,10 @@ class OwnershipSecurityService(
         workoutTypeRepository.existsByIdAndUserId(workoutTypeId, currentUserId())
 
     private fun currentUserId(): Int = userService.getCurrentAuthenticatedUserId()
+
+    /** True if every id is among the ids [findOwnedIds] returns as owned by the authenticated user. */
+    private fun areAllOwned(
+        ids: Collection<Int>,
+        findOwnedIds: (Set<Int>) -> Collection<Int>
+    ): Boolean = ids.toSet().let { idSet -> findOwnedIds(idSet).toSet() == idSet }
 }

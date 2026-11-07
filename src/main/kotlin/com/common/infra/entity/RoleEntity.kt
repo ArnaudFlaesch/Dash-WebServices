@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank
 
 @Entity
 @Table(name = "roles")
-data class RoleEntity(
+class RoleEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int,

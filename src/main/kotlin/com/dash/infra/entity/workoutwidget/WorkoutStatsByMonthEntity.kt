@@ -12,7 +12,7 @@ data class WorkoutStatsByMonthEntity(
 ) {
     constructor() : this(0, 0, 0.0, 0.0, "")
 
-    fun toDomain() =
+    fun toDomain(): WorkoutStatsByMonthDomain =
         WorkoutStatsByMonthDomain(
             totalNumberOfReps = this.totalNumberOfReps,
             workoutTypeId = this.workoutTypeId,

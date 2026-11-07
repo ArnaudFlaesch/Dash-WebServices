@@ -21,7 +21,7 @@ class ExpenseController(
         @RequestParam("endIntervalDate")
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
         endIntervalDate: LocalDate
-    ): List<ExpenseDomain> = (expenseService.getExpensesByInterval(startIntervalDate, endIntervalDate))
+    ): List<ExpenseDomain> = expenseService.getExpensesByInterval(startIntervalDate, endIntervalDate)
 
     @GetMapping("/getTotalExpensesByMonth")
     fun getTotalExpensesByMonth(): List<TotalExpenseByMonthDomain> = expenseService.getTotalExpensesByMonth()
@@ -49,5 +49,7 @@ class ExpenseController(
     @DeleteMapping("/deleteExpense")
     fun deleteExpense(
         @RequestParam(value = "expenseId") id: Int
-    ) = expenseService.deleteExpense(id)
+    ) {
+        expenseService.deleteExpense(id)
+    }
 }

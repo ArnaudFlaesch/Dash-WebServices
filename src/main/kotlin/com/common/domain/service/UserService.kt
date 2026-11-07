@@ -18,8 +18,6 @@ class UserService(
             ?: getUserByUsername(getCurrentAuthenticatedUserUsername())?.id
             ?: throw NoSuchElementException("Authenticated user not found")
 
-    fun getUserById(userId: Int): UserEntity = userRepository.getReferenceById(userId)
-
     fun getUserByUsername(username: String): UserEntity? = userRepository.findByUsername(username)
 
     private fun currentAuthentication(): Authentication =

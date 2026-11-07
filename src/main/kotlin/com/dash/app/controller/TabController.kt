@@ -32,5 +32,7 @@ class TabController(
     @DeleteMapping("/deleteTab")
     fun deleteTab(
         @RequestParam id: Int
-    ) = tabService.deleteTab(id)
+    ) {
+        tabService.deleteTab(id)
+    }
 }

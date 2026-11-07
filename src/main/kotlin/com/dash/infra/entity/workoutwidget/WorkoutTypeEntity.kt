@@ -6,7 +6,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "workout_type")
-data class WorkoutTypeEntity(
+class WorkoutTypeEntity(
     @Id
     @SequenceGenerator(
         name = "workout-type-seq-gen",

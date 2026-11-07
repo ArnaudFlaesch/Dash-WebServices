@@ -34,5 +34,7 @@ class MiniWidgetService(
     @PreAuthorize(
         "${SecurityConditions.DOES_MINI_WIDGET_BELONG_TO_AUTHENTICATED_USER} and ${SecurityConditions.IS_USER_ADMIN}"
     )
-    fun deleteMiniWidget(widgetId: Int) = miniWidgetPersistenceAdapter.deleteMiniWidget(widgetId)
+    fun deleteMiniWidget(widgetId: Int) {
+        miniWidgetPersistenceAdapter.deleteMiniWidget(widgetId)
+    }
 }

@@ -18,15 +18,15 @@ class ProxyClient(
     fun <T : Any> get(
         uri: URI,
         responseType: ParameterizedTypeReference<T>
-    ): T {
-        // The URL is user-supplied: strip line breaks so it cannot forge log entries
-        val sanitizedUrl = uri.toString().replace('\n', '_').replace('\r', '_')
-        logger.info("Send GET request to url : {}", sanitizedUrl)
-        return restClient
+    ): T =
+        restClient
             .get()
             .uri(uri)
+            .also { logger.info("Send GET request to url : {}", uri.toLogSafeString()) }
             .retrieve()
             .body(responseType)
             .orNotFound()
-    }
 }
+
+// The URL is user-supplied: strip line breaks so it cannot forge log entries
+private fun URI.toLogSafeString(): String = toString().replace('\n', '_').replace('\r', '_')

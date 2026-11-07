@@ -2,7 +2,7 @@ package com.dash.app.controller.webservices
 
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
-import com.dash.app.controller.response.Page
+import com.dash.domain.model.Page
 import com.dash.domain.model.steamwidget.AchievementDataDomain
 import com.dash.domain.model.steamwidget.GameInfoDomain
 import io.restassured.RestAssured

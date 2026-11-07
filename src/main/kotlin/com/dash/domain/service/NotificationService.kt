@@ -24,11 +24,9 @@ class NotificationService(
     fun saveNotification(
         message: String,
         notificationType: NotificationType
-    ) {
-        val userName = userService.getCurrentAuthenticatedUserUsername()
-        createNotification("$userName : $message", notificationType)
+    ): NotificationDomain =
+        createNotification("${userService.getCurrentAuthenticatedUserUsername()} : $message", notificationType)
             .let(notificationAdapter::saveNotification)
-    }
 
     @PreAuthorize(SecurityConditions.IS_USER_ADMIN)
     fun markNotificationsAsRead(notificationIds: List<Int>): List<NotificationDomain> =

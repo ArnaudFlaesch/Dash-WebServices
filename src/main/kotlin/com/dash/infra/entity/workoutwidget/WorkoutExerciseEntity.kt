@@ -66,16 +66,16 @@ import java.io.Serializable
 )
 @Entity
 @Table(name = "workout_exercise")
-data class WorkoutExerciseEntity(
+class WorkoutExerciseEntity(
     @EmbeddedId
-    var workoutExerciseId: WorkoutExerciseEntityId,
+    val workoutExerciseId: WorkoutExerciseEntityId,
     var numberOfReps: Int = 0,
     @ManyToOne
     @JoinColumn(name = "workout_session_id", insertable = false, updatable = false)
-    var workoutSession: WorkoutSessionEntity? = null,
+    val workoutSession: WorkoutSessionEntity? = null,
     @ManyToOne
     @JoinColumn(name = "workout_type_id", insertable = false, updatable = false)
-    var workoutType: WorkoutTypeEntity? = null
+    val workoutType: WorkoutTypeEntity? = null
 ) {
     fun toDomain(): WorkoutExerciseDomain =
         WorkoutExerciseDomain(

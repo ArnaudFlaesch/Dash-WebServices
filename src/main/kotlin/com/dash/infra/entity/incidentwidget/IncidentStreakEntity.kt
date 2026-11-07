@@ -6,7 +6,7 @@ import java.time.OffsetDateTime
 
 @Entity
 @Table(name = "incident_streak")
-data class IncidentStreakEntity(
+class IncidentStreakEntity(
     @Id
     @SequenceGenerator(
         name = "incident-streak-seq-gen",

@@ -18,16 +18,16 @@ class JwtUtils(
     private val jwtExpiration = securityProperties.jwt.expiration
     private val parser = Jwts.parser().verifyWith(signingKey).build()
 
-    fun generateJwtToken(username: String): String {
-        val now = Instant.now()
-        return Jwts
-            .builder()
-            .subject(username)
-            .issuedAt(Date.from(now))
-            .expiration(Date.from(now + jwtExpiration))
-            .signWith(signingKey)
-            .compact()
-    }
+    fun generateJwtToken(username: String): String =
+        Instant.now().let { now ->
+            Jwts
+                .builder()
+                .subject(username)
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(now + jwtExpiration))
+                .signWith(signingKey)
+                .compact()
+        }
 
     /** Returns the token's subject, or null if the token is malformed, expired or wrongly signed. */
     fun getUserNameFromValidToken(token: String): String? =

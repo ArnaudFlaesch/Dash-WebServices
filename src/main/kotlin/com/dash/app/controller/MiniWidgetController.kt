@@ -28,5 +28,7 @@ class MiniWidgetController(
     @DeleteMapping("/deleteMiniWidget")
     fun deleteMiniWidget(
         @RequestParam widgetId: Int
-    ) = miniWidgetService.deleteMiniWidget(widgetId)
+    ) {
+        miniWidgetService.deleteMiniWidget(widgetId)
+    }
 }

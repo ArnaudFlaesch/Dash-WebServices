@@ -37,5 +37,7 @@ class TabService(
     @PreAuthorize(
         "${SecurityConditions.DOES_TAB_BELONG_TO_AUTHENTICATED_USER} and ${SecurityConditions.IS_USER_ADMIN}"
     )
-    fun deleteTab(tabId: Int) = tabPersistenceAdapter.deleteTab(tabId)
+    fun deleteTab(tabId: Int) {
+        tabPersistenceAdapter.deleteTab(tabId)
+    }
 }

@@ -7,7 +7,7 @@ import java.time.OffsetDateTime
 
 @Entity
 @Table(name = "incident")
-data class IncidentEntity(
+class IncidentEntity(
     @Id
     @SequenceGenerator(
         name = "incident-seq-gen",
@@ -18,7 +18,7 @@ data class IncidentEntity(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "incident-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
     val id: Int,
-    @Column(name = "last_incident_date") val lastIncidentDate: OffsetDateTime,
+    @Column(name = "last_incident_date") var lastIncidentDate: OffsetDateTime,
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "widgetId")
     val widget: WidgetEntity

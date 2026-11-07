@@ -26,5 +26,7 @@ class LabelController(
     @DeleteMapping("/deleteLabel")
     fun deleteLabel(
         @RequestParam(value = "labelId") id: Int
-    ) = labelService.deleteLabel(id)
+    ) {
+        labelService.deleteLabel(id)
+    }
 }

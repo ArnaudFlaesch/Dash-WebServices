@@ -24,22 +24,21 @@ class AuthController(
     @PostMapping("/login")
     fun authenticateUser(
         @Valid @RequestBody loginRequest: LoginRequest
-    ): JwtResponse {
-        val authentication =
-            authenticationManager.authenticate(
+    ): JwtResponse =
+        authenticationManager
+            .authenticate(
                 UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.username, loginRequest.password)
-            )
-        SecurityContextHolder.getContext().authentication = authentication
-        val userDetails = authentication.principal as UserDetailsImpl
+            ).also { authentication ->
+                SecurityContextHolder.getContext().authentication = authentication
+                applicationEventPublisher.publishEvent(DashEvent(Constants.USER_LOGGED_IN_EVENT, NotificationType.WARN))
+            }.let { authentication -> (authentication.principal as UserDetailsImpl).toJwtResponse() }
 
-        applicationEventPublisher.publishEvent(DashEvent(Constants.USER_LOGGED_IN_EVENT, NotificationType.WARN))
-
-        return JwtResponse(
-            accessToken = jwtUtils.generateJwtToken(userDetails.username),
-            id = userDetails.id,
-            username = userDetails.username,
-            email = userDetails.email,
-            roles = userDetails.authorities.mapNotNull { it.authority }
+    private fun UserDetailsImpl.toJwtResponse(): JwtResponse =
+        JwtResponse(
+            accessToken = jwtUtils.generateJwtToken(username),
+            id = id,
+            username = username,
+            email = email,
+            roles = authorities.mapNotNull { it.authority }
         )
-    }
 }

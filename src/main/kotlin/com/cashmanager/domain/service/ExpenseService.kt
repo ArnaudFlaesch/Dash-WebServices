@@ -45,7 +45,11 @@ class ExpenseService(
 
     fun updateExpense(expense: ExpenseDomain): ExpenseDomain = expensePersistenceAdapter.updateExpense(expense)
 
-    fun deleteExpense(expenseId: Int) = expensePersistenceAdapter.deleteExpense(expenseId)
+    fun deleteExpense(expenseId: Int) {
+        expensePersistenceAdapter.deleteExpense(expenseId)
+    }
 
-    fun deleteExpensesByLabelId(labelId: Int) = expensePersistenceAdapter.deleteExpensesByLabelId(labelId)
+    fun deleteExpensesByLabelId(labelId: Int) {
+        expensePersistenceAdapter.deleteExpensesByLabelId(labelId)
+    }
 }

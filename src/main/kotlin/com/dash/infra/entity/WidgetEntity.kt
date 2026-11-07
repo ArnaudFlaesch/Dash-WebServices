@@ -4,11 +4,10 @@ import com.dash.domain.model.WidgetDomain
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
-import java.io.Serializable
 
 @Entity
 @Table(name = "widget")
-data class WidgetEntity(
+class WidgetEntity(
     @Id
     @SequenceGenerator(
         name = "widget-seq-gen",
@@ -22,17 +21,13 @@ data class WidgetEntity(
     val type: Int,
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "json")
-    val data: Any? = null,
-    val widgetOrder: Int,
+    var data: Any? = null,
+    var widgetOrder: Int,
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "tabId")
     val tab: TabEntity
-) : Serializable {
-    companion object {
-        private const val serialVersionUID: Long = 1
-    }
-
-    fun toDomain() =
+) {
+    fun toDomain(): WidgetDomain =
         WidgetDomain(
             id = this.id,
             type = this.type,

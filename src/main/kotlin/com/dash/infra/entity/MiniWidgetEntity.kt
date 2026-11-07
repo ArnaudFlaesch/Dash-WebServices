@@ -5,11 +5,10 @@ import com.dash.domain.model.MiniWidgetDomain
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
-import java.io.Serializable
 
 @Entity
 @Table(name = "mini_widget")
-data class MiniWidgetEntity(
+class MiniWidgetEntity(
     @Id
     @SequenceGenerator(
         name = "mini-widget-seq-gen",
@@ -23,16 +22,12 @@ data class MiniWidgetEntity(
     val type: Int,
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "json")
-    val data: Any? = null,
+    var data: Any? = null,
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
     val user: UserEntity
-) : Serializable {
-    companion object {
-        private const val serialVersionUID: Long = 1
-    }
-
-    fun toDomain() =
+) {
+    fun toDomain(): MiniWidgetDomain =
         MiniWidgetDomain(
             id = this.id,
             type = this.type,

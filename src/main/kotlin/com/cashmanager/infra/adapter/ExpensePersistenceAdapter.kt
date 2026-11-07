@@ -59,14 +59,17 @@ class ExpensePersistenceAdapter(
     fun updateExpense(expense: ExpenseDomain): ExpenseDomain =
         expenseRepository
             .getReferenceById(expense.id)
-            .copy(
-                amount = expense.amount,
-                expenseDate = expense.expenseDate,
+            .apply {
+                amount = expense.amount
+                expenseDate = expense.expenseDate
                 label = labelRepository.getReferenceById(expense.labelId)
-            ).let(expenseRepository::save)
-            .let(ExpenseEntity::toDomain)
+            }.toDomain()
 
-    fun deleteExpense(expenseId: Int) = expenseRepository.deleteById(expenseId)
+    fun deleteExpense(expenseId: Int) {
+        expenseRepository.deleteById(expenseId)
+    }
 
-    fun deleteExpensesByLabelId(labelId: Int) = expenseRepository.deleteExpensesByLabelId(labelId)
+    fun deleteExpensesByLabelId(labelId: Int) {
+        expenseRepository.deleteExpensesByLabelId(labelId)
+    }
 }
