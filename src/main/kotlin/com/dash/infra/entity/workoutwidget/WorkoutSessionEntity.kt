@@ -7,7 +7,7 @@ import java.time.LocalDate
 
 @Entity
 @Table(name = "workout_session")
-data class WorkoutSessionEntity(
+class WorkoutSessionEntity(
     @Id
     @SequenceGenerator(
         name = "workout-session-seq-gen",

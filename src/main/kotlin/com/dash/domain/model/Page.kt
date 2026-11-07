@@ -1,4 +1,4 @@
-package com.dash.app.controller.response
+package com.dash.domain.model
 
 data class Page<T>(
     val content: List<T>,

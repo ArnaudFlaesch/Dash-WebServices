@@ -1,5 +1,6 @@
 package com.cashmanager.domain.service
 
+import com.cashmanager.domain.model.CashManagerExportData
 import com.cashmanager.domain.model.CashManagerImportData
 import com.cashmanager.domain.model.ExpenseExportDomain
 import org.slf4j.LoggerFactory
@@ -14,13 +15,14 @@ class CashManagerConfigService(
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    fun exportData(): Map<String, Any> {
-        val expenses =
-            expenseService.getUserExpenses().map { expense ->
-                ExpenseExportDomain(expense.id, expense.amount, expense.expenseDate.toString(), expense.labelId)
-            }
-        return mapOf("expenses" to expenses, "labels" to labelService.getUserLabels())
-    }
+    fun exportData(): CashManagerExportData =
+        CashManagerExportData(
+            expenses =
+                expenseService.getUserExpenses().map { expense ->
+                    ExpenseExportDomain(expense.id, expense.amount, expense.expenseDate.toString(), expense.labelId)
+                },
+            labels = labelService.getUserLabels()
+        )
 
     /** Imports the labels and their expenses in a single transaction, so a failing import leaves no partial data. */
     @Transactional

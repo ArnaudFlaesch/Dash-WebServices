@@ -14,7 +14,7 @@ import jakarta.validation.constraints.Size
         UniqueConstraint(columnNames = ["email"])
     ]
 )
-data class UserEntity(
+class UserEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)

@@ -27,9 +27,10 @@ class LabelPersistenceAdapter(
     fun updateLabel(labelToUpdate: LabelDomain): LabelDomain =
         labelRepository
             .getReferenceById(labelToUpdate.id)
-            .copy(label = labelToUpdate.label)
-            .let(labelRepository::save)
-            .let(LabelEntity::toDomain)
+            .apply { label = labelToUpdate.label }
+            .toDomain()
 
-    fun deleteLabel(labelId: Int) = labelRepository.deleteById(labelId)
+    fun deleteLabel(labelId: Int) {
+        labelRepository.deleteById(labelId)
+    }
 }

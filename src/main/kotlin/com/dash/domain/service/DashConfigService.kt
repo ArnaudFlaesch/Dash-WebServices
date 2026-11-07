@@ -1,5 +1,6 @@
 package com.dash.domain.service
 
+import com.dash.domain.model.config.ExportData
 import com.dash.domain.model.config.ImportData
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -12,8 +13,8 @@ class DashConfigService(
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    fun exportConfig(): Map<String, Any> =
-        mapOf("widgets" to widgetService.getUserWidgets(), "tabs" to tabService.getUserTabs())
+    fun exportConfig(): ExportData =
+        ExportData(widgets = widgetService.getUserWidgets(), tabs = tabService.getUserTabs())
 
     /** Imports the tabs and their widgets in a single transaction, so a failing import leaves no partial data. */
     @Transactional

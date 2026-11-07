@@ -25,7 +25,7 @@ class NotificationAdapter(
         NotificationEntity(
             id = notification.id,
             message = notification.message,
-            notificationType = notification.notificationType.name,
+            notificationType = notification.notificationType,
             notificationDate = notification.notificationDate,
             isRead = notification.isRead
         ).let(notificationRepository::save)
@@ -35,7 +35,6 @@ class NotificationAdapter(
     fun markNotificationsAsRead(notificationIds: List<Int>): List<NotificationDomain> =
         notificationRepository
             .findAllById(notificationIds)
-            .map { it.copy(isRead = true) }
-            .let(notificationRepository::saveAll)
+            .onEach { it.isRead = true }
             .map(NotificationEntity::toDomain)
 }

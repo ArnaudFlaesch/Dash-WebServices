@@ -1,6 +1,6 @@
 package com.dash.infra.adapter
 
-import com.dash.app.controller.response.Page
+import com.dash.domain.model.Page
 import com.dash.domain.model.steamwidget.AchievementDataDomain
 import com.dash.domain.model.steamwidget.GameInfoDomain
 import com.dash.domain.model.steamwidget.PlayerDataDomain

@@ -33,14 +33,14 @@ class NotificationRepositoryTests {
                     0,
                     "Test notif",
                     OffsetDateTime.now(),
-                    NotificationType.WARN.name,
+                    NotificationType.WARN,
                     false
                 ),
                 NotificationEntity(
                     0,
                     "Test notif 2",
                     OffsetDateTime.now(),
-                    NotificationType.INFO.name,
+                    NotificationType.INFO,
                     true
                 )
             )
@@ -59,8 +59,8 @@ class NotificationRepositoryTests {
         assertThat(
             listNotifications.content.map(NotificationEntity::notificationType)
         ).containsExactlyInAnyOrder(
-            NotificationType.WARN.name,
-            NotificationType.INFO.name
+            NotificationType.WARN,
+            NotificationType.INFO
         )
         assertThat(
             listNotifications.content.map(NotificationEntity::isRead)

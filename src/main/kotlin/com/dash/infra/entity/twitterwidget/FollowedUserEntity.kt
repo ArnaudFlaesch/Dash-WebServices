@@ -6,7 +6,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "followed_user")
-data class FollowedUserEntity(
+class FollowedUserEntity(
     @Id
     @SequenceGenerator(
         name = "followed-user-seq-gen",
@@ -23,5 +23,5 @@ data class FollowedUserEntity(
     @JoinColumn(name = "userId")
     val user: UserEntity
 ) {
-    fun toDomain() = FollowedUser(id = id, userHandle = userHandle, userId = user.id)
+    fun toDomain(): FollowedUser = FollowedUser(id = id, userHandle = userHandle, userId = user.id)
 }

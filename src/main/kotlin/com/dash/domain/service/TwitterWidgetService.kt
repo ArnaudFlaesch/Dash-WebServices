@@ -29,5 +29,7 @@ class TwitterWidgetService(
         twitterWidgetAdapter.addFollowedUser(followedUserHandle, userService.getCurrentAuthenticatedUserId())
 
     @PreAuthorize(SecurityConditions.DOES_FOLLOWED_USER_BELONG_TO_AUTHENTICATED_USER)
-    fun deleteFollowedUser(followedUserId: Int) = twitterWidgetAdapter.deleteFollowedUser(followedUserId)
+    fun deleteFollowedUser(followedUserId: Int) {
+        twitterWidgetAdapter.deleteFollowedUser(followedUserId)
+    }
 }

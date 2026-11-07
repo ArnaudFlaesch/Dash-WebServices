@@ -52,7 +52,7 @@ class AuthControllerTests {
             } Extract {
                 `as`(JwtResponse::class.java)
             }
-        assertEquals(RoleEnum.ROLE_ADMIN.roleName, jwtResponse.roles[0])
+        assertEquals(RoleEnum.ROLE_ADMIN.name, jwtResponse.roles[0])
     }
 
     @Test
@@ -69,7 +69,7 @@ class AuthControllerTests {
             } Extract {
                 `as`(JwtResponse::class.java)
             }
-        assertEquals(RoleEnum.ROLE_USER.roleName, jwtResponse.roles[0])
+        assertEquals(RoleEnum.ROLE_USER.name, jwtResponse.roles[0])
     }
 
     @Test

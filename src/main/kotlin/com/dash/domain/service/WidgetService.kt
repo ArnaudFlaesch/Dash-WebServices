@@ -54,5 +54,7 @@ class WidgetService(
     @PreAuthorize(
         "${SecurityConditions.DOES_WIDGET_BELONG_TO_AUTHENTICATED_USER} and ${SecurityConditions.IS_USER_ADMIN}"
     )
-    fun deleteWidget(widgetId: Int) = widgetPersistenceAdapter.deleteWidget(widgetId)
+    fun deleteWidget(widgetId: Int) {
+        widgetPersistenceAdapter.deleteWidget(widgetId)
+    }
 }

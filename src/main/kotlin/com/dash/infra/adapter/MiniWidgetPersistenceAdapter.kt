@@ -31,9 +31,10 @@ class MiniWidgetPersistenceAdapter(
     ): MiniWidgetDomain =
         miniWidgetRepository
             .getReferenceById(widgetId)
-            .copy(data = updatedData)
-            .let(miniWidgetRepository::save)
-            .let(MiniWidgetEntity::toDomain)
+            .apply { data = updatedData }
+            .toDomain()
 
-    fun deleteMiniWidget(widgetId: Int) = miniWidgetRepository.deleteById(widgetId)
+    fun deleteMiniWidget(widgetId: Int) {
+        miniWidgetRepository.deleteById(widgetId)
+    }
 }

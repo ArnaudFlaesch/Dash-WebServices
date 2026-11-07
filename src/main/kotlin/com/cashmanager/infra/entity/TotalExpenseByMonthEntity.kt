@@ -7,5 +7,5 @@ data class TotalExpenseByMonthEntity(
     val total: Float,
     val date: LocalDate
 ) {
-    fun toDomain() = TotalExpenseByMonthDomain(total = this.total, date = this.date)
+    fun toDomain(): TotalExpenseByMonthDomain = TotalExpenseByMonthDomain(total = this.total, date = this.date)
 }

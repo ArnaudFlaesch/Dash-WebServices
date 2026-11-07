@@ -7,7 +7,7 @@ import java.time.OffsetDateTime
 
 @Entity
 @Table(name = "notification")
-data class NotificationEntity(
+class NotificationEntity(
     @Id
     @SequenceGenerator(
         name = "notification-seq-gen",
@@ -20,16 +20,18 @@ data class NotificationEntity(
     val id: Int,
     val message: String,
     @Column(name = "notification_date") val notificationDate: OffsetDateTime,
-    @Column(name = "notificationType") val notificationType: String,
+    @Enumerated(EnumType.STRING)
+    @Column(name = "notificationType")
+    val notificationType: NotificationType,
     @Column(name = "is_read")
-    val isRead: Boolean
+    var isRead: Boolean
 ) {
     fun toDomain(): NotificationDomain =
         NotificationDomain(
             id = id,
             message = message,
             notificationDate = notificationDate,
-            notificationType = NotificationType.valueOf(notificationType),
+            notificationType = notificationType,
             isRead = isRead
         )
 }

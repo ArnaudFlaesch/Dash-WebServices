@@ -23,9 +23,8 @@ class IncidentWidgetAdapter(
     @Transactional
     fun startStreak(widgetId: Int): IncidentDomain =
         getOrCreateIncidentConfig(widgetId)
-            .copy(lastIncidentDate = OffsetDateTime.now())
-            .let(incidentWidgetRepository::save)
-            .let(IncidentEntity::toDomain)
+            .apply { lastIncidentDate = OffsetDateTime.now() }
+            .toDomain()
 
     /** Records the current streak as ended now, and starts a new one. */
     @Transactional
@@ -33,7 +32,8 @@ class IncidentWidgetAdapter(
         val incidentConfig = getOrCreateIncidentConfig(widgetId)
         val now = OffsetDateTime.now()
         incidentStreakRepository.save(IncidentStreakEntity(0, incidentConfig.lastIncidentDate, now, incidentConfig))
-        return incidentWidgetRepository.save(incidentConfig.copy(lastIncidentDate = now)).toDomain()
+        incidentConfig.lastIncidentDate = now
+        return incidentConfig.toDomain()
     }
 
     fun getIncidentStreaks(incidentId: Int): List<IncidentStreakDomain> =

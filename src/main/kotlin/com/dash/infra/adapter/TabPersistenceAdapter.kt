@@ -46,9 +46,10 @@ class TabPersistenceAdapter(
     ): TabDomain =
         tabRepository
             .getReferenceById(tabId)
-            .copy(label = label, tabOrder = tabOrder)
-            .let(tabRepository::save)
-            .let(TabEntity::toDomain)
+            .apply {
+                this.label = label
+                this.tabOrder = tabOrder
+            }.toDomain()
 
     @Transactional
     fun deleteTab(tabId: Int) {

@@ -3,7 +3,7 @@ package com.dash.app.controller
 import com.common.utils.IntegrationTestsUtils
 import com.common.utils.IntegrationTestsUtils.createAuthenticationHeader
 import com.dash.app.controller.requests.twitterWidget.AddUserToFollowPayload
-import com.dash.app.controller.response.Page
+import com.dash.domain.model.Page
 import com.dash.domain.model.twitterwidget.FollowedUser
 import io.restassured.RestAssured
 import io.restassured.common.mapper.TypeRef
