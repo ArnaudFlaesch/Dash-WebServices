@@ -20,9 +20,13 @@ class CalendarWidgetService(
             .get(URI.create(url), typeReference<String>())
             .let { CalendarBuilder().build(StringReader(it)) }
             .getComponents<VEvent>(Component.VEVENT)
-            .mapNotNull { event ->
-                val start = event.getDateTimeStart<Temporal>() ?: return@mapNotNull null
-                val end = event.getDateTimeEnd<Temporal>() ?: return@mapNotNull null
+            .mapNotNull(::toCalendarEvent)
+
+    /** Events without a start or an end date can't be shown on a calendar, so they are skipped. */
+    private fun toCalendarEvent(event: VEvent): CalendarEvent? =
+        event.getDateTimeStart<Temporal>()?.let { start ->
+            event.getDateTimeEnd<Temporal>()?.let { end ->
                 CalendarEvent(start.date, end.date, event.summary?.value.orEmpty())
             }
+        }
 }

@@ -53,8 +53,10 @@ class TabPersistenceAdapter(
 
     @Transactional
     fun deleteTab(tabId: Int) {
-        val widgetIds = widgetRepository.findByTabIdOrderByWidgetOrderAsc(tabId).map(WidgetEntity::id)
-        widgetPersistenceAdapter.deleteWidgetsData(widgetIds)
+        widgetRepository
+            .findByTabIdOrderByWidgetOrderAsc(tabId)
+            .map(WidgetEntity::id)
+            .let(widgetPersistenceAdapter::deleteWidgetsData)
         widgetRepository.deleteWidgetsByTabId(tabId)
         tabRepository.deleteById(tabId)
     }

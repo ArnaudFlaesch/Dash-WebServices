@@ -14,8 +14,8 @@ class RestExceptionHandler {
 
     /** A request targeting an entity that doesn't exist is a client error, not a server failure. */
     @ExceptionHandler(EntityNotFoundException::class, ObjectRetrievalFailureException::class)
-    fun handleEntityNotFound(exception: RuntimeException): ProblemDetail {
-        logger.warn("Entity not found: {}", exception.message)
-        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, "Resource not found")
-    }
+    fun handleEntityNotFound(exception: RuntimeException): ProblemDetail =
+        ProblemDetail
+            .forStatusAndDetail(HttpStatus.NOT_FOUND, "Resource not found")
+            .also { logger.warn("Entity not found: {}", exception.message) }
 }

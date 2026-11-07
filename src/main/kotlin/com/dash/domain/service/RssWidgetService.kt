@@ -2,7 +2,7 @@ package com.dash.domain.service
 
 import com.dash.infra.rest.ProxyClient
 import com.dash.infra.rest.typeReference
-import com.dash.utils.XmlParserUtils.parseXmlDataToJsonString
+import com.dash.utils.parseXmlDataToJsonString
 import org.springframework.stereotype.Service
 import java.net.URI
 

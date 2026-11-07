@@ -22,8 +22,9 @@ class CashManagerConfigController(
     @PostMapping("/import")
     fun importConfig(
         @RequestParam file: MultipartFile
-    ): Boolean {
-        cashManagerConfigService.importData(jsonMapper.readValue<CashManagerImportData>(file.bytes))
-        return true
-    }
+    ): Boolean =
+        jsonMapper
+            .readValue<CashManagerImportData>(file.bytes)
+            .let(cashManagerConfigService::importData)
+            .let { true }
 }

@@ -28,13 +28,14 @@ class IncidentWidgetAdapter(
 
     /** Records the current streak as ended now, and starts a new one. */
     @Transactional
-    fun endStreak(widgetId: Int): IncidentDomain {
-        val incidentConfig = getOrCreateIncidentConfig(widgetId)
-        val now = OffsetDateTime.now()
-        incidentStreakRepository.save(IncidentStreakEntity(0, incidentConfig.lastIncidentDate, now, incidentConfig))
-        incidentConfig.lastIncidentDate = now
-        return incidentConfig.toDomain()
-    }
+    fun endStreak(widgetId: Int): IncidentDomain =
+        OffsetDateTime.now().let { now ->
+            getOrCreateIncidentConfig(widgetId)
+                .also { incident ->
+                    incidentStreakRepository.save(IncidentStreakEntity(0, incident.lastIncidentDate, now, incident))
+                }.apply { lastIncidentDate = now }
+                .toDomain()
+        }
 
     fun getIncidentStreaks(incidentId: Int): List<IncidentStreakDomain> =
         incidentStreakRepository

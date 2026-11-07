@@ -62,8 +62,9 @@ class WidgetPersistenceAdapter(
     /** Deletes the rows referencing the widgets (incident widget data), which would otherwise block their deletion. */
     @Transactional
     fun deleteWidgetsData(widgetIds: Collection<Int>) {
-        if (widgetIds.isEmpty()) return
-        incidentStreakRepository.deleteByWidgetIds(widgetIds)
-        incidentWidgetRepository.deleteByWidgetIds(widgetIds)
+        widgetIds.takeIf(Collection<Int>::isNotEmpty)?.let { ids ->
+            incidentStreakRepository.deleteByWidgetIds(ids)
+            incidentWidgetRepository.deleteByWidgetIds(ids)
+        }
     }
 }
