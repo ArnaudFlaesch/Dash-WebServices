@@ -21,10 +21,11 @@ interface WidgetRepository : JpaRepository<WidgetEntity, Int> {
         userId: Int
     ): Boolean
 
-    fun countByIdInAndTabUserId(
+    @Query("SELECT w.id FROM WidgetEntity w WHERE w.id IN :ids AND w.tab.user.id = :userId")
+    fun findIdsByIdInAndTabUserId(
         ids: Collection<Int>,
         userId: Int
-    ): Long
+    ): List<Int>
 
     @Modifying
     @Query("DELETE FROM WidgetEntity WHERE tab.id = :tabId")

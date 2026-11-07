@@ -4,6 +4,7 @@ import com.common.app.security.SecurityConditions
 import com.common.domain.service.UserService
 import com.dash.domain.model.TabDomain
 import com.dash.infra.adapter.TabPersistenceAdapter
+import org.springframework.security.access.prepost.PostFilter
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service
 
@@ -12,6 +13,7 @@ class TabService(
     private val tabPersistenceAdapter: TabPersistenceAdapter,
     private val userService: UserService
 ) {
+    @PostFilter(SecurityConditions.DOES_FILTERED_TAB_BELONG_TO_AUTHENTICATED_USER)
     fun getUserTabs(): List<TabDomain> = tabPersistenceAdapter.getUserTabs(userService.getCurrentAuthenticatedUserId())
 
     fun addTab(tabLabel: String): TabDomain =

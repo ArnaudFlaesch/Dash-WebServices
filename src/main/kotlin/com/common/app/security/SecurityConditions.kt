@@ -1,12 +1,13 @@
 package com.common.app.security
 
-/** SpEL expressions for @PreAuthorize. Ownership checks are implemented in OwnershipSecurityService. */
+/** SpEL expressions for @PreAuthorize/@PostFilter. Ownership checks are implemented in OwnershipSecurityService. */
 object SecurityConditions {
     private const val OWNERSHIP = "@ownershipSecurityService"
 
     const val IS_USER_ADMIN = "hasRole('ROLE_ADMIN')"
 
     // Tabs
+    const val DOES_FILTERED_TAB_BELONG_TO_AUTHENTICATED_USER = "filterObject.userId == authentication.principal.id"
     const val DOES_TAB_BELONG_TO_AUTHENTICATED_USER = "$OWNERSHIP.isTabOwner(#tabId)"
     const val DO_TABS_BELONG_TO_AUTHENTICATED_USER = "$OWNERSHIP.areTabsOwned(#tabList)"
 

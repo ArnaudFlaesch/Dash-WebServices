@@ -27,14 +27,14 @@ class OwnershipSecurityService(
 
     fun areTabsOwned(tabs: Collection<TabDomain>): Boolean {
         val tabIds = tabs.map(TabDomain::id).toSet()
-        return tabRepository.countByIdInAndUserId(tabIds, currentUserId()) == tabIds.size.toLong()
+        return tabRepository.findIdsByIdInAndUserId(tabIds, currentUserId()).toSet() == tabIds
     }
 
     fun isWidgetOwner(widgetId: Int): Boolean = widgetRepository.existsByIdAndTabUserId(widgetId, currentUserId())
 
     fun areWidgetsOwned(widgets: Collection<WidgetDomain>): Boolean {
         val widgetIds = widgets.map(WidgetDomain::id).toSet()
-        return widgetRepository.countByIdInAndTabUserId(widgetIds, currentUserId()) == widgetIds.size.toLong()
+        return widgetRepository.findIdsByIdInAndTabUserId(widgetIds, currentUserId()).toSet() == widgetIds
     }
 
     fun isMiniWidgetOwner(miniWidgetId: Int): Boolean =

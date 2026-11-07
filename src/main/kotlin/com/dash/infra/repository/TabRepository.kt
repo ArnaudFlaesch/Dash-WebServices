@@ -17,8 +17,9 @@ interface TabRepository : JpaRepository<TabEntity, Int> {
         userId: Int
     ): Boolean
 
-    fun countByIdInAndUserId(
+    @Query("SELECT t.id FROM TabEntity t WHERE t.id IN :ids AND t.user.id = :userId")
+    fun findIdsByIdInAndUserId(
         ids: Collection<Int>,
         userId: Int
-    ): Long
+    ): List<Int>
 }
