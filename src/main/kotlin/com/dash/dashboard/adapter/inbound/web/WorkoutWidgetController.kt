@@ -6,18 +6,25 @@ import com.dash.dashboard.adapter.inbound.web.request.workout.UpdateWorkoutExerc
 import com.dash.dashboard.application.port.inbound.WorkoutWidgetUseCase
 import com.dash.dashboard.domain.model.workout.*
 import org.springframework.format.annotation.DateTimeFormat
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
 @RestController
-@RequestMapping("/workoutWidget")
+@RequestMapping("/workout")
 class WorkoutWidgetController(
     private val workoutWidgetUseCase: WorkoutWidgetUseCase
 ) {
-    @GetMapping("/workoutTypes")
+    @GetMapping("/types")
     fun getWorkoutTypes(): List<WorkoutType> = workoutWidgetUseCase.getWorkoutTypes()
 
-    @GetMapping("/workoutSessions")
+    @PostMapping("/types")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun addWorkoutType(
+        @RequestBody addWorkoutTypeRequest: AddWorkoutTypeRequest
+    ): WorkoutType = workoutWidgetUseCase.addWorkoutType(addWorkoutTypeRequest.workoutType)
+
+    @GetMapping("/sessions")
     fun getWorkoutsSessions(
         @RequestParam("dateIntervalStart")
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -27,40 +34,38 @@ class WorkoutWidgetController(
         dateIntervalEnd: LocalDate
     ): List<WorkoutSession> = workoutWidgetUseCase.getWorkoutSessions(dateIntervalStart, dateIntervalEnd)
 
-    @GetMapping("/workoutExercises")
+    @PostMapping("/sessions")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun createWorkoutSession(
+        @RequestBody createWorkoutSessionRequest: CreateWorkoutSessionRequest
+    ): WorkoutSession = workoutWidgetUseCase.createWorkoutSession(createWorkoutSessionRequest.workoutDate)
+
+    @GetMapping("/sessions/{workoutSessionId}/exercises")
     fun getWorkoutsExercisesByWorkoutSessionId(
-        @RequestParam workoutSessionId: Int
+        @PathVariable workoutSessionId: Int
     ): List<WorkoutExercise> = workoutWidgetUseCase.getWorkoutExercises(workoutSessionId)
 
-    @GetMapping("/workoutStatsByPeriod")
+    @PutMapping("/sessions/{workoutSessionId}/exercises/{workoutTypeId}")
+    fun updateWorkoutExercise(
+        @PathVariable workoutSessionId: Int,
+        @PathVariable workoutTypeId: Int,
+        @RequestBody updateWorkoutExerciseRequest: UpdateWorkoutExerciseRequest
+    ): WorkoutExercise =
+        workoutWidgetUseCase.updateWorkoutExercise(
+            workoutSessionId,
+            workoutTypeId,
+            updateWorkoutExerciseRequest.numberOfReps
+        )
+
+    @GetMapping("/stats/by-period")
     fun getWorkoutStatsByPeriod(
         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) dateIntervalStart: LocalDate,
         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) dateIntervalEnd: LocalDate
     ): List<WorkoutStatsByInterval> = workoutWidgetUseCase.getWorkoutStatsByPeriod(dateIntervalStart, dateIntervalEnd)
 
-    @GetMapping("/workoutStatsByMonth")
+    @GetMapping("/stats/by-month")
     fun workoutStatsByMonth(
         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) dateIntervalStart: LocalDate,
         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) dateIntervalEnd: LocalDate
     ): List<WorkoutStatsByMonth> = workoutWidgetUseCase.getWorkoutStatsByMonth(dateIntervalStart, dateIntervalEnd)
-
-    @PostMapping("/updateWorkoutExercise")
-    fun updateWorkoutExercise(
-        @RequestBody updateWorkoutExerciseRequest: UpdateWorkoutExerciseRequest
-    ): WorkoutExercise =
-        workoutWidgetUseCase.updateWorkoutExercise(
-            updateWorkoutExerciseRequest.workoutSessionId,
-            updateWorkoutExerciseRequest.workoutTypeId,
-            updateWorkoutExerciseRequest.numberOfReps
-        )
-
-    @PostMapping("/addWorkoutType")
-    fun addWorkoutType(
-        @RequestBody addWorkoutTypeRequest: AddWorkoutTypeRequest
-    ): WorkoutType = workoutWidgetUseCase.addWorkoutType(addWorkoutTypeRequest.workoutType)
-
-    @PostMapping("/createWorkoutSession")
-    fun createWorkoutSession(
-        @RequestBody createWorkoutSessionRequest: CreateWorkoutSessionRequest
-    ): WorkoutSession = workoutWidgetUseCase.createWorkoutSession(createWorkoutSessionRequest.workoutDate)
 }

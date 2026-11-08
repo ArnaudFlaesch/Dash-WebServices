@@ -9,7 +9,7 @@ import com.dash.dashboard.domain.model.strava.StravaTokenData
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/stravaWidget")
+@RequestMapping("/strava")
 class StravaWidgetController(
     private val stravaWidgetUseCase: StravaWidgetUseCase
 ) {
@@ -18,22 +18,22 @@ class StravaWidgetController(
         private const val NUMBER_OF_ACTIVITIES_PER_PAGE = 25
     }
 
-    @PostMapping("/getToken")
+    @PostMapping("/token")
     fun getToken(
         @RequestBody getStravaTokenRequest: GetStravaTokenRequest
     ): StravaTokenData = stravaWidgetUseCase.getToken(getStravaTokenRequest.apiCode)
 
-    @PostMapping("/getRefreshToken")
+    @PostMapping("/token/refresh")
     fun getRefreshToken(
         @RequestBody getStravaRefreshTokenRequest: GetStravaRefreshTokenRequest
     ): StravaTokenData = stravaWidgetUseCase.getRefreshToken(getStravaRefreshTokenRequest.refreshToken)
 
-    @GetMapping("/getAthleteData")
+    @GetMapping("/athlete")
     fun getAthleteData(
         @RequestParam token: String
     ): StravaAthlete = stravaWidgetUseCase.getAthleteData(token)
 
-    @GetMapping("/getAthleteActivities")
+    @GetMapping("/athlete/activities")
     fun getAthleteActivities(
         @RequestParam token: String,
         @RequestParam pageNumber: Int = PAGE_NUMBER,

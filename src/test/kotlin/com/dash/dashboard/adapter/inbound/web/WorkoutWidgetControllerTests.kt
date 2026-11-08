@@ -37,7 +37,7 @@ class WorkoutWidgetControllerTests {
 
     private lateinit var jwtToken: String
 
-    private val workoutWidgetEndpoint = "/workoutWidget"
+    private val workoutWidgetEndpoint = "/workout"
     private val userId = 1
 
     @Autowired
@@ -74,9 +74,9 @@ class WorkoutWidgetControllerTests {
                     .contentType(ContentType.JSON)
                     .body(addWorkoutTypeRequest)
             } When {
-                post("$workoutWidgetEndpoint/addWorkoutType")
+                post("$workoutWidgetEndpoint/types")
             } Then {
-                statusCode(HttpStatus.OK.value())
+                statusCode(HttpStatus.CREATED.value())
             } Extract {
                 `as`(WorkoutType::class.java)
             }
@@ -89,7 +89,7 @@ class WorkoutWidgetControllerTests {
                     .param("userId", userId)
                     .header(createAuthenticationHeader(jwtToken))
             } When {
-                get("$workoutWidgetEndpoint/workoutTypes")
+                get("$workoutWidgetEndpoint/types")
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {
@@ -108,9 +108,9 @@ class WorkoutWidgetControllerTests {
                     .contentType(ContentType.JSON)
                     .body(createWorkoutSessionRequest)
             } When {
-                post("$workoutWidgetEndpoint/createWorkoutSession")
+                post("$workoutWidgetEndpoint/sessions")
             } Then {
-                statusCode(HttpStatus.OK.value())
+                statusCode(HttpStatus.CREATED.value())
             } Extract {
                 `as`(WorkoutSession::class.java)
             }
@@ -129,7 +129,7 @@ class WorkoutWidgetControllerTests {
                 ).param(
                     "dateIntervalEnd",
                     LocalDate.now().plusDays(1).format(DateTimeFormatter.ISO_DATE)
-                ).get("$workoutWidgetEndpoint/workoutSessions")
+                ).get("$workoutWidgetEndpoint/sessions")
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {
@@ -138,8 +138,7 @@ class WorkoutWidgetControllerTests {
 
         assertEquals(1, workoutSessions.size)
 
-        val workoutExerciseRequest =
-            UpdateWorkoutExerciseRequest(workoutSession.id, workoutType.id, 5)
+        val workoutExerciseRequest = UpdateWorkoutExerciseRequest(5)
         val workoutExercise =
             Given {
                 port(port)
@@ -147,7 +146,7 @@ class WorkoutWidgetControllerTests {
                     .contentType(ContentType.JSON)
                     .body(workoutExerciseRequest)
             } When {
-                post("$workoutWidgetEndpoint/updateWorkoutExercise")
+                put("$workoutWidgetEndpoint/sessions/${workoutSession.id}/exercises/${workoutType.id}")
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {
@@ -163,9 +162,8 @@ class WorkoutWidgetControllerTests {
             Given {
                 port(port)
                     .header(createAuthenticationHeader(jwtToken))
-                    .param("workoutSessionId", workoutSession.id)
             } When {
-                get("$workoutWidgetEndpoint/workoutExercises")
+                get("$workoutWidgetEndpoint/sessions/${workoutSession.id}/exercises")
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {
@@ -186,7 +184,7 @@ class WorkoutWidgetControllerTests {
                         LocalDate.now().plusDays(1).format(DateTimeFormatter.ISO_DATE)
                     )
             } When {
-                get("$workoutWidgetEndpoint/workoutStatsByPeriod")
+                get("$workoutWidgetEndpoint/stats/by-period")
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {
@@ -209,9 +207,9 @@ class WorkoutWidgetControllerTests {
                     .contentType(ContentType.JSON)
                     .body(addWorkoutTypeRequest)
             } When {
-                post("$workoutWidgetEndpoint/addWorkoutType")
+                post("$workoutWidgetEndpoint/types")
             } Then {
-                statusCode(HttpStatus.OK.value())
+                statusCode(HttpStatus.CREATED.value())
             } Extract {
                 `as`(WorkoutType::class.java)
             }
@@ -228,17 +226,16 @@ class WorkoutWidgetControllerTests {
                     .contentType(ContentType.JSON)
                     .body(createWorkoutSessionRequest)
             } When {
-                post("$workoutWidgetEndpoint/createWorkoutSession")
+                post("$workoutWidgetEndpoint/sessions")
             } Then {
-                statusCode(HttpStatus.OK.value())
+                statusCode(HttpStatus.CREATED.value())
             } Extract {
                 `as`(WorkoutSession::class.java)
             }
 
         assertEquals(workoutSessionDate, workoutSession.workoutDate)
 
-        val workoutExerciseRequest =
-            UpdateWorkoutExerciseRequest(workoutSession.id, workoutType.id, 5)
+        val workoutExerciseRequest = UpdateWorkoutExerciseRequest(5)
         val workoutExercise =
             Given {
                 port(port)
@@ -246,7 +243,7 @@ class WorkoutWidgetControllerTests {
                     .contentType(ContentType.JSON)
                     .body(workoutExerciseRequest)
             } When {
-                post("$workoutWidgetEndpoint/updateWorkoutExercise")
+                put("$workoutWidgetEndpoint/sessions/${workoutSession.id}/exercises/${workoutType.id}")
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {
@@ -270,7 +267,7 @@ class WorkoutWidgetControllerTests {
                         workoutSessionDate.plusMonths(1).format(DateTimeFormatter.ISO_DATE)
                     )
             } When {
-                get("$workoutWidgetEndpoint/workoutStatsByMonth")
+                get("$workoutWidgetEndpoint/stats/by-month")
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {

@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/weatherWidget")
+@RequestMapping("/weather")
 class WeatherWidgetController(
     private val weatherWidgetUseCase: WeatherWidgetUseCase
 ) {
-    @GetMapping("/weather")
+    @GetMapping("/current")
     fun getWeatherData(
         @RequestParam city: String
     ): CurrentWeather = weatherWidgetUseCase.getWeatherData(city)

@@ -33,7 +33,7 @@ class RssWidgetControllerTests {
 
     private lateinit var jwtToken: String
 
-    private val rssWidgetEndpoint = "/rssWidget/"
+    private val rssWidgetEndpoint = "/rss-feed"
 
     @BeforeAll
     fun setup() {

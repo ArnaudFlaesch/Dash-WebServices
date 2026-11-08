@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*
 class NotificationController(
     private val notificationUseCase: NotificationUseCase
 ) {
-    @GetMapping("/")
+    @GetMapping
     fun getNotifications(
         @RequestParam(defaultValue = "0") pageNumber: Int,
         @RequestParam(defaultValue = "10") pageSize: Int
     ): Page<Notification> = notificationUseCase.getNotifications(pageNumber, pageSize)
 
-    @PutMapping("/markNotificationAsRead")
+    @PutMapping("/read")
     fun markNotificationAsRead(
         @RequestBody markNotificationsAsReadRequest: MarkNotificationsAsReadRequest
     ): List<Notification> = notificationUseCase.markNotificationsAsRead(markNotificationsAsReadRequest.notificationIds)

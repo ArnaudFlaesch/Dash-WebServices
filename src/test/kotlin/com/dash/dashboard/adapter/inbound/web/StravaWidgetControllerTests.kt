@@ -36,7 +36,7 @@ class StravaWidgetControllerTests {
 
     private lateinit var jwtToken: String
 
-    private val stravaWidgetEndpoint = "/stravaWidget"
+    private val stravaWidgetEndpoint = "/strava"
 
     @BeforeAll
     fun setup() {
@@ -59,7 +59,7 @@ class StravaWidgetControllerTests {
                         .header(Header("Authorization", "Bearer $jwtToken"))
                 } When {
                     body(getStravaTokenRequest)
-                        .post("$stravaWidgetEndpoint/getToken")
+                        .post("$stravaWidgetEndpoint/token")
                 } Then {
                     statusCode(HttpStatus.OK.value())
                 } Extract {
@@ -93,7 +93,7 @@ class StravaWidgetControllerTests {
                     .header(createAuthenticationHeader(token))
             } When {
                 body(getStravaRefreshTokenRequest)
-                    .post("$stravaWidgetEndpoint/getRefreshToken")
+                    .post("$stravaWidgetEndpoint/token/refresh")
             } Then {
                 statusCode(statusCode)
             }
@@ -115,7 +115,7 @@ class StravaWidgetControllerTests {
                         .header(createAuthenticationHeader(jwtToken))
                         .param("token", "VALID_TOKEN")
                 } When {
-                    get("$stravaWidgetEndpoint/getAthleteData")
+                    get("$stravaWidgetEndpoint/athlete")
                 } Then {
                     log()
                         .all()
@@ -147,7 +147,7 @@ class StravaWidgetControllerTests {
                         .header(createAuthenticationHeader(jwtToken))
                         .params(params)
                 } When {
-                    get("$stravaWidgetEndpoint/getAthleteActivities")
+                    get("$stravaWidgetEndpoint/athlete/activities")
                 } Then {
                     log()
                         .all()

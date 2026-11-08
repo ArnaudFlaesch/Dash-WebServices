@@ -1,8 +1,7 @@
 package com.dash.cashmanager.utils
 
 object Constants {
-    const val LABEL_ENDPOINT = "/label/"
-    const val ADD_LABEL_ENDPOINT = "${LABEL_ENDPOINT}addLabel"
-    const val UPDATE_LABEL_ENDPOINT = "${LABEL_ENDPOINT}updateLabel"
-    const val DELETE_LABEL_ENDPOINT = "${LABEL_ENDPOINT}deleteLabel"
+    const val LABEL_ENDPOINT = "/labels"
+
+    fun labelEndpoint(labelId: Int?): String = "$LABEL_ENDPOINT/$labelId"
 }

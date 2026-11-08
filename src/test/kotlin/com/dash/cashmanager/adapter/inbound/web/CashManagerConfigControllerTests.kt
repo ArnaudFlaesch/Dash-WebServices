@@ -31,7 +31,7 @@ class CashManagerConfigControllerTests {
     private lateinit var jwtToken: String
 
     companion object {
-        const val CASH_MANAGER_CONFIG_ENDPOINT = "/cashManagerConfig/"
+        const val CASH_MANAGER_CONFIG_ENDPOINT = "/cash-manager-config"
     }
 
     @BeforeAll
@@ -47,7 +47,7 @@ class CashManagerConfigControllerTests {
                 port(port)
                     .header(createAuthenticationHeader(jwtToken))
             } When {
-                get("${CASH_MANAGER_CONFIG_ENDPOINT}export")
+                get(CASH_MANAGER_CONFIG_ENDPOINT)
             } Then {
                 statusCode(200)
                     .body("$", Matchers.notNullValue())
@@ -64,23 +64,19 @@ class CashManagerConfigControllerTests {
 
     @Test
     fun testImportConfig() {
-        val response =
-            Given {
-                multiPart("file", ClassPathResource("./files/cashManagerData.json").file)
-                    .port(port)
-                    .headers(
-                        Headers(
-                            createAuthenticationHeader(jwtToken),
-                            Header("content-type", "multipart/form-data")
-                        )
+        Given {
+            multiPart("file", ClassPathResource("./files/cashManagerData.json").file)
+                .port(port)
+                .headers(
+                    Headers(
+                        createAuthenticationHeader(jwtToken),
+                        Header("content-type", "multipart/form-data")
                     )
-            } When {
-                post("${CASH_MANAGER_CONFIG_ENDPOINT}import")
-            } Then {
-                statusCode(200)
-            } Extract {
-                `as`(Boolean::class.java)
-            }
-        assertTrue(response)
+                )
+        } When {
+            post(CASH_MANAGER_CONFIG_ENDPOINT)
+        } Then {
+            statusCode(204)
+        }
     }
 }

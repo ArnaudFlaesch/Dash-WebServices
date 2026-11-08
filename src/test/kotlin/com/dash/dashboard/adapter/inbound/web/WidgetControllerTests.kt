@@ -1,6 +1,5 @@
 package com.dash.dashboard.adapter.inbound.web
 
-import com.dash.dashboard.adapter.inbound.web.request.incident.IncidentWidgetRequest
 import com.dash.dashboard.adapter.inbound.web.request.widget.CreateWidgetRequest
 import com.dash.dashboard.adapter.inbound.web.request.widget.UpdateWidgetDataRequest
 import com.dash.dashboard.domain.model.widget.Widget
@@ -31,7 +30,7 @@ class WidgetControllerTests {
     private lateinit var jwtToken: String
 
     companion object {
-        const val WIDGET_ENDPOINT = "/widget/"
+        const val WIDGET_ENDPOINT = "/widgets"
     }
 
     @Nested
@@ -76,11 +75,11 @@ class WidgetControllerTests {
                         .port(port)
                         .body(widget)
                 } When {
-                    post("${WIDGET_ENDPOINT}addWidget")
+                    post(WIDGET_ENDPOINT)
                 } Then {
                     log()
                         .all()
-                        .statusCode(200)
+                        .statusCode(201)
                 } Extract {
                     `as`(Widget::class.java)
                 }
@@ -113,7 +112,7 @@ class WidgetControllerTests {
                         .port(port)
                         .body(insertedWidgetDomain.copy(widgetOrder = 0, data = "{}"))
                 } When {
-                    patch("${WIDGET_ENDPOINT}updateWidgetData/${insertedWidgetDomain.id}")
+                    patch("$WIDGET_ENDPOINT/${insertedWidgetDomain.id}")
                 } Then {
                     log()
                         .all()
@@ -128,11 +127,10 @@ class WidgetControllerTests {
                 header(createAuthenticationHeader(jwtToken))
                     .contentType(ContentType.JSON)
                     .port(port)
-                    .param("id", updatedWidgetDomain.id)
             } When {
-                delete("${WIDGET_ENDPOINT}deleteWidget")
+                delete("$WIDGET_ENDPOINT/${updatedWidgetDomain.id}")
             } Then {
-                statusCode(200)
+                statusCode(204)
             }
 
             val updatedWidgetListDomain =
@@ -166,11 +164,11 @@ class WidgetControllerTests {
                         .port(port)
                         .body(firstWidget)
                 } When {
-                    post("${WIDGET_ENDPOINT}addWidget")
+                    post(WIDGET_ENDPOINT)
                 } Then {
                     log()
                         .all()
-                        .statusCode(200)
+                        .statusCode(201)
                 } Extract {
                     `as`(Widget::class.java)
                 }
@@ -182,11 +180,11 @@ class WidgetControllerTests {
                         .port(port)
                         .body(secondWidget)
                 } When {
-                    post("${WIDGET_ENDPOINT}addWidget")
+                    post(WIDGET_ENDPOINT)
                 } Then {
                     log()
                         .all()
-                        .statusCode(200)
+                        .statusCode(201)
                 } Extract {
                     `as`(Widget::class.java)
                 }
@@ -209,7 +207,7 @@ class WidgetControllerTests {
                             )
                         )
                 } When {
-                    post("${WIDGET_ENDPOINT}updateWidgetsOrder")
+                    patch(WIDGET_ENDPOINT)
                 } Then {
                     log()
                         .all()
@@ -241,9 +239,8 @@ class WidgetControllerTests {
             Given {
                 port(port)
                     .header(createAuthenticationHeader(jwtToken))
-                    .param("id", 1)
             } When {
-                delete("${WIDGET_ENDPOINT}deleteWidget")
+                delete("$WIDGET_ENDPOINT/1")
             } Then {
                 statusCode(403)
             }
@@ -257,7 +254,7 @@ class WidgetControllerTests {
                     .contentType(ContentType.JSON)
                     .body(CreateWidgetRequest(type = 1, tabId = 1))
             } When {
-                post("${WIDGET_ENDPOINT}addWidget")
+                post(WIDGET_ENDPOINT)
             } Then {
                 statusCode(403)
             }
@@ -271,7 +268,7 @@ class WidgetControllerTests {
                     .contentType(ContentType.JSON)
                     .body(UpdateWidgetDataRequest(mapOf("city" to "Lyon")))
             } When {
-                patch("${WIDGET_ENDPOINT}updateWidgetData/1")
+                patch("$WIDGET_ENDPOINT/1")
             } Then {
                 statusCode(403)
             }
@@ -285,7 +282,7 @@ class WidgetControllerTests {
                     .contentType(ContentType.JSON)
                     .body(listOf(Widget(id = 1, type = 1, data = null, widgetOrder = 5, tabId = 1)))
             } When {
-                post("${WIDGET_ENDPOINT}updateWidgetsOrder")
+                patch(WIDGET_ENDPOINT)
             } Then {
                 statusCode(403)
             }
@@ -310,22 +307,19 @@ class WidgetControllerTests {
             Given {
                 port(port)
                     .header(createAuthenticationHeader(jwtToken))
-                    .contentType(ContentType.JSON)
-                    .body(IncidentWidgetRequest(incidentWidgetId))
             } When {
-                post("/incidentWidget/endStreak")
+                post("$WIDGET_ENDPOINT/$incidentWidgetId/incident/streaks")
             } Then {
-                statusCode(200)
+                statusCode(201)
             }
 
             Given {
                 port(port)
                     .header(createAuthenticationHeader(jwtToken))
-                    .param("id", incidentWidgetId)
             } When {
-                delete("${WIDGET_ENDPOINT}deleteWidget")
+                delete("$WIDGET_ENDPOINT/$incidentWidgetId")
             } Then {
-                statusCode(200)
+                statusCode(204)
             }
         }
     }

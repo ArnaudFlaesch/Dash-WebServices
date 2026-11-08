@@ -29,7 +29,7 @@ class AirParifWidgetControllerTests {
 
     private lateinit var jwtToken: String
 
-    private val airParifWidgetEndpoint = "/airParifWidget"
+    private val airParifWidgetEndpoint = "/air-parif"
 
     @BeforeAll
     fun setup() {
@@ -48,7 +48,7 @@ class AirParifWidgetControllerTests {
                     .accept(ContentType.JSON)
             } When {
                 param("commune", communeInseeCode)
-                    .get("$airParifWidgetEndpoint/previsionCommune")
+                    .get("$airParifWidgetEndpoint/forecasts")
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {
@@ -66,7 +66,7 @@ class AirParifWidgetControllerTests {
                     .header(createAuthenticationHeader(jwtToken))
                     .accept(ContentType.JSON)
             } When {
-                get("$airParifWidgetEndpoint/couleurs")
+                get("$airParifWidgetEndpoint/colors")
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {
