@@ -45,7 +45,7 @@ class TabControllerTests {
                 port(port)
                 header(createAuthenticationHeader(jwtToken))
             } When {
-                get("/tab/")
+                get("/tabs")
             } Then {
                 statusCode(200)
             } Extract {
@@ -60,7 +60,7 @@ class TabControllerTests {
             port(port)
                 .header(Header("Authorization", "wrong_token"))
         } When {
-            get("/tab/")
+            get("/tabs")
         } Then {
             statusCode(401)
         }
@@ -75,9 +75,9 @@ class TabControllerTests {
             port(port)
                 .contentType(ContentType.JSON)
                 .header(createAuthenticationHeader(userJwtToken))
-                .body(UpdateTabRequest(adminTab.id, adminTab.label, adminTab.tabOrder))
+                .body(UpdateTabRequest(adminTab.label, adminTab.tabOrder))
         } When {
-            post("/tab/updateTab")
+            put("/tabs/${adminTab.id}")
         } Then {
             statusCode(403)
         }
@@ -88,7 +88,7 @@ class TabControllerTests {
                 .header(createAuthenticationHeader(userJwtToken))
                 .body(listOf(adminTab))
         } When {
-            post("/tab/updateTabs")
+            patch("/tabs")
         } Then {
             statusCode(403)
         }
@@ -105,9 +105,9 @@ class TabControllerTests {
                     .header(createAuthenticationHeader(jwtToken))
             } When {
                 body(newTab)
-                    .post("/tab/addTab")
+                    .post("/tabs")
             } Then {
-                statusCode(200)
+                statusCode(201)
             } Extract {
                 `as`(Tab::class.java)
             }
@@ -121,7 +121,7 @@ class TabControllerTests {
                 port(port)
                     .header(createAuthenticationHeader(jwtToken))
             } When {
-                get("/tab/")
+                get("/tabs")
             } Then {
                 statusCode(200)
             } Extract {
@@ -139,11 +139,10 @@ class TabControllerTests {
             } When {
                 body(
                     UpdateTabRequest(
-                        id = insertedTab.id,
                         label = updatedLabel,
                         tabOrder = insertedTab.tabOrder
                     )
-                ).post("/tab/updateTab")
+                ).put("/tabs/${insertedTab.id}")
             } Then {
                 statusCode(200)
             } Extract {
@@ -160,7 +159,7 @@ class TabControllerTests {
                     .header(createAuthenticationHeader(jwtToken))
             } When {
                 body(listOf(updatedTab))
-                    .post("/tab/updateTabs")
+                    .patch("/tabs")
             } Then {
                 statusCode(200)
             } Extract {
@@ -173,12 +172,11 @@ class TabControllerTests {
                 .contentType(ContentType.JSON)
                 .header(createAuthenticationHeader(jwtToken))
         } When {
-            param("id", updatedTab.id)
-                .delete("/tab/deleteTab")
+            delete("/tabs/${updatedTab.id}")
         } Then {
             log()
                 .all()
-                .statusCode(200)
+                .statusCode(204)
         }
 
         val updatedTabListDomain =
@@ -186,7 +184,7 @@ class TabControllerTests {
                 port(port)
                     .header(createAuthenticationHeader(jwtToken))
             } When {
-                get("/tab/")
+                get("/tabs")
             } Then {
                 statusCode(200)
             } Extract {

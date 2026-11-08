@@ -2,10 +2,8 @@ package com.dash.cashmanager.adapter.inbound.web
 
 import com.dash.cashmanager.adapter.inbound.web.request.InsertLabelRequest
 import com.dash.cashmanager.domain.model.Label
-import com.dash.cashmanager.utils.Constants.ADD_LABEL_ENDPOINT
-import com.dash.cashmanager.utils.Constants.DELETE_LABEL_ENDPOINT
 import com.dash.cashmanager.utils.Constants.LABEL_ENDPOINT
-import com.dash.cashmanager.utils.Constants.UPDATE_LABEL_ENDPOINT
+import com.dash.cashmanager.utils.Constants.labelEndpoint
 import com.dash.utils.Constants.UNAUTHORIZED_ERROR
 import com.dash.utils.IntegrationTestsUtils
 import com.dash.utils.IntegrationTestsUtils.createAuthenticationHeader
@@ -76,9 +74,9 @@ class LabelControllerTests {
                     .contentType(ContentType.JSON)
                     .body(labelToInsert)
             } When {
-                post(ADD_LABEL_ENDPOINT)
+                post(LABEL_ENDPOINT)
             } Then {
-                statusCode(200)
+                statusCode(201)
             } Extract {
                 `as`(Label::class.java)
             }
@@ -93,7 +91,7 @@ class LabelControllerTests {
                     .contentType(ContentType.JSON)
                     .body(labelToUpdate)
             } When {
-                patch(UPDATE_LABEL_ENDPOINT)
+                put(labelEndpoint(insertedLabel.id))
             } Then {
                 statusCode(200)
             } Extract {
@@ -105,13 +103,12 @@ class LabelControllerTests {
         Given {
             port(port)
                 .header(createAuthenticationHeader(jwtToken))
-                .param("labelId", updatedLabel.id)
         } When {
-            delete(DELETE_LABEL_ENDPOINT)
+            delete(labelEndpoint(updatedLabel.id))
         } Then {
             log()
                 .all()
-                .statusCode(200)
+                .statusCode(204)
                 .log()
                 .all()
         }
@@ -137,8 +134,6 @@ class LabelControllerTests {
     fun testGetEndpointsNames(): Stream<Arguments> =
         Stream.of(
             arguments(LABEL_ENDPOINT),
-            arguments(ADD_LABEL_ENDPOINT),
-            arguments(UPDATE_LABEL_ENDPOINT),
-            arguments(DELETE_LABEL_ENDPOINT)
+            arguments(labelEndpoint(1))
         )
 }

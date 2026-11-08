@@ -14,7 +14,6 @@ import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -32,7 +31,7 @@ class DashConfigControllerTests {
     private lateinit var jwtToken: String
 
     companion object {
-        const val CONFIG_ENDPOINT = "/dashConfig/"
+        const val CONFIG_ENDPOINT = "/dash-config"
     }
 
     @BeforeAll
@@ -48,7 +47,7 @@ class DashConfigControllerTests {
                 port(port)
                     .header(createAuthenticationHeader(jwtToken))
             } When {
-                get("${CONFIG_ENDPOINT}export")
+                get(CONFIG_ENDPOINT)
             } Then {
                 statusCode(200)
                     .body("$", Matchers.notNullValue())
@@ -65,23 +64,19 @@ class DashConfigControllerTests {
 
     @Test
     fun testImportConfig() {
-        val response =
-            Given {
-                multiPart("file", ClassPathResource("./files/dashboardConfigTest.json").file)
-                    .port(port)
-                    .headers(
-                        Headers(
-                            createAuthenticationHeader(jwtToken),
-                            Header("content-type", "multipart/form-data")
-                        )
+        Given {
+            multiPart("file", ClassPathResource("./files/dashboardConfigTest.json").file)
+                .port(port)
+                .headers(
+                    Headers(
+                        createAuthenticationHeader(jwtToken),
+                        Header("content-type", "multipart/form-data")
                     )
-            } When {
-                post("${CONFIG_ENDPOINT}import")
-            } Then {
-                statusCode(200)
-            } Extract {
-                `as`(Boolean::class.java)
-            }
-        assertTrue(response)
+                )
+        } When {
+            post(CONFIG_ENDPOINT)
+        } Then {
+            statusCode(204)
+        }
     }
 }

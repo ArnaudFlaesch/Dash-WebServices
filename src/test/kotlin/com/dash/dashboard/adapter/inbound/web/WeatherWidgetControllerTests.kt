@@ -29,7 +29,7 @@ class WeatherWidgetControllerTests {
 
     private lateinit var jwtToken: String
 
-    private val weatherWidgetEndpoint = "/weatherWidget"
+    private val weatherEndpoint = "/weather"
 
     @BeforeAll
     fun setup() {
@@ -52,7 +52,7 @@ class WeatherWidgetControllerTests {
                     .header(createAuthenticationHeader(token))
                     .param("city", "Paris")
             } When {
-                get("$weatherWidgetEndpoint/weather")
+                get("$weatherEndpoint/current")
             } Then {
                 statusCode(statusCode)
             }
@@ -68,7 +68,7 @@ class WeatherWidgetControllerTests {
                         .header(createAuthenticationHeader(jwtToken))
                         .param("city", "Paris")
                 } When {
-                    get("$weatherWidgetEndpoint/weather")
+                    get("$weatherEndpoint/current")
                 } Then {
                     log()
                         .all()
@@ -95,7 +95,7 @@ class WeatherWidgetControllerTests {
                         .header(createAuthenticationHeader(jwtToken))
                         .param("city", "Paris")
                 } When {
-                    get("$weatherWidgetEndpoint/forecast")
+                    get("$weatherEndpoint/forecast")
                 } Then {
                     log()
                         .all()

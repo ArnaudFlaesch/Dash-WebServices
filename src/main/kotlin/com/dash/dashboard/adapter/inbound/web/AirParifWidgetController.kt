@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/airParifWidget", produces = [MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping("/air-parif", produces = [MediaType.APPLICATION_JSON_VALUE])
 class AirParifWidgetController(
     private val airParifWidgetUseCase: AirParifWidgetUseCase
 ) {
-    @GetMapping("/previsionCommune")
+    @GetMapping("/forecasts")
     fun getPrevisionCommune(
         @RequestParam commune: String
     ): List<Prevision> = airParifWidgetUseCase.getPrevisionCommune(commune)
 
-    @GetMapping("/couleurs")
+    @GetMapping("/colors")
     fun getAirParifCouleurs(): List<AirParifColor> = airParifWidgetUseCase.getColors()
 }

@@ -5,15 +5,16 @@ import com.dash.cashmanager.application.port.inbound.ExpenseUseCase
 import com.dash.cashmanager.domain.model.Expense
 import com.dash.cashmanager.domain.model.TotalExpenseByMonth
 import org.springframework.format.annotation.DateTimeFormat
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
 @RestController
-@RequestMapping("/expense")
+@RequestMapping("/expenses")
 class ExpenseController(
     private val expenseUseCase: ExpenseUseCase
 ) {
-    @GetMapping("/")
+    @GetMapping
     fun getExpenses(
         @RequestParam("startIntervalDate")
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -23,15 +24,16 @@ class ExpenseController(
         endIntervalDate: LocalDate
     ): List<Expense> = expenseUseCase.getExpensesByInterval(startIntervalDate, endIntervalDate)
 
-    @GetMapping("/getTotalExpensesByMonth")
-    fun getTotalExpensesByMonth(): List<TotalExpenseByMonth> = expenseUseCase.getTotalExpensesByMonth()
+    @GetMapping("/monthly-totals")
+    fun getTotalExpensesByMonth(
+        @RequestParam(required = false) labelId: Int?
+    ): List<TotalExpenseByMonth> =
+        labelId
+            ?.let(expenseUseCase::getTotalExpensesByMonthByLabelId)
+            ?: expenseUseCase.getTotalExpensesByMonth()
 
-    @GetMapping("/getTotalExpensesByMonthByLabelId")
-    fun getTotalExpensesByMonthByLabelId(
-        @RequestParam labelId: Int
-    ): List<TotalExpenseByMonth> = expenseUseCase.getTotalExpensesByMonthByLabelId(labelId)
-
-    @PostMapping("/addExpense")
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     fun addExpense(
         @RequestBody expenseRequest: InsertExpenseRequest
     ): Expense =
@@ -41,15 +43,17 @@ class ExpenseController(
             expenseRequest.labelId
         )
 
-    @PatchMapping("/updateExpense")
+    @PutMapping("/{expenseId}")
     fun updateExpense(
+        @PathVariable expenseId: Int,
         @RequestBody expense: Expense
-    ): Expense = expenseUseCase.updateExpense(expense)
+    ): Expense = expenseUseCase.updateExpense(expense.copy(id = expenseId))
 
-    @DeleteMapping("/deleteExpense")
+    @DeleteMapping("/{expenseId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteExpense(
-        @RequestParam(value = "expenseId") id: Int
+        @PathVariable expenseId: Int
     ) {
-        expenseUseCase.deleteExpense(id)
+        expenseUseCase.deleteExpense(expenseId)
     }
 }

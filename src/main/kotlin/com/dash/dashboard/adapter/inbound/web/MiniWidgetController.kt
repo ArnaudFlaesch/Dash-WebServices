@@ -4,30 +4,33 @@ import com.dash.dashboard.adapter.inbound.web.request.widget.CreateMiniWidgetReq
 import com.dash.dashboard.adapter.inbound.web.request.widget.UpdateWidgetDataRequest
 import com.dash.dashboard.application.port.inbound.MiniWidgetUseCase
 import com.dash.dashboard.domain.model.widget.MiniWidget
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/miniWidget")
+@RequestMapping("/mini-widgets")
 class MiniWidgetController(
     private val miniWidgetUseCase: MiniWidgetUseCase
 ) {
-    @GetMapping("/")
+    @GetMapping
     fun getWidgets(): List<MiniWidget> = miniWidgetUseCase.getUserMiniWidgets()
 
-    @PostMapping("/addMiniWidget")
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     fun addWidget(
         @RequestBody widgetConfig: CreateMiniWidgetRequest
     ): MiniWidget = miniWidgetUseCase.addMiniWidget(widgetConfig.type)
 
-    @PatchMapping("/updateWidgetData/{widgetId}")
+    @PatchMapping("/{widgetId}")
     fun updateWidgetData(
         @PathVariable widgetId: Int,
         @RequestBody updateWidgetDataRequest: UpdateWidgetDataRequest
     ): MiniWidget = miniWidgetUseCase.updateWidgetData(widgetId, updateWidgetDataRequest.data)
 
-    @DeleteMapping("/deleteMiniWidget")
+    @DeleteMapping("/{widgetId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteMiniWidget(
-        @RequestParam widgetId: Int
+        @PathVariable widgetId: Int
     ) {
         miniWidgetUseCase.deleteMiniWidget(widgetId)
     }

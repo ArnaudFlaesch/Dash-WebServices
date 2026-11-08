@@ -1,6 +1,5 @@
 package com.dash.dashboard.adapter.inbound.web
 
-import com.dash.dashboard.adapter.inbound.web.request.incident.IncidentWidgetRequest
 import com.dash.dashboard.domain.model.incident.Incident
 import com.dash.dashboard.domain.model.incident.IncidentStreak
 import com.dash.utils.IntegrationTestsUtils
@@ -31,8 +30,8 @@ class IncidentWidgetControllerTests {
     @LocalServerPort
     private val port: Int = 0
     private lateinit var jwtToken: String
-    private val incidentWidgetEndpoint = "/incidentWidget"
     private val widgetId = 55
+    private val incidentWidgetEndpoint = "/widgets/$widgetId/incident"
 
     @BeforeAll
     fun setup() {
@@ -48,8 +47,7 @@ class IncidentWidgetControllerTests {
                     .header(createAuthenticationHeader(jwtToken))
                     .contentType(ContentType.JSON)
             } When {
-                param("widgetId", widgetId.toString())
-                    .get("$incidentWidgetEndpoint/incidentWidgetConfig")
+                get(incidentWidgetEndpoint)
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {
@@ -64,8 +62,7 @@ class IncidentWidgetControllerTests {
                     .header(createAuthenticationHeader(jwtToken))
                     .contentType(ContentType.JSON)
             } When {
-                body(IncidentWidgetRequest(widgetId = widgetId))
-                    .post("$incidentWidgetEndpoint/startFirstStreak")
+                post(incidentWidgetEndpoint)
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {
@@ -80,10 +77,9 @@ class IncidentWidgetControllerTests {
                     .header(createAuthenticationHeader(jwtToken))
                     .contentType(ContentType.JSON)
             } When {
-                body(IncidentWidgetRequest(widgetId = widgetId))
-                    .post("$incidentWidgetEndpoint/endStreak")
+                post("$incidentWidgetEndpoint/streaks")
             } Then {
-                statusCode(HttpStatus.OK.value())
+                statusCode(HttpStatus.CREATED.value())
             } Extract {
                 `as`(Incident::class.java)
             }
@@ -97,8 +93,7 @@ class IncidentWidgetControllerTests {
                     .header(createAuthenticationHeader(jwtToken))
                     .contentType(ContentType.JSON)
             } When {
-                param("incidentId", incidentConfig.id)
-                    .get("$incidentWidgetEndpoint/streaks")
+                get("/incidents/${incidentConfig.id}/streaks")
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {

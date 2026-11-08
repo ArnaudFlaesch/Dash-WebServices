@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/calendarWidget", produces = [MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping("/calendar", produces = [MediaType.APPLICATION_JSON_VALUE])
 class CalendarWidgetController(
     private val calendarWidgetUseCase: CalendarWidgetUseCase
 ) {
-    @PostMapping("/")
+    // POST plutot que GET : les URL iCal contiennent souvent un jeton secret
+    // qui ne doit apparaitre ni dans la query string ni dans les logs.
+    @PostMapping("/events")
     fun getCalendarEvents(
         @RequestBody calendarUrlRequest: CalendarUrlRequest
     ): List<CalendarEvent> = calendarWidgetUseCase.getCalendarEvents(calendarUrlRequest.calendarUrl)

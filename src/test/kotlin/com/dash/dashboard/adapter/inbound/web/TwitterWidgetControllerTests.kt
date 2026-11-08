@@ -30,7 +30,7 @@ class TwitterWidgetControllerTests {
 
     private lateinit var jwtToken: String
 
-    private val twitterWidgetEndpoint = "/twitterWidget"
+    private val followedUsersEndpoint = "/twitter/followed-users"
 
     private val userId = 1
 
@@ -48,7 +48,7 @@ class TwitterWidgetControllerTests {
                     .header(createAuthenticationHeader(jwtToken))
                     .contentType(ContentType.JSON)
             } When {
-                get("$twitterWidgetEndpoint/followed")
+                get(followedUsersEndpoint)
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {
@@ -67,9 +67,9 @@ class TwitterWidgetControllerTests {
                     .contentType(ContentType.JSON)
             } When {
                 body(addUserToFollowRequest)
-                    .post("$twitterWidgetEndpoint/addFollowedUser")
+                    .post(followedUsersEndpoint)
             } Then {
-                statusCode(HttpStatus.OK.value())
+                statusCode(HttpStatus.CREATED.value())
             } Extract {
                 `as`(FollowedUser::class.java)
             }
@@ -84,7 +84,7 @@ class TwitterWidgetControllerTests {
                     .header(createAuthenticationHeader(jwtToken))
                     .contentType(ContentType.JSON)
             } When {
-                get("$twitterWidgetEndpoint/followed")
+                get(followedUsersEndpoint)
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {
@@ -99,12 +99,11 @@ class TwitterWidgetControllerTests {
                 .header(createAuthenticationHeader(jwtToken))
                 .contentType(ContentType.JSON)
         } When {
-            param("followedUserId", addedUserToFollow.id)
-                .delete("$twitterWidgetEndpoint/deleteFollowedUser")
+            delete("$followedUsersEndpoint/${addedUserToFollow.id}")
         } Then {
             log()
                 .all()
-                .statusCode(HttpStatus.OK.value())
+                .statusCode(HttpStatus.NO_CONTENT.value())
                 .log()
                 .all()
         }
@@ -115,7 +114,7 @@ class TwitterWidgetControllerTests {
                     .header(createAuthenticationHeader(jwtToken))
                     .contentType(ContentType.JSON)
             } When {
-                get("$twitterWidgetEndpoint/followed")
+                get(followedUsersEndpoint)
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {

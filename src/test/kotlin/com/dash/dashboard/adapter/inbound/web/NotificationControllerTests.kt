@@ -52,7 +52,7 @@ class NotificationControllerTests {
                     .header(createAuthenticationHeader(jwtToken))
                     .contentType(ContentType.JSON)
             } When {
-                get("$notificationsEndpoint/")
+                get(notificationsEndpoint)
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {
@@ -74,7 +74,7 @@ class NotificationControllerTests {
                     .contentType(ContentType.JSON)
                     .body(markNotificationsAsReadRequest)
             } When {
-                put("$notificationsEndpoint/markNotificationAsRead")
+                put("$notificationsEndpoint/read")
             } Then {
                 statusCode(HttpStatus.OK.value())
             } Extract {

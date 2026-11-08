@@ -1,34 +1,35 @@
 package com.dash.dashboard.adapter.inbound.web
 
-import com.dash.dashboard.adapter.inbound.web.request.incident.IncidentWidgetRequest
 import com.dash.dashboard.application.port.inbound.IncidentWidgetUseCase
 import com.dash.dashboard.domain.model.incident.Incident
 import com.dash.dashboard.domain.model.incident.IncidentStreak
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/incidentWidget", produces = [MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
 class IncidentWidgetController(
     private val incidentWidgetUseCase: IncidentWidgetUseCase
 ) {
-    @GetMapping("/incidentWidgetConfig")
+    @GetMapping("/widgets/{widgetId}/incident")
     fun getIncidentConfigForWidget(
-        @RequestParam widgetId: Int
+        @PathVariable widgetId: Int
     ): Incident = incidentWidgetUseCase.getIncidentConfigForWidget(widgetId)
 
-    @PostMapping("/startFirstStreak")
+    @PostMapping("/widgets/{widgetId}/incident")
     fun startFirstStreak(
-        @RequestBody incidentWidgetRequest: IncidentWidgetRequest
-    ): Incident = incidentWidgetUseCase.startFirstStreak(incidentWidgetRequest.widgetId)
+        @PathVariable widgetId: Int
+    ): Incident = incidentWidgetUseCase.startFirstStreak(widgetId)
 
-    @PostMapping("/endStreak")
+    @PostMapping("/widgets/{widgetId}/incident/streaks")
+    @ResponseStatus(HttpStatus.CREATED)
     fun endStreak(
-        @RequestBody incidentWidgetRequest: IncidentWidgetRequest
-    ): Incident = incidentWidgetUseCase.endStreak(incidentWidgetRequest.widgetId)
+        @PathVariable widgetId: Int
+    ): Incident = incidentWidgetUseCase.endStreak(widgetId)
 
-    @GetMapping("/streaks")
+    @GetMapping("/incidents/{incidentId}/streaks")
     fun getPastStreaks(
-        @RequestParam incidentId: Int
+        @PathVariable incidentId: Int
     ): List<IncidentStreak> = incidentWidgetUseCase.getIncidentStreaks(incidentId)
 }

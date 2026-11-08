@@ -6,30 +6,31 @@ import com.dash.dashboard.domain.model.steam.GameInfo
 import com.dash.dashboard.domain.model.steam.PlayerData
 import com.dash.shared.domain.model.Page
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/steamWidget")
+@RequestMapping("/steam/players/{steamUserId}")
 class SteamWidgetController(
     private val steamWidgetUseCase: SteamWidgetUseCase
 ) {
-    @GetMapping("/playerData")
+    @GetMapping
     fun getPlayerData(
-        @RequestParam steamUserId: String
+        @PathVariable steamUserId: String
     ): List<PlayerData> = steamWidgetUseCase.getPlayerData(steamUserId)
 
-    @GetMapping("/ownedGames")
+    @GetMapping("/games")
     fun getOwnedGames(
-        @RequestParam steamUserId: String,
+        @PathVariable steamUserId: String,
         @RequestParam(defaultValue = "") search: String,
         @RequestParam(defaultValue = "0") pageNumber: Int
     ): Page<GameInfo> = steamWidgetUseCase.getOwnedGames(steamUserId, search, pageNumber)
 
-    @GetMapping("/achievementList")
+    @GetMapping("/games/{appId}/achievements")
     fun getAchievementList(
-        @RequestParam appId: String,
-        @RequestParam steamUserId: String
+        @PathVariable steamUserId: String,
+        @PathVariable appId: String
     ): AchievementData = steamWidgetUseCase.getAchievementList(appId, steamUserId)
 }

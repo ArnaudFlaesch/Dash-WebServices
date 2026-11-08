@@ -37,7 +37,7 @@ class CalendarWidgetControllerTests {
 
     private lateinit var jwtToken: String
 
-    private val calendarWidgetEndpoint = "/calendarWidget/"
+    private val calendarWidgetEndpoint = "/calendar/events"
 
     private val mockedCalendarDataResponse =
         """

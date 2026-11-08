@@ -31,8 +31,8 @@ class SteamWidgetControllerTests {
 
     private lateinit var jwtToken: String
 
-    private val steamWidgetEndpoint = "/steamWidget"
     private val steamUserIdParam = "1337"
+    private val steamPlayerEndpoint = "/steam/players/$steamUserIdParam"
 
     @BeforeAll
     fun setup() {
@@ -48,10 +48,9 @@ class SteamWidgetControllerTests {
         fun testGetPlayerSummary() {
             Given {
                 port(port)
-                    .param("steamUserId", steamUserIdParam)
                     .header(createAuthenticationHeader(jwtToken))
             } When {
-                get("$steamWidgetEndpoint/playerData")
+                get(steamPlayerEndpoint)
             } Then {
                 statusCode(200)
             }
@@ -71,11 +70,10 @@ class SteamWidgetControllerTests {
             val ownedGamesData =
                 Given {
                     port(port)
-                        .param("steamUserId", steamUserIdParam)
                         .header(createAuthenticationHeader(jwtToken))
                 } When {
                     param("search", search)
-                        .get("$steamWidgetEndpoint/ownedGames")
+                        .get("$steamPlayerEndpoint/games")
                 } Then {
                     log()
                         .all()
@@ -106,11 +104,9 @@ class SteamWidgetControllerTests {
             val actual =
                 Given {
                     port(port)
-                        .param("steamUserId", steamUserIdParam)
-                        .param("appId", 1337)
                         .header(Header("Authorization", "Bearer $jwtToken"))
                 } When {
-                    get("$steamWidgetEndpoint/achievementList")
+                    get("$steamPlayerEndpoint/games/1337/achievements")
                 } Then {
                     log()
                         .all()

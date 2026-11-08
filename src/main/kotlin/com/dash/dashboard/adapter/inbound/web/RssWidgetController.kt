@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/rssWidget", produces = [MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping("/rss-feed", produces = [MediaType.APPLICATION_JSON_VALUE])
 class RssWidgetController(
     private val rssWidgetUseCase: RssWidgetUseCase
 ) {
-    @GetMapping("/")
+    @GetMapping
     fun getRssFeed(
         @RequestParam url: String
     ): String = rssWidgetUseCase.getJsonFeedFromUrl(url)

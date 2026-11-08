@@ -38,7 +38,7 @@ class ExpenseControllerTests {
     private lateinit var jwtToken: String
 
     companion object {
-        const val EXPENSE_ENDPOINT = "/expense/"
+        const val EXPENSE_ENDPOINT = "/expenses"
     }
 
     private var authorizationHeader: Header? = null
@@ -77,7 +77,7 @@ class ExpenseControllerTests {
                 port(port)
                     .header(authorizationHeader)
             } When {
-                get("${EXPENSE_ENDPOINT}getTotalExpensesByMonth")
+                get("$EXPENSE_ENDPOINT/monthly-totals")
             } Then {
                 statusCode(200)
             } Extract {
@@ -113,7 +113,7 @@ class ExpenseControllerTests {
                     .header(authorizationHeader)
                     .param("labelId", labelId)
             } When {
-                get("${EXPENSE_ENDPOINT}getTotalExpensesByMonthByLabelId")
+                get("$EXPENSE_ENDPOINT/monthly-totals")
             } Then {
                 statusCode(200)
             } Extract {
@@ -136,9 +136,9 @@ class ExpenseControllerTests {
                     .contentType(ContentType.JSON)
                     .body(expenseToInsert)
             } When {
-                post("${EXPENSE_ENDPOINT}addExpense")
+                post(EXPENSE_ENDPOINT)
             } Then {
-                statusCode(200)
+                statusCode(201)
             } Extract {
                 `as`(Expense::class.java)
             }
@@ -153,7 +153,7 @@ class ExpenseControllerTests {
                     .contentType(ContentType.JSON)
                     .body(expenseToUpdate)
             } When {
-                patch("${EXPENSE_ENDPOINT}updateExpense")
+                put("$EXPENSE_ENDPOINT/${insertedExpense.id}")
             } Then {
                 statusCode(200)
             } Extract {
@@ -165,13 +165,12 @@ class ExpenseControllerTests {
         Given {
             port(port)
                 .header(authorizationHeader)
-                .param("expenseId", updatedExpense.id)
         } When {
-            delete("${EXPENSE_ENDPOINT}deleteExpense")
+            delete("$EXPENSE_ENDPOINT/${updatedExpense.id}")
         } Then {
             log()
                 .all()
-                .statusCode(200)
+                .statusCode(204)
                 .log()
                 .all()
         }

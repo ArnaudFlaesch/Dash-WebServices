@@ -31,7 +31,7 @@ class MiniWidgetControllerTests {
     private lateinit var jwtToken: String
 
     companion object {
-        const val MINI_WIDGET_ENDPOINT = "/miniWidget/"
+        const val MINI_WIDGET_ENDPOINT = "/mini-widgets"
     }
 
     @BeforeAll
@@ -51,9 +51,9 @@ class MiniWidgetControllerTests {
                     .port(port)
                     .body(widget)
             } When {
-                post("${MINI_WIDGET_ENDPOINT}addMiniWidget")
+                post(MINI_WIDGET_ENDPOINT)
             } Then {
-                statusCode(200)
+                statusCode(201)
             } Extract {
                 `as`(MiniWidget::class.java)
             }
@@ -81,7 +81,7 @@ class MiniWidgetControllerTests {
                     .port(port)
                     .body(insertedMiniWidgetDomain.copy(data = "{}"))
             } When {
-                patch("${MINI_WIDGET_ENDPOINT}updateWidgetData/${insertedMiniWidgetDomain.id}")
+                patch("$MINI_WIDGET_ENDPOINT/${insertedMiniWidgetDomain.id}")
             } Then {
                 statusCode(200)
             } Extract {
@@ -109,12 +109,11 @@ class MiniWidgetControllerTests {
             header(createAuthenticationHeader(jwtToken))
                 .port(port)
         } When {
-            param("widgetId", insertedMiniWidgetDomain.id)
-                .delete("${MINI_WIDGET_ENDPOINT}deleteMiniWidget")
+            delete("$MINI_WIDGET_ENDPOINT/${insertedMiniWidgetDomain.id}")
         } Then {
             log()
                 .all()
-                .statusCode(200)
+                .statusCode(204)
                 .log()
                 .all()
         }
