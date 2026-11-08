@@ -26,13 +26,3 @@ fun <T> List<T>.toPage(
             number = pageNumber
         )
     }
-
-fun <T, R> Page<T>.map(transform: (T) -> R): Page<R> =
-    Page(
-        content = content.map(transform),
-        last = last,
-        totalElements = totalElements,
-        totalPages = totalPages,
-        size = size,
-        number = number
-    )
