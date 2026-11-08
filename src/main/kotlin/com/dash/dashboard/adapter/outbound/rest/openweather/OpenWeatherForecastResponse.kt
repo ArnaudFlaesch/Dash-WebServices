@@ -8,13 +8,4 @@ data class OpenWeatherForecastResponse(
     val cnt: Int = 0,
     val list: List<ForecastResponse> = listOf(),
     val city: CityResponse = CityResponse()
-) {
-    fun toDomain(): WeatherForecast =
-        WeatherForecast(
-            cod = this.cod,
-            message = this.message,
-            cnt = this.cnt,
-            list = this.list.map(ForecastResponse::toDomain),
-            city = this.city.toDomain()
-        )
-}
+)

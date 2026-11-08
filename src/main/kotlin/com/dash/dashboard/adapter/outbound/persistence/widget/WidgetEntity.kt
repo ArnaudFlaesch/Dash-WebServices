@@ -27,13 +27,4 @@ class WidgetEntity(
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "tabId")
     val tab: TabEntity
-) {
-    fun toDomain(): Widget =
-        Widget(
-            id = this.id,
-            type = this.type,
-            data = this.data,
-            widgetOrder = this.widgetOrder,
-            tabId = this.tab.id
-        )
-}
+)

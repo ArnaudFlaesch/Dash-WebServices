@@ -22,11 +22,4 @@ class WorkoutTypeEntity(
     @ManyToOne(optional = true)
     @JoinColumn(name = "userId")
     val user: UserEntity
-) {
-    fun toDomain(): WorkoutType =
-        WorkoutType(
-            id = this.id,
-            name = this.name,
-            userId = this.user.id
-        )
-}
+)

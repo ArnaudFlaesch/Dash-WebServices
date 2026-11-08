@@ -6,10 +6,10 @@ import com.dash.dashboard.domain.model.airparif.Prevision
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class AirParifMapperTests {
+class AirParifMappingTests {
     @Test
     fun shouldMapColorsAndDefaultMissingOnesToEmpty() {
-        val colors = colorsResponseToDomain(mapOf("Bon" to "#50F0E6", "Mauvais" to "#FF5050"))
+        val colors = mapOf("Bon" to "#50F0E6", "Mauvais" to "#FF5050").toDomain()
 
         assertEquals(
             listOf(
@@ -27,7 +27,7 @@ class AirParifMapperTests {
     @Test
     fun shouldMapPrevisionWithMissingFields() {
         val previsions =
-            previsionsResponseToDomain("75112", mapOf("75112" to listOf(mapOf("no2" to "Bon"))))
+            mapOf("75112" to listOf(mapOf("no2" to "Bon"))).toDomain("75112")
 
         assertEquals(
             listOf(
@@ -47,7 +47,7 @@ class AirParifMapperTests {
 
     @Test
     fun shouldReturnEmptyPrevisionWhenCommuneIsMissing() {
-        val previsions = previsionsResponseToDomain("75112", emptyMap())
+        val previsions = emptyMap<String, List<Map<String, String>>>().toDomain("75112")
 
         val missing = AirParifPrevisionEnum.MISSING
         assertEquals(listOf(Prevision("", missing, missing, missing, missing, missing, missing)), previsions)

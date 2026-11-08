@@ -11,16 +11,4 @@ data class CityResponse(
     val timezone: Int = 0,
     val sunrise: Int = 0,
     val sunset: Int = 0
-) {
-    fun toDomain(): City =
-        City(
-            id = this.id,
-            name = this.name,
-            coord = this.coord.toDomain(),
-            country = this.country,
-            population = this.population,
-            timezone = this.timezone,
-            sunrise = this.sunrise,
-            sunset = this.sunset
-        )
-}
+)

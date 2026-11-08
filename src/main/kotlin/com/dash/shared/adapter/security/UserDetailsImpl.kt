@@ -1,9 +1,7 @@
 package com.dash.shared.adapter.security
 
-import com.dash.shared.adapter.outbound.persistence.user.UserEntity
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 data class UserDetailsImpl(
@@ -15,15 +13,6 @@ data class UserDetailsImpl(
 ) : UserDetails {
     companion object {
         private const val serialVersionUID = 1L
-
-        fun build(userEntity: UserEntity) =
-            UserDetailsImpl(
-                id = userEntity.id,
-                username = userEntity.username,
-                email = userEntity.email,
-                password = userEntity.password,
-                authorities = listOf(SimpleGrantedAuthority(userEntity.role.name))
-            )
     }
 
     override fun getAuthorities(): Collection<GrantedAuthority> = authorities

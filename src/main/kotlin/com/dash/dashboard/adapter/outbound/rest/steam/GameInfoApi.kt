@@ -22,18 +22,4 @@ data class GameInfoApi(
     val playtimeMacForever: Int = 0,
     @JsonProperty("playtime_linux_forever")
     val playtimeLinuxForever: Int = 0
-) {
-    fun toDomain(): GameInfo =
-        GameInfo(
-            appid = this.appid,
-            name = this.name,
-            imgIconUrl = this.imgIconUrl,
-            imgLogoUrl = this.imgLogoUrl,
-            hasCommunityVisibleStats = this.hasCommunityVisibleStats,
-            playtime2weeks = this.playtime2weeks,
-            playtimeForever = this.playtimeForever,
-            playtimeWindowsForever = this.playtimeWindowsForever,
-            playtimeMacForever = this.playtimeMacForever,
-            playtimeLinuxForever = this.playtimeLinuxForever
-        )
-}
+)

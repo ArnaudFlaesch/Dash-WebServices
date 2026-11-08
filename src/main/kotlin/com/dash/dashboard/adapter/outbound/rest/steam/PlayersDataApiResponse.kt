@@ -4,6 +4,4 @@ import com.dash.dashboard.domain.model.steam.PlayerData
 
 data class PlayersDataApiResponse(
     val response: PlayersDataListResponse = PlayersDataListResponse()
-) {
-    fun toDomain(): List<PlayerData> = this.response.players.map(PlayerDataApi::toDomain)
-}
+)

@@ -22,6 +22,4 @@ class LabelEntity(
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
     val user: UserEntity
-) {
-    fun toDomain(): Label = Label(this.id, this.label, this.user.id)
-}
+)

@@ -22,6 +22,4 @@ class FollowedUserEntity(
     @ManyToOne(optional = true)
     @JoinColumn(name = "userId")
     val user: UserEntity
-) {
-    fun toDomain(): FollowedUser = FollowedUser(id = id, userHandle = userHandle, userId = user.id)
-}
+)

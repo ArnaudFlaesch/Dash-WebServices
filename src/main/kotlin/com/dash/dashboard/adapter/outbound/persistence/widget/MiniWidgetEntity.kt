@@ -26,12 +26,4 @@ class MiniWidgetEntity(
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
     val user: UserEntity
-) {
-    fun toDomain(): MiniWidget =
-        MiniWidget(
-            id = this.id,
-            type = this.type,
-            data = this.data,
-            userId = this.user.id
-        )
-}
+)

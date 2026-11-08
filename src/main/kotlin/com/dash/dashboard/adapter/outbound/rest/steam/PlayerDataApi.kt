@@ -6,11 +6,4 @@ data class PlayerDataApi(
     val personaname: String = "",
     val profileurl: String = "",
     val avatar: String = ""
-) {
-    fun toDomain(): PlayerData =
-        PlayerData(
-            personaname = this.personaname,
-            avatar = this.avatar,
-            profileurl = this.profileurl
-        )
-}
+)

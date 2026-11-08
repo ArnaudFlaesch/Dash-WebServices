@@ -10,7 +10,7 @@ class AirParifAdapter(
     private val airParifApiClient: AirParifApiClient
 ) : AirParifPort {
     override fun getPrevisionCommune(communeInseeCode: String): List<Prevision> =
-        previsionsResponseToDomain(communeInseeCode, airParifApiClient.getPrevisionCommune(communeInseeCode))
+        airParifApiClient.getPrevisionCommune(communeInseeCode).toDomain(communeInseeCode)
 
-    override fun getColors(): List<AirParifColor> = colorsResponseToDomain(airParifApiClient.getColors())
+    override fun getColors(): List<AirParifColor> = airParifApiClient.getColors().toDomain()
 }

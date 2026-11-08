@@ -22,12 +22,4 @@ class TabEntity(
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
     val user: UserEntity
-) {
-    fun toDomain(): Tab =
-        Tab(
-            this.id,
-            this.label,
-            this.tabOrder,
-            this.user.id
-        )
-}
+)

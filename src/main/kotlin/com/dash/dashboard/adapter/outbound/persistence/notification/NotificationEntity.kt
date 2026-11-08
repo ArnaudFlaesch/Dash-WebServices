@@ -25,13 +25,4 @@ class NotificationEntity(
     val notificationType: NotificationType,
     @Column(name = "is_read")
     var isRead: Boolean
-) {
-    fun toDomain(): Notification =
-        Notification(
-            id = id,
-            message = message,
-            notificationDate = notificationDate,
-            notificationType = notificationType,
-            isRead = isRead
-        )
-}
+)

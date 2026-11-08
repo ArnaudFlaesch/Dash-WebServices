@@ -23,11 +23,4 @@ class WorkoutSessionEntity(
     @ManyToOne(optional = true)
     @JoinColumn(name = "userId")
     val user: UserEntity
-) {
-    fun toDomain(): WorkoutSession =
-        WorkoutSession(
-            id = this.id,
-            workoutDate = this.workoutDate,
-            userId = this.user.id
-        )
-}
+)

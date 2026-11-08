@@ -23,24 +23,4 @@ data class StravaAthleteResponse(
     val badgeTypeId: Int = 0,
     val profileMedium: String? = "",
     val profile: String? = ""
-) {
-    fun toDomain(): StravaAthlete =
-        StravaAthlete(
-            id = this.id,
-            username = this.username.orEmpty(),
-            resourceState = this.resourceState,
-            firstname = this.firstname.orEmpty(),
-            lastname = this.lastname.orEmpty(),
-            city = this.city.orEmpty(),
-            state = this.state.orEmpty(),
-            country = this.country.orEmpty(),
-            sex = this.sex.orEmpty(),
-            premium = this.premium,
-            summit = this.summit,
-            createdAt = this.createdAt,
-            updatedAt = this.updatedAt,
-            badgeTypeId = this.badgeTypeId,
-            profileMedium = this.profileMedium.orEmpty(),
-            profile = this.profile.orEmpty()
-        )
-}
+)

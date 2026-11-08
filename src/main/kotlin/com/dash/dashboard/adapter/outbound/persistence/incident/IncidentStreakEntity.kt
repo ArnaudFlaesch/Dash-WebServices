@@ -22,12 +22,4 @@ class IncidentStreakEntity(
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "incidentId")
     val incident: IncidentEntity
-) {
-    fun toDomain(): IncidentStreak =
-        IncidentStreak(
-            id = id,
-            streakStartDate = streakStartDate,
-            streakEndDate = streakEndDate,
-            incidentId = incident.id
-        )
-}
+)

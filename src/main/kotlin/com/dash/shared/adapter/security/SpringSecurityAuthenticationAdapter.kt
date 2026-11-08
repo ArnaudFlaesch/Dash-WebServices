@@ -20,12 +20,4 @@ class SpringSecurityAuthenticationAdapter(
             .authenticate(UsernamePasswordAuthenticationToken.unauthenticated(username, password))
             .also { authentication -> SecurityContextHolder.getContext().authentication = authentication }
             .let { authentication -> (authentication.principal as UserDetailsImpl).toAuthenticatedUser() }
-
-    private fun UserDetailsImpl.toAuthenticatedUser(): AuthenticatedUser =
-        AuthenticatedUser(
-            id = id,
-            username = username,
-            email = email,
-            roles = authorities.mapNotNull { it.authority }
-        )
 }

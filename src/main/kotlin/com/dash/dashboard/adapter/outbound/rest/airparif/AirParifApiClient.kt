@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component
 class AirParifApiClient(
     private val airParifApi: AirParifApi
 ) {
-    fun getPrevisionCommune(communeInseeCode: String): Map<String, List<Map<String, String>>> =
+    fun getPrevisionCommune(communeInseeCode: String): AirParifPrevisionsResponse =
         airParifApi.getPrevisionCommune(communeInseeCode).orNotFound()
 
-    fun getColors(): Map<String, String> = airParifApi.getColors().orNotFound()
+    fun getColors(): AirParifColorsResponse = airParifApi.getColors().orNotFound()
 }

@@ -4,7 +4,7 @@ import com.dash.dashboard.domain.model.strava.StravaActivity
 import tools.jackson.databind.PropertyNamingStrategies
 import tools.jackson.databind.annotation.JsonNaming
 
-private val DEFAULT_LATLNG = listOf(0.0, 0.0)
+internal val DEFAULT_LATLNG = listOf(0.0, 0.0)
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class StravaActivityResponse(
@@ -55,79 +55,16 @@ data class StravaActivityResponse(
     val totalPhotoCount: Int = 0,
     val hasKudoed: Boolean = false
 ) {
-    fun toDomain(): StravaActivity =
-        StravaActivity(
-            resourceState = this.resourceState,
-            athlete = this.athlete.toDomain(),
-            name = this.name.orEmpty(),
-            distance = this.distance,
-            movingTime = this.movingTime,
-            elapsedTime = this.elapsedTime,
-            totalElevationGain = this.totalElevationGain,
-            type = this.type.orEmpty(),
-            workoutType = this.workoutType ?: 0,
-            id = this.id,
-            externalId = this.externalId,
-            uploadId = this.uploadId ?: 0,
-            startDate = this.startDate,
-            startDateLocal = this.startDateLocal,
-            timezone = this.timezone.orEmpty(),
-            utcOffset = this.utcOffset,
-            startLatlng = this.startLatlng ?: DEFAULT_LATLNG,
-            endLatlng = this.endLatlng ?: DEFAULT_LATLNG,
-            locationCity = this.locationCity,
-            locationState = this.locationState,
-            startLatitude = this.startLatitude,
-            startLongitude = this.startLongitude,
-            achievementCount = this.achievementCount,
-            kudosCount = this.kudosCount,
-            commentCount = this.commentCount,
-            athleteCount = this.athleteCount,
-            photoCount = this.photoCount,
-            map = this.map.toDomain(),
-            trainer = this.trainer,
-            commute = this.commute,
-            manual = this.manual,
-            private = this.private,
-            visibility = this.visibility.orEmpty(),
-            flagged = this.flagged,
-            fromAcceptedTag = this.fromAcceptedTag,
-            uploadIdStr = this.uploadIdStr.orEmpty(),
-            averageSpeed = this.averageSpeed,
-            maxSpeed = this.maxSpeed,
-            hasHeartrate = this.hasHeartrate,
-            heartrateOptOut = this.heartrateOptOut,
-            displayHideHeartrateOption = this.displayHideHeartrateOption,
-            elevHigh = this.elevHigh,
-            elevLow = this.elevLow,
-            prCount = this.prCount,
-            totalPhotoCount = this.totalPhotoCount,
-            hasKudoed = this.hasKudoed
-        )
-
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
     data class ActivityAthlete(
         val id: Long = 0,
         val resourceState: Int = 0
-    ) {
-        fun toDomain(): StravaActivity.ActivityAthlete =
-            StravaActivity.ActivityAthlete(
-                id = this.id,
-                resourceState = this.resourceState
-            )
-    }
+    )
 
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
     data class ActivityMap(
         val id: String? = "",
         val summaryPolyline: String? = "",
         val resourceState: Int = 0
-    ) {
-        fun toDomain(): StravaActivity.ActivityMap =
-            StravaActivity.ActivityMap(
-                id = this.id.orEmpty(),
-                summaryPolyline = this.summaryPolyline.orEmpty(),
-                resourceState = this.resourceState
-            )
-    }
+    )
 }

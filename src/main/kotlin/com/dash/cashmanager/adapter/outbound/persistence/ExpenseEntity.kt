@@ -56,12 +56,4 @@ class ExpenseEntity(
     @ManyToOne(optional = false)
     @JoinColumn(name = "labelId")
     var label: LabelEntity
-) {
-    fun toDomain(): Expense =
-        Expense(
-            id = this.id,
-            amount = this.amount,
-            expenseDate = this.expenseDate,
-            labelId = label.id
-        )
-}
+)

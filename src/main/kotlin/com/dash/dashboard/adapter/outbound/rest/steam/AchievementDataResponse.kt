@@ -5,12 +5,4 @@ import com.dash.dashboard.domain.model.steam.PlayerStats
 
 data class AchievementDataResponse(
     val playerstats: PlayerStatsResponse = PlayerStatsResponse()
-) {
-    fun toDomain(): AchievementData =
-        AchievementData(
-            playerstats =
-                PlayerStats(
-                    achievements = this.playerstats.achievements.map(AchievementResponse::toDomain)
-                )
-        )
-}
+)

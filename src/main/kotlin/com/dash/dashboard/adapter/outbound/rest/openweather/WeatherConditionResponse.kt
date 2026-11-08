@@ -7,12 +7,4 @@ data class WeatherConditionResponse(
     val main: String = "",
     val description: String = "",
     val icon: String = ""
-) {
-    fun toDomain(): WeatherCondition =
-        WeatherCondition(
-            id = this.id,
-            main = this.main,
-            description = this.description,
-            icon = this.icon
-        )
-}
+)

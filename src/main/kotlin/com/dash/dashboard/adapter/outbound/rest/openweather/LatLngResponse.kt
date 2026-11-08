@@ -5,6 +5,4 @@ import com.dash.dashboard.domain.model.weather.*
 data class LatLngResponse(
     val lat: Double = 0.0,
     val lon: Double = 0.0
-) {
-    fun toDomain(): LatLng = LatLng(lat = this.lat, lon = this.lon)
-}
+)

@@ -10,12 +10,4 @@ data class StravaTokenDataResponse(
     val refreshToken: String? = "",
     val expiresAt: String? = "",
     val athlete: StravaAthleteResponse? = StravaAthleteResponse()
-) {
-    fun toDomain(): StravaTokenData =
-        StravaTokenData(
-            accessToken = this.accessToken.orEmpty(),
-            refreshToken = this.refreshToken.orEmpty(),
-            expiresAt = this.expiresAt.orEmpty(),
-            athlete = (this.athlete ?: StravaAthleteResponse()).toDomain()
-        )
-}
+)

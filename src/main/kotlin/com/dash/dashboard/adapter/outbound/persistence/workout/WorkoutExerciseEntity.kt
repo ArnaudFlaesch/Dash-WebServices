@@ -75,11 +75,4 @@ class WorkoutExerciseEntity(
     @ManyToOne
     @JoinColumn(name = "workout_type_id", insertable = false, updatable = false)
     val workoutType: WorkoutTypeEntity? = null
-) {
-    fun toDomain(): WorkoutExercise =
-        WorkoutExercise(
-            workoutSessionId = this.workoutExerciseId.workoutSessionId,
-            workoutTypeId = this.workoutExerciseId.workoutTypeId,
-            numberOfReps = this.numberOfReps
-        )
-}
+)

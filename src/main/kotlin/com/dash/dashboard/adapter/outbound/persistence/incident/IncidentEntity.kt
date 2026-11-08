@@ -22,11 +22,4 @@ class IncidentEntity(
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "widgetId")
     val widget: WidgetEntity
-) {
-    fun toDomain(): Incident =
-        Incident(
-            id = id,
-            lastIncidentDate = lastIncidentDate,
-            widgetId = widget.id
-        )
-}
+)
