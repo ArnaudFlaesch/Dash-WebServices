@@ -16,10 +16,10 @@ class IncidentStreakEntity(
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "incident-streak-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
-    val id: Int,
-    @Column(name = "streak_start_date") val streakStartDate: OffsetDateTime,
-    @Column(name = "streak_end_date") val streakEndDate: OffsetDateTime,
+    var id: Int,
+    @Column(name = "streak_start_date") var streakStartDate: OffsetDateTime,
+    @Column(name = "streak_end_date") var streakEndDate: OffsetDateTime,
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "incidentId")
-    val incident: IncidentEntity
+    var incident: IncidentEntity
 )

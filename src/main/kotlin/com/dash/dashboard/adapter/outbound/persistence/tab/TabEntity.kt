@@ -16,10 +16,10 @@ class TabEntity(
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tab-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
-    val id: Int,
+    var id: Int,
     var label: String,
     var tabOrder: Int,
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
-    val user: UserEntity
+    var user: UserEntity
 )

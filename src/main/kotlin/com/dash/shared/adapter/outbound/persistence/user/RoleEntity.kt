@@ -8,8 +8,8 @@ import jakarta.validation.constraints.NotBlank
 class RoleEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int,
+    var id: Int,
     @NotBlank
     @Column(length = 20)
-    val name: String
+    var name: String
 )

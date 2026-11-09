@@ -18,18 +18,18 @@ class UserEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    val id: Int,
+    var id: Int,
     @NotBlank
     @Size(max = 20)
-    val username: String,
+    var username: String,
     @NotBlank
     @Size(max = 50)
     @Email
-    val email: String,
+    var email: String,
     @NotBlank
     @Size(max = 120)
-    val password: String,
+    var password: String,
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "roleId")
-    val role: RoleEntity
+    var role: RoleEntity
 )

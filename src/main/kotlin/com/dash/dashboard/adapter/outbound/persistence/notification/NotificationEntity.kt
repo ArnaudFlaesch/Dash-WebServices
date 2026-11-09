@@ -17,12 +17,12 @@ class NotificationEntity(
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
-    val id: Int,
-    val message: String,
-    @Column(name = "notification_date") val notificationDate: OffsetDateTime,
+    var id: Int,
+    var message: String,
+    @Column(name = "notification_date") var notificationDate: OffsetDateTime,
     @Enumerated(EnumType.STRING)
     @Column(name = "notificationType")
-    val notificationType: NotificationType,
+    var notificationType: NotificationType,
     @Column(name = "is_read")
     var isRead: Boolean
 )
