@@ -18,12 +18,12 @@ class MiniWidgetEntity(
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mini-widget-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
-    val id: Int,
-    val type: Int,
+    var id: Int,
+    var type: Int,
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "json")
     var data: Any? = null,
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
-    val user: UserEntity
+    var user: UserEntity
 )

@@ -16,10 +16,10 @@ class FollowedUserEntity(
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "followed-user-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
-    val id: Int,
+    var id: Int,
     @Column(name = "user_handle")
-    val userHandle: String,
+    var userHandle: String,
     @ManyToOne(optional = true)
     @JoinColumn(name = "userId")
-    val user: UserEntity
+    var user: UserEntity
 )

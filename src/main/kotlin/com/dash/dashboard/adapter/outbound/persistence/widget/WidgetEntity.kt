@@ -18,13 +18,13 @@ class WidgetEntity(
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "widget-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
-    val id: Int,
-    val type: Int,
+    var id: Int,
+    var type: Int,
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "json")
     var data: Any? = null,
     var widgetOrder: Int,
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "tabId")
-    val tab: TabEntity
+    var tab: TabEntity
 )

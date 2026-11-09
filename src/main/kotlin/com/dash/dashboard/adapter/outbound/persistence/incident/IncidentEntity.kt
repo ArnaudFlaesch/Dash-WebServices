@@ -17,9 +17,9 @@ class IncidentEntity(
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "incident-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
-    val id: Int,
+    var id: Int,
     @Column(name = "last_incident_date") var lastIncidentDate: OffsetDateTime,
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "widgetId")
-    val widget: WidgetEntity
+    var widget: WidgetEntity
 )

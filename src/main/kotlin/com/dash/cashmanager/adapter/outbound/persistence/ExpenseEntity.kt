@@ -48,7 +48,7 @@ class ExpenseEntity(
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "expense-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
-    val id: Int,
+    var id: Int,
     @Column
     var amount: Float,
     @Column(name = "expense_date")

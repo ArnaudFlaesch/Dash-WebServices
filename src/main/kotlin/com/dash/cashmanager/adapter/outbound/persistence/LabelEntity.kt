@@ -16,10 +16,10 @@ class LabelEntity(
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "label-seq-gen")
     @Column(name = "id", unique = true, nullable = false)
-    val id: Int,
+    var id: Int,
     @Column(name = "label", unique = true)
     var label: String,
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
-    val user: UserEntity
+    var user: UserEntity
 )

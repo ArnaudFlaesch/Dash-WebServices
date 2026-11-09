@@ -67,12 +67,12 @@ import jakarta.persistence.*
 @Table(name = "workout_exercise")
 class WorkoutExerciseEntity(
     @EmbeddedId
-    val workoutExerciseId: WorkoutExerciseEntityId,
+    var workoutExerciseId: WorkoutExerciseEntityId,
     var numberOfReps: Int = 0,
     @ManyToOne
     @JoinColumn(name = "workout_session_id", insertable = false, updatable = false)
-    val workoutSession: WorkoutSessionEntity? = null,
+    var workoutSession: WorkoutSessionEntity? = null,
     @ManyToOne
     @JoinColumn(name = "workout_type_id", insertable = false, updatable = false)
-    val workoutType: WorkoutTypeEntity? = null
+    var workoutType: WorkoutTypeEntity? = null
 )
