@@ -177,12 +177,12 @@ class CalendarWidgetControllerTests {
                 `as`(List::class.java)
             }
 
-        assertEquals(getCalendarDataResponse.size, 4)
+        assertEquals(4, getCalendarDataResponse.size)
     }
 
     @Test
     fun testGetCalendarDataNullResponse() {
-        val calendarUrl = "http://wrong_calendar_url.com"
+        val calendarUrl = "https://wrong_calendar_url.com"
 
         whenever(proxyClient.get(URI.create(calendarUrl), typeReference<String>())).thenThrow(NotFoundException())
 

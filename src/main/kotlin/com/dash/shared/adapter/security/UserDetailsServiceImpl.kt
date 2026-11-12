@@ -1,6 +1,5 @@
 package com.dash.shared.adapter.security
 
-import com.dash.shared.adapter.outbound.persistence.user.UserEntity
 import com.dash.shared.adapter.outbound.persistence.user.UserRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -16,6 +15,6 @@ class UserDetailsServiceImpl(
     override fun loadUserByUsername(username: String): UserDetails =
         userRepository
             .findByUsername(username)
-            ?.let(UserEntity::toUserDetails)
-            ?: throw UsernameNotFoundException("User Not Found with username: $username")
+            .let { user -> user ?: throw UsernameNotFoundException("User Not Found with username: $username") }
+            .toUserDetails()
 }

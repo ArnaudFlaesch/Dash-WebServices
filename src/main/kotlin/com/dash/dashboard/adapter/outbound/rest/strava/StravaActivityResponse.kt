@@ -1,6 +1,5 @@
 package com.dash.dashboard.adapter.outbound.rest.strava
 
-import com.dash.dashboard.domain.model.strava.StravaActivity
 import tools.jackson.databind.PropertyNamingStrategies
 import tools.jackson.databind.annotation.JsonNaming
 

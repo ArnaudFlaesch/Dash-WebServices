@@ -29,7 +29,5 @@ class LabelPersistenceAdapter(
             .apply { label = labelToUpdate.label }
             .toDomain()
 
-    override fun deleteLabel(labelId: Int) {
-        labelRepository.deleteById(labelId)
-    }
+    override fun deleteLabel(labelId: Int) = labelRepository.deleteById(labelId)
 }

@@ -1,6 +1,5 @@
 package com.dash.dashboard.adapter.outbound.rest.steam
 
-import com.dash.dashboard.domain.model.steam.GameInfo
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class GameInfoApi(

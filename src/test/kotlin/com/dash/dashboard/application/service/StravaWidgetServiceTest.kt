@@ -2,6 +2,7 @@ package com.dash.dashboard.application.service
 
 import com.dash.dashboard.adapter.outbound.rest.NotFoundException
 import com.dash.dashboard.adapter.outbound.rest.strava.StravaApi
+import com.dash.dashboard.application.port.inbound.StravaWidgetUseCase
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.any
@@ -16,7 +17,7 @@ class StravaWidgetServiceTest {
     private lateinit var stravaApi: StravaApi
 
     @Autowired
-    private lateinit var stravaWidgetService: StravaWidgetService
+    private lateinit var stravaWidgetService: StravaWidgetUseCase
 
     @Test
     fun shouldReturnEmptyStravaRefreshTokenData() {

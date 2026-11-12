@@ -32,8 +32,6 @@ class TwitterWidgetControllerTests {
 
     private val followedUsersEndpoint = "/twitter/followed-users"
 
-    private val userId = 1
-
     @BeforeAll
     fun setup() {
         RestAssured.defaultParser = Parser.JSON

@@ -34,9 +34,7 @@ class FollowedUserPersistenceAdapter(
         ).let(followedUserRepository::save)
             .let(FollowedUserEntity::toDomain)
 
-    override fun deleteFollowedUser(followedUserId: Int) {
-        followedUserRepository.deleteById(followedUserId)
-    }
+    override fun deleteFollowedUser(followedUserId: Int) = followedUserRepository.deleteById(followedUserId)
 
     override fun isFollowedUserOwnedBy(
         followedUserId: Int,

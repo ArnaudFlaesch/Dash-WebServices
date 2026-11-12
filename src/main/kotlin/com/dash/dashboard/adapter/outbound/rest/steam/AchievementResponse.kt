@@ -1,7 +1,5 @@
 package com.dash.dashboard.adapter.outbound.rest.steam
 
-import com.dash.dashboard.domain.model.steam.Achievement
-
 data class AchievementResponse(
     val apiname: String = "",
     val achieved: Int = 0,

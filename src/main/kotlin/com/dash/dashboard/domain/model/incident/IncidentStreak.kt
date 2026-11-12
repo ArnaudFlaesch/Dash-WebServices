@@ -7,4 +7,13 @@ data class IncidentStreak(
     val streakStartDate: OffsetDateTime,
     val streakEndDate: OffsetDateTime,
     val incidentId: Int
-)
+) {
+    companion object {
+        /** A streak not saved yet. */
+        fun new(
+            streakStartDate: OffsetDateTime,
+            streakEndDate: OffsetDateTime,
+            incidentId: Int
+        ): IncidentStreak = IncidentStreak(0, streakStartDate, streakEndDate, incidentId)
+    }
+}

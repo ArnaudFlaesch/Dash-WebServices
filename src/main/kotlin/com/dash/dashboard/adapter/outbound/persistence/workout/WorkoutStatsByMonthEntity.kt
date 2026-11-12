@@ -1,8 +1,5 @@
 package com.dash.dashboard.adapter.outbound.persistence.workout
 
-import com.dash.dashboard.domain.model.workout.WorkoutStatsByMonth
-import java.time.LocalDate
-
 data class WorkoutStatsByMonthEntity(
     val totalNumberOfReps: Long,
     val workoutTypeId: Int,

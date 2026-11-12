@@ -38,16 +38,29 @@ Chaque contexte est organisé de la même façon :
 
 | Package                     | Contenu                                                               |
 |-----------------------------|-----------------------------------------------------------------------|
-| `domain`                    | Modèles métier, en Kotlin pur, sans dépendance à un framework         |
+| `domain`                    | Modèles métier immuables et règles métier en fonctions pures          |
 | `application.port.inbound`  | Cas d'utilisation (`*UseCase`), appelés par les adaptateurs entrants  |
 | `application.port.outbound` | Interfaces (`*Port`) des services dont l'application a besoin         |
-| `application.service`       | Implémentation des cas d'utilisation, sécurité et transactions        |
+| `application.service`       | Implémentation des cas d'utilisation : droits d'accès, orchestration  |
+| `application.security`      | Expressions `@PreAuthorize` (rôle, propriété des ressources)          |
 | `adapter.inbound`           | Contrôleurs REST et écouteurs d'événements                            |
 | `adapter.outbound`          | Persistance JPA, clients HTTP des API externes, sécurité              |
 
 Les dépendances vont toujours vers le domaine : les adaptateurs dépendent des
 ports, l'application ne dépend que des ports et du domaine, et le domaine ne
 dépend de rien.
+
+Le domaine est en Kotlin pur, sans dépendance à Spring :
+
+- les règles métier (ordre des onglets et widgets, séries d'incidents,
+  notifications, imports) sont des fonctions pures du domaine, qui renvoient de
+  nouvelles valeurs au lieu de modifier l'existant ;
+- les effets de bord (base de données, API externes, événements, heure
+  courante via `Clock`) passent par les ports, et les cas d'utilisation qui
+  écrivent plusieurs fois en base sont annotés `@Transactional` ;
+- les droits d'accès sont déclarés sur les services avec `@PreAuthorize` et
+  `@PostFilter`, à partir des expressions de `SecurityConditions` et
+  `DashboardSecurityConditions`.
 
 ## Prérequis
 

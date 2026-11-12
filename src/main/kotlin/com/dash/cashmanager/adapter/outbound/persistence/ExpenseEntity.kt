@@ -1,6 +1,5 @@
 package com.dash.cashmanager.adapter.outbound.persistence
 
-import com.dash.cashmanager.domain.model.Expense
 import jakarta.persistence.*
 import java.time.LocalDate
 
