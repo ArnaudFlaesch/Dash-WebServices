@@ -64,7 +64,7 @@ donc pas nécessaire de disposer de clés d'API.
 - Démarrage de la base de données
 
 ```bash
-docker run --name dash-db -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash postgres:18.6-alpine3.24
+docker run --name dash-db -p 5432:5432 -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=dash postgres:18.7-alpine3.24
 ```
 
 - Démarrage du serveur de mock
