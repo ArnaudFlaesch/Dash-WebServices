@@ -3,7 +3,11 @@ package com.dash.dashboard.application.service
 import com.dash.dashboard.application.port.inbound.WorkoutWidgetUseCase
 import com.dash.dashboard.application.port.outbound.WorkoutPersistencePort
 import com.dash.dashboard.application.security.DashboardSecurityConditions
-import com.dash.dashboard.domain.model.workout.*
+import com.dash.dashboard.domain.model.workout.WorkoutExercise
+import com.dash.dashboard.domain.model.workout.WorkoutSession
+import com.dash.dashboard.domain.model.workout.WorkoutStatsByInterval
+import com.dash.dashboard.domain.model.workout.WorkoutStatsByMonth
+import com.dash.dashboard.domain.model.workout.WorkoutType
 import com.dash.shared.application.port.outbound.CurrentUserPort
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service

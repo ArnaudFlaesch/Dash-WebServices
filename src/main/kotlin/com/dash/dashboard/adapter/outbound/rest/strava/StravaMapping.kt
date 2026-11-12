@@ -3,9 +3,6 @@ package com.dash.dashboard.adapter.outbound.rest.strava
 import com.dash.dashboard.domain.model.strava.StravaActivity
 import com.dash.dashboard.domain.model.strava.StravaAthlete
 import com.dash.dashboard.domain.model.strava.StravaTokenData
-import tools.jackson.databind.PropertyNamingStrategies
-import tools.jackson.databind.annotation.JsonNaming
-import java.time.LocalDate
 
 fun StravaTokenDataResponse.toDomain(): StravaTokenData =
     StravaTokenData(

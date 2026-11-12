@@ -1,11 +1,6 @@
 package com.dash.dashboard.adapter.outbound.rest.steam
 
-import com.dash.dashboard.domain.model.steam.Achievement
-import com.dash.dashboard.domain.model.steam.AchievementData
-import com.dash.dashboard.domain.model.steam.GameInfo
-import com.dash.dashboard.domain.model.steam.PlayerData
-import com.dash.dashboard.domain.model.steam.PlayerStats
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.dash.dashboard.domain.model.steam.*
 
 fun PlayersDataApiResponse.toDomain(): List<PlayerData> = this.response.players.map(PlayerDataApi::toDomain)
 

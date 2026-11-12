@@ -55,7 +55,7 @@ class AirParifWidgetControllerTests {
                 `as`(object : TypeRef<List<Prevision>>() {})
             }
 
-        assertEquals(getPrevisionsDataResponse.size, 2)
+        assertEquals(2, getPrevisionsDataResponse.size)
     }
 
     @Test

@@ -10,9 +10,11 @@ import org.springframework.stereotype.Repository
 interface FollowedUserRepository : JpaRepository<FollowedUserEntity, Int> {
     @Query(
         value =
-            "SELECT * FROM followed_user WHERE user_handle ILIKE %:searchParam% AND" +
-                " user_id = :userId ORDER BY user_handle ASC",
-        countQuery = "SELECT COUNT(*) FROM followed_user WHERE user_handle ILIKE %:searchParam% AND user_id = :userId",
+            "SELECT * FROM followed_user WHERE user_handle ILIKE CONCAT('%', :searchParam, '%') AND" +
+                " user_id = :userId ORDER BY user_handle",
+        countQuery =
+            "SELECT COUNT(*) FROM followed_user WHERE user_handle ILIKE CONCAT('%', :searchParam, '%') AND" +
+                " user_id = :userId",
         nativeQuery = true
     )
     fun searchFollowedUsers(

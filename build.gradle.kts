@@ -113,9 +113,10 @@ openApi {
 }
 
 // The springdoc plugin's tasks, which fork the application, don't support the configuration cache
-tasks.matching { it.name in setOf("forkedSpringBootRun", "forkedSpringBootStop", "generateOpenApiDocs") }.configureEach {
-    notCompatibleWithConfigurationCache("springdoc-openapi-gradle-plugin does not support the configuration cache")
-}
+tasks.matching { it.name in setOf("forkedSpringBootRun", "forkedSpringBootStop", "generateOpenApiDocs") }
+    .configureEach {
+        notCompatibleWithConfigurationCache("springdoc-openapi-gradle-plugin does not support the configuration cache")
+    }
 
 tasks.withType<Test> {
     environment("spring.profiles.active", "test")

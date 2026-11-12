@@ -12,3 +12,7 @@ data class GameInfo(
     val playtimeMacForever: Int,
     val playtimeLinuxForever: Int
 )
+
+/** The games whose name contains [search], ignoring case, sorted by name. */
+fun List<GameInfo>.searchByName(search: String): List<GameInfo> =
+    filter { gameInfo -> gameInfo.name.contains(search, ignoreCase = true) }.sortedBy(GameInfo::name)

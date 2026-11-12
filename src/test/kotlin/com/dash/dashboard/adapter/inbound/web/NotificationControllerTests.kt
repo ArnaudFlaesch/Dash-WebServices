@@ -16,6 +16,7 @@ import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
 import io.restassured.parsing.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -61,9 +62,9 @@ class NotificationControllerTests {
 
         // This one notification is the one created when the user logs in before starting the test
         assertEquals(1, actualNotifications.content.size)
-        assertEquals(actualNotifications.content[0].message, "admintest : Connexion utilisateur.")
-        assertEquals(actualNotifications.content[0].notificationType, NotificationType.WARN)
-        assertEquals(actualNotifications.content[0].isRead, false)
+        assertEquals("admintest : Connexion utilisateur.", actualNotifications.content[0].message)
+        assertEquals(NotificationType.WARN, actualNotifications.content[0].notificationType)
+        assertFalse(actualNotifications.content[0].isRead)
 
         val markNotificationsAsReadRequest =
             MarkNotificationsAsReadRequest(listOf(actualNotifications.content[0].id))

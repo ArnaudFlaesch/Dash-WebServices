@@ -3,6 +3,7 @@ package com.dash.dashboard.adapter.inbound.web
 import com.dash.dashboard.application.port.inbound.DashConfigUseCase
 import com.dash.dashboard.domain.model.config.ImportData
 import com.dash.shared.adapter.inbound.web.jsonFileResponse
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -16,6 +17,8 @@ class DashConfigController(
     private val dashConfigUseCase: DashConfigUseCase,
     private val jsonMapper: JsonMapper
 ) {
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     @GetMapping
     fun exportConfig(): ResponseEntity<ByteArray> =
         jsonFileResponse("dashboardConfig", jsonMapper.writeValueAsBytes(dashConfigUseCase.exportConfig()))
@@ -28,5 +31,6 @@ class DashConfigController(
         jsonMapper
             .readValue<ImportData>(file.bytes)
             .let(dashConfigUseCase::importConfig)
+            .also { imported -> logger.info("Import terminé : {} widgets importés", imported.size) }
     }
 }

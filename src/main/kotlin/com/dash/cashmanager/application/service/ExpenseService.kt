@@ -36,11 +36,9 @@ class ExpenseService(
         amount: Float,
         expenseDate: LocalDate,
         labelId: Int
-    ): Expense = expensePersistencePort.insertExpense(Expense(0, amount, expenseDate, labelId))
+    ): Expense = expensePersistencePort.insertExpense(Expense.new(amount, expenseDate, labelId))
 
     override fun updateExpense(expense: Expense): Expense = expensePersistencePort.updateExpense(expense)
 
-    override fun deleteExpense(expenseId: Int) {
-        expensePersistencePort.deleteExpense(expenseId)
-    }
+    override fun deleteExpense(expenseId: Int) = expensePersistencePort.deleteExpense(expenseId)
 }

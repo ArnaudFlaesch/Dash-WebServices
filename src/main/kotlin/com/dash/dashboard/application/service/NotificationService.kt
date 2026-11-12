@@ -9,12 +9,15 @@ import com.dash.shared.domain.model.NotificationType
 import com.dash.shared.domain.model.Page
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import java.time.Clock
 import java.time.OffsetDateTime
 
 @Service
 class NotificationService(
     private val currentUserPort: CurrentUserPort,
-    private val notificationPersistencePort: NotificationPersistencePort
+    private val notificationPersistencePort: NotificationPersistencePort,
+    private val clock: Clock
 ) : NotificationUseCase {
     @PreAuthorize(DashboardSecurityConditions.IS_USER_ADMIN)
     override fun getNotifications(
@@ -26,15 +29,15 @@ class NotificationService(
         message: String,
         notificationType: NotificationType
     ): Notification =
-        Notification(
-            id = 0,
-            message = "${currentUserPort.currentUsername()} : $message",
-            notificationDate = OffsetDateTime.now(),
-            notificationType = notificationType,
-            isRead = false
-        ).let(notificationPersistencePort::saveNotification)
+        Notification
+            .newUserAction(currentUserPort.currentUsername(), message, notificationType, OffsetDateTime.now(clock))
+            .let(notificationPersistencePort::saveNotification)
 
+    @Transactional
     @PreAuthorize(DashboardSecurityConditions.IS_USER_ADMIN)
     override fun markNotificationsAsRead(notificationIds: List<Int>): List<Notification> =
-        notificationPersistencePort.markNotificationsAsRead(notificationIds)
+        notificationPersistencePort
+            .getNotificationsByIds(notificationIds)
+            .map(Notification::markAsRead)
+            .let(notificationPersistencePort::saveNotifications)
 }
