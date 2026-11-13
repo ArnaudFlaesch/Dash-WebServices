@@ -1,7 +1,5 @@
 package com.dash.dashboard.adapter.outbound.rest.openweather
 
-import com.dash.dashboard.domain.model.weather.*
-
 data class CityResponse(
     val id: Int = 0,
     val name: String = "",

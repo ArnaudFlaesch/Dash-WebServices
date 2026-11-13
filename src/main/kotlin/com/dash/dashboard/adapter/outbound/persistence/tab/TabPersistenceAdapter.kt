@@ -1,8 +1,5 @@
 package com.dash.dashboard.adapter.outbound.persistence.tab
 
-import com.dash.dashboard.adapter.outbound.persistence.widget.WidgetEntity
-import com.dash.dashboard.adapter.outbound.persistence.widget.WidgetPersistenceAdapter
-import com.dash.dashboard.adapter.outbound.persistence.widget.WidgetRepository
 import com.dash.dashboard.application.port.outbound.TabPersistencePort
 import com.dash.dashboard.domain.model.tab.Tab
 import com.dash.shared.adapter.outbound.persistence.user.UserRepository
@@ -12,26 +9,23 @@ import org.springframework.transaction.annotation.Transactional
 @Component
 class TabPersistenceAdapter(
     private val userRepository: UserRepository,
-    private val tabRepository: TabRepository,
-    private val widgetRepository: WidgetRepository,
-    private val widgetPersistenceAdapter: WidgetPersistenceAdapter
+    private val tabRepository: TabRepository
 ) : TabPersistencePort {
     override fun getUserTabs(userId: Int): List<Tab> =
         tabRepository
             .findByUserIdOrderByTabOrderAsc(userId)
             .map(TabEntity::toDomain)
 
-    @Transactional
-    override fun addTab(
-        tabLabel: String,
-        userId: Int
-    ): Tab = createTab(tabLabel, tabRepository.getNumberOfTabs(userId) + 1, userId)
+    override fun getNumberOfTabs(userId: Int): Int = tabRepository.getNumberOfTabs(userId)
 
-    override fun importTab(
-        tabLabel: String,
-        tabOrder: Int,
-        userId: Int
-    ): Tab = createTab(tabLabel, tabOrder, userId)
+    override fun createTab(tab: Tab): Tab =
+        TabEntity(
+            id = 0,
+            label = tab.label,
+            tabOrder = tab.tabOrder,
+            user = userRepository.getReferenceById(tab.userId)
+        ).let(tabRepository::save)
+            .let(TabEntity::toDomain)
 
     @Transactional
     override fun updateTabs(tabList: List<Tab>): List<Tab> =
@@ -50,28 +44,9 @@ class TabPersistenceAdapter(
                 this.tabOrder = tabOrder
             }.toDomain()
 
-    @Transactional
     override fun deleteTab(tabId: Int) {
-        widgetRepository
-            .findByTabIdOrderByWidgetOrderAsc(tabId)
-            .map(WidgetEntity::id)
-            .let(widgetPersistenceAdapter::deleteWidgetsData)
-        widgetRepository.deleteWidgetsByTabId(tabId)
         tabRepository.deleteById(tabId)
     }
-
-    private fun createTab(
-        label: String,
-        tabOrder: Int,
-        userId: Int
-    ): Tab =
-        TabEntity(
-            id = 0,
-            label = label,
-            tabOrder = tabOrder,
-            user = userRepository.getReferenceById(userId)
-        ).let(tabRepository::save)
-            .let(TabEntity::toDomain)
 
     override fun isTabOwnedBy(
         tabId: Int,

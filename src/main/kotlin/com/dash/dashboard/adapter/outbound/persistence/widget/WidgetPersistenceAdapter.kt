@@ -58,13 +58,13 @@ class WidgetPersistenceAdapter(
         widgetRepository.deleteById(widgetId)
     }
 
-    /** Deletes the rows referencing the widgets (incident widget data), which would otherwise block their deletion. */
     @Transactional
-    fun deleteWidgetsData(widgetIds: Collection<Int>) {
-        widgetIds.takeIf(Collection<Int>::isNotEmpty)?.let { ids ->
-            incidentStreakRepository.deleteByWidgetIds(ids)
-            incidentRepository.deleteByWidgetIds(ids)
-        }
+    override fun deleteTabWidgets(tabId: Int) {
+        widgetRepository
+            .findByTabIdOrderByWidgetOrderAsc(tabId)
+            .map(WidgetEntity::id)
+            .let(::deleteWidgetsData)
+        widgetRepository.deleteWidgetsByTabId(tabId)
     }
 
     override fun isWidgetOwnedBy(
@@ -76,4 +76,12 @@ class WidgetPersistenceAdapter(
         widgetIds: Collection<Int>,
         userId: Int
     ): Collection<Int> = widgetRepository.findIdsByIdInAndTabUserId(widgetIds, userId)
+
+    /** Deletes the rows referencing the widgets (incident widget data), which would otherwise block their deletion. */
+    private fun deleteWidgetsData(widgetIds: Collection<Int>) {
+        widgetIds.takeIf(Collection<Int>::isNotEmpty)?.let { ids ->
+            incidentStreakRepository.deleteByWidgetIds(ids)
+            incidentRepository.deleteByWidgetIds(ids)
+        }
+    }
 }

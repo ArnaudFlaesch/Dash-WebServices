@@ -1,6 +1,5 @@
 package com.dash.cashmanager.adapter.outbound.persistence
 
-import com.dash.cashmanager.domain.model.Label
 import com.dash.shared.adapter.outbound.persistence.user.UserEntity
 import jakarta.persistence.*
 

@@ -1,6 +1,5 @@
 package com.dash.dashboard.adapter.outbound.persistence.widget
 
-import com.dash.dashboard.domain.model.widget.MiniWidget
 import com.dash.shared.adapter.outbound.persistence.user.UserEntity
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode

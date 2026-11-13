@@ -3,6 +3,7 @@ package com.dash.dashboard.application.service
 import com.dash.dashboard.adapter.outbound.rest.NotFoundException
 import com.dash.dashboard.adapter.outbound.rest.proxy.ProxyClient
 import com.dash.dashboard.adapter.outbound.rest.proxy.typeReference
+import com.dash.dashboard.application.port.inbound.RssWidgetUseCase
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -15,12 +16,12 @@ import java.net.URI
 @SpringBootTest
 class RssWidgetServiceTest {
     @Autowired
-    private lateinit var rssWidgetService: RssWidgetService
+    private lateinit var rssWidgetService: RssWidgetUseCase
 
     @MockitoBean
     private lateinit var proxyClient: ProxyClient
 
-    private val url = "http://thelastpictureshow.over-blog.com/rss"
+    private val url = "https://thelastpictureshow.over-blog.com/rss"
 
     @Test
     fun testGetRequest() {

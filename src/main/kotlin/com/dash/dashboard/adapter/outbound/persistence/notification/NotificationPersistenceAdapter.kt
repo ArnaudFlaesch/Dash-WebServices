@@ -6,7 +6,6 @@ import com.dash.shared.adapter.outbound.persistence.toDomainPage
 import com.dash.shared.domain.model.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
 
 @Component
 class NotificationPersistenceAdapter(
@@ -21,20 +20,14 @@ class NotificationPersistenceAdapter(
                 PageRequest.of(pageNumber, pageSize)
             ).toDomainPage(NotificationEntity::toDomain)
 
-    override fun saveNotification(notification: Notification): Notification =
-        NotificationEntity(
-            id = notification.id,
-            message = notification.message,
-            notificationType = notification.notificationType,
-            notificationDate = notification.notificationDate,
-            isRead = notification.isRead
-        ).let(notificationRepository::save)
-            .let(NotificationEntity::toDomain)
+    override fun getNotificationsByIds(notificationIds: List<Int>): List<Notification> =
+        notificationRepository.findAllById(notificationIds).map(NotificationEntity::toDomain)
 
-    @Transactional
-    override fun markNotificationsAsRead(notificationIds: List<Int>): List<Notification> =
+    override fun saveNotification(notification: Notification): Notification =
+        notificationRepository.save(notification.toEntity()).toDomain()
+
+    override fun saveNotifications(notifications: List<Notification>): List<Notification> =
         notificationRepository
-            .findAllById(notificationIds)
-            .onEach { it.isRead = true }
+            .saveAll(notifications.map(Notification::toEntity))
             .map(NotificationEntity::toDomain)
 }

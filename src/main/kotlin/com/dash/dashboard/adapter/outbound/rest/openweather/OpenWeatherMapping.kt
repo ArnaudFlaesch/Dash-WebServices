@@ -1,8 +1,6 @@
 package com.dash.dashboard.adapter.outbound.rest.openweather
 
 import com.dash.dashboard.domain.model.weather.*
-import tools.jackson.databind.PropertyNamingStrategies
-import tools.jackson.databind.annotation.JsonNaming
 
 fun OpenWeatherWeatherResponse.toDomain(): CurrentWeather =
     CurrentWeather(

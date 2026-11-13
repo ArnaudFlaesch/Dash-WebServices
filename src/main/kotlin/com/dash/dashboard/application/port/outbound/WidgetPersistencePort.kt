@@ -21,6 +21,9 @@ interface WidgetPersistencePort {
     /** Deletes the widget and its data. */
     fun deleteWidget(widgetId: Int)
 
+    /** Deletes the widgets of the tab and their data. */
+    fun deleteTabWidgets(tabId: Int)
+
     fun isWidgetOwnedBy(
         widgetId: Int,
         userId: Int
