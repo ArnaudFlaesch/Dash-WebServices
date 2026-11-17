@@ -62,11 +62,7 @@ class ExpensePersistenceAdapter(
                 label = labelRepository.getReferenceById(expense.labelId)
             }.toDomain()
 
-    override fun deleteExpense(expenseId: Int) {
-        expenseRepository.deleteById(expenseId)
-    }
+    override fun deleteExpense(expenseId: Int) = expenseRepository.deleteById(expenseId)
 
-    override fun deleteExpensesByLabelId(labelId: Int) {
-        expenseRepository.deleteExpensesByLabelId(labelId)
-    }
+    override fun deleteExpensesByLabelId(labelId: Int) = expenseRepository.deleteExpensesByLabelId(labelId)
 }

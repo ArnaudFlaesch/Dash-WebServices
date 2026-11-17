@@ -32,7 +32,7 @@ class ProxyClientTest {
     private val mockServer = MockRestServiceServer.bindTo(restClientBuilder).build()
     private val proxyClient = ProxyClient(restClientBuilder.build())
 
-    private val testUrl = URI("http://url.com")
+    private val testUrl = URI("https://url.com")
 
     @AfterEach
     fun verifyAndReset() {

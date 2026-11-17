@@ -5,17 +5,10 @@ import com.dash.dashboard.domain.model.tab.Tab
 interface TabPersistencePort {
     fun getUserTabs(userId: Int): List<Tab>
 
-    /** Adds a tab at the end of the user's tabs. */
-    fun addTab(
-        tabLabel: String,
-        userId: Int
-    ): Tab
+    fun getNumberOfTabs(userId: Int): Int
 
-    fun importTab(
-        tabLabel: String,
-        tabOrder: Int,
-        userId: Int
-    ): Tab
+    /** Saves a new tab, returning it with its id. */
+    fun createTab(tab: Tab): Tab
 
     /** Updates the label and order of existing tabs. The tabs' owner is never changed. */
     fun updateTabs(tabList: List<Tab>): List<Tab>
@@ -26,7 +19,7 @@ interface TabPersistencePort {
         tabOrder: Int
     ): Tab
 
-    /** Deletes the tab, its widgets and their data. */
+    /** Deletes the tab, which must have no widget left. */
     fun deleteTab(tabId: Int)
 
     fun isTabOwnedBy(

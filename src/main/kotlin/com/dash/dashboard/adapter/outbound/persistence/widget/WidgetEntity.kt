@@ -1,7 +1,6 @@
 package com.dash.dashboard.adapter.outbound.persistence.widget
 
 import com.dash.dashboard.adapter.outbound.persistence.tab.TabEntity
-import com.dash.dashboard.domain.model.widget.Widget
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes

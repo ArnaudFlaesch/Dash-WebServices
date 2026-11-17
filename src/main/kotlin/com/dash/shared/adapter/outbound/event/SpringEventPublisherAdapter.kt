@@ -10,7 +10,5 @@ import org.springframework.stereotype.Component
 class SpringEventPublisherAdapter(
     private val applicationEventPublisher: ApplicationEventPublisher
 ) : EventPublisherPort {
-    override fun publish(event: DashEvent) {
-        applicationEventPublisher.publishEvent(event)
-    }
+    override fun publish(event: DashEvent) = applicationEventPublisher.publishEvent(event)
 }

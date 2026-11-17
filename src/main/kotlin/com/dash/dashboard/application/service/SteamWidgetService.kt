@@ -5,6 +5,7 @@ import com.dash.dashboard.application.port.outbound.SteamPort
 import com.dash.dashboard.domain.model.steam.AchievementData
 import com.dash.dashboard.domain.model.steam.GameInfo
 import com.dash.dashboard.domain.model.steam.PlayerData
+import com.dash.dashboard.domain.model.steam.searchByName
 import com.dash.shared.domain.model.Page
 import com.dash.shared.domain.model.toPage
 import org.springframework.stereotype.Service
@@ -26,8 +27,7 @@ class SteamWidgetService(
     ): Page<GameInfo> =
         steamPort
             .getOwnedGames(steamUserId)
-            .filter { gameInfo -> gameInfo.name.contains(search, ignoreCase = true) }
-            .sortedBy(GameInfo::name)
+            .searchByName(search)
             .toPage(pageNumber, PAGE_SIZE)
 
     override fun getAchievementList(

@@ -13,7 +13,7 @@ class UserDetailsImplTests {
                 id = 1,
                 username = "usertest",
                 email = "usertest@email.com",
-                password = "\$2a\$10\$passwordHash",
+                password = $$"$2a$10$passwordHash",
                 authorities = listOf(SimpleGrantedAuthority("ROLE_USER"))
             )
 

@@ -3,6 +3,7 @@ package com.dash.cashmanager.adapter.inbound.web
 import com.dash.cashmanager.application.port.inbound.CashManagerConfigUseCase
 import com.dash.cashmanager.domain.model.CashManagerImportData
 import com.dash.shared.adapter.inbound.web.jsonFileResponse
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -16,6 +17,8 @@ class CashManagerConfigController(
     private val cashManagerConfigUseCase: CashManagerConfigUseCase,
     private val jsonMapper: JsonMapper
 ) {
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     @GetMapping
     fun exportConfig(): ResponseEntity<ByteArray> =
         jsonFileResponse("cashManagerData", jsonMapper.writeValueAsBytes(cashManagerConfigUseCase.exportData()))
@@ -28,5 +31,6 @@ class CashManagerConfigController(
         jsonMapper
             .readValue<CashManagerImportData>(file.bytes)
             .let(cashManagerConfigUseCase::importData)
+            .also { imported -> logger.info("Import terminé : {} dépenses importées", imported.size) }
     }
 }

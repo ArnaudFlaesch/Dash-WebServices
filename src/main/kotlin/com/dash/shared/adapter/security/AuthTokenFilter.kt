@@ -39,6 +39,5 @@ class AuthTokenFilter(
         request
             .getHeader(HttpHeaders.AUTHORIZATION)
             ?.takeIf { it.startsWith(BEARER_PREFIX) }
-            ?.removePrefix(BEARER_PREFIX)
-            ?.takeIf(String::isNotBlank)
+            ?.let { header -> header.removePrefix(BEARER_PREFIX).takeIf(String::isNotBlank) }
 }

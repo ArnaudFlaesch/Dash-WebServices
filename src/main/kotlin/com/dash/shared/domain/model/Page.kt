@@ -16,7 +16,7 @@ fun <T> List<T>.toPage(
     pageSize: Int
 ): Page<T> =
     chunked(pageSize).let { pages ->
-        val content = pages.getOrElse(pageNumber.coerceAtLeast(0)) { emptyList() }
+        val content = pages.getOrNull(pageNumber.coerceAtLeast(0)) ?: emptyList()
         Page(
             content = content,
             last = pageNumber >= pages.size - 1,

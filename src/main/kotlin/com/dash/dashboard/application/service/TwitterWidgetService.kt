@@ -30,7 +30,6 @@ class TwitterWidgetService(
         followedUserPersistencePort.addFollowedUser(followedUserHandle, currentUserPort.currentUserId())
 
     @PreAuthorize(DashboardSecurityConditions.DOES_FOLLOWED_USER_BELONG_TO_AUTHENTICATED_USER)
-    override fun deleteFollowedUser(followedUserId: Int) {
+    override fun deleteFollowedUser(followedUserId: Int) =
         followedUserPersistencePort.deleteFollowedUser(followedUserId)
-    }
 }

@@ -1,6 +1,5 @@
 package com.dash.dashboard.adapter.outbound.persistence.incident
 
-import com.dash.dashboard.domain.model.incident.IncidentStreak
 import jakarta.persistence.*
 import java.time.OffsetDateTime
 

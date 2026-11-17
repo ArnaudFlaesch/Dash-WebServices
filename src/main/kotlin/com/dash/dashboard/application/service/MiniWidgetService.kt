@@ -17,12 +17,9 @@ class MiniWidgetService(
         miniWidgetPersistencePort.getUserMiniWidgets(currentUserPort.currentUserId())
 
     override fun addMiniWidget(widgetType: Int): MiniWidget =
-        MiniWidget(
-            id = 0,
-            type = widgetType,
-            data = null,
-            userId = currentUserPort.currentUserId()
-        ).let(miniWidgetPersistencePort::saveMiniWidget)
+        MiniWidget
+            .new(widgetType, currentUserPort.currentUserId())
+            .let(miniWidgetPersistencePort::saveMiniWidget)
 
     @PreAuthorize(DashboardSecurityConditions.DOES_MINI_WIDGET_BELONG_TO_AUTHENTICATED_USER)
     override fun updateWidgetData(
@@ -34,7 +31,5 @@ class MiniWidgetService(
         "${DashboardSecurityConditions.DOES_MINI_WIDGET_BELONG_TO_AUTHENTICATED_USER} and " +
             DashboardSecurityConditions.IS_USER_ADMIN
     )
-    override fun deleteMiniWidget(widgetId: Int) {
-        miniWidgetPersistencePort.deleteMiniWidget(widgetId)
-    }
+    override fun deleteMiniWidget(widgetId: Int) = miniWidgetPersistencePort.deleteMiniWidget(widgetId)
 }

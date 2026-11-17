@@ -25,8 +25,8 @@ class LabelService(
     override fun updateLabel(labelToUpdate: Label): Label = labelPersistencePort.updateLabel(labelToUpdate)
 
     @Transactional
-    override fun deleteLabel(labelId: Int) {
-        expensePersistencePort.deleteExpensesByLabelId(labelId)
-        labelPersistencePort.deleteLabel(labelId)
-    }
+    override fun deleteLabel(labelId: Int) =
+        labelId
+            .also(expensePersistencePort::deleteExpensesByLabelId)
+            .let(labelPersistencePort::deleteLabel)
 }

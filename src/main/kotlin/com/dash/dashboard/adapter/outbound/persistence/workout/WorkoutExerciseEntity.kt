@@ -1,6 +1,5 @@
 package com.dash.dashboard.adapter.outbound.persistence.workout
 
-import com.dash.dashboard.domain.model.workout.WorkoutExercise
 import jakarta.persistence.*
 
 @NamedNativeQueries(
@@ -26,7 +25,7 @@ import jakarta.persistence.*
             WHERE S.workout_date BETWEEN :dateIntervalStart AND :dateIntervalEnd
             AND S.user_id = :userId
             GROUP BY monthPeriod, workoutTypeId, yearPeriod, workoutTypeName
-            ORDER BY yearPeriod ASC, monthPeriod ASC""",
+            ORDER BY yearPeriod, monthPeriod""",
         name = "getWorkoutStatsByMonth",
         resultClass = WorkoutStatsByMonthEntity::class,
         resultSetMapping = "workoutStatsByMonth"
@@ -69,9 +68,6 @@ class WorkoutExerciseEntity(
     @EmbeddedId
     var workoutExerciseId: WorkoutExerciseEntityId,
     var numberOfReps: Int = 0,
-    @ManyToOne
-    @JoinColumn(name = "workout_session_id", insertable = false, updatable = false)
-    var workoutSession: WorkoutSessionEntity? = null,
     @ManyToOne
     @JoinColumn(name = "workout_type_id", insertable = false, updatable = false)
     var workoutType: WorkoutTypeEntity? = null

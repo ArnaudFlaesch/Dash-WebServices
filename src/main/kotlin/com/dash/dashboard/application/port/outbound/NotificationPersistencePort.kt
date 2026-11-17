@@ -10,7 +10,10 @@ interface NotificationPersistencePort {
         pageSize: Int
     ): Page<Notification>
 
+    /** Returns the notifications with these ids, ignoring the ids that don't exist. */
+    fun getNotificationsByIds(notificationIds: List<Int>): List<Notification>
+
     fun saveNotification(notification: Notification): Notification
 
-    fun markNotificationsAsRead(notificationIds: List<Int>): List<Notification>
+    fun saveNotifications(notifications: List<Notification>): List<Notification>
 }

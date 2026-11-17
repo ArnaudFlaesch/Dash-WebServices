@@ -1,12 +1,6 @@
 package com.dash.dashboard.adapter.outbound.persistence.workout
 
-import com.dash.dashboard.domain.model.workout.WorkoutExercise
-import com.dash.dashboard.domain.model.workout.WorkoutSession
-import com.dash.dashboard.domain.model.workout.WorkoutStatsByInterval
-import com.dash.dashboard.domain.model.workout.WorkoutStatsByMonth
-import com.dash.dashboard.domain.model.workout.WorkoutType
-import com.dash.shared.adapter.outbound.persistence.user.UserEntity
-import jakarta.persistence.*
+import com.dash.dashboard.domain.model.workout.*
 import java.time.LocalDate
 
 fun WorkoutExerciseEntity.toDomain(): WorkoutExercise =

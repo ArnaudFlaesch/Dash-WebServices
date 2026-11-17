@@ -1,6 +1,5 @@
 package com.dash.dashboard.adapter.outbound.persistence.workout
 
-import com.dash.dashboard.domain.model.workout.WorkoutType
 import com.dash.shared.adapter.outbound.persistence.user.UserEntity
 import jakarta.persistence.*
 

@@ -1,6 +1,7 @@
 package com.dash.dashboard.application.service
 
 import com.dash.dashboard.adapter.outbound.rest.airparif.AirParifApi
+import com.dash.dashboard.application.port.inbound.AirParifWidgetUseCase
 import com.dash.dashboard.domain.model.airparif.AirParifPrevisionEnum
 import com.dash.dashboard.domain.model.airparif.Prevision
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -16,7 +17,7 @@ class AirParifWidgetServiceTest {
     private lateinit var airParifApi: AirParifApi
 
     @Autowired
-    private lateinit var airParifWidgetService: AirParifWidgetService
+    private lateinit var airParifWidgetService: AirParifWidgetUseCase
 
     @Test
     fun testGetCustomResponse() {

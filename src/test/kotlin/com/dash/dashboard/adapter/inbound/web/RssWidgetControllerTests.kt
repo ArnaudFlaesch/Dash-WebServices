@@ -43,7 +43,7 @@ class RssWidgetControllerTests {
 
     @Test
     fun testGetUrl() {
-        val url = "http://thelastpictureshow.over-blog.com/rss"
+        val url = "https://thelastpictureshow.over-blog.com/rss"
 
         val mockedResponse =
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -73,7 +73,7 @@ class RssWidgetControllerTests {
 
     @Test
     fun testGetUrlNullResponse() {
-        val url = "http://thelastpictureshow.over-blog.com/rss"
+        val url = "https://thelastpictureshow.over-blog.com/rss"
 
         whenever(proxyClient.get(URI.create(url), typeReference<String>())).thenThrow(NotFoundException())
 
@@ -94,7 +94,7 @@ class RssWidgetControllerTests {
     fun testEndpointNotAuthenticated() {
         Given {
             port(port)
-                .param("url", "http://testwrongurl.com")
+                .param("url", "https://testwrongurl.com")
         } When {
             get(rssWidgetEndpoint)
         } Then {

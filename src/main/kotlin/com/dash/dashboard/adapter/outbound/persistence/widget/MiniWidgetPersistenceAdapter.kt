@@ -33,9 +33,7 @@ class MiniWidgetPersistenceAdapter(
             .apply { data = updatedData }
             .toDomain()
 
-    override fun deleteMiniWidget(widgetId: Int) {
-        miniWidgetRepository.deleteById(widgetId)
-    }
+    override fun deleteMiniWidget(widgetId: Int) = miniWidgetRepository.deleteById(widgetId)
 
     override fun isMiniWidgetOwnedBy(
         miniWidgetId: Int,
