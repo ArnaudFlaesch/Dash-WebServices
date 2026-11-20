@@ -2,7 +2,7 @@
 kotlin = "2.4.10"
 spring-boot = "4.1.2"
 spring-dependency-management = "1.1.7"
-spring-cloud = "2025.1.5"
+spring-cloud = "2026.0.0"
 spring-cloud-gcp = "8.3.1"
 springdoc = "3.2.0"
 springdoc-gradle = "2.1.0"
