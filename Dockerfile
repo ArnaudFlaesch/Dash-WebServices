@@ -1,4 +1,4 @@
-FROM eclipse-temurin:25.0.5_8-jdk-alpine-3.24@sha256:c7c3d0bdf7f2bbc5a05a6712ed334d198360105634ea9adf76fca94f381b1e3f AS build
+FROM eclipse-temurin:25.0.5.1_2-jdk-alpine-3.24@sha256:22edbb1021420ae6e248519d1af07577742314d67d4c60fcbb2e285b7e47fa78 AS build
 
 ENV GRADLE_OPTS="-Xmx512m"
 
@@ -14,7 +14,7 @@ COPY settings.gradle.kts build.gradle.kts gradle.properties ./
 COPY src ./src
 RUN ./gradlew --no-daemon assemble
 
-FROM eclipse-temurin:25.0.5_8-jre-alpine-3.24@sha256:e1898fd6a11fc965a994d8ace186fd3585aeb636cf8f05f47a723fcfee0b0918 AS run
+FROM eclipse-temurin:25.0.5.1_2-jre-alpine-3.24@sha256:69c2a26e9894016e274c880fa542956d005b3755f84db765145185e87405bd89 AS run
 
 WORKDIR /app
 
