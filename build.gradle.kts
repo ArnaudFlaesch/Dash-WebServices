@@ -48,6 +48,7 @@ dependencies {
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.kotlin.test.junit5)
     testImplementation(libs.rest.assured)
+    testImplementation(libs.rest.assured.json.path.gpath)
     testImplementation(libs.rest.assured.kotlin.extensions)
     testRuntimeOnly(libs.junit.platform.launcher)
 }
