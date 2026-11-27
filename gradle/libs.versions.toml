@@ -53,6 +53,7 @@ postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" 
 
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 rest-assured = { module = "io.rest-assured:rest-assured", version.ref = "rest-assured" }
+rest-assured-json-path-gpath = { module = "io.rest-assured:json-path-gpath", version.ref = "rest-assured" }
 rest-assured-kotlin-extensions = { module = "io.rest-assured:kotlin-extensions", version.ref = "rest-assured" }
 
 [plugins]
